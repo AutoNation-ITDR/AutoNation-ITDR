@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>AutoNation | Concessionario</title>
+<title>AutoNation</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="style.css">
+
 </head>
+
 <body>
 
 <header>
@@ -16,9 +21,11 @@
 <img src="https://image2url.com/r2/default/images/1774614384610-971b0e79-0e76-406c-9777-e1e61f46a6a0.png" class="logo">
 
 <nav>
+
 <a href="#">Home</a>
 <a href="#cars">Auto</a>
-<a onclick="openLogin()">Personale</a>
+<a onclick="openPanel()">Personale</a>
+
 </nav>
 
 </header>
@@ -41,50 +48,31 @@
 </section>
 
 
-<!-- LOGIN -->
-
-<div id="login" class="hidden">
-
-<div class="panel-box">
-
-<h2>Accesso Personale</h2>
-
-<input type="password" id="password" placeholder="Password">
-
-<button onclick="login()">Accedi</button>
-
-<button onclick="closeLogin()" class="close">Chiudi</button>
-
-</div>
-
-</div>
-
-
-<!-- PANELLO ADMIN -->
-
 <div id="panel" class="hidden">
 
 <div class="panel-box">
 
-<h2>Pannello Auto</h2>
+<h2>Pannello Personale</h2>
 
 <input type="text" id="name" placeholder="Nome auto">
+
 <input type="text" id="price" placeholder="Prezzo">
+
 <input type="text" id="image" placeholder="Link immagine">
 
 <div id="drop-area">
+
 Trascina immagine qui
+
 </div>
 
 <button onclick="addCar()">Aggiungi Auto</button>
-<button onclick="clearCars()">Cancella Tutto</button>
 
 <button onclick="closePanel()" class="close">Chiudi</button>
 
 </div>
 
 </div>
-
 
 <footer>
 
@@ -95,4 +83,5 @@ Trascina immagine qui
 <script src="script.js"></script>
 
 </body>
+
 </html>
