@@ -9,106 +9,169 @@
 
 <title>AutoNation Gestionale</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
 <style>
 
+*{
+box-sizing:border-box;
+}
+
 body{
-font-family:Inter;
 margin:0;
+font-family:Poppins;
 background:#0f172a;
 color:white;
 }
+
+/* HEADER */
 
 header{
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:20px;
+padding:20px 40px;
 background:#020617;
+border-bottom:1px solid #1e293b;
+}
+
+header h1{
+margin:0;
+font-weight:700;
+letter-spacing:2px;
 }
 
 nav a{
-margin-left:20px;
+margin-left:25px;
 cursor:pointer;
 text-decoration:none;
 color:white;
-font-weight:600;
+font-weight:500;
+transition:0.3s;
 }
 
 nav a:hover{
-color:#22c55e;
+color:#38bdf8;
 }
+
+/* PAGES */
 
 .page{
 display:none;
 padding:40px;
+animation:fade 0.4s ease;
 }
 
 .active{
 display:block;
 }
 
-input,select{
-padding:10px;
-margin:5px;
-border-radius:6px;
-border:none;
+@keyframes fade{
+from{opacity:0; transform:translateY(10px)}
+to{opacity:1; transform:translateY(0)}
 }
 
-button{
-padding:10px 20px;
-border:none;
-border-radius:6px;
-background:#22c55e;
-color:white;
-cursor:pointer;
-transition:0.3s;
-}
+/* DASHBOARD */
 
-button:hover{
-transform:scale(1.05);
+.dashboard{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:25px;
+margin-top:30px;
 }
 
 .card{
 background:#1e293b;
 padding:30px;
-border-radius:10px;
-width:200px;
+border-radius:12px;
+text-align:center;
+transition:0.3s;
 }
 
-.dashboard{
-display:flex;
-gap:20px;
+.card:hover{
+transform:translateY(-5px);
+box-shadow:0 10px 25px rgba(0,0,0,0.4);
 }
+
+.card h3{
+margin-bottom:10px;
+font-weight:500;
+}
+
+.card p{
+font-size:28px;
+font-weight:700;
+}
+
+/* FORM */
+
+input,select{
+padding:12px;
+margin:6px;
+border:none;
+border-radius:8px;
+background:#1e293b;
+color:white;
+}
+
+button{
+padding:12px 18px;
+border:none;
+border-radius:8px;
+background:#22c55e;
+color:white;
+cursor:pointer;
+font-weight:500;
+transition:0.3s;
+}
+
+button:hover{
+transform:scale(1.05);
+background:#16a34a;
+}
+
+/* CAR LIST */
 
 #carList{
 display:flex;
 flex-wrap:wrap;
+margin-top:30px;
 }
 
 .car{
 background:#1e293b;
 margin:10px;
 padding:15px;
-border-radius:8px;
-width:200px;
+border-radius:10px;
+width:220px;
+transition:0.3s;
+}
+
+.car:hover{
+transform:translateY(-5px);
 }
 
 .car img{
 width:100%;
-border-radius:6px;
+border-radius:8px;
 }
+
+/* TABLE */
 
 table{
 width:100%;
 border-collapse:collapse;
-margin-top:20px;
+margin-top:30px;
 }
 
 th,td{
-border:1px solid #334155;
-padding:10px;
+padding:12px;
+border-bottom:1px solid #334155;
+text-align:left;
+}
+
+th{
+color:#94a3b8;
 }
 
 </style>
@@ -123,11 +186,13 @@ padding:10px;
 
 <nav>
 
-<a onclick="showPage('dashboard')">Dashboard</a> <a onclick="showPage('auto')">Auto</a> <a onclick="showPage('vendite')">Vendite</a> <a onclick="showPage('clienti')">Clienti</a>
+<a onclick="showPage('dashboard')">Dashboard</a> <a onclick="showPage('auto')">Auto</a> <a onclick="showPage('vendita')">Vendi Auto</a> <a onclick="openAdmin()">Registro Vendite</a>
 
 </nav>
 
 </header>
+
+<!-- DASHBOARD -->
 
 <section id="dashboard" class="page active">
 
@@ -136,12 +201,12 @@ padding:10px;
 <div class="dashboard">
 
 <div class="card">
-<h3>Auto</h3>
+<h3>Auto disponibili</h3>
 <p id="totAuto">0</p>
 </div>
 
 <div class="card">
-<h3>Vendite</h3>
+<h3>Vendite totali</h3>
 <p id="totVendite">0</p>
 </div>
 
@@ -149,41 +214,53 @@ padding:10px;
 
 </section>
 
+<!-- AUTO -->
+
 <section id="auto" class="page">
 
-<h2>Aggiungi Auto</h2>
+<h2>Gestione Auto</h2>
 
 <input id="name" placeholder="Modello auto">
 <input id="price" placeholder="Prezzo">
 <input id="image" placeholder="Link immagine">
 
-<button onclick="addCar()">Aggiungi</button>
-
-<h2>Lista Auto</h2>
+<button onclick="addCar()">Aggiungi Auto</button>
 
 <div id="carList"></div>
 
 </section>
 
-<section id="vendite" class="page">
+<!-- VENDITA -->
 
-<h2>Nuova Vendita</h2>
+<section id="vendita" class="page">
+
+<h2>Vendi Auto</h2>
 
 <select id="autoSelect"></select>
 
 <input id="nome" placeholder="Nome cliente">
 <input id="cognome" placeholder="Cognome cliente">
 
-<button onclick="vendiAuto()">Registra vendita</button>
+<button onclick="vendiAuto()">Completa vendita</button>
+
+</section>
+
+<!-- REGISTRO VENDITE (ADMIN) -->
+
+<section id="admin" class="page">
+
+<h2>Registro Vendite</h2>
 
 <table>
 
 <thead>
+
 <tr>
 <th>Targa</th>
 <th>Cliente</th>
 <th>Auto</th>
 </tr>
+
 </thead>
 
 <tbody id="venditeList"></tbody>
@@ -192,34 +269,13 @@ padding:10px;
 
 </section>
 
-<section id="clienti" class="page">
-
-<h2>Ricerca clienti</h2>
-
-<input id="search" placeholder="Cerca cliente">
-
-<table>
-
-<thead>
-<tr>
-<th>Targa</th>
-<th>Nome</th>
-<th>Cognome</th>
-<th>Auto</th>
-</tr>
-</thead>
-
-<tbody id="clientList"></tbody>
-
-</table>
-
-</section>
-
 <script>
 
-let cars = JSON.parse(localStorage.getItem("cars")) || []
-let vendite = JSON.parse(localStorage.getItem("vendite")) || []
-let numeroTarga = localStorage.getItem("targa") || 1
+const ADMIN_PASSWORD="admin123"
+
+let cars=JSON.parse(localStorage.getItem("cars"))||[]
+let vendite=JSON.parse(localStorage.getItem("vendite"))||[]
+let numeroTarga=localStorage.getItem("targa")||1
 
 function save(){
 
@@ -236,13 +292,29 @@ document.getElementById(id).classList.add("active")
 
 }
 
+function openAdmin(){
+
+let pass=prompt("Password admin")
+
+if(pass===ADMIN_PASSWORD){
+
+showPage("admin")
+
+}else{
+
+alert("Accesso negato")
+
+}
+
+}
+
 function addCar(){
 
 let name=document.getElementById("name").value
 let price=document.getElementById("price").value
 let image=document.getElementById("image").value
 
-if(!name||!price||!image) return alert("Compila tutto")
+if(!name||!price||!image)return alert("Compila tutto")
 
 cars.push({name,price,image})
 
@@ -270,6 +342,8 @@ let nome=document.getElementById("nome").value
 let cognome=document.getElementById("cognome").value
 let auto=document.getElementById("autoSelect").value
 
+if(!nome||!cognome)return alert("Compila dati cliente")
+
 let targa=generaTarga()
 
 vendite.push({targa,nome,cognome,auto})
@@ -286,9 +360,9 @@ let list=document.getElementById("carList")
 
 let select=document.getElementById("autoSelect")
 
-if(list){
-
 cars.forEach(c=>{
+
+if(list){
 
 list.innerHTML+=`
 
@@ -304,19 +378,15 @@ list.innerHTML+=`
 
 `
 
-})
-
 }
 
 if(select){
 
-cars.forEach(c=>{
-
 select.innerHTML+=`<option>${c.name}</option>`
 
-})
-
 }
+
+})
 
 }
 
@@ -324,64 +394,16 @@ function loadVendite(){
 
 let list=document.getElementById("venditeList")
 
-let clienti=document.getElementById("clientList")
-
 vendite.forEach(v=>{
-
-if(list){
 
 list.innerHTML+=`
 
 <tr>
 
 <td>${v.targa}</td>
+
 <td>${v.nome} ${v.cognome}</td>
-<td>${v.auto}</td>
 
-</tr>
-
-`
-
-}
-
-if(clienti){
-
-clienti.innerHTML+=`
-
-<tr>
-
-<td>${v.targa}</td>
-<td>${v.nome}</td>
-<td>${v.cognome}</td>
-<td>${v.auto}</td>
-
-</tr>
-
-`
-
-}
-
-})
-
-}
-
-document.getElementById("search").addEventListener("input",e=>{
-
-let q=e.target.value.toLowerCase()
-
-let clienti=document.getElementById("clientList")
-
-clienti.innerHTML=""
-
-vendite.filter(v=>v.nome.toLowerCase().includes(q)).forEach(v=>{
-
-clienti.innerHTML+=`
-
-<tr>
-
-<td>${v.targa}</td>
-<td>${v.nome}</td>
-<td>${v.cognome}</td>
 <td>${v.auto}</td>
 
 </tr>
@@ -390,7 +412,7 @@ clienti.innerHTML+=`
 
 })
 
-})
+}
 
 document.getElementById("totAuto").innerText=cars.length
 document.getElementById("totVendite").innerText=vendite.length
@@ -401,4 +423,5 @@ loadVendite()
 </script>
 
 </body>
+
 </html>
