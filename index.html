@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoNation Austin | Corporate Management System</title>
+    <title>AutoNation Austin | Management System v2.0</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Roboto+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Roboto+Mono:wght@500;700&display=swap" rel="stylesheet">
     
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
@@ -13,22 +13,21 @@
 
     <style>
         :root {
-            --primary: #e31837; /* Rosso AutoNation */
+            --primary: #e31837;
             --bg: #0b0c0e;
             --surface: #16181b;
             --border: #2d3238;
             --text-main: #f8f9fa;
             --text-dim: #9ba3af;
-            --white: #ffffff;
         }
 
-        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; outline: none; }
+        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
         body { 
             margin: 0; background: var(--bg); color: var(--text-main); 
-            font-family: 'Inter', sans-serif; overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
         }
 
-        /* --- NAVIGATION --- */
+        /* Navigation */
         header {
             background: rgba(11, 12, 14, 0.98);
             border-bottom: 1px solid var(--border);
@@ -38,72 +37,58 @@
             justify-content: space-between;
             align-items: center;
             position: fixed;
-            width: 100%;
-            top: 0; z-index: 1000;
+            width: 100%; top: 0; z-index: 1000;
             backdrop-filter: blur(10px);
         }
 
-        .brand { font-weight: 800; font-size: 1.2rem; letter-spacing: -0.5px; display: flex; align-items: center; }
-        .brand span { color: var(--primary); margin-left: 5px; }
+        .brand { font-weight: 800; font-size: 1.2rem; letter-spacing: -0.5px; }
+        .brand span { color: var(--primary); }
 
         nav a {
             color: var(--text-dim); text-decoration: none; font-size: 0.75rem;
             font-weight: 700; margin-left: 25px; text-transform: uppercase;
-            letter-spacing: 1.5px; transition: 0.3s; cursor: pointer;
+            letter-spacing: 1px; transition: 0.3s; cursor: pointer;
         }
-        nav a:hover, nav a.active-link { color: var(--primary); }
+        nav a:hover { color: var(--primary); }
 
-        /* --- LAYOUT --- */
+        /* Layout */
         .container { max-width: 1100px; margin: 0 auto; padding: 100px 20px 50px; }
-        .page { display: none; animation: pageFade 0.4s ease; }
+        .page { display: none; animation: fadeIn 0.4s ease; }
         .active { display: block; }
-        @keyframes pageFade { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; } }
 
-        /* --- COMPONENTS --- */
-        .card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 30px; margin-bottom: 25px; }
-        h2 { font-weight: 800; font-size: 1.8rem; margin-bottom: 25px; display: flex; align-items: center; }
-        h2::before { content: ''; width: 4px; height: 24px; background: var(--primary); margin-right: 12px; border-radius: 2px; }
+        /* Componenti */
+        .card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 30px; margin-bottom: 25px; }
+        h2 { font-weight: 800; margin-bottom: 25px; border-left: 4px solid var(--primary); padding-left: 15px; }
 
-        label { display: block; font-size: 0.7rem; font-weight: 700; color: var(--text-dim); text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px; }
         input, select {
-            width: 100%; padding: 12px 15px; margin-bottom: 20px;
+            width: 100%; padding: 12px; margin-bottom: 20px;
             background: #000; border: 1px solid var(--border); color: #fff;
-            font-family: 'Inter'; border-radius: 4px; font-size: 0.9rem;
+            border-radius: 4px; font-family: 'Inter';
         }
-        input:focus { border-color: var(--primary); }
 
         .btn {
             background: var(--primary); color: #fff; border: none;
-            padding: 15px 30px; font-weight: 700; font-size: 0.85rem;
-            text-transform: uppercase; letter-spacing: 1px; cursor: pointer;
-            border-radius: 4px; transition: 0.2s; width: 100%;
+            padding: 15px; font-weight: 700; cursor: pointer;
+            border-radius: 4px; width: 100%; text-transform: uppercase;
         }
-        .btn:hover { background: #c1142d; transform: translateY(-1px); }
+        .btn:hover { background: #c1142d; }
         .btn-reset { background: transparent; border: 1px solid #ff4444; color: #ff4444; width: auto; padding: 8px 15px; font-size: 0.7rem; }
-        .btn-reset:hover { background: #ff4444; color: #fff; }
 
-        /* --- SHOWROOM GRID --- */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
-        .item-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; transition: 0.3s; }
-        .item-card:hover { border-color: var(--primary); }
+        /* Table */
+        .table-wrapper { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th { text-align: left; padding: 12px; background: #1c1f24; color: var(--text-dim); font-size: 0.7rem; text-transform: uppercase; }
+        td { padding: 12px; border-bottom: 1px solid var(--border); font-family: 'Roboto Mono'; font-size: 0.85rem; }
+        .plate-badge { background: #fff; color: #000; padding: 2px 8px; font-weight: 800; border: 1px solid #000; border-radius: 3px; }
+
+        /* Showroom */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .item-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
         .item-card img { width: 100%; height: 180px; object-fit: cover; }
-        .item-info { padding: 20px; }
-        .item-price { color: var(--primary); font-weight: 800; font-size: 1.1rem; margin-top: 5px; }
-
-        /* --- LOGS TABLE --- */
-        .table-wrapper { overflow-x: auto; margin-top: 10px; }
-        table { width: 100%; border-collapse: collapse; min-width: 800px; }
-        th { text-align: left; padding: 15px; background: #1c1f24; font-size: 0.65rem; text-transform: uppercase; color: var(--text-dim); border-bottom: 2px solid var(--border); }
-        td { padding: 15px; border-bottom: 1px solid var(--border); font-size: 0.85rem; font-family: 'Roboto Mono', monospace; }
-        .plate-badge { background: var(--white); color: #000; padding: 3px 10px; font-weight: 800; border-radius: 3px; border: 1px solid #000; font-size: 0.75rem; }
+        .item-info { padding: 15px; }
 
         .hidden { display: none; }
-
-        /* --- SALES MODULE SPECIFICO --- */
-        .sales-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
-        .plate-preview { background: #fff; color: #000; padding: 8px 20px; border: 2px solid #000; font-weight: 900; font-family: 'Roboto Mono'; text-align: center; }
-        .plate-preview small { display: block; font-size: 0.5rem; text-transform: uppercase; margin-bottom: -2px; opacity: 0.6; }
-
     </style>
 </head>
 <body>
@@ -111,104 +96,80 @@
 <header>
     <div class="brand">AUTONATION <span>AUSTIN</span></div>
     <nav>
-        <a onclick="show('home')" id="l-home">Home</a>
-        <a onclick="show('showroom')" id="l-showroom">Showroom</a>
-        <a onclick="show('staff')" id="l-staff">Staff Portal</a>
-        <a onclick="show('admin')" id="l-admin">Admin Core</a>
+        <a onclick="show('home')">Home</a>
+        <a onclick="show('showroom')">Showroom</a>
+        <a onclick="show('staff')">Staff Portal</a>
+        <a onclick="show('admin')">Admin</a>
     </nav>
 </header>
 
 <div class="container">
-
     <div id="home" class="page active">
-        <div style="height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
-            <h1 style="font-size: 4.5rem; font-weight: 800; margin: 0; line-height: 1;">AUSTIN<br>OFFICIAL</h1>
-            <p style="letter-spacing: 12px; color: var(--text-dim); margin-top: 20px; font-weight: 300;">VEHICLE LOGISTICS & TITLE HUB</p>
+        <div style="padding: 100px 0; text-align: center;">
+            <h1 style="font-size: 4rem; margin:0;">AUSTIN PRIDE</h1>
+            <p style="color: var(--text-dim); letter-spacing: 5px;">OFFICIAL LOGISTICS TERMINAL</p>
         </div>
     </div>
 
     <div id="showroom" class="page">
-        <h2>Available Fleet</h2>
+        <h2>Active Fleet</h2>
         <div id="fleet-grid" class="grid"></div>
     </div>
 
     <div id="staff" class="page">
-        <div id="staff-auth" class="card" style="max-width: 450px; margin: 40px auto; text-align: center;">
-            <h3 style="margin-top:0;">Staff Credentials</h3>
-            <input id="staff-user" placeholder="Employee ID">
-            <input id="staff-pass" type="password" placeholder="Passcode">
-            <button class="btn" onclick="loginStaff()">Sign In</button>
+        <div id="staff-auth" class="card" style="max-width: 400px; margin: auto;">
+            <h3>Staff Login</h3>
+            <input id="s-user" placeholder="ID">
+            <input id="s-pass" type="password" placeholder="Key">
+            <button class="btn" onclick="loginS()">Enter</button>
         </div>
-
         <div id="staff-main" class="hidden">
             <div class="card">
-                <div class="sales-header">
-                    <h3 style="margin:0; font-weight: 800;">VEHICLE SALES CONTRACT</h3>
-                    <div class="plate-preview">
-                        <small>Texas State Plate</small>
-                        <span id="next-plate-ui">---</span>
-                    </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                    <h3>New Sale Contract</h3>
+                    <div id="p-preview" style="background:#fff; color:#000; padding:5px 15px; font-weight:800; border:2px solid #000;">TEX-000</div>
                 </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                     <div>
-                        <label>Vehicle Selection</label>
-                        <select id="sale-car" onchange="autoPrice()"></select>
-                        
-                        <label>Final Agreed Price ($)</label>
-                        <input id="sale-price" placeholder="45,000">
+                        <label>Vehicle</label>
+                        <select id="v-sel" onchange="syncP()"></select>
+                        <label>Price ($)</label>
+                        <input id="v-price" placeholder="0.00">
                     </div>
                     <div>
-                        <label>Buyer Legal Name</label>
-                        <input id="sale-buyer" placeholder="John Doe">
-                        
-                        <label>Authorized Officer Signature</label>
-                        <input id="sale-staff" placeholder="Full Signature Name">
+                        <label>Buyer Name</label>
+                        <input id="v-buyer" placeholder="Full Name">
+                        <label>Officer Signature</label>
+                        <input id="v-sign" placeholder="Your Name">
                     </div>
                 </div>
-
-                <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 4px; margin-bottom: 25px; border: 1px dashed var(--border);">
-                    <label style="margin-bottom: 10px;">Pre-Delivery Inspection (RP):</label>
-                    <div style="display: flex; gap: 20px; font-size: 0.75rem;">
-                        <span><input type="checkbox" style="width:auto; margin:0;"> Keys Handed</span>
-                        <span><input type="checkbox" style="width:auto; margin:0;"> Title Signed</span>
-                        <span><input type="checkbox" style="width:auto; margin:0;"> Unit Sanitized</span>
-                    </div>
-                </div>
-
-                <button class="btn" onclick="processSale()">GENERATE CONTRACT & ASSIGN PLATE</button>
+                <button class="btn" onclick="doSale()">EXECUTE & PRINT PDF</button>
             </div>
         </div>
     </div>
 
     <div id="admin" class="page">
-        <div id="admin-auth" class="card" style="max-width: 450px; margin: 40px auto; text-align: center;">
-            <h3>Admin Core Key</h3>
-            <input id="admin-key" type="password" placeholder="Enter Master Key">
-            <button class="btn" onclick="loginAdmin()">Authorize</button>
+        <div id="admin-auth" class="card" style="max-width: 400px; margin: auto;">
+            <h3>Admin Core</h3>
+            <input id="a-key" type="password" placeholder="Master Key">
+            <button class="btn" onclick="loginA()">Authorize</button>
         </div>
-
         <div id="admin-main" class="hidden">
             <div class="card">
-                <h3>Asset Ingestion</h3>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                    <input id="new-name" placeholder="Year Make Model">
-                    <input id="new-price" placeholder="MSRP Price">
-                </div>
-                <input type="file" id="new-img">
-                <button class="btn" onclick="addCar()">CONFIRM ADDITION</button>
+                <h3>Add Vehicle</h3>
+                <input id="n-name" placeholder="Model Name">
+                <input id="n-price" placeholder="Price">
+                <input type="file" id="n-img">
+                <button class="btn" onclick="addV()">Add to Showroom</button>
             </div>
-
             <div class="card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <h3 style="margin:0;">Registry & Plate Logs</h3>
-                    <button class="btn btn-reset" onclick="resetLogs()">RESET REGISTRY</button>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <h3>Sales Registry</h3>
+                    <button class="btn btn-reset" onclick="reset()">RESET LOGS</button>
                 </div>
                 <div class="table-wrapper">
                     <table>
-                        <thead>
-                            <tr><th>Date</th><th>Buyer</th><th>Vehicle</th><th>Texas Plate</th><th>Price</th><th>Staff</th></tr>
-                        </thead>
+                        <thead><tr><th>Date</th><th>Buyer</th><th>Vehicle</th><th>Plate</th><th>Staff</th></tr></thead>
                         <tbody id="logs-body"></tbody>
                     </table>
                 </div>
@@ -218,7 +179,7 @@
 </div>
 
 <script>
-// --- FIREBASE CONFIG ---
+// FIREBASE
 const firebaseConfig = {
     apiKey: "AIzaSyCUH4SGDnbvh1clXm_R_n3ynmDndhIwsbM",
     authDomain: "autonation-bc786.firebaseapp.com",
@@ -230,146 +191,103 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
-let carImg = null;
+let imgData = null;
 
-// --- NAVIGATION & AUTH ---
-function show(id) {
+// NAV
+function show(id) { 
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById(id).classList.add('active');
-    document.querySelectorAll('nav a').forEach(a => a.classList.remove('active-link'));
-    document.getElementById('l-'+id).classList.add('active-link');
 }
 
-function loginStaff() {
-    if(document.getElementById('staff-user').value === "staff" && document.getElementById('staff-pass').value === "1234") {
-        document.getElementById('staff-auth').classList.add('hidden');
-        document.getElementById('staff-main').classList.remove('hidden');
-        updatePlateUI();
-    }
-}
+function loginS() { if(document.getElementById('s-user').value === "staff" && document.getElementById('s-pass').value === "1234") { document.getElementById('staff-auth').classList.add('hidden'); document.getElementById('staff-main').classList.remove('hidden'); upPlate(); } }
+function loginA() { if(document.getElementById('a-key').value === "OWNER123") { document.getElementById('admin-auth').classList.add('hidden'); document.getElementById('admin-main').classList.remove('hidden'); } }
 
-function loginAdmin() {
-    if(document.getElementById('admin-key').value === "OWNER123") {
-        document.getElementById('admin-auth').classList.add('hidden');
-        document.getElementById('admin-main').classList.remove('hidden');
-    }
-}
-
-// --- LOGICA TARGHE ---
-async function getNextPlate() {
+// LOGICA
+async function getPlate() {
     const s = await db.ref('sales_logs').limitToLast(1).once('value');
     const d = s.val();
     if (!d) return "TEX-001";
-    const lastNum = parseInt(Object.values(d)[0].targa.split('-')[1]);
-    return "TEX-" + (lastNum + 1).toString().padStart(3, '0');
+    const last = parseInt(Object.values(d)[0].targa.split('-')[1]);
+    return "TEX-" + (last + 1).toString().padStart(3, '0');
 }
 
-async function updatePlateUI() {
-    const plate = await getNextPlate();
-    document.getElementById('next-plate-ui').innerText = plate;
-}
+async function upPlate() { document.getElementById('p-preview').innerText = await getPlate(); }
 
-// --- DATABASE SYNC ---
 db.ref('cars').on('value', s => {
     const d = s.val();
-    const grid = document.getElementById('fleet-grid'), sel = document.getElementById('sale-car');
-    grid.innerHTML = ""; sel.innerHTML = "<option>Choose Vehicle...</option>";
+    const g = document.getElementById('fleet-grid'), sel = document.getElementById('v-sel');
+    g.innerHTML = ""; sel.innerHTML = "<option>Select...</option>";
     for(let k in d) {
-        grid.innerHTML += `<div class="item-card"><img src="${d[k].image}"><div class="item-info"><b>${d[k].name}</b><div class="item-price">${d[k].price}</div></div></div>`;
+        g.innerHTML += `<div class="item-card"><img src="${d[k].image}"><div class="item-info"><b>${d[k].name}</b><br><span style="color:red">${d[k].price}</span></div></div>`;
         sel.innerHTML += `<option value="${d[k].name}" data-p="${d[k].price}">${d[k].name}</option>`;
     }
 });
 
 db.ref('sales_logs').on('value', s => {
     const d = s.val();
-    const body = document.getElementById('logs-body');
-    body.innerHTML = "";
+    const b = document.getElementById('logs-body');
+    b.innerHTML = "";
     if(d) Object.values(d).reverse().forEach(v => {
-        body.innerHTML += `<tr><td>${v.data}</td><td>${v.cliente}</td><td>${v.veicolo}</td><td><span class="plate-badge">${v.targa}</span></td><td>${v.prezzo}</td><td>${v.staff}</td></tr>`;
+        b.innerHTML += `<tr><td>${v.data}</td><td>${v.cliente}</td><td>${v.veicolo}</td><td><span class="plate-badge">${v.targa}</span></td><td>${v.staff}</td></tr>`;
     });
 });
 
-// --- ACTIONS ---
-document.getElementById('new-img').onchange = e => { const r = new FileReader(); r.onload = ev => carImg = ev.target.result; r.readAsDataURL(e.target.files[0]); };
-
-function addCar() {
-    const n = document.getElementById('new-name').value, p = document.getElementById('new-price').value;
-    if(!n || !p || !carImg) return alert("Fill all fields");
-    db.ref('cars').push({ name:n, price:p, image:carImg }).then(() => { alert("Vehicle Ingested"); location.reload(); });
+document.getElementById('n-img').onchange = e => { const r = new FileReader(); r.onload = ev => imgData = ev.target.result; r.readAsDataURL(e.target.files[0]); };
+function addV() {
+    const n = document.getElementById('n-name').value, p = document.getElementById('n-price').value;
+    if(n && p && imgData) db.ref('cars').push({ name:n, price:p, image:imgData }).then(() => location.reload());
 }
 
-function resetLogs() { if(confirm("Wipe all sales history?")) db.ref('sales_logs').remove().then(()=>location.reload()); }
+function reset() { if(confirm("Wipe logs?")) db.ref('sales_logs').remove(); }
+function syncP() { const s = document.getElementById('v-sel'); document.getElementById('v-price').value = s.options[s.selectedIndex].dataset.p || ""; }
 
-function autoPrice() { const s = document.getElementById('sale-car'); document.getElementById('sale-price').value = s.options[s.selectedIndex].dataset.p || ""; }
-
-async function processSale() {
-    const b = document.getElementById('sale-buyer').value, v = document.getElementById('sale-car').value, p = document.getElementById('sale-price').value, s = document.getElementById('sale-staff').value;
-    if(!b || !s || v === "Choose Vehicle...") return alert("Transaction data incomplete!");
-
-    const plate = await getNextPlate();
+async function doSale() {
+    const b = document.getElementById('v-buyer').value, v = document.getElementById('v-sel').value, p = document.getElementById('v-price').value, s = document.getElementById('v-sign').value;
+    if(!b || !s || v === "Select...") return alert("Missing fields");
+    const plate = await getPlate();
     const date = new Date().toLocaleDateString('en-US');
-
     db.ref('sales_logs').push({ data:date, cliente:b, veicolo:v, targa:plate, prezzo:p, staff:s }).then(() => {
-        generatePDF(b, v, plate, p, s, date);
-        updatePlateUI();
-        document.getElementById('sale-buyer').value = "";
+        genPDF(b, v, plate, p, s, date);
+        upPlate();
     });
 }
 
-// --- ENGINE PDF (IL CONTRATTO SERIO) ---
-function generatePDF(buyer, car, plate, price, staff, date) {
+// PDF ENGINE CORRETTO
+function genPDF(buyer, car, plate, price, staff, date) {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
-
-    // Bordi
     doc.setLineWidth(0.5); doc.rect(5, 5, 200, 287);
-
-    // Header Corporate
-    doc.setFillColor(30, 30, 30); doc.rect(10, 10, 190, 25, 'F');
-    doc.setTextColor(255); doc.setFont("helvetica", "bold"); doc.setFontSize(26);
-    doc.text("AutoNation", 15, 27);
-    doc.setFontSize(8); doc.setFont("helvetica", "normal"); doc.text("OFFICIAL TEXAS RETAIL SALES OUTLET - AUSTIN DISTRICT", 195, 27, {align:"right"});
-
-    // Titolo
-    doc.setTextColor(0); doc.setFontSize(15); doc.text("VEHICLE TITLE TRANSFER & BILL OF SALE", 105, 50, {align:"center"});
-    doc.setLineWidth(0.2); doc.line(40, 53, 170, 53);
-
-    // Sezione 1: Buyer
-    doc.setFontSize(10); doc.setFont("helvetica", "bold"); doc.text("1. BUYER INFORMATION", 15, 70);
-    doc.setFont("helvetica", "normal"); doc.rect(15, 73, 180, 20);
-    doc.text(`LEGAL NAME: ${buyer.toUpperCase()}`, 20, 81);
-    doc.text(`DATE OF TRANSFER: ${date}`, 20, 88);
-
-    // Sezione 2: Vehicle & Plate
-    doc.setFont("helvetica", "bold"); doc.text("2. VEHICLE DESCRIPTION", 15, 110);
-    doc.rect(15, 113, 180, 50);
-    doc.setFont("helvetica", "normal");
-    doc.text(`UNIT: ${car}`, 20, 123);
+    doc.setFillColor(30); doc.rect(10, 10, 190, 25, 'F');
+    doc.setTextColor(255); doc.setFontSize(26); doc.text("AutoNation", 15, 27);
+    doc.setTextColor(0); doc.setFontSize(14); doc.text("TITLE TRANSFER & BILL OF SALE", 105, 50, {align:"center"});
     
-    // Targa Badge nel PDF
-    doc.setFillColor(240); doc.rect(20, 133, 60, 20, 'F');
-    doc.setFont("courier", "bold"); doc.setFontSize(18);
-    doc.text(plate, 25, 147);
-    doc.setFont("helvetica", "normal"); doc.setFontSize(8); doc.text("ASSIGNED TEXAS PLATE", 22, 151);
+    // Sez 1
+    doc.setFontSize(10); doc.setFont("helvetica", "bold"); doc.text("1. BUYER", 15, 70);
+    doc.rect(15, 73, 180, 20);
+    doc.setFont("helvetica", "normal"); doc.text(`NAME: ${buyer.toUpperCase()}`, 20, 80);
+    doc.text(`DATE: ${date}`, 20, 87);
 
-    // Sezione 3: Price
-    doc.setFontSize(10); doc.setFont("helvetica", "bold"); doc.text("3. SALE PRICE", 15, 180);
-    doc.rect(15, 183, 180, 15);
-    doc.setFontSize(12); doc.text(`TOTAL CONSIDERATION PAID: $ ${price}`, 20, 193);
+    // Sez 2
+    doc.setFont("helvetica", "bold"); doc.text("2. VEHICLE", 15, 105);
+    doc.rect(15, 108, 180, 50);
+    doc.setFont("helvetica", "normal"); doc.text(`UNIT: ${car}`, 20, 118);
+    
+    // Targa & Juris (FIXED INSIDE)
+    doc.setFillColor(245); doc.rect(20, 125, 60, 20, 'F');
+    doc.setFont("courier", "bold"); doc.setFontSize(18); doc.text(plate, 25, 138);
+    doc.setFont("helvetica", "bold"); doc.setFontSize(9);
+    doc.text("JURISDICTION:", 100, 130);
+    doc.setFont("helvetica", "normal"); doc.text("STATE OF TEXAS (TX)", 100, 137);
 
-    // Legal Disclaimer
-    doc.setFontSize(7); doc.setFont("times", "italic");
-    const legal = "Seller warrants that they are the true and lawful owner of the vehicle and that the vehicle is free of all liens and encumbrances. The vehicle is sold 'As-Is'. The buyer assumes all responsibility for the vehicle upon signature. Assigned plate ID must be registered at the Travis County Tax Office within 30 days.";
-    doc.text(doc.splitTextToSize(legal, 175), 15, 215);
+    // Sez 3
+    doc.setFont("helvetica", "bold"); doc.text("3. PRICE", 15, 170);
+    doc.rect(15, 173, 180, 15);
+    doc.setFontSize(12); doc.text(`PAID: $ ${price}`, 20, 183);
 
-    // Firme
-    doc.setFontSize(10); doc.setFont("helvetica", "bold");
-    doc.line(15, 260, 90, 260); doc.text("AUTHORIZED SELLER (STAFF)", 15, 265);
-    doc.setFont("courier", "bolditalic"); doc.text(staff, 20, 258);
-
-    doc.line(120, 260, 195, 260); doc.setFont("helvetica", "bold"); doc.text("BUYER SIGNATURE", 120, 265);
-
-    doc.save(`Contract_${plate}.pdf`);
+    // Firma
+    doc.setFontSize(10); doc.line(15, 250, 80, 250); doc.text("OFFICER SIGNATURE", 15, 255);
+    doc.setFont("courier", "bolditalic"); doc.text(staff, 20, 248);
+    doc.save(`Sale_${plate}.pdf`);
 }
 </script>
 </body>
