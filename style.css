@@ -1,7 +1,7 @@
 body {
     margin: 0;
-    font-family: Arial;
-    background: #0a0a0a;
+    font-family: 'Orbitron', sans-serif;
+    background: #050505;
     color: white;
 }
 
@@ -15,13 +15,14 @@ header {
 }
 
 .logo {
-    height: 50px;
+    height: 60px;
 }
 
 /* NAV */
 nav a {
     color: white;
     margin-left: 20px;
+    cursor: pointer;
     text-decoration: none;
 }
 
@@ -32,18 +33,27 @@ nav a:hover {
 /* HERO */
 .hero {
     text-align: center;
-    padding: 100px;
-    background: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70') center/cover;
+    padding: 120px;
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)),
+    url('https://images.unsplash.com/photo-1503376780353-7e6692767b70') center/cover;
 }
 
 .hero h1 {
-    font-size: 60px;
+    font-size: 70px;
     color: red;
+}
+
+.hero button {
+    padding: 12px 30px;
+    background: red;
+    border: none;
+    color: white;
+    cursor: pointer;
 }
 
 /* AUTO */
 #cars {
-    padding: 40px;
+    padding: 50px;
     text-align: center;
 }
 
@@ -57,44 +67,64 @@ nav a:hover {
     background: #111;
     margin: 15px;
     padding: 15px;
-    width: 250px;
-    border-radius: 10px;
+    width: 260px;
+    border-radius: 12px;
+    transition: 0.3s;
+}
+
+.car:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px red;
 }
 
 .car img {
     width: 100%;
+    border-radius: 8px;
 }
 
-.car button {
-    background: red;
-    border: none;
-    padding: 10px;
-    color: white;
-    cursor: pointer;
+/* ADMIN PANEL */
+.hidden {
+    display: none;
 }
 
-/* ADMIN */
-#admin {
-    padding: 40px;
-    text-align: center;
+#admin-panel {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    top: 0;
+    left: 0;
+}
+
+.admin-box {
     background: #111;
+    padding: 30px;
+    margin: 100px auto;
+    width: 300px;
+    text-align: center;
+    border-radius: 10px;
 }
 
-#admin input {
-    display: block;
-    margin: 10px auto;
+.admin-box input {
+    width: 100%;
+    margin: 10px 0;
     padding: 10px;
-    width: 250px;
 }
 
-#admin button {
-    padding: 10px 20px;
-    background: red;
+.admin-box button {
+    padding: 10px;
+    margin: 5px;
     border: none;
+    background: red;
     color: white;
     cursor: pointer;
 }
 
+.close {
+    background: gray;
+}
+
+/* FOOTER */
 footer {
     text-align: center;
     padding: 10px;
