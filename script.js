@@ -3,12 +3,24 @@ const PASSWORD = "1234";
 let cars = JSON.parse(localStorage.getItem("cars")) || [];
 const carList = document.getElementById("car-list");
 
+const dropArea = document.getElementById("drop-area");
+const imageInput = document.getElementById("imageFile");
+
+let currentImageBase64 = null;
+
+// ENTRA NEL SITO
 function enterSite() {
     document.getElementById("welcome").style.display = "none";
 }
 
+// MOSTRA AUTO
 function displayCars() {
     carList.innerHTML = "";
+
+    if (cars.length === 0) {
+        carList.innerHTML = "<p>Nessun veicolo presente. Aggiungine uno dal pannello personale.</p>";
+        return;
+    }
 
     cars.forEach((car, index) => {
         let div = document.createElement("div");
@@ -26,6 +38,7 @@ function displayCars() {
     });
 }
 
+// APERTURA PANNELLO
 function openPanel() {
     let pass = prompt("Accesso personale");
     if (pass === PASSWORD) {
@@ -35,46 +48,103 @@ function openPanel() {
     }
 }
 
+// CHIUSURA PANNELLO
 function closePanel() {
     document.getElementById("panel").classList.add("hidden");
+    resetForm();
 }
 
-function addCar() {
-    let name = document.getElementById("name").value;
-    let price = document.getElementById("price").value;
-    let file = document.getElementById("imageFile").files[0];
+// RESET FORM
+function resetForm() {
+    document.getElementById("name").value = "";
+    document.getElementById("price").value = "";
+    imageInput.value = "";
+    currentImageBase64 = null;
+}
 
-    if (!name || !price || !file) {
-        alert("Compila tutti i campi");
+// AGGIUNGI AUTO
+function addCar() {
+    let name = document.getElementById("name").value.trim();
+    let price = document.getElementById("price").value.trim();
+
+    if (!name || !price || !currentImageBase64) {
+        alert("Compila tutti i campi e carica un'immagine.");
         return;
     }
 
-    let reader = new FileReader();
-    reader.onload = function (e) {
-        let imageBase64 = e.target.result;
+    cars.push({ name, price, image: currentImageBase64 });
+    localStorage.setItem("cars", JSON.stringify(cars));
 
-        cars.push({ name, price, image: imageBase64 });
-        localStorage.setItem("cars", JSON.stringify(cars));
-
-        displayCars();
-        closePanel();
-    };
-
-    reader.readAsDataURL(file);
+    displayCars();
+    closePanel();
 }
 
+// RIMUOVI AUTO
 function removeCar(index) {
     cars.splice(index, 1);
     localStorage.setItem("cars", JSON.stringify(cars));
     displayCars();
 }
 
+// SELEZIONA AUTO
 function buyCar(name) {
     alert("Hai selezionato: " + name);
 }
 
+// SCROLL A SEZIONE AUTO
 function scrollToCars() {
     document.getElementById("cars").scrollIntoView({ behavior: "smooth" });
 }
 
+/* GESTIONE UPLOAD IMMAGINE */
+
+// click su area -> apre file input
+dropArea.addEventListener("click", () => {
+    imageInput.click();
+});
+
+// cambio file da input
+imageInput.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (file) {
+        readImageFile(file);
+    }
+});
+
+// drag & drop
+dropArea.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    dropArea.classList.add("dragover");
+});
+
+dropArea.addEventListener("dragleave", () => {
+    dropArea.classList.remove("dragover");
+});
+
+dropArea.addEventListener("drop", (e) => {
+    e.preventDefault();
+    dropArea.classList.remove("dragover");
+
+    const file = e.dataTransfer.files[0];
+    if (file) {
+        readImageFile(file);
+    }
+});
+
+// lettura file immagine -> base64
+function readImageFile(file) {
+    if (!file.type.startsWith("image/")) {
+        alert("Carica solo file immagine.");
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function (event) {
+        currentImageBase64 = event.target.result;
+        dropArea.querySelector("p").innerHTML = "Immagine caricata ✔<br><span>Puoi cambiarla trascinando un'altra immagine</span>";
+    };
+    reader.readAsDataURL(file);
+}
+
+// AVVIO
 displayCars();
