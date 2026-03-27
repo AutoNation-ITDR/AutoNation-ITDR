@@ -4,27 +4,21 @@ let cars = JSON.parse(localStorage.getItem("cars")) || [];
 
 const carList = document.getElementById("car-list");
 
-
 function displayCars() {
 
 carList.innerHTML = "";
 
 cars.forEach((car,index)=>{
 
-const div = document.createElement("div");
-
+const div=document.createElement("div");
 div.classList.add("car");
 
 div.innerHTML = `
-<img src="${car.image}" onerror="this.src='https://via.placeholder.com/300x200'">
-
+<img src="${car.image}">
 <h3>${car.name}</h3>
-
 <p>${car.price}</p>
-
 <button onclick="buyCar('${car.name}')">Seleziona</button>
-
-<button onclick="removeCar(${index})" class="delete">Rimuovi</button>
+<button onclick="removeCar(${index})">Rimuovi</button>
 `;
 
 carList.appendChild(div);
@@ -33,11 +27,9 @@ carList.appendChild(div);
 
 }
 
-
-
 function openPanel(){
 
-const pass = prompt("Accesso riservato al personale:");
+let pass = prompt("Accesso personale");
 
 if(pass === PASSWORD){
 
@@ -45,13 +37,11 @@ document.getElementById("panel").classList.remove("hidden");
 
 }else{
 
-alert("Accesso negato!");
+alert("Accesso negato");
 
 }
 
 }
-
-
 
 function closePanel(){
 
@@ -59,17 +49,15 @@ document.getElementById("panel").classList.add("hidden");
 
 }
 
-
-
 function addCar(){
 
-const name = document.getElementById("name").value.trim();
-const price = document.getElementById("price").value.trim();
-const image = document.getElementById("image").value.trim();
+let name=document.getElementById("name").value;
+let price=document.getElementById("price").value;
+let image=document.getElementById("image").value;
 
 if(!name || !price || !image){
 
-alert("Compila tutti i campi!");
+alert("Compila tutti i campi");
 return;
 
 }
@@ -80,17 +68,9 @@ localStorage.setItem("cars",JSON.stringify(cars));
 
 displayCars();
 
-document.getElementById("name").value="";
-document.getElementById("price").value="";
-document.getElementById("image").value="";
-
 }
 
-
-
 function removeCar(index){
-
-if(confirm("Vuoi eliminare questa auto?")){
 
 cars.splice(index,1);
 
@@ -100,17 +80,11 @@ displayCars();
 
 }
 
-}
-
-
-
 function buyCar(name){
 
 alert("Hai selezionato: "+name);
 
 }
-
-
 
 function scrollToCars(){
 
@@ -119,7 +93,5 @@ behavior:"smooth"
 });
 
 }
-
-
 
 displayCars();
