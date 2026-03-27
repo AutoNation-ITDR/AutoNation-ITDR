@@ -1,10 +1,18 @@
-const PASSWORD = "1234"
+const PASSWORD="1234"
 
-let cars = JSON.parse(localStorage.getItem("cars")) || []
+let cars=JSON.parse(localStorage.getItem("cars"))||[]
 
-const carList = document.getElementById("car-list")
+let vendite=JSON.parse(localStorage.getItem("vendite"))||[]
+
+let numeroTarga=localStorage.getItem("numeroTarga")||1
+
+const carList=document.getElementById("car-list")
+
+const listaVendite=document.getElementById("lista-vendite")
 
 displayCars()
+
+mostraVendite()
 
 
 function displayCars(){
@@ -70,7 +78,7 @@ const image=document.getElementById("image").value
 
 if(!name||!price||!image){
 
-alert("Compila tutto")
+alert("Compila tutti i campi")
 
 return
 
@@ -78,7 +86,7 @@ return
 
 cars.push({name,price,image})
 
-save()
+saveCars()
 
 displayCars()
 
@@ -93,7 +101,7 @@ const price=prompt("Nuovo prezzo",cars[index].price)
 cars[index].name=name
 cars[index].price=price
 
-save()
+saveCars()
 
 displayCars()
 
@@ -106,7 +114,7 @@ if(confirm("Eliminare auto?")){
 
 cars.splice(index,1)
 
-save()
+saveCars()
 
 displayCars()
 
@@ -115,7 +123,7 @@ displayCars()
 }
 
 
-function save(){
+function saveCars(){
 
 localStorage.setItem("cars",JSON.stringify(cars))
 
@@ -133,6 +141,93 @@ behavior:"smooth"
 }
 
 
+function generaTarga(){
+
+let numero=String(numeroTarga).padStart(3,"0")
+
+let targa="TEX-"+numero
+
+numeroTarga++
+
+localStorage.setItem("numeroTarga",numeroTarga)
+
+return targa
+
+}
+
+
+function registraVendita(){
+
+const nome=document.getElementById("nome").value
+const cognome=document.getElementById("cognome").value
+const modello=document.getElementById("modello").value
+
+if(!nome||!cognome||!modello){
+
+alert("Compila tutti i campi")
+
+return
+
+}
+
+const targa=generaTarga()
+
+vendite.push({
+
+targa,
+nome,
+cognome,
+modello
+
+})
+
+localStorage.setItem("vendite",JSON.stringify(vendite))
+
+mostraVendite()
+
+}
+
+
+function mostraVendite(){
+
+listaVendite.innerHTML=""
+
+vendite.forEach((v,index)=>{
+
+const row=document.createElement("tr")
+
+row.innerHTML=`
+
+<td>${v.targa}</td>
+<td>${v.nome}</td>
+<td>${v.cognome}</td>
+<td>${v.modello}</td>
+<td><button onclick="eliminaVendita(${index})">Elimina</button></td>
+
+`
+
+listaVendite.appendChild(row)
+
+})
+
+}
+
+
+function eliminaVendita(index){
+
+if(confirm("Eliminare vendita?")){
+
+vendite.splice(index,1)
+
+localStorage.setItem("vendite",JSON.stringify(vendite))
+
+mostraVendite()
+
+}
+
+}
+
+
 const dropArea=document.getElementById("drop-area")
 
 dropArea.addEventListener("dragover",e=>{
@@ -140,7 +235,6 @@ dropArea.addEventListener("dragover",e=>{
 e.preventDefault()
 
 })
-
 
 dropArea.addEventListener("drop",e=>{
 
