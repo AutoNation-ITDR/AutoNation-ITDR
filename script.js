@@ -1,235 +1,237 @@
-const PASSWORD = "1234";
+body{
 
-let cars = JSON.parse(localStorage.getItem("cars")) || [];
+margin:0;
 
-const carList = document.getElementById("car-list");
+font-family:'Orbitron',sans-serif;
 
-displayCars();
+background:#050505;
 
-function displayCars(){
-
-carList.innerHTML="";
-
-cars.forEach((car,index)=>{
-
-const div=document.createElement("div");
-
-div.classList.add("car");
-
-div.innerHTML=`
-
-<img src="${car.image}">
-
-<h3>${car.name}</h3>
-
-<p>${car.price}</p>
-
-<button onclick="buyCar('${car.name}')">Seleziona</button>
-
-<button onclick="editCar(${index})">Modifica</button>
-
-<button onclick="removeCar(${index})">Elimina</button>
-
-`;
-
-carList.appendChild(div);
-
-});
+color:white;
 
 }
 
 
+header{
 
-function addCar(){
+display:flex;
 
-const name=document.getElementById("name").value;
+justify-content:space-between;
 
-const price=document.getElementById("price").value;
+padding:15px 30px;
 
-const image=document.getElementById("image").value;
+background:black;
 
-if(!name||!price||!image){
-
-alert("Compila tutti i campi");
-
-return;
+border-bottom:2px solid #cc0000;
 
 }
 
-cars.push({name,price,image});
+.logo{
 
-saveCars();
-
-displayCars();
+height:60px;
 
 }
 
 
+nav a{
 
-function editCar(index){
+color:white;
 
-const newName=prompt("Nuovo nome",cars[index].name);
+margin-left:20px;
 
-const newPrice=prompt("Nuovo prezzo",cars[index].price);
+cursor:pointer;
 
-if(newName && newPrice){
-
-cars[index].name=newName;
-
-cars[index].price=newPrice;
-
-saveCars();
-
-displayCars();
+text-decoration:none;
 
 }
+
+nav a:hover{
+
+color:#cc0000;
 
 }
 
 
+.hero{
 
-function removeCar(index){
+text-align:center;
 
-if(confirm("Eliminare auto?")){
+padding:120px;
 
-cars.splice(index,1);
-
-saveCars();
-
-displayCars();
+background:linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.9)),
+url('https://images.unsplash.com/photo-1503376780353-7e6692767b70') center/cover;
 
 }
 
-}
+.hero h1{
 
+font-size:70px;
 
-
-function clearCars(){
-
-if(confirm("Eliminare TUTTE le auto?")){
-
-cars=[];
-
-saveCars();
-
-displayCars();
+text-shadow:0 0 10px white;
 
 }
 
-}
+.hero button{
 
+padding:12px 30px;
 
+background:#cc0000;
 
-function saveCars(){
+border:none;
 
-localStorage.setItem("cars",JSON.stringify(cars));
+color:white;
+
+cursor:pointer;
 
 }
 
 
+#cars{
 
-function buyCar(name){
+padding:50px;
 
-alert("Hai selezionato: "+name);
+text-align:center;
+
+}
+
+#car-list{
+
+display:flex;
+
+flex-wrap:wrap;
+
+justify-content:center;
 
 }
 
 
+.car{
 
-function scrollToCars(){
+background:#111;
 
-document.getElementById("cars").scrollIntoView({
+margin:15px;
 
-behavior:"smooth"
+padding:15px;
 
-});
+width:260px;
+
+border-radius:12px;
+
+transition:0.3s;
+
+}
+
+.car:hover{
+
+transform:scale(1.05);
+
+box-shadow:0 0 20px #cc0000;
+
+}
+
+.car img{
+
+width:100%;
+
+border-radius:8px;
 
 }
 
 
+.hidden{
 
-function openLogin(){
-
-document.getElementById("login").classList.remove("hidden");
-
-}
-
-
-
-function closeLogin(){
-
-document.getElementById("login").classList.add("hidden");
+display:none;
 
 }
 
 
+#panel{
 
-function login(){
+position:fixed;
 
-const pass=document.getElementById("password").value;
+width:100%;
 
-if(pass===PASSWORD){
+height:100%;
 
-closeLogin();
+background:rgba(0,0,0,0.9);
 
-openPanel();
+top:0;
 
-}else{
-
-alert("Password errata");
-
-}
+left:0;
 
 }
 
 
+.panel-box{
 
-function openPanel(){
+background:#111;
 
-document.getElementById("panel").classList.remove("hidden");
+padding:30px;
+
+margin:100px auto;
+
+width:300px;
+
+text-align:center;
+
+border-radius:10px;
 
 }
 
 
+.panel-box input{
 
-function closePanel(){
+width:100%;
 
-document.getElementById("panel").classList.add("hidden");
+margin:10px 0;
+
+padding:10px;
 
 }
 
 
+.panel-box button{
 
-const dropArea=document.getElementById("drop-area");
+padding:10px;
 
+margin:5px;
 
+border:none;
 
-dropArea.addEventListener("dragover",e=>{
+background:#cc0000;
 
-e.preventDefault();
+color:white;
 
-});
+cursor:pointer;
 
-
-
-dropArea.addEventListener("drop",e=>{
-
-e.preventDefault();
-
-const file=e.dataTransfer.files[0];
-
-const reader=new FileReader();
+}
 
 
+.close{
 
-reader.onload=function(event){
+background:gray;
 
-document.getElementById("image").value=event.target.result;
-
-};
-
+}
 
 
-reader.readAsDataURL(file);
+#drop-area{
 
-});
+border:2px dashed #cc0000;
+
+padding:20px;
+
+margin-top:10px;
+
+cursor:pointer;
+
+}
+
+
+footer{
+
+text-align:center;
+
+padding:10px;
+
+background:black;
+
+}
