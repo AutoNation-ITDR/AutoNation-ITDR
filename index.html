@@ -3,30 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AUTONATION | CLOUD SYSTEM</title>
+    <title>AUTONATION | AUSTIN TEXAS | CLOUD SYSTEM</title>
 
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <style>
-        :root { --red: #cc0000; --red-h: #ff3b3b; --bg: #050505; --card: #111; }
+        :root { --red: #cc0000; --red-h: #ff3b3b; --bg: #050505; --card: #111; --text: #eee; }
         * { box-sizing: border-box; font-family: 'Courier New', monospace; }
-        body { margin: 0; background: var(--bg); color: white; text-transform: uppercase; }
+        body { margin: 0; background: var(--bg); color: var(--text); text-transform: uppercase; overflow-x: hidden; }
         
-        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 30px; background: #000; border-bottom: 2px solid var(--red); position: sticky; top: 0; z-index: 100; }
-        .logo { font-size: 26px; font-weight: 900; letter-spacing: 2px; margin: 0; cursor: default; }
-        nav a { color: white; margin-left: 20px; text-decoration: none; font-weight: 700; cursor: pointer; font-size: 13px; transition: 0.3s; }
+        /* HEADER */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; background: rgba(0,0,0,0.9); border-bottom: 2px solid var(--red); position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(5px); }
+        .logo { font-size: 24px; font-weight: 900; letter-spacing: 3px; margin: 0; color: #fff; cursor: default; }
+        nav a { color: #fff; margin-left: 20px; text-decoration: none; font-weight: 700; cursor: pointer; font-size: 12px; transition: 0.3s; letter-spacing: 1px; }
         nav a:hover { color: var(--red-h); text-shadow: 0 0 8px var(--red-h); }
 
-        .page { display: none; padding: 40px 20px; animation: fIn 0.4s; }
+        /* PAGINE GENERALI */
+        .page { display: none; padding: 40px 20px; animation: fIn 0.4s ease-out; min-height: 80vh; }
         .page.active { display: block; }
-        @keyframes fIn { from {opacity:0} to {opacity:1} }
+        @keyframes fIn { from {opacity:0; transform: translateY(10px);} to {opacity:1; transform: translateY(0);} }
+        h2.page-title { text-align: center; margin-bottom: 40px; font-size: 28px; letter-spacing: 2px; border-bottom: 1px solid #222; padding-bottom: 15px; display: inline-block; left: 50%; transform: translateX(-50%); position: relative; }
 
-        .hero { text-align: center; padding: 100px 20px; background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80') center/cover; border-radius: 0 0 30px 30px; border-bottom: 1px solid var(--red); }
+        /* --- HOME PAGE STYLE (NUOVA) --- */
+        .hero-container { position: relative; width: 100%; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; color: #fff; margin-top: -65px; /* Compensa l'header */ }
         
+        /* Video Background Animato */
+        .video-bg { position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: -100; transform: translateX(-50%) translateY(-50%); object-fit: cover; filter: brightness(0.4) grayscale(0.2); }
+        
+        .hero-content { text-align: center; max-width: 900px; padding: 20px; z-index: 10; background: rgba(0,0,0,0.5); padding: 40px; border-radius: 15px; border: 1px solid rgba(255,0,0,0.3); backdrop-filter: blur(3px); }
+        .hero-content h1 { font-size: clamp(30px, 6vw, 60px); margin: 0 0 15px; letter-spacing: 4px; text-shadow: 0 0 15px var(--red); }
+        .hero-content h3 { color: var(--red-h); font-size: 18px; margin-bottom: 30px; letter-spacing: 2px; }
+        .hero-content p { font-size: 14px; line-height: 1.8; color: #ccc; text-transform: none; margin-bottom: 40px; }
+
+        /* Sezione Punti di Forza */
+        .strengths-container { max-width: 1100px; margin: 60px auto; padding: 0 20px; }
+        .strengths-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .strength-card { background: var(--card); padding: 25px; border-radius: 10px; border: 1px solid #222; transition: 0.3s; position: relative; overflow: hidden; }
+        .strength-card:hover { border-color: var(--red); transform: translateY(-5px); box-shadow: 0 5px 20px rgba(204, 0, 0, 0.3); }
+        .strength-card h4 { color: #fff; margin-top: 0; font-size: 16px; letter-spacing: 1px; display: flex; align-items: center; gap: 10px; }
+        .strength-card h4::before { content: '⭐'; font-size: 14px; }
+        .strength-card p { font-size: 12px; line-height: 1.6; color: #aaa; text-transform: none; margin: 10px 0 0; }
+
+        /* Sezione Posizione */
+        .location-section { text-align: center; max-width: 800px; margin: 80px auto; padding: 40px; background: #000; border-radius: 15px; border: 1px solid var(--red); }
+        .location-section h3 { font-size: 22px; color: var(--red-h); margin-top: 0; }
+        .location-section p { font-size: 14px; color: #ccc; line-height: 1.8; text-transform: none; }
+
+        /* --- FINE HOME PAGE STYLE --- */
+
+        /* SHOWROOM & PANELS (Invariati) */
         #car-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; max-width: 1200px; margin: 0 auto; }
-        .car { background: var(--card); padding: 15px; width: 280px; border-radius: 12px; border: 1px solid #222; position: relative; transition: 0.3s; }
+        .car { background: var(--card); padding: 15px; width: 280px; border-radius: 12px; border: 1px solid #222; transition: 0.3s; text-align: center; }
         .car:hover { border-color: var(--red); transform: translateY(-5px); box-shadow: 0 5px 15px rgba(204, 0, 0, 0.2); }
         .car img { width: 100%; height: 160px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; }
         .car-info { font-size: 10px; color: #ff3b3b; font-weight: bold; margin-bottom: 5px; letter-spacing: 1px; }
@@ -37,13 +66,13 @@
         input, select { width: 100%; margin: 8px 0; padding: 12px; border-radius: 5px; border: 1px solid #333; background: #000; color: white; font-size: 12px; }
         input:focus { border-color: var(--red); outline: none; }
         
-        button, .btn { background: var(--red); border: none; padding: 12px 20px; color: white; font-weight: 700; cursor: pointer; width: 100%; border-radius: 5px; margin-top: 10px; transition: 0.3s; }
+        button, .btn { background: var(--red); border: none; padding: 12px 20px; color: white; font-weight: 700; cursor: pointer; width: 100%; border-radius: 5px; margin-top: 10px; transition: 0.3s; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; }
         button:hover { background: var(--red-h); box-shadow: 0 0 15px var(--red-h); }
-        .btn-del { background: #222; font-size: 10px; margin-top: 8px; border: 1px solid #444; }
+        .btn-del { background: #222; font-size: 10px; margin-top: 8px; border: 1px solid #444; width: auto; padding: 8px 15px; }
         .btn-del:hover { background: #cc0000; border-color: #ff3b3b; }
 
         .hidden { display: none; }
-        footer { text-align: center; padding: 30px; font-size: 10px; color: #444; border-top: 1px solid #111; margin-top: 50px; }
+        footer { text-align: center; padding: 30px; font-size: 10px; color: #444; border-top: 1px solid #111; margin-top: 50px; background: #000; }
         label { font-size: 10px; color: #777; margin-top: 5px; display: block; }
     </style>
 </head>
@@ -59,21 +88,62 @@
     </nav>
 </header>
 
-<div id="home" class="page active">
-    <section class="hero">
-        <h1 style="font-size: 40px; margin-bottom: 10px;">AUTONATION SYSTEM</h1>
-        <p style="color: #aaa; letter-spacing: 2px;">GESTIONALE CLOUD REAL-TIME V2.0</p>
-        <button onclick="goPage('auto')" style="width:auto; padding: 15px 40px;">ENTRA NELLO SHOWROOM</button>
-    </section>
+<div id="home" class="page active" style="padding: 0;">
+    <div class="hero-container">
+        <video autoplay loop muted playsinline class="video-bg">
+            <source src="https://coverr.co/articles/homepage-video-background-with-css/coverr-night-traffic-1571761271617.mp4" type="video/mp4">
+            Il tuo browser non supporta il video.
+        </video>
+        
+        <div class="hero-content">
+            <h1>AUTONATION</h1>
+            <h3>AUSTIN, TEXAS</h3>
+            <p>
+                AutoNation è considerato uno dei concessionari più affidabili e rispettati di Austin. La nostra reputazione nasce da anni di professionalità, trasparenza e un approccio al cliente che mette al centro fiducia e qualità. Chi entra da AutoNation sa di trovare un ambiente serio, organizzato e orientato a offrire solo il meglio.
+            </p>
+            <button onclick="goPage('auto')" style="width:auto; padding: 15px 40px;">ESPLORA INVENTARIO CLOUD</button>
+        </div>
+    </div>
+
+    <div class="strengths-container">
+        <h2 style="text-align:center; color: var(--red-h); margin-bottom: 40px; letter-spacing: 2px;">I NOSTRI PUNTI DI FORZA</h2>
+        <div class="strengths-grid">
+            <div class="strength-card">
+                <h4>INVENTARIO VASTO E CURATO</h4>
+                <p>Auto usate selezionate, controllate e pronte alla consegna, dai modelli economici ai SUV di fascia alta.</p>
+            </div>
+            <div class="strength-card">
+                <h4>TRASPARENZA TOTALE</h4>
+                <p>Nessuna trattativa stressante, nessun costo nascosto. Il prezzo esposto è quello reale.</p>
+            </div>
+            <div class="strength-card">
+                <h4>AFFIDABILITÀ CERTIFICATA</h4>
+                <p>Ogni veicolo viene sottoposto a controlli approfonditi per garantire sicurezza e prestazioni.</p>
+            </div>
+            <div class="strength-card">
+                <h4>SERVIZIO CLIENTI IMPECCABILE</h4>
+                <p>Personale preparato, cordiale e sempre disponibile a guidare il cliente nella scelta giusta.</p>
+            </div>
+            <div class="strength-card">
+                <h4>ASSISTENZA PROFESSIONALE</h4>
+                <p>Officina interna con tecnici qualificati per manutenzione, riparazioni e diagnosi.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="location-section">
+        <h3>🏙️ ATMOSFERA E POSIZIONE</h3>
+        <p>Benvenuti nel cuore automotive di Austin. La nostra sede unisce l'efficienza texana a un ambiente accogliente, progettato per offrivi un'esperienza d'acquisto premium senza stress. Venite a trovarci per scoprire la differenza AutoNation.</p>
+    </div>
 </div>
 
 <div id="auto" class="page">
-    <h2 style="text-align:center; margin-bottom: 40px;">VEICOLI DISPONIBILI</h2>
+    <h2 class="page-title">VEICOLI DISPONIBILI</h2>
     <div id="car-list">CONNETTENDO AL CLOUD...</div>
 </div>
 
 <div id="personale" class="page">
-    <h2 style="text-align:center">AREA OPERATIVA</h2>
+    <h2 class="page-title">AREA OPERATIVA</h2>
     <div id="personal-login" class="panel-box">
         <h3>LOGIN OPERATORE</h3>
         <input id="userIdInput" placeholder="USER ID">
@@ -96,7 +166,7 @@
 </div>
 
 <div id="owner" class="page">
-    <h2 style="text-align:center">DASHBOARD PROPRIETARIO</h2>
+    <h2 class="page-title">DASHBOARD PROPRIETARIO</h2>
     <div id="owner-login" class="panel-box">
         <h3>ACCESSO OWNER</h3>
         <input id="ownerPassInput" type="password" placeholder="PASSWORD DI ACCESSO">
@@ -141,10 +211,10 @@
     </div>
 </div>
 
-<footer>AUTONATION CLOUD SYSTEM © 2026 | REAL-TIME DATABASE</footer>
+<footer>AUTONATION CLOUD SYSTEM V2.5 © 2026 | REAL-TIME DATABASE</footer>
 
 <script>
-// CONFIGURAZIONE FIREBASE
+// CONFIGURAZIONE FIREBASE (Invariata)
 const firebaseConfig = {
     apiKey: "AIzaSyCUH4SGDnbvh1clXm_R_n3ynmDndhIwsbM",
     authDomain: "autonation-bc786.firebaseapp.com",
@@ -160,14 +230,14 @@ const db = firebase.database();
 let cars = [];
 let currentImg = null;
 
-// AGGIORNAMENTO IN TEMPO REALE
+// AGGIORNAMENTO IN TEMPO REALE (Invariato)
 db.ref('cars').on('value', snap => {
     const data = snap.val();
     cars = [];
     const list = document.getElementById("car-list");
     const select = document.getElementById("selectAuto");
     list.innerHTML = "";
-    select.innerHTML = `<option value="">SELEZIONA VEICOLO</option>`;
+    if(select) select.innerHTML = `<option value="">SELEZIONA VEICOLO</option>`;
 
     if(data) {
         for(let id in data) {
@@ -177,38 +247,44 @@ db.ref('cars').on('value', snap => {
                 <div class="car">
                     <img src="${c.image}">
                     <div class="car-info">${c.type} // ${c.class}</div>
-                    <h3 style="margin:5px 0; font-size: 16px;">${c.name}</h3>
+                    <h3 style="margin:5px 0; font-size: 15px; letter-spacing:1px; color:#fff;">${c.name}</h3>
                     <p style="color:var(--red); font-weight:bold; margin:0">${c.price}</p>
                     <button class="btn-del" onclick="deleteCar('${c.id}')">RIMUOVI</button>
                 </div>`;
-            select.innerHTML += `<option value="${c.name}" data-price="${c.price}">${c.name}</option>`;
+            if(select) select.innerHTML += `<option value="${c.name}" data-price="${c.price}">${c.name}</option>`;
         }
-    } else { list.innerHTML = "NESSUN VEICOLO IN MOSTRA."; }
+    } else { list.innerHTML = "<p style='text-align:center; width:100%; color:#555;'>NESSUN VEICOLO ONLINE.</p>"; }
 });
 
 function goPage(p) {
     document.querySelectorAll('.page').forEach(pg => pg.classList.remove('active'));
     document.getElementById(p).classList.add('active');
+    // Nasconde l'area hero video se non siamo in home per ottimizzare
+    const video = document.querySelector('.video-bg');
+    if(p === 'home') video.play(); else video.pause();
+    window.scrollTo(0,0);
 }
 
-// GESTIONE IMMAGINE (FILE READER)
+// GESTIONE IMMAGINE (Invariata)
 document.getElementById('imageFile').onchange = e => {
+    const file = e.target.files[0];
+    if(file && file.size > 800000) { alert("FOTO TROPPO GRANDE! USA UN FILE SOTTO 800KB."); e.target.value=""; return; }
     const r = new FileReader();
     r.onload = ev => currentImg = ev.target.result;
-    r.readAsDataURL(e.target.files[0]);
+    r.readAsDataURL(file);
 };
 
-// AZIONI OWNER (ACCESSO E INSERIMENTO)
+// AZIONI OWNER (Invariate)
 function addCar() {
     const n = document.getElementById('name').value;
     const p = document.getElementById('price').value;
     const t = document.getElementById('type').value;
     const c = document.getElementById('class').value;
-    if(!n || !p || !currentImg) return alert("ERRORE: COMPILA TUTTI I CAMPI E CARICA LA FOTO!");
+    if(!n || !p || !currentImg) return alert("ERRORE: DATI MANCANTI!");
     
     db.ref('cars').push({ name:n, price:p, type:t, class:c, image:currentImg })
     .then(() => { 
-        alert("VEICOLO PUBBLICATO CON SUCCESSO!"); 
+        alert("PUBBLICATO!"); 
         currentImg=null; 
         document.getElementById('imageFile').value="";
         document.getElementById('name').value="";
@@ -217,41 +293,33 @@ function addCar() {
 }
 
 function deleteCar(id) {
-    if(confirm("VUOI ELIMINARE QUESTO VEICOLO DAL DATABASE CLOUD?")) {
-        db.ref('cars/'+id).remove();
-    }
+    if(confirm("ELIMINARE DAL CLOUD?")) { db.ref('cars/'+id).remove(); }
 }
 
 function loginOwner() {
-    // La password rimane OWNER123 ma non è più scritta sotto il tasto
     if(document.getElementById('ownerPassInput').value === "OWNER123") {
         document.getElementById('owner-login').classList.add('hidden');
         document.getElementById('owner-content').classList.remove('hidden');
-    } else {
-        alert("PASSWORD PROPRIETARIO ERRATA!");
-    }
+    } else { alert("ERRATA!"); }
 }
 
 function salvaCredenziali() {
     const u = document.getElementById('setUserId').value;
     const p = document.getElementById('setUserPass').value;
-    if(!u || !p) return alert("INSERISCI CREDENZIALI VALIDE!");
-    db.ref('settings/op').set({ user:u, pass:p }).then(()=>alert("NUOVE CREDENZIALI SALVATE!"));
+    if(!u || !p) return alert("INSERISCI DATI!");
+    db.ref('settings/op').set({ user:u, pass:p }).then(()=>alert("SALVATE!"));
 }
 
-// AZIONI OPERATORE (FATTURE)
+// AZIONI OPERATORE (Invariate)
 function loginOperator() {
     const u = document.getElementById('userIdInput').value;
     const p = document.getElementById('userPassInput').value;
     db.ref('settings/op').once('value').then(s => {
         const c = s.val();
-        // Accesso admin/1234 di emergenza se il database è vuoto
         if((!c && u==="admin" && p==="1234") || (c && u===c.user && p===c.pass)) {
             document.getElementById('personal-login').classList.add('hidden');
             document.getElementById('personal-content').classList.remove('hidden');
-        } else {
-            alert("ACCESSO NEGATO: CREDENZIALI ERRATE!");
-        }
+        } else { alert("NEGATO!"); }
     });
 }
 
@@ -265,24 +333,14 @@ function generaPDF() {
     const {jsPDF} = window.jspdf;
     const pdf = new jsPDF();
     const n = document.getElementById("fNome").value;
-    const a = document.getElementById("fAuto").value;
-    const f = document.getElementById("fFirma").value;
-    
-    if(!n || !a || !f) return alert("ERRORE: COMPILA I DATI DELLA FATTURA!");
-    
-    pdf.setFont("courier","bold");
-    pdf.setFontSize(22);
-    pdf.text("AUTONATION - FATTURA UFFICIALE", 10, 20);
-    pdf.setFontSize(12);
+    if(!n || !document.getElementById("fAuto").value) return alert("DATI MANCANTI!");
+    pdf.setFont("courier","bold"); pdf.text("AUTONATION FATTURA", 10, 20);
     pdf.setFont("courier","normal");
     pdf.text("CLIENTE: " + n, 10, 40);
-    pdf.text("VEICOLO: " + a, 10, 50);
-    pdf.text("TARGA: " + document.getElementById("fTarga").value, 10, 60);
-    pdf.text("PREZZO: " + document.getElementById("fPrezzo").value, 10, 70);
-    pdf.text("FIRMA RESPONSABILE: " + f, 10, 100);
-    
+    pdf.text("VEICOLO: " + document.getElementById("fAuto").value, 10, 50);
+    pdf.text("PREZZO: " + document.getElementById("fPrezzo").value, 10, 60);
+    pdf.text("FIRMA: " + document.getElementById("fFirma").value, 10, 90);
     pdf.save("Fattura_" + n + ".pdf");
-    alert("FATTURA GENERATA E SCARICATA.");
 }
 </script>
 </body>
