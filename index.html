@@ -3,21 +3,13 @@
 <html lang="it">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>AutoNation Gestionale</title>
+<title>AutoNation | Concessionario</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 </head>
 
@@ -25,83 +17,54 @@
 
 <header>
 
-<h1>AutoNation</h1>
+<img src="https://image2url.com/r2/default/images/1774614384610-971b0e79-0e76-406c-9777-e1e61f46a6a0.png" class="logo">
 
 <nav>
-
-<button onclick="showPage('dashboard')">Dashboard</button> <button onclick="showPage('auto')">Auto</button> <button onclick="showPage('vendite')">Vendite</button> <button onclick="openAdmin()">Admin</button>
-
+<a href="#">Home</a>
+<a href="#cars">Auto</a>
+<a onclick="openPanel()">Personale</a>
 </nav>
 
 </header>
 
-<section id="dashboard" class="page">
+<section class="hero">
 
-<h2>Dashboard</h2>
+<h1>AutoNation</h1>
+<p>Concessionario Premium</p>
 
-<div class="cards">
+<button onclick="scrollToCars()">SCOPRI LE AUTO</button>
 
-<div class="card">
-<h3>Auto disponibili</h3>
-<p id="totAuto"></p>
+</section>
+
+<section id="cars">
+
+<h2>Veicoli Disponibili</h2>
+
+<div id="car-list"></div>
+
+</section>
+
+<div id="panel" class="hidden">
+
+<div class="panel-box">
+
+<h2>Pannello Personale</h2>
+
+<input type="text" id="name" placeholder="Nome auto">
+<input type="text" id="price" placeholder="Prezzo">
+<input type="text" id="image" placeholder="Link immagine">
+
+<button onclick="addCar()">Aggiungi Auto</button> <button onclick="closePanel()" class="close">Chiudi</button>
+
 </div>
 
-<div class="card">
-<h3>Vendite</h3>
-<p id="totVendite"></p>
 </div>
 
-</div>
-
-<canvas id="grafico"></canvas>
-
-</section>
-
-<section id="auto" class="page">
-
-<h2>Aggiungi Auto</h2>
-
-<input id="carName" placeholder="Modello">
-<input id="carPrice" placeholder="Prezzo">
-<input type="file" id="imgUpload">
-
-<button onclick="addCar()">Aggiungi</button>
-
-<div id="carList"></div>
-
-</section>
-
-<section id="firma">
-
-<h2>Firma Cliente</h2>
-
-<canvas id="signature"></canvas>
-
-</section>
-
-<section id="vendite" class="page">
-
-<h2>Registro Vendite</h2>
-
-<table>
-
-<thead>
-<tr>
-<th>Targa</th>
-<th>Cliente</th>
-<th>Auto</th>
-<th>Data</th>
-</tr>
-</thead>
-
-<tbody id="sales"></tbody>
-
-</table>
-
-</section>
+<footer>
+<p>© 2026 AutoNation</p>
+</footer>
 
 <script src="script.js"></script>
 
 </body>
-
 </html>
