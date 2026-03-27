@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AUTONATION | Austin Premium Motors</title>
+    <title>AUTONATION | Austin Neon Edition</title>
 
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
@@ -11,174 +11,90 @@
 
     <style>
         :root { 
-            --red: #D32F2F; 
-            --black: #1A1A1A; 
-            --white: #FFFFFF; 
-            --light-gray: #F5F5F5;
-            --dark-gray: #333333;
+            --red-neon: #ff0000; 
+            --red-glow: rgba(255, 0, 0, 0.6);
+            --black: #0a0a0a; 
+            --white: #ffffff; 
+            --gray: #f0f0f0;
         }
 
-        * { box-sizing: border-box; font-family: 'Inter', 'Segoe UI', sans-serif; transition: all 0.3s ease; }
+        * { box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         
-        body { 
-            margin: 0; 
-            background: var(--white); 
-            color: var(--black); 
-            line-height: 1.6;
-        }
+        body { margin: 0; background: var(--white); color: var(--black); overflow-x: hidden; }
 
-        /* HEADER PREMIUM */
+        /* HEADER */
         header { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 20px 5%; 
-            background: var(--white); 
-            border-bottom: 4px solid var(--black); 
-            position: sticky; 
-            top: 0; 
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 15px 5%; background: var(--white); border-bottom: 3px solid var(--black);
+            position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
+        .logo { font-size: 26px; font-weight: 900; letter-spacing: -1px; }
+        .logo span { color: var(--red-neon); text-shadow: 0 0 10px var(--red-glow); }
+        nav a { color: var(--black); margin-left: 25px; text-decoration: none; font-weight: 700; font-size: 13px; text-transform: uppercase; cursor: pointer; }
+        nav a:hover { color: var(--red-neon); text-shadow: 0 0 5px var(--red-glow); }
 
-        .logo { font-size: 28px; font-weight: 900; letter-spacing: -1px; color: var(--black); }
-        .logo span { color: var(--red); }
-        
-        nav a { 
-            color: var(--black); 
-            margin-left: 30px; 
-            text-decoration: none; 
-            font-weight: 700; 
-            font-size: 13px; 
-            text-transform: uppercase; 
-            letter-spacing: 1px;
-        }
-        nav a:hover { color: var(--red); }
-
-        /* HERO SECTION */
+        /* HERO VIDEO */
         .hero { 
-            position: relative; 
-            height: 85vh; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            background: var(--black);
-            overflow: hidden;
-            color: var(--white);
+            position: relative; height: 70vh; display: flex; align-items: center; justify-content: center; 
+            background: #000; overflow: hidden; color: #fff;
         }
+        .hero video { position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; transform: translate(-50%, -50%); object-fit: cover; opacity: 0.6; }
+        .hero-content { position: relative; z-index: 10; text-align: center; }
+        .hero h1 { font-size: 60px; margin: 0; font-weight: 900; letter-spacing: 2px; }
 
-        .hero video {
-            position: absolute;
-            top: 50%; left: 50%;
-            min-width: 100%; min-height: 100%;
-            transform: translate(-50%, -50%);
-            object-fit: cover;
-            opacity: 0.5;
-            z-index: 1;
-        }
-
-        .hero-content { 
-            position: relative; 
-            z-index: 2; 
-            text-align: center; 
-            max-width: 800px; 
-            padding: 20px;
-        }
-
-        .hero h1 { font-size: 70px; margin: 0; font-weight: 900; line-height: 1; }
-        .hero p { font-size: 18px; margin: 20px 0; font-weight: 300; opacity: 0.9; }
-
-        .btn-main { 
-            background: var(--red); 
-            color: var(--white); 
-            padding: 18px 40px; 
-            text-decoration: none; 
-            font-weight: 900; 
-            border: none; 
-            cursor: pointer;
-            display: inline-block;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-        .btn-main:hover { transform: scale(1.05); background: #b71c1c; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
-
-        /* SEZIONI HOME */
-        .section { padding: 100px 10%; }
-        .bg-light { background: var(--light-gray); }
-
-        .section-title { font-size: 40px; font-weight: 900; margin-bottom: 50px; text-align: center; }
-        .section-title span { color: var(--red); }
-
-        .grid-features { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
-            gap: 30px; 
-        }
-
-        .card-feature { 
-            background: var(--white); 
-            padding: 40px; 
-            border-left: 5px solid var(--red); 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        }
-        .card-feature h3 { font-size: 20px; margin-top: 0; color: var(--black); }
-        .card-feature p { font-size: 14px; color: var(--dark-gray); }
-
-        /* SHOWROOM */
+        /* --- EFFETTO NEON PER LE CASELLE --- */
         #car-list, #owner-car-list { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
-            gap: 30px; 
-            margin-top: 40px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+            gap: 40px; padding: 40px 5%; max-width: 1400px; margin: 0 auto;
         }
 
         .car-card { 
             background: var(--white); 
-            border: 1px solid #eee; 
+            border: 2px solid var(--black); 
+            border-radius: 5px;
             overflow: hidden;
             position: relative;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
         }
-        .car-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
-        .car-card img { width: 100%; height: 220px; object-fit: cover; }
-        .car-details { padding: 25px; }
-        .car-type { color: var(--red); font-weight: 900; font-size: 11px; text-transform: uppercase; }
-        .car-name { font-size: 22px; font-weight: 800; margin: 5px 0; }
-        .car-price { font-size: 18px; font-weight: 400; color: var(--dark-gray); }
 
-        /* PANELS & FORMS */
-        .page { display: none; padding: 60px 5%; animation: fadeIn 0.5s ease; }
+        /* Il "Bordo Neon" */
+        .car-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            border: 2px solid transparent; border-radius: 3px; pointer-events: none;
+            transition: 0.3s;
+        }
+
+        .car-card:hover {
+            transform: scale(1.05);
+            border-color: var(--red-neon);
+            box-shadow: 0 0 20px var(--red-glow), inset 0 0 10px var(--red-glow);
+        }
+
+        .car-card img { width: 100%; height: 220px; object-fit: cover; border-bottom: 2px solid var(--black); }
+        .car-details { padding: 20px; text-align: center; }
+        .car-name { font-size: 22px; font-weight: 900; margin: 10px 0; text-transform: uppercase; }
+        .car-price { font-size: 18px; color: var(--red-neon); font-weight: 700; letter-spacing: 1px; }
+        .car-meta { font-size: 11px; font-weight: 800; color: #888; margin-bottom: 5px; }
+
+        /* PANNELLI */
+        .page { display: none; padding: 60px 5%; animation: fadeIn 0.4s; }
         .page.active { display: block; }
-        @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
+        @keyframes fadeIn { from {opacity: 0; transform: translateY(10px);} to {opacity: 1; transform: translateY(0);} }
 
-        .form-container { 
-            max-width: 500px; 
-            margin: 0 auto; 
-            background: var(--light-gray); 
-            padding: 50px; 
-            border-top: 8px solid var(--black);
-        }
-
-        input, select { 
-            width: 100%; 
-            padding: 15px; 
-            margin-bottom: 15px; 
-            border: 1px solid #ddd; 
-            background: white;
-            font-size: 16px;
-        }
+        .form-container { max-width: 450px; margin: 0 auto; background: var(--gray); padding: 40px; border: 3px solid var(--black); box-shadow: 10px 10px 0px var(--red-neon); }
+        input, select { width: 100%; padding: 12px; margin-bottom: 15px; border: 2px solid var(--black); font-weight: 700; }
+        input:focus { outline: none; border-color: var(--red-neon); box-shadow: 0 0 10px var(--red-glow); }
         
-        .btn-del { 
-            background: var(--black); 
-            color: white; 
-            border: none; 
-            padding: 10px; 
-            width: 100%; 
-            cursor: pointer; 
-            font-weight: 700;
+        .btn-main { 
+            background: var(--black); color: #fff; padding: 15px 30px; border: none; font-weight: 900; 
+            text-transform: uppercase; cursor: pointer; width: 100%; letter-spacing: 1px;
         }
-        .btn-del:hover { background: var(--red); }
+        .btn-main:hover { background: var(--red-neon); box-shadow: 0 0 15px var(--red-neon); }
 
-        footer { background: var(--black); color: white; padding: 60px 5%; text-align: center; }
+        .btn-del { background: #000; color: #fff; border: none; padding: 10px; width: 100%; cursor: pointer; font-size: 11px; margin-top: 10px; }
+        .btn-del:hover { background: var(--red-neon); }
+
+        footer { background: var(--black); color: #fff; padding: 40px; text-align: center; margin-top: 50px; }
         .hidden { display: none; }
     </style>
 </head>
@@ -189,7 +105,7 @@
     <nav>
         <a onclick="goPage('home')">Home</a>
         <a onclick="goPage('auto')">Inventario</a>
-        <a onclick="goPage('personale')">Staff</a>
+        <a onclick="goPage('personale')">Personale</a>
         <a onclick="goPage('owner')">Admin</a>
     </nav>
 </header>
@@ -200,75 +116,55 @@
             <source src="https://coverr.co/articles/homepage-video-background-with-css/coverr-night-traffic-1571761271617.mp4" type="video/mp4">
         </video>
         <div class="hero-content">
-            <h1>AUSTIN'S FINEST</h1>
-            <p>Il pilastro dell'automotive in Texas. Trasparenza, Qualità, Affidabilità.</p>
-            <button class="btn-main" onclick="goPage('auto')">Esplora Showroom</button>
+            <h1>AUSTIN PREMUM</h1>
+            <p>Trasparenza. Qualità. Tecnologia Neon.</p>
+            <button class="btn-main" style="width:auto" onclick="goPage('auto')">Esplora Showroom</button>
         </div>
     </section>
 
-    <section class="section">
-        <h2 class="section-title">PERCHÈ <span>AUTONATION</span>?</h2>
-        <div class="grid-features">
-            <div class="card-feature">
-                <h3>Vasta Selezione</h3>
-                <p>Dai SUV di fascia alta ai modelli classici selezionati con cura ad Austin.</p>
-            </div>
-            <div class="card-feature">
-                <h3>Trasparenza Zero-Stress</h3>
-                <p>Nessun costo nascosto. Il prezzo che vedi è il prezzo reale del veicolo.</p>
-            </div>
-            <div class="card-feature">
-                <h3>Controlli Certificati</h3>
-                <p>Ogni auto viene sottoposta a 150 punti di ispezione prima della vendita.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="section bg-light" style="text-align: center;">
-        <h2 class="section-title">ECCELLENZA NEL CUORE DEL <span>TEXAS</span></h2>
-        <p style="max-width: 800px; margin: 0 auto; font-size: 18px; color: #666;">
-            Chi entra da AutoNation sa di trovare un ambiente serio, organizzato e orientato a offrire solo il meglio. La nostra reputazione nasce da anni di professionalità nel cuore di Austin.
+    <div style="padding: 80px 10%; text-align: center;">
+        <h2 style="font-size: 35px; font-weight: 900;">IL PILASTRO DI <span style="color:var(--red-neon)">AUSTIN</span></h2>
+        <p style="max-width: 800px; margin: 20px auto; font-size: 18px; line-height: 1.8; color: #555; text-transform: none;">
+            AutoNation è considerato uno dei concessionari più affidabili del Texas. La nostra reputazione nasce da anni di professionalità, offrendo un ambiente serio e organizzato.
         </p>
-    </section>
+    </div>
 </div>
 
 <div id="auto" class="page">
-    <h2 class="section-title">IL NOSTRO <span>INVENTARIO</span></h2>
-    <div id="car-list">Caricamento veicoli in corso...</div>
+    <h2 style="text-align:center; font-size: 40px; font-weight: 900; margin-bottom: 50px;">SHOWROOM <span style="color:var(--red-neon)">LIVE</span></h2>
+    <div id="car-list">Caricamento inventario...</div>
 </div>
 
 <div id="personale" class="page">
-    <h2 class="section-title">AREA <span>STAFF</span></h2>
     <div id="personal-login" class="form-container">
-        <h3>Login Operatore</h3>
-        <input id="userIdInput" placeholder="User ID">
+        <h3>Staff Login</h3>
+        <input id="userIdInput" placeholder="Operatore ID">
         <input id="userPassInput" type="password" placeholder="Password">
-        <button class="btn-main" onclick="loginOperator()" style="width:100%">Accedi</button>
+        <button class="btn-main" onclick="loginOperator()">Accedi</button>
     </div>
     <div id="personal-content" class="hidden">
         <div class="form-container">
-            <h3>Generatore Fatture</h3>
+            <h3>Generatore Fattura</h3>
             <select id="selectAuto" onchange="autoSelezionata()"></select>
             <input id="fNome" placeholder="Nome Cliente">
             <input id="fAuto" placeholder="Veicolo" readonly>
             <input id="fPrezzo" placeholder="Prezzo" readonly>
-            <input id="fFirma" placeholder="Firma Operatore">
-            <button class="btn-main" onclick="generaPDF()" style="width:100%">Scarica PDF</button>
+            <input id="fFirma" placeholder="Firma Staff">
+            <button class="btn-main" onclick="generaPDF()">Genera PDF</button>
         </div>
     </div>
 </div>
 
 <div id="owner" class="page">
-    <h2 class="section-title">OWNER <span>DASHBOARD</span></h2>
     <div id="owner-login" class="form-container">
-        <input id="ownerPassInput" type="password" placeholder="Password Proprietario">
-        <button class="btn-main" onclick="loginOwner()" style="width:100%">Entra</button>
+        <h3>Admin Access</h3>
+        <input id="ownerPassInput" type="password" placeholder="Master Password">
+        <button class="btn-main" onclick="loginOwner()">Entra nel Sistema</button>
     </div>
-    
     <div id="owner-content" class="hidden">
         <div class="form-container">
-            <h3>Nuovo Inserimento</h3>
-            <input id="name" placeholder="Modello Auto">
+            <h3>Aggiungi Veicolo</h3>
+            <input id="name" placeholder="Modello">
             <input id="price" placeholder="Prezzo (€)">
             <select id="type">
                 <option value="Regular">Regular</option><option value="Prestige">Prestige</option>
@@ -279,21 +175,19 @@
                 <option value="SUV">SUV</option><option value="Industrial">Industrial</option>
             </select>
             <input type="file" id="imageFile">
-            <button class="btn-main" onclick="addCar()" style="width:100%">Pubblica Veicolo</button>
+            <button class="btn-main" onclick="addCar()">Pubblica nel Cloud</button>
         </div>
-
-        <h3 style="text-align:center; margin-top:50px;">Gestione Inventario Attivo</h3>
+        <h3 style="text-align:center; margin-top:50px;">Gestione Eliminazione</h3>
         <div id="owner-car-list"></div>
     </div>
 </div>
 
 <footer>
-    <div class="logo" style="color:white; margin-bottom: 20px;">AUTO<span>NATION</span></div>
-    <p>Austin, Texas - Cloud System V3.0<br>© 2026 Tutti i diritti riservati.</p>
+    <div class="logo" style="color:#fff">AUTO<span>NATION</span></div>
+    <p>© 2026 Austin, Texas. Powered by Neon Cloud.</p>
 </footer>
 
 <script>
-// CONFIGURAZIONE FIREBASE
 const firebaseConfig = {
     apiKey: "AIzaSyCUH4SGDnbvh1clXm_R_n3ynmDndhIwsbM",
     authDomain: "autonation-bc786.firebaseapp.com",
@@ -308,7 +202,6 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 let currentImg = null;
 
-// AGGIORNAMENTO DATI
 db.ref('cars').on('value', snap => {
     const data = snap.val();
     const publicList = document.getElementById("car-list");
@@ -323,24 +216,24 @@ db.ref('cars').on('value', snap => {
         for(let id in data) {
             let c = { id, ...data[id] };
             
-            // Card Pubblica
-            publicList.innerHTML += `
+            let cardHtml = `
                 <div class="car-card">
                     <img src="${c.image}">
                     <div class="car-details">
-                        <span class="car-type">${c.type} // ${c.class}</span>
+                        <div class="car-meta">${c.type} // ${c.class}</div>
                         <div class="car-name">${c.name}</div>
                         <div class="car-price">${c.price}</div>
                     </div>
                 </div>`;
             
-            // Card Owner (con tasto elimina)
+            publicList.innerHTML += cardHtml;
+            
             ownerList.innerHTML += `
                 <div class="car-card">
                     <img src="${c.image}">
                     <div class="car-details">
                         <div class="car-name">${c.name}</div>
-                        <button class="btn-del" onclick="deleteCar('${c.id}')">Rimuovi dal Database</button>
+                        <button class="btn-del" onclick="deleteCar('${c.id}')">ELIMINA</button>
                     </div>
                 </div>`;
             
@@ -366,15 +259,14 @@ function addCar() {
     const p = document.getElementById('price').value;
     const t = document.getElementById('type').value;
     const c = document.getElementById('class').value;
-    if(!n || !p || !currentImg) return alert("Compila tutti i campi!");
+    if(!n || !p || !currentImg) return alert("Dati mancanti!");
     db.ref('cars').push({ name:n, price:p, type:t, class:c, image:currentImg }).then(() => {
-        alert("Pubblicata!");
-        document.getElementById('name').value = "";
+        alert("Auto Pubblicata!");
     });
 }
 
 function deleteCar(id) {
-    if(confirm("Eliminare definitivamente?")) db.ref('cars/'+id).remove();
+    if(confirm("Eliminare?")) db.ref('cars/'+id).remove();
 }
 
 function loginOwner() {
@@ -392,7 +284,7 @@ function loginOperator() {
         if((!c && u==="admin" && p==="1234") || (c && u===c.user && p===c.pass)) {
             document.getElementById('personal-login').classList.add('hidden');
             document.getElementById('personal-content').classList.remove('hidden');
-        } else alert("Credenziali Errate");
+        } else alert("Negato");
     });
 }
 
@@ -405,8 +297,9 @@ function autoSelezionata() {
 function generaPDF() {
     const {jsPDF} = window.jspdf;
     const pdf = new jsPDF();
-    pdf.text("FATTURA AUTONATION", 10, 20);
+    pdf.text("AUTONATION FATTURA", 10, 20);
     pdf.text("Modello: " + document.getElementById("fAuto").value, 10, 40);
+    pdf.text("Prezzo: " + document.getElementById("fPrezzo").value, 10, 50);
     pdf.save("Fattura.pdf");
 }
 </script>
