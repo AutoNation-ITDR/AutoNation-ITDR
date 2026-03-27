@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoNation Austin | Professional Hub v7.0</title>
+    <title>AutoNation Austin | Elite Management v7.1</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -25,42 +25,44 @@
             --radius: 12px;
         }
 
-        * { box-sizing: border-box; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
+        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
         body { margin: 0; background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; display: flex; height: 100vh; overflow: hidden; }
 
-        nav { width: 280px; background: var(--panel); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 40px 20px; z-index: 100; }
-        .logo-img { width: 100%; filter: drop-shadow(0 0 15px var(--accent-glow)); margin-bottom: 50px; }
+        /* SIDEBAR */
+        nav { width: 280px; background: var(--panel); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 40px 20px; z-index: 100; box-shadow: 10px 0 30px rgba(0,0,0,0.5); }
+        .logo-img { width: 100%; filter: drop-shadow(0 0 15px var(--accent-glow)); margin-bottom: 50px; cursor: pointer; }
         
-        .nav-link { display: flex; align-items: center; padding: 16px 20px; color: var(--text-dim); text-decoration: none; border-radius: var(--radius); margin-bottom: 12px; font-weight: 700; cursor: pointer; }
+        .nav-link { display: flex; align-items: center; padding: 16px 20px; color: var(--text-dim); text-decoration: none; border-radius: var(--radius); margin-bottom: 12px; font-weight: 700; cursor: pointer; border: 1px solid transparent; transition: 0.3s; }
         .nav-link i { margin-right: 15px; width: 20px; text-align: center; }
-        .nav-link.active { background: var(--accent); color: white; box-shadow: 0 8px 20px var(--accent-glow); }
+        .nav-link:hover { background: var(--card); color: #fff; }
+        .nav-link.active { background: var(--accent); color: white; box-shadow: 0 8px 20px var(--accent-glow); border-color: transparent; }
 
+        /* MAIN */
         main { flex: 1; overflow-y: auto; padding: 50px; background: radial-gradient(circle at top right, #1a1d26, #08090d); }
-        .page { display: none; opacity: 0; transform: translateY(20px); }
+        .page { display: none; opacity: 0; transform: translateY(20px); transition: 0.4s; }
         .page.active { display: block; opacity: 1; transform: translateY(0); }
 
-        .hero { position: relative; height: 350px; border-radius: 25px; overflow: hidden; margin-bottom: 40px; border: 1px solid var(--border); }
-        .slide { position: absolute; inset: 0; opacity: 0; background-size: cover; background-position: center; display: flex; align-items: flex-end; padding: 60px; }
-        .slide.active { opacity: 1; z-index: 5; }
-        .slide::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); }
-        .slide-content h2 { font-size: 3.5rem; margin: 0; font-weight: 900; text-transform: uppercase; }
+        .glass-card { background: var(--card); border: 1px solid var(--border); padding: 40px; border-radius: 20px; backdrop-filter: blur(15px); margin-bottom: 30px; }
 
-        .glass-card { background: var(--card); border: 1px solid var(--border); padding: 40px; border-radius: 20px; backdrop-filter: blur(10px); margin-bottom: 30px; }
-
+        /* INVENTORY */
         .inventory-layout { display: grid; grid-template-columns: 300px 1fr; gap: 40px; }
         .sidebar { background: rgba(17, 20, 27, 0.6); border: 1px solid var(--border); padding: 30px; border-radius: 25px; height: fit-content; }
         .sidebar-label { font-size: 0.7rem; color: var(--accent); font-weight: 900; text-transform: uppercase; letter-spacing: 2px; margin: 25px 0 12px 0; display: block; }
         
         .car-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
-        .car-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
-        .car-img { width: 100%; height: 200px; object-fit: cover; }
+        .car-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; transition: 0.3s; }
+        .car-card:hover { transform: translateY(-5px); border-color: var(--accent); }
+        .car-img { width: 100%; height: 200px; object-fit: cover; border-bottom: 1px solid var(--border); }
         .car-info { padding: 25px; }
         .price-tag { font-family: 'JetBrains Mono'; color: var(--accent); font-size: 1.6rem; font-weight: 700; }
         .badge { font-size: 0.65rem; background: rgba(255,255,255,0.06); padding: 4px 12px; border-radius: 50px; margin-right: 6px; text-transform: uppercase; color: var(--text-dim); border: 1px solid var(--border); }
 
-        input, select { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border); padding: 16px; color: white; margin-bottom: 15px; border-radius: 12px; }
-        .btn { background: var(--accent); color: white; border: none; padding: 18px; font-weight: 900; cursor: pointer; text-transform: uppercase; width: 100%; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 10px; font-family: 'JetBrains Mono'; }
-        
+        /* FORM */
+        input, select { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border); padding: 16px; color: white; margin-bottom: 15px; border-radius: 12px; font-family: 'Outfit'; }
+        input:focus { border-color: var(--accent); outline: none; }
+        .btn { background: var(--accent); color: white; border: none; padding: 18px; font-weight: 900; cursor: pointer; text-transform: uppercase; width: 100%; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 10px; font-family: 'JetBrains Mono'; transition: 0.3s; }
+        .btn:hover { filter: brightness(1.2); box-shadow: 0 10px 20px var(--accent-glow); }
+
         .hidden { display: none !important; }
         table { width: 100%; border-collapse: collapse; }
         td { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.02); }
@@ -69,44 +71,46 @@
 <body>
 
 <nav>
-    <img src="https://res.cloudinary.com/dn0k6htsv/image/upload/v1774647697/zcbubagqn4hpxmlzwwan.png" class="logo-img">
+    <img src="https://res.cloudinary.com/dn0k6htsv/image/upload/v1774647697/zcbubagqn4hpxmlzwwan.png" class="logo-img" onclick="navTo('home')">
     <div class="nav-link active" onclick="navTo('home')" id="n-home"><i class="fa-solid fa-house"></i> Home</div>
     <div class="nav-link" onclick="navTo('showroom')" id="n-showroom"><i class="fa-solid fa-car"></i> Inventory</div>
     <div class="nav-link" onclick="navTo('staff')" id="n-staff"><i class="fa-solid fa-file-invoice"></i> Sales</div>
-    <div class="nav-link" onclick="navTo('admin')" id="n-admin"><i class="fa-solid fa-user-shield"></i> Terminal</div>
+    <div class="nav-link" onclick="navTo('admin')" id="n-admin"><i class="fa-solid fa-terminal"></i> Terminal</div>
 </nav>
 
 <main>
     <div id="home" class="page active">
-        <div class="hero">
-            <div class="slide active" style="background-image:url('https://images.unsplash.com/photo-1603553323144-3d964893796d?q=80&w=2070');">
-                <div class="slide-content"><h2>AutoNation Austin</h2></div>
-            </div>
-        </div>
         <div class="glass-card">
-            <h3 style="color:var(--accent); text-transform:uppercase;">ECCELLENZA CERTIFICATA</h3>
-            <p style="line-height:1.8; color:var(--text-dim);">AutoNation Austin è il leader texano nel mercato automobilistico d'élite. Ogni nostra operazione è guidata da una missione di trasparenza assoluta e qualità senza compromessi.</p>
+            <h1 style="font-size: 3.5rem; margin:0; font-weight: 900; color: var(--accent);">AUTONATION</h1>
+            <h3 style="margin-top:0; letter-spacing: 5px; color: var(--text-dim);">AUSTIN ELITE HUB</h3>
+            <p style="line-height:1.8; color:var(--text-dim); max-width: 800px; font-size: 1.1rem;">
+                Benvenuto nel centro di gestione asset di AutoNation Austin. Questo terminale è riservato al personale autorizzato per la gestione della flotta, la vendita certificata e la generazione di documenti legali.
+            </p>
         </div>
     </div>
 
     <div id="showroom" class="page">
         <div class="inventory-layout">
             <aside class="sidebar">
-                <span class="sidebar-label">Price Range</span>
+                <span class="sidebar-label">Price Filter</span>
                 <input type="range" id="f-price" min="0" oninput="applyF()">
-                <div id="p-val" style="color:var(--accent); font-weight:800; font-size:1.4rem;">$ 0</div>
+                <div id="p-val" style="color:var(--accent); font-weight:800; font-size:1.6rem; font-family: 'JetBrains Mono';">$ 0</div>
 
                 <span class="sidebar-label">Type</span>
-                <label><input type="checkbox" class="t-check" value="Regular" checked onchange="applyF()"> Regular</label><br>
-                <label><input type="checkbox" class="t-check" value="Prestige" checked onchange="applyF()"> Prestige</label><br>
-                <label><input type="checkbox" class="t-check" value="Electric" checked onchange="applyF()"> Electric</label><br>
-                <label><input type="checkbox" class="t-check" value="Classic" checked onchange="applyF()"> Classic</label>
+                <div id="filter-types">
+                    <label><input type="checkbox" class="t-check" value="Regular" checked onchange="applyF()"> Regular</label><br>
+                    <label><input type="checkbox" class="t-check" value="Prestige" checked onchange="applyF()"> Prestige</label><br>
+                    <label><input type="checkbox" class="t-check" value="Electric" checked onchange="applyF()"> Electric</label><br>
+                    <label><input type="checkbox" class="t-check" value="Classic" checked onchange="applyF()"> Classic</label>
+                </div>
 
                 <span class="sidebar-label">Class</span>
-                <label><input type="checkbox" class="c-check" value="Car" checked onchange="applyF()"> Car</label><br>
-                <label><input type="checkbox" class="c-check" value="Truck" checked onchange="applyF()"> Truck</label><br>
-                <label><input type="checkbox" class="c-check" value="SUV" checked onchange="applyF()"> SUV</label><br>
-                <label><input type="checkbox" class="c-check" value="Industrial" checked onchange="applyF()"> Industrial</label>
+                <div id="filter-classes">
+                    <label><input type="checkbox" class="c-check" value="Car" checked onchange="applyF()"> Car</label><br>
+                    <label><input type="checkbox" class="c-check" value="Truck" checked onchange="applyF()"> Truck</label><br>
+                    <label><input type="checkbox" class="c-check" value="SUV" checked onchange="applyF()"> SUV</label><br>
+                    <label><input type="checkbox" class="c-check" value="Industrial" checked onchange="applyF()"> Industrial</label>
+                </div>
             </aside>
             <div id="fleet-grid" class="car-grid"></div>
         </div>
@@ -114,50 +118,70 @@
 
     <div id="staff" class="page">
         <div id="s-auth" class="glass-card" style="max-width:400px; margin:auto; text-align:center;">
-            <input id="s-pass" type="password" placeholder="STAFF PIN">
-            <button class="btn" onclick="authS()">Unlock</button>
+            <span class="sidebar-label">Sales Access</span>
+            <input id="s-pass" type="password" placeholder="PIN CODE">
+            <button class="btn" onclick="authS()">Unlock Panel</button>
         </div>
         <div id="s-main" class="hidden glass-card">
-            <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
-                <span class="sidebar-label">Invoice Generator</span>
-                <div id="next-p" style="color:var(--accent); font-weight:800;">TEX-???</div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
+                <span class="sidebar-label" style="margin:0;">Sales Agreement</span>
+                <div id="next-p" style="background:var(--accent); padding:5px 15px; border-radius:5px; font-weight:800;">TEX-000</div>
             </div>
-            <select id="v-sel" onchange="syncP()"></select>
-            <input id="v-buyer" placeholder="Customer Full Name">
-            <input id="v-price" type="number" placeholder="Final Price ($)">
-            <input id="v-sign" placeholder="Staff Member Name">
-            <button class="btn" onclick="doSale()"><i class="fa-solid fa-print"></i> Generate Official Invoice</button>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+                <div>
+                    <label class="sidebar-label">Select Vehicle</label>
+                    <select id="v-sel" onchange="syncP()"></select>
+                    <label class="sidebar-label">Buyer Name</label>
+                    <input id="v-buyer" placeholder="Es. Mario Rossi">
+                </div>
+                <div>
+                    <label class="sidebar-label">Agreed Price ($)</label>
+                    <input id="v-price" type="number" placeholder="0.00">
+                    <label class="sidebar-label">Agent ID</label>
+                    <input id="v-sign" placeholder="Firma Operatore">
+                </div>
+            </div>
+            <button class="btn" onclick="doSale()" style="margin-top:20px;"><i class="fa-solid fa-file-pdf"></i> Finalize & Generate PDF</button>
         </div>
     </div>
 
     <div id="admin" class="page">
         <div id="a-auth" class="glass-card" style="max-width:400px; margin:auto; text-align:center;">
             <input id="a-key" type="password" placeholder="ADMIN KEY">
-            <button class="btn" onclick="authA()">Root Access</button>
+            <button class="btn" onclick="authA()">Root Login</button>
         </div>
-        <div id="a-main" class="hidden glass-card">
-            <input id="n-name" placeholder="Model Name">
-            <input id="n-price" type="number" placeholder="Base Price">
-            <select id="n-type">
-                <option value="Regular">Regular</option><option value="Prestige">Prestige</option>
-                <option value="Electric">Electric</option><option value="Classic">Classic</option>
-            </select>
-            <select id="n-class">
-                <option value="Car">Car</option><option value="Truck">Truck</option>
-                <option value="SUV">SUV</option><option value="Industrial">Industrial</option>
-            </select>
-            <input type="file" id="n-img">
-            <button class="btn" onclick="addCar()">Upload Asset</button>
-            <div style="margin-top:30px; max-height:300px; overflow-y:auto;">
-                <table id="edit-table">
-                    <tbody id="edit-inventory-body"></tbody>
-                </table>
+        <div id="a-main" class="hidden">
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:30px;">
+                <div class="glass-card">
+                    <span class="sidebar-label">Add New Asset</span>
+                    <input id="n-name" placeholder="Model Name">
+                    <input id="n-price" type="number" placeholder="Price">
+                    <select id="n-type">
+                        <option value="Regular">Regular</option><option value="Prestige">Prestige</option>
+                        <option value="Electric">Electric</option><option value="Classic">Classic</option>
+                    </select>
+                    <select id="n-class">
+                        <option value="Car">Car</option><option value="Truck">Truck</option>
+                        <option value="SUV">SUV</option><option value="Industrial">Industrial</option>
+                    </select>
+                    <input type="file" id="n-img">
+                    <button class="btn" onclick="addCar()">Push Asset</button>
+                </div>
+                <div class="glass-card">
+                    <span class="sidebar-label">Stock Control</span>
+                    <div style="max-height:400px; overflow-y:auto;">
+                        <table>
+                            <tbody id="edit-inventory-body"></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </main>
 
 <script>
+// CONFIG
 const config = {
     apiKey: "AIzaSyCUH4SGDnbvh1clXm_R_n3ynmDndhIwsbM",
     authDomain: "autonation-bc786.firebaseapp.com",
@@ -168,12 +192,13 @@ const config = {
 };
 firebase.initializeApp(config);
 const db = firebase.database();
-let carStorage = {}, cachedImg = null;
 
-const LOGO_PDF = "https://res.cloudinary.com/dn0k6htsv/image/upload/v1774647697/zcbubagqn4hpxmlzwwan.png";
-const TIMBRO_PDF = "https://res.cloudinary.com/dn0k6htsv/image/upload/v1774648015/ay8vqwcnfa2sgnfywv26.png";
+let carStorage = {}, cachedImg = null;
+const LOGO_IMG = "https://res.cloudinary.com/dn0k6htsv/image/upload/v1774647697/zcbubagqn4hpxmlzwwan.png";
+const TIMBRO_IMG = "https://res.cloudinary.com/dn0k6htsv/image/upload/v1774648015/ay8vqwcnfa2sgnfywv26.png";
 const PREMESSA = "AutoNation, uno dei principali concessionari automobilistici di Austin, Texas, emette la presente fattura a conferma dell’avvenuta vendita e/o dei servizi erogati al cliente. Tutti i veicoli e gli interventi forniti rispettano gli standard di qualità e trasparenza che contraddistinguono il nostro marchio. I dati riportati di seguito rappresentano in modo accurato e dettagliato l’operazione effettuata, nel pieno rispetto delle normative vigenti e delle politiche interne di AutoNation.";
 
+// NAVIGATION
 function navTo(id) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
@@ -181,14 +206,18 @@ function navTo(id) {
     document.getElementById('n-'+id).classList.add('active');
 }
 
+// AUTH
 function authS() { if(document.getElementById('s-pass').value === "1234") { document.getElementById('s-auth').classList.add('hidden'); document.getElementById('s-main').classList.remove('hidden'); refreshP(); } }
 function authA() { if(document.getElementById('a-key').value === "OWNER123") { document.getElementById('a-auth').classList.add('hidden'); document.getElementById('a-main').classList.remove('hidden'); } }
 
+// DATA
 db.ref('cars').on('value', s => {
     carStorage = s.val() || {};
     applyF();
     const eb = document.getElementById('edit-inventory-body'); eb.innerHTML = "";
-    for(let k in carStorage) eb.innerHTML += `<tr><td>${carStorage[k].name}</td><td><button onclick="deleteCar('${k}')" style="background:#ff2e4d; border:none; color:white; padding:5px 10px; border-radius:5px; cursor:pointer;">DELETE</button></td></tr>`;
+    for(let k in carStorage) {
+        eb.innerHTML += `<tr><td>${carStorage[k].name}</td><td style="text-align:right;"><button onclick="deleteCar('${k}')" style="background:#ff2e4d; color:white; border:none; padding:5px 12px; border-radius:5px; cursor:pointer;">DELETE</button></td></tr>`;
+    }
 });
 
 function applyF() {
@@ -197,82 +226,110 @@ function applyF() {
     const types = Array.from(document.querySelectorAll('.t-check:checked')).map(c => c.value);
     const classes = Array.from(document.querySelectorAll('.c-check:checked')).map(c => c.value);
     const g = document.getElementById('fleet-grid'), sel = document.getElementById('v-sel');
-    g.innerHTML = ""; sel.innerHTML = "<option>Select Asset...</option>";
+    g.innerHTML = ""; sel.innerHTML = "<option>Select...</option>";
     for(let k in carStorage) {
         const c = carStorage[k];
         if(c.price <= max && types.includes(c.type) && classes.includes(c.class)) {
-            g.innerHTML += `<div class="car-card"><img src="${c.image}" class="car-img"><div class="car-info"><div class="price-tag">$ ${c.price.toLocaleString()}</div><div style="font-weight:800;">${c.name}</div><span class="badge">${c.type}</span><span class="badge">${c.class}</span></div></div>`;
+            g.innerHTML += `
+            <div class="car-card">
+                <img src="${c.image}" class="car-img">
+                <div class="car-info">
+                    <div class="price-tag">$ ${c.price.toLocaleString()}</div>
+                    <div style="font-weight:800; margin: 10px 0;">${c.name}</div>
+                    <span class="badge">${c.type}</span>
+                    <span class="badge">${c.class}</span>
+                </div>
+            </div>`;
             sel.innerHTML += `<option value="${c.name}" data-p="${c.price}">${c.name}</option>`;
         }
     }
 }
 
+// PDF ENGINE
 async function generatePDF(data) {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
-    // 1. Logo Top Left
-    try { doc.addImage(LOGO_PDF, 'PNG', 15, 10, 60, 25); } catch(e){}
+    // 1. Logo
+    try { doc.addImage(LOGO_IMG, 'PNG', 15, 10, 60, 25); } catch(e){}
     
-    // 2. Title & Date
+    // 2. Intestazione Destra
     doc.setTextColor(255, 46, 77);
-    doc.setFontSize(22);
+    doc.setFontSize(26);
     doc.setFont("helvetica", "bold");
-    doc.text("OFFICIAL SALES INVOICE", 110, 25);
+    doc.text("SALES INVOICE", 120, 25);
+    
     doc.setFontSize(10);
-    doc.setTextColor(100, 100, 100);
-    doc.text(`Doc Ref: ${data.targa} | Date: ${data.data}`, 110, 32);
+    doc.setTextColor(150, 150, 150);
+    doc.text(`Invoice ID: ${data.targa}`, 120, 32);
+    doc.text(`Date of Issue: ${data.data}`, 120, 37);
 
-    // 3. Premessa Box
-    doc.setFillColor(245, 245, 245);
-    doc.rect(15, 45, 180, 35, 'F');
-    doc.setTextColor(50, 50, 50);
+    // 3. Premessa (Box Grigio)
+    doc.setFillColor(248, 249, 250);
+    doc.rect(15, 45, 180, 40, 'F');
+    doc.setTextColor(80, 80, 80);
     doc.setFont("helvetica", "normal");
     doc.setFontSize(9);
-    const textLines = doc.splitTextToSize(PREMESSA, 170);
-    doc.text(textLines, 20, 52);
+    const splitPremessa = doc.splitTextToSize(PREMESSA, 170);
+    doc.text(splitPremessa, 20, 53);
 
-    // 4. Transaction Info
-    doc.setFontSize(12);
+    // 4. Sezione Cliente & Veicolo
     doc.setTextColor(0, 0, 0);
+    doc.setFontSize(12);
     doc.setFont(undefined, 'bold');
-    doc.text("CUSTOMER:", 15, 95);
+    doc.text("BILL TO:", 15, 100);
     doc.setFont(undefined, 'normal');
-    doc.text(data.cliente.toUpperCase(), 45, 95);
+    doc.text(data.cliente.toUpperCase(), 15, 108);
 
-    doc.line(15, 105, 195, 105);
+    doc.setFillColor(255, 46, 77);
+    doc.rect(15, 120, 180, 1, 'F');
+
+    // Tabella Semplice
     doc.setFont(undefined, 'bold');
-    doc.text("VEHICLE MODEL:", 15, 115);
-    doc.text("TOTAL PAID:", 15, 125);
+    doc.text("ITEM DESCRIPTION", 15, 130);
+    doc.text("TOTAL PAID", 150, 130);
+    
     doc.setFont(undefined, 'normal');
-    doc.text(data.veicolo, 55, 115);
+    doc.text(data.veicolo, 15, 140);
+    doc.setFontSize(14);
     doc.setTextColor(255, 46, 77);
-    doc.text(`$ ${parseInt(data.prezzo).toLocaleString()}`, 45, 125);
+    doc.text(`$ ${parseInt(data.prezzo).toLocaleString()}`, 150, 140);
 
-    // 5. Signature & Timbro (SOTTO LA FIRMA)
-    doc.setTextColor(0,0,0);
+    // 5. Firma e Timbro
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(11);
     doc.setFont(undefined, 'bold');
-    doc.text("AUTHORIZED AGENT SIGNATURE:", 15, 155);
+    doc.text("AUTHORIZED AGENT:", 15, 175);
+    
+    // Firma Script
     doc.setFont("courier", "italic");
-    doc.text(data.staff, 15, 165);
+    doc.setFontSize(16);
+    doc.text(data.staff, 20, 185);
 
-    // Timbro posizionato sopra/sotto la firma per validità
-    try { doc.addImage(TIMBRO_PDF, 'PNG', 15, 170, 45, 45); } catch(e){}
+    // TIMBRO POSIZIONATO SOTTO/SOPRA LA FIRMA
+    try { 
+        doc.addImage(TIMBRO_IMG, 'PNG', 120, 160, 50, 50, undefined, 'FAST'); 
+    } catch(e){}
 
-    doc.setFontSize(8);
+    // Footer
     doc.setFont("helvetica", "normal");
-    doc.setTextColor(150, 150, 150);
-    doc.text("This document is electronically signed and verified by AutoNation Austin Hub System.", 15, 285);
+    doc.setFontSize(8);
+    doc.setTextColor(180, 180, 180);
+    doc.text("AutoNation Austin Hub - 123 Elite Way, Austin TX. Verified Digital Copy.", 105, 290, null, null, "center");
 
-    doc.save(`AutoNation_Invoice_${data.targa}.pdf`);
+    doc.save(`AutoNation_${data.targa}.pdf`);
 }
 
+// LOGIC
 function doSale() {
     const b = document.getElementById('v-buyer').value, v = document.getElementById('v-sel').value, p = document.getElementById('v-price').value, s = document.getElementById('v-sign').value, t = document.getElementById('next-p').innerText;
-    if(!b || v === "Select Asset...") return alert("Missing Info");
+    if(!b || v === "Select...") return alert("Dati mancanti!");
     const saleData = { data: new Date().toLocaleDateString(), cliente: b, veicolo: v, targa: t, prezzo: p, staff: s };
-    db.ref('sales_logs').push(saleData).then(() => { generatePDF(saleData); refreshP(); });
+    db.ref('sales_logs').push(saleData).then(() => {
+        generatePDF(saleData);
+        alert("Vendita Finalizzata!");
+        refreshP();
+    });
 }
 
 document.getElementById('n-img').onchange = e => { const r = new FileReader(); r.onload = ev => cachedImg = ev.target.result; r.readAsDataURL(e.target.files[0]); };
