@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AutoNation | Concessionario</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoNation | Concessionario</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -16,7 +16,10 @@
     <div class="welcome-card">
         <img src="https://image2url.com/r2/default/images/1774614384610-971b0e79-0e76-406c-9777-e1e61f46a6a0.png" class="welcome-logo">
         <h1>Benvenuto su AutoNation</h1>
-        <p>Scopri la nostra selezione di auto premium.<br>Il tuo prossimo veicolo ti aspetta.</p>
+        <p>
+            Scopri la nostra selezione di auto premium.<br>
+            Il tuo prossimo veicolo ti aspetta.
+        </p>
         <button onclick="enterSite()">ENTRA</button>
     </div>
 </div>
@@ -49,9 +52,10 @@
         <input id="name" placeholder="Nome auto">
         <input id="price" placeholder="Prezzo">
 
-        <label class="upload-label">Carica immagine
+        <div id="drop-area">
+            <p>Trascina qui l'immagine dell'auto<br><span>oppure clicca per selezionarla</span></p>
             <input type="file" id="imageFile" accept="image/*">
-        </label>
+        </div>
 
         <button onclick="addCar()">Aggiungi Auto</button>
         <button onclick="closePanel()" class="close">Chiudi</button>
