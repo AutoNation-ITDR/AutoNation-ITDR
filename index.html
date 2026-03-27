@@ -3,38 +3,283 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoNation | Concessionario</title>
-
+    <title>AutoNation | Gestionale</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: #050505;
+            color: white;
+        }
+
+        /* HEADER */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: black;
+            border-bottom: 2px solid #cc0000;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        nav a {
+            color: white;
+            margin-left: 20px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            color: #cc0000;
+        }
+
+        /* HERO HOME */
+        .hero {
+            text-align: center;
+            padding: 120px 20px;
+            background:
+                linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.9)),
+                url('https://images.unsplash.com/photo-1503376780353-7e6692767b70') center/cover;
+        }
+
+        .hero h1 {
+            font-size: 60px;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(255,255,255,0.8);
+            margin: 0 0 10px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            font-weight: 300;
+            margin-bottom: 25px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #cc0000;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        /* SEZIONI GENERALI */
+        section {
+            padding: 40px 20px;
+        }
+
+        section h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* AUTO LISTA */
+        #cars {
+            text-align: center;
+        }
+
+        #car-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .car {
+            background: #111;
+            margin: 15px;
+            padding: 15px;
+            width: 260px;
+            border-radius: 12px;
+            transition: 0.3s;
+            border: 1px solid #222;
+        }
+
+        .car:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px #cc0000;
+        }
+
+        .car img {
+            width: 100%;
+            border-radius: 8px;
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .car h3 {
+            margin: 10px 0 5px;
+            font-size: 18px;
+        }
+
+        .car p {
+            margin: 0 0 10px;
+            color: #ccc;
+        }
+
+        .car button {
+            margin-top: 8px;
+            padding: 6px 10px;
+            border: none;
+            background: #cc0000;
+            color: white;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-right: 5px;
+            transition: 0.3s;
+        }
+
+        .car button:hover {
+            background: #ff2b2b;
+        }
+
+        /* PANELLI */
+        #personal-panel,
+        #owner-panel {
+            border-top: 1px solid #222;
+        }
+
+        #personal-panel h2,
+        #owner-panel h2 {
+            margin-bottom: 20px;
+        }
+
+        #personal-login,
+        #owner-login {
+            max-width: 400px;
+            margin: 0 auto 20px;
+            background: #111;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #222;
+        }
+
+        #personal-login input,
+        #owner-login input {
+            width: 100%;
+            margin: 8px 0;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #333;
+            background: #000;
+            color: white;
+        }
+
+        #personal-login button,
+        #owner-login button {
+            padding: 10px 15px;
+            border: none;
+            background: #cc0000;
+            color: white;
+            cursor: pointer;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .panel-box {
+            background: #111;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px auto;
+            max-width: 400px;
+            border: 1px solid #222;
+        }
+
+        .panel-box input {
+            width: 100%;
+            margin: 8px 0;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #333;
+            background: #000;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .panel-box button {
+            padding: 10px 15px;
+            margin-top: 10px;
+            border: none;
+            background: #cc0000;
+            color: white;
+            cursor: pointer;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        /* FIRMA */
+        #firmaCanvas {
+            background: #000;
+            border: 1px solid #444;
+            border-radius: 6px;
+            display: block;
+            margin: 10px auto;
+        }
+
+        /* FATTURA */
+        .fattura {
+            max-width: 600px;
+            margin: 20px auto;
+            background: #fff;
+            color: #000;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .fattura h3 {
+            margin-top: 0;
+        }
+
+        /* UTILI */
+        .hidden {
+            display: none;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 10px;
+            background: black;
+            border-top: 1px solid #222;
+            font-size: 12px;
+        }
+    </style>
 </head>
 
 <body>
 
-<!-- SCHERMATA BENVENUTO -->
-<div id="welcome">
-    <div class="welcome-card">
-        <img src="https://image2url.com/r2/default/images/1774614384610-971b0e79-0e76-406c-9777-e1e61f46a6a0.png" class="welcome-logo">
-        <h1>Benvenuto su AutoNation</h1>
-        <p>Scopri la nostra selezione di auto premium.<br>Il tuo prossimo veicolo ti aspetta.</p>
-        <button onclick="enterSite()">ENTRA</button>
-    </div>
-</div>
-
 <header>
-    <img src="https://image2url.com/r2/default/images/1774614384610-971b0e79-0e76-406c-9777-e1e61f46a6a0.png" class="logo">
+    <h1 class="logo">AutoNation</h1>
     <nav>
-        <a href="#hero">Home</a>
+        <a href="#home">Home</a>
         <a href="#cars">Auto</a>
         <a href="#personal-panel">Personale</a>
         <a href="#owner-panel">Owner</a>
     </nav>
 </header>
 
-<section class="hero" id="hero">
-    <h1>AutoNation</h1>
-    <p>Concessionario Premium</p>
-    <button onclick="scrollToCars()">SCOPRI LE AUTO</button>
+<section class="hero" id="home">
+    <h1>Benvenuto in AutoNation</h1>
+    <p>Il concessionario premium dove qualità, affidabilità e passione per i motori si incontrano.</p>
+    <a href="#cars" class="btn">SCOPRI LE AUTO</a>
 </section>
 
 <section id="cars">
@@ -42,31 +287,22 @@
     <div id="car-list"></div>
 </section>
 
-<!-- PANELLO PERSONALE (sempre visibile, ma protetto da login) -->
 <section id="personal-panel">
     <h2>Area Personale Operatore</h2>
 
-    <!-- LOGIN OPERATORE -->
     <div id="personal-login">
-        <h3>Login Operatore</h3>
         <input id="userIdInput" placeholder="User ID">
         <input id="userPassInput" type="password" placeholder="Password">
         <button onclick="loginOperator()">Accedi</button>
-        <p class="hint">Le credenziali vengono impostate dal pannello Owner.</p>
     </div>
 
-    <!-- CONTENUTO DOPO LOGIN OPERATORE -->
     <div id="personal-content" class="hidden">
-        <h3>Gestione Auto</h3>
+
+        <h3>Aggiungi Auto</h3>
         <div class="panel-box">
             <input id="name" placeholder="Nome auto">
             <input id="price" placeholder="Prezzo">
-
-            <div id="drop-area">
-                <p>Trascina qui l'immagine dell'auto<br><span>oppure clicca per selezionarla</span></p>
-                <input type="file" id="imageFile" accept="image/*">
-            </div>
-
+            <input type="file" id="imageFile" accept="image/*">
             <button onclick="addCar()">Aggiungi Auto</button>
         </div>
 
@@ -74,15 +310,13 @@
         <div class="panel-box">
             <input id="fatturaNome" placeholder="Nome cliente">
             <input id="fatturaCognome" placeholder="Cognome cliente">
-            <input id="fatturaTarga" placeholder="Targa veicolo">
+            <input id="fatturaTarga" placeholder="Targa">
             <input id="fatturaAuto" placeholder="Modello auto">
-            <input id="fatturaPrezzo" placeholder="Prezzo (es. 25.000€)">
+            <input id="fatturaPrezzo" placeholder="Prezzo">
 
             <p>Firma cliente:</p>
             <canvas id="firmaCanvas" width="300" height="150"></canvas>
-            <div class="firma-buttons">
-                <button onclick="clearSignature()">Pulisci firma</button>
-            </div>
+            <button onclick="clearSignature()">Pulisci firma</button>
 
             <button onclick="generaFattura()">Genera Fattura</button>
         </div>
@@ -91,23 +325,21 @@
     </div>
 </section>
 
-<!-- OWNER DASHBOARD -->
 <section id="owner-panel">
     <h2>Dashboard Owner</h2>
+
     <div id="owner-login">
-        <h3>Login Owner</h3>
         <input id="ownerPassInput" type="password" placeholder="Password Owner">
-        <button onclick="loginOwner()">Accedi come Owner</button>
-        <p class="hint">Password Owner predefinita: <strong>admin123</strong> (puoi cambiarla nel codice).</p>
+        <button onclick="loginOwner()">Accedi</button>
+        <p>Password Owner: <b>OWNER123</b></p>
     </div>
 
     <div id="owner-content" class="hidden">
-        <h3>Imposta credenziali Operatore</h3>
+        <h3>Imposta credenziali operatore</h3>
         <div class="panel-box">
-            <input id="setUserId" placeholder="Nuovo User ID operatore">
-            <input id="setUserPass" type="password" placeholder="Nuova Password operatore">
-            <button onclick="salvaCredenzialiOperatore()">Salva credenziali operatore</button>
-            <p class="hint">Le credenziali verranno usate nel login dell'Area Personale.</p>
+            <input id="setUserId" placeholder="User ID operatore">
+            <input id="setUserPass" type="password" placeholder="Password operatore">
+            <button onclick="salvaCredenzialiOperatore()">Salva</button>
         </div>
     </div>
 </section>
@@ -116,6 +348,233 @@
     <p>© 2026 AutoNation</p>
 </footer>
 
-<script src="script.js"></script>
+<script>
+    const OWNER_PASSWORD = "OWNER123";
+
+    let cars = JSON.parse(localStorage.getItem("cars")) || [];
+
+    const carList = document.getElementById("car-list");
+    const imageInput = document.getElementById("imageFile");
+    const firmaCanvas = document.getElementById("firmaCanvas");
+
+    let currentImageBase64 = null;
+    let drawing = false;
+    let ctx = null;
+
+    if (firmaCanvas) {
+        ctx = firmaCanvas.getContext("2d");
+    }
+
+    function displayCars() {
+        if (!carList) return;
+
+        carList.innerHTML = "";
+
+        if (cars.length === 0) {
+            carList.innerHTML = "<p>Nessun veicolo presente.</p>";
+            return;
+        }
+
+        cars.forEach((car, index) => {
+            let div = document.createElement("div");
+            div.classList.add("car");
+
+            div.innerHTML = `
+                <img src="${car.image}">
+                <h3>${car.name}</h3>
+                <p>${car.price}</p>
+                <button onclick="buyCar('${car.name}')">Seleziona</button>
+                <button onclick="removeCar(${index})">Rimuovi</button>
+            `;
+
+            carList.appendChild(div);
+        });
+    }
+
+    function addCar() {
+        if (!imageInput) return;
+
+        let nameEl = document.getElementById("name");
+        let priceEl = document.getElementById("price");
+
+        let name = nameEl.value.trim();
+        let price = priceEl.value.trim();
+
+        if (!name || !price || !currentImageBase64) {
+            alert("Compila tutti i campi e carica un'immagine.");
+            return;
+        }
+
+        cars.push({ name, price, image: currentImageBase64 });
+        localStorage.setItem("cars", JSON.stringify(cars));
+
+        nameEl.value = "";
+        priceEl.value = "";
+        imageInput.value = "";
+        currentImageBase64 = null;
+
+        displayCars();
+    }
+
+    function removeCar(index) {
+        cars.splice(index, 1);
+        localStorage.setItem("cars", JSON.stringify(cars));
+        displayCars();
+    }
+
+    function buyCar(name) {
+        alert("Hai selezionato: " + name);
+    }
+
+    function loginOperator() {
+        const userIdInput = document.getElementById("userIdInput");
+        const userPassInput = document.getElementById("userPassInput");
+        if (!userIdInput || !userPassInput) return;
+
+        const userId = userIdInput.value.trim();
+        const userPass = userPassInput.value.trim();
+
+        const savedUserId = localStorage.getItem("operatorUserId");
+        const savedUserPass = localStorage.getItem("operatorUserPass");
+
+        if (!savedUserId || !savedUserPass) {
+            alert("Nessuna credenziale operatore impostata. Configurale dal pannello Owner.");
+            return;
+        }
+
+        if (userId === savedUserId && userPass === savedUserPass) {
+            document.getElementById("personal-login").classList.add("hidden");
+            document.getElementById("personal-content").classList.remove("hidden");
+        } else {
+            alert("Credenziali operatore errate.");
+        }
+    }
+
+    function loginOwner() {
+        const ownerPassInput = document.getElementById("ownerPassInput");
+        if (!ownerPassInput) return;
+
+        const pass = ownerPassInput.value.trim();
+        if (pass === OWNER_PASSWORD) {
+            document.getElementById("owner-login").classList.add("hidden");
+            document.getElementById("owner-content").classList.remove("hidden");
+        } else {
+            alert("Password Owner errata.");
+        }
+    }
+
+    function salvaCredenzialiOperatore() {
+        const setUserId = document.getElementById("setUserId");
+        const setUserPass = document.getElementById("setUserPass");
+        if (!setUserId || !setUserPass) return;
+
+        const userId = setUserId.value.trim();
+        const userPass = setUserPass.value.trim();
+
+        if (!userId || !userPass) {
+            alert("Compila User ID e Password operatore.");
+            return;
+        }
+
+        localStorage.setItem("operatorUserId", userId);
+        localStorage.setItem("operatorUserPass", userPass);
+
+        alert("Credenziali operatore salvate.");
+    }
+
+    if (imageInput) {
+        imageInput.addEventListener("change", (e) => {
+            const file = e.target.files[0];
+            if (file) readImageFile(file);
+        });
+    }
+
+    function readImageFile(file) {
+        if (!file.type.startsWith("image/")) {
+            alert("Carica solo file immagine.");
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function (event) {
+            currentImageBase64 = event.target.result;
+            alert("Immagine caricata.");
+        };
+        reader.readAsDataURL(file);
+    }
+
+    if (firmaCanvas && ctx) {
+        firmaCanvas.addEventListener("mousedown", (e) => {
+            drawing = true;
+            ctx.beginPath();
+            const rect = firmaCanvas.getBoundingClientRect();
+            ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+        });
+
+        firmaCanvas.addEventListener("mousemove", (e) => {
+            if (!drawing) return;
+            const rect = firmaCanvas.getBoundingClientRect();
+            ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+            ctx.strokeStyle = "#fff";
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        });
+
+        window.addEventListener("mouseup", () => {
+            drawing = false;
+        });
+    }
+
+    function clearSignature() {
+        if (!firmaCanvas || !ctx) return;
+        ctx.clearRect(0, 0, firmaCanvas.width, firmaCanvas.height);
+    }
+
+    function generaFattura() {
+        const nomeEl = document.getElementById("fatturaNome");
+        const cognomeEl = document.getElementById("fatturaCognome");
+        const targaEl = document.getElementById("fatturaTarga");
+        const autoEl = document.getElementById("fatturaAuto");
+        const prezzoEl = document.getElementById("fatturaPrezzo");
+        const fatturaDiv = document.getElementById("fattura-output");
+
+        if (!nomeEl || !cognomeEl || !targaEl || !autoEl || !prezzoEl || !fatturaDiv) return;
+
+        const nome = nomeEl.value.trim();
+        const cognome = cognomeEl.value.trim();
+        const targa = targaEl.value.trim();
+        const auto = autoEl.value.trim();
+        const prezzo = prezzoEl.value.trim();
+
+        if (!nome || !cognome || !targa || !auto || !prezzo) {
+            alert("Compila tutti i campi della fattura.");
+            return;
+        }
+
+        let firmaData = "";
+        if (firmaCanvas) {
+            firmaData = firmaCanvas.toDataURL();
+        }
+
+        const oggi = new Date();
+        const dataStr = oggi.toLocaleDateString("it-IT");
+
+        fatturaDiv.classList.remove("hidden");
+        fatturaDiv.innerHTML = `
+            <h3>Fattura di Vendita</h3>
+            <p><strong>Data:</strong> ${dataStr}</p>
+            <p><strong>Cliente:</strong> ${nome} ${cognome}</p>
+            <p><strong>Targa veicolo:</strong> ${targa}</p>
+            <p><strong>Modello auto:</strong> ${auto}</p>
+            <p><strong>Prezzo:</strong> ${prezzo}</p>
+            <p><strong>Concessionario:</strong> AutoNation</p>
+            <h4>Firma Cliente:</h4>
+            ${firmaData ? `<img src="${firmaData}" alt="Firma cliente" style="max-width:300px;border:1px solid #000;">` : "<p>Nessuna firma acquisita.</p>"}
+        `;
+    }
+
+    displayCars();
+</script>
+
 </body>
 </html>
