@@ -1,0 +1,12 @@
+function scrollToCars() {
+    document.getElementById("auto").scrollIntoView({ behavior: "smooth" });
+}
+
+function showAlert(carName) {
+    alert("Hai selezionato: " + carName);
+}
+
+function sendMessage(event) {
+    event.preventDefault();
+    alert("Messaggio inviato! Ti contatteremo presto.");
+}
