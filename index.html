@@ -3,81 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AUTONATION | Austin's Elite Motors</title>
+    <title>AUTONATION | Owner Reserved System</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Inter:wght@300;400;700;800&display=swap" rel="stylesheet">
-    
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <style>
-        :root { 
-            --neon: #ff0000; 
-            --bg: #000000; 
-            --glass: rgba(255, 255, 255, 0.03);
-            --border: rgba(255, 255, 255, 0.1);
-        }
-
+        :root { --neon: #ff0000; --bg: #000; --glass: rgba(255, 255, 255, 0.03); --border: rgba(255, 255, 255, 0.1); }
         * { box-sizing: border-box; scroll-behavior: smooth; }
         body { margin: 0; background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
-
-        header { 
-            position: fixed; top: 0; width: 100%; z-index: 1000; 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 20px 5%; background: rgba(0,0,0,0.8); backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
-        }
+        header { position: fixed; top: 0; width: 100%; z-index: 1000; display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background: rgba(0,0,0,0.8); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
         .logo { font-family: 'Orbitron'; font-size: 22px; letter-spacing: 4px; font-weight: 900; }
         .logo span { color: var(--neon); text-shadow: 0 0 15px var(--neon); }
         nav a { color: #fff; margin-left: 25px; text-decoration: none; font-size: 11px; letter-spacing: 2px; font-weight: 700; text-transform: uppercase; cursor: pointer; opacity: 0.6; transition: 0.4s; }
         nav a:hover { opacity: 1; color: var(--neon); }
-
-        /* --- HOME PAGE TOTALE --- */
-        .hero-new { 
-            height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
-            position: relative; text-align: center; overflow: hidden;
-        }
-        .video-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.9) 100%); z-index: 1; }
-        .hero-video { position: absolute; width: 100%; height: 100%; object-fit: cover; z-index: 0; filter: brightness(0.4); }
-        .hero-text { z-index: 2; }
-        .hero-text h1 { font-family: 'Orbitron'; font-size: clamp(50px, 15vw, 150px); margin: 0; line-height: 0.8; letter-spacing: -5px; }
-        .hero-text p { font-size: 14px; letter-spacing: 10px; color: var(--neon); margin-top: 20px; font-weight: 300; }
-
-        .btn-action { 
-            margin-top: 40px; padding: 18px 45px; background: transparent; color: #fff; border: 1px solid var(--neon);
-            font-family: 'Orbitron'; font-size: 13px; cursor: pointer; box-shadow: 0 0 15px var(--neon); transition: 0.3s;
-        }
-        .btn-action:hover { background: var(--neon); color: #000; box-shadow: 0 0 40px var(--neon); }
-
-        .content-section { padding: 120px 10%; display: flex; align-items: center; gap: 60px; }
-        .content-section:nth-child(even) { flex-direction: row-reverse; }
-        .text-block { flex: 1; }
-        .text-block h2 { font-family: 'Orbitron'; font-size: 40px; margin-bottom: 25px; }
-        .text-block p { font-size: 17px; color: #999; line-height: 1.8; }
-        .img-block { flex: 1; height: 450px; background: #111; border: 1px solid var(--border); overflow: hidden; }
-        .img-block img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: 0.8s; }
-        .img-block:hover img { opacity: 1; transform: scale(1.05); }
-
-        /* --- SHOWROOM & PANELS --- */
         .page { display: none; padding-top: 100px; animation: fadeInUp 0.6s ease forwards; min-height: 100vh; }
         .active { display: block; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; padding: 40px 5%; }
-        .car-card { background: var(--glass); border: 1px solid var(--border); transition: 0.3s; }
-        .car-card:hover { border-color: var(--neon); transform: translateY(-5px); }
+        .car-card { background: var(--glass); border: 1px solid var(--border); transition: 0.3s; position: relative; }
+        .targa-tag { position: absolute; top: 10px; right: 10px; background: #fff; color: #000; padding: 2px 8px; font-weight: 800; font-size: 12px; font-family: 'Orbitron'; border-radius: 3px; }
         .car-card img { width: 100%; height: 220px; object-fit: cover; }
         .car-info { padding: 20px; }
-        .car-info h3 { font-family: 'Orbitron'; margin: 0; font-size: 18px; }
-        .car-price { color: var(--neon); font-weight: 800; font-size: 22px; margin-top: 10px; }
-
-        .glass-box { max-width: 500px; margin: 40px auto; background: var(--glass); padding: 40px; border: 1px solid var(--border); backdrop-filter: blur(15px); }
-        input, select { width: 100%; padding: 14px; margin-bottom: 15px; background: #080808; border: 1px solid #222; color: #fff; font-family: 'Inter'; }
-        input:focus { border-color: var(--neon); outline: none; }
-
-        footer { padding: 60px 5%; text-align: center; border-top: 1px solid var(--border); color: #333; font-size: 10px; letter-spacing: 2px; }
-        .hidden { display: none; }
+        .car-price { color: var(--neon); font-weight: 800; font-size: 22px; }
+        .glass-box { max-width: 600px; margin: 40px auto; background: var(--glass); padding: 40px; border: 1px solid var(--border); backdrop-filter: blur(15px); }
+        input, select { width: 100%; padding: 14px; margin-bottom: 15px; background: #080808; border: 1px solid #222; color: #fff; }
+        .btn-action { padding: 18px 45px; background: transparent; color: #fff; border: 1px solid var(--neon); font-family: 'Orbitron'; cursor: pointer; box-shadow: 0 0 15px var(--neon); transition: 0.3s; width: 100%; }
+        .btn-action:hover { background: var(--neon); color: #000; }
+        .log-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 12px; }
+        .log-table th, .log-table td { border: 1px solid var(--border); padding: 10px; text-align: left; }
+        .log-table th { background: rgba(255,0,0,0.1); color: var(--neon); }
     </style>
 </head>
 <body>
@@ -88,85 +45,68 @@
         <a onclick="goPage('home')">Overview</a>
         <a onclick="goPage('auto')">Inventory</a>
         <a onclick="goPage('personale')">Personale AutoNation</a>
-        <a onclick="goPage('owner')">Admin</a>
+        <a onclick="goPage('owner')">Owner Reserved</a>
     </nav>
 </header>
 
-<div id="home" class="page active" style="padding-top:0;">
-    <section class="hero-new">
-        <div class="video-overlay"></div>
-        <video autoplay loop muted playsinline class="hero-video">
-            <source src="https://coverr.co/articles/homepage-video-background-with-css/coverr-night-traffic-1571761271617.mp4" type="video/mp4">
-        </video>
-        <div class="hero-text">
-            <h1>AUSTIN<br>PRIDE</h1>
-            <p>ELITE AUTOMOTIVE HUB</p>
-            <button class="btn-action" onclick="goPage('auto')">DISCOVER THE FLEET</button>
-        </div>
-    </section>
-
-    <section class="content-section">
-        <div class="text-block">
-            <h2>IL CUORE DI <span style="color:var(--neon)">TEXAS</span></h2>
-            <p>AutoNation ridefinisce il concetto di vendita automotive ad Austin. Ogni veicolo è un pezzo di ingegneria certificata, pronto per dominare le strade americane.</p>
-        </div>
-        <div class="img-block">
-            <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80">
-        </div>
-    </section>
+<div id="home" class="page active">
+    <div style="text-align:center; padding: 100px 10%;">
+        <h1 style="font-family:'Orbitron'; font-size: 80px; margin:0;">AUSTIN CORE</h1>
+        <p style="letter-spacing:15px; color:var(--neon);">THE NEW STANDARD</p>
+    </div>
 </div>
 
 <div id="auto" class="page">
-    <h2 style="text-align:center; font-family:'Orbitron'; font-size: 40px;">THE <span style="color:var(--neon)">FLEET</span></h2>
+    <h2 style="text-align:center; font-family:'Orbitron';">OFFICIAL <span style="color:var(--neon)">INVENTORY</span></h2>
     <div id="car-list" class="grid"></div>
 </div>
 
 <div id="personale" class="page">
     <div id="personal-login" class="glass-box">
-        <h3 style="text-align:center; color:var(--neon);">ACCESSO PERSONALE</h3>
+        <h3 style="text-align:center;">STAFF LOGIN</h3>
         <input id="userIdInput" placeholder="OPERATOR ID">
         <input id="userPassInput" type="password" placeholder="PASSWORD">
-        <button class="btn-action" style="width:100%" onclick="loginOperator()">Sblocca Sistema</button>
+        <button class="btn-action" onclick="loginOperator()">Sblocca</button>
     </div>
     <div id="personal-content" class="hidden">
         <div class="glass-box">
-            <h3 style="margin-top:0;">GENERATORE FATTURE</h3>
+            <h3>GENERATORE FATTURE</h3>
             <select id="selectAuto" onchange="autoSelezionata()"></select>
             <input id="fNome" placeholder="NOME CLIENTE">
-            <input id="fTarga" placeholder="TARGA VEICOLO">
-            <input id="fAuto" placeholder="VEICOLO" readonly>
+            <input id="fTarga" placeholder="TARGA (Auto-generata)" readonly style="background:#111; color:var(--neon);">
+            <input id="fAuto" placeholder="MODELLO" readonly>
             <input id="fPrezzo" placeholder="PREZZO" readonly>
             <input id="fFirma" placeholder="FIRMA OPERATORE">
-            <button class="btn-action" style="width:100%" onclick="generaPDF()">GENERA DOCUMENTO</button>
+            <button class="btn-action" onclick="generaPDF()">EMETTI FATTURA</button>
         </div>
     </div>
 </div>
 
 <div id="owner" class="page">
     <div id="owner-login" class="glass-box">
-        <h3>ADMIN ACCESS</h3>
+        <h3 style="text-align:center; color:var(--neon);">OWNER RESERVED ACCESS</h3>
         <input id="ownerPassInput" type="password" placeholder="MASTER KEY">
-        <button class="btn-action" style="width:100%" onclick="loginOwner()">Enter Core</button>
+        <button class="btn-action" onclick="loginOwner()">Accesso Core</button>
     </div>
     <div id="owner-content" class="hidden">
         <div class="glass-box">
-            <h3>AGGIUNGI AUTO</h3>
-            <input id="name" placeholder="MODELLO">
-            <input id="price" placeholder="PREZZO">
+            <h3>REGISTRAZIONE NUOVO VEICOLO</h3>
+            <input id="name" placeholder="NOME MODELLO">
+            <input id="price" placeholder="PREZZO DI VENDITA">
             <input type="file" id="imageFile">
-            <button class="btn-action" style="width:100%" onclick="addCar()">CARICA NEL CLOUD</button>
+            <button class="btn-action" onclick="addCar()">REGISTRA E ASSEGNA TARGA</button>
         </div>
-        <div id="owner-car-list" class="grid"></div>
+        <div class="glass-box" style="max-width: 90%;">
+            <h3>LOGS REGISTRAZIONI AUTO</h3>
+            <table class="log-table">
+                <thead><tr><th>DATA</th><th>MODELLO</th><th>TARGA ASSEGNATA</th><th>PREZZO</th><th>AZIONI</th></tr></thead>
+                <tbody id="owner-logs"></tbody>
+            </table>
+        </div>
     </div>
 </div>
 
-<footer>
-    <div class="logo">AUTO<span>NATION</span></div>
-    <p>SYSTEM BY PAVEL © 2026 AUSTIN TX</p>
-</footer>
-
 <script>
-// FIREBASE CONFIG
 const firebaseConfig = {
     apiKey: "AIzaSyCUH4SGDnbvh1clXm_R_n3ynmDndhIwsbM",
     authDomain: "autonation-bc786.firebaseapp.com",
@@ -180,20 +120,30 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 let currentImg = null;
 
-// SYNC DATA
+// GESTIONE TARGHE TEX-XXX
+async function generaNuovaTarga() {
+    const snap = await db.ref('cars').limitToLast(1).once('value');
+    const data = snap.val();
+    if (!data) return "TEX-001";
+    const lastKey = Object.keys(data)[0];
+    const lastTarga = data[lastKey].targa;
+    const currentNum = parseInt(lastTarga.split('-')[1]);
+    return "TEX-" + (currentNum + 1).toString().padStart(3, '0');
+}
+
 db.ref('cars').on('value', snap => {
     const data = snap.val();
     const publicList = document.getElementById("car-list");
-    const ownerList = document.getElementById("owner-car-list");
+    const logs = document.getElementById("owner-logs");
     const select = document.getElementById("selectAuto");
-    publicList.innerHTML = ""; ownerList.innerHTML = "";
+    publicList.innerHTML = ""; logs.innerHTML = "";
     select.innerHTML = `<option value="">Scegli Veicolo...</option>`;
     if(data) {
         for(let id in data) {
             let c = { id, ...data[id] };
-            publicList.innerHTML += `<div class="car-card"><img src="${c.image}"><div class="car-info"><h3>${c.name}</h3><div class="car-price">${c.price}</div></div></div>`;
-            ownerList.innerHTML += `<div class="car-card"><img src="${c.image}"><div class="car-info"><h3>${c.name}</h3><button class="btn-action" style="padding:10px;" onclick="deleteCar('${c.id}')">ELIMINA</button></div></div>`;
-            select.innerHTML += `<option value="${c.name}" data-price="${c.price}">${c.name}</option>`;
+            publicList.innerHTML += `<div class="car-card"><div class="targa-tag">${c.targa}</div><img src="${c.image}"><div class="car-info"><h3>${c.name}</h3><div class="car-price">${c.price}</div></div></div>`;
+            logs.innerHTML += `<tr><td>${c.dataReg}</td><td>${c.name}</td><td style="color:var(--neon); font-weight:bold;">${c.targa}</td><td>${c.price}</td><td><button onclick="deleteCar('${c.id}')" style="background:red; color:white; border:none; padding:5px; cursor:pointer;">X</button></td></tr>`;
+            select.innerHTML += `<option value="${c.name}" data-price="${c.price}" data-targa="${c.targa}">${c.name} (${c.targa})</option>`;
         }
     }
 });
@@ -201,7 +151,6 @@ db.ref('cars').on('value', snap => {
 function goPage(p) {
     document.querySelectorAll('.page').forEach(pg => pg.classList.remove('active'));
     document.getElementById(p).classList.add('active');
-    window.scrollTo(0,0);
 }
 
 document.getElementById('imageFile').onchange = e => {
@@ -210,81 +159,46 @@ document.getElementById('imageFile').onchange = e => {
     r.readAsDataURL(e.target.files[0]);
 };
 
-function addCar() {
+async function addCar() {
     const n = document.getElementById('name').value;
     const p = document.getElementById('price').value;
-    if(!n || !p || !currentImg) return alert("Dati mancanti!");
-    db.ref('cars').push({ name:n, price:p, image:currentImg }).then(() => alert("Auto Online!"));
+    if(!n || !p || !currentImg) return alert("Errore: Compila tutto!");
+    const nuovaTarga = await generaNuovaTarga();
+    const dataOggi = new Date().toLocaleDateString('it-IT');
+    db.ref('cars').push({ name:n, price:p, image:currentImg, targa:nuovaTarga, dataReg:dataOggi }).then(() => alert("Veicolo Registrato con Targa: " + nuovaTarga));
 }
 
-function deleteCar(id) { if(confirm("Eliminare?")) db.ref('cars/'+id).remove(); }
+function deleteCar(id) { if(confirm("Eliminare log e veicolo?")) db.ref('cars/'+id).remove(); }
 
-function loginOwner() {
-    if(document.getElementById('ownerPassInput').value === "OWNER123") {
-        document.getElementById('owner-login').classList.add('hidden');
-        document.getElementById('owner-content').classList.remove('hidden');
-    }
-}
-
-function loginOperator() {
-    const u = document.getElementById('userIdInput').value;
-    const p = document.getElementById('userPassInput').value;
-    if(u === "admin" && p === "1234") {
-        document.getElementById('personal-login').classList.add('hidden');
-        document.getElementById('personal-content').classList.remove('hidden');
-    }
-}
+function loginOwner() { if(document.getElementById('ownerPassInput').value === "OWNER123") { document.getElementById('owner-login').classList.add('hidden'); document.getElementById('owner-content').classList.remove('hidden'); } }
+function loginOperator() { if(document.getElementById('userIdInput').value === "admin" && document.getElementById('userPassInput').value === "1234") { document.getElementById('personal-login').classList.add('hidden'); document.getElementById('personal-content').classList.remove('hidden'); } }
 
 function autoSelezionata() {
     const s = document.getElementById("selectAuto");
     document.getElementById("fAuto").value = s.value;
     document.getElementById("fPrezzo").value = s.options[s.selectedIndex].dataset.price || "";
+    document.getElementById("fTarga").value = s.options[s.selectedIndex].dataset.targa || "";
 }
 
-// --- GENERAZIONE FATTURA STILE DECRETO ---
 function generaPDF() {
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF();
     const dataOggi = new Date().toLocaleDateString('it-IT');
-
-    // Header grafico
-    pdf.setLineWidth(0.5);
-    pdf.line(10, 35, 200, 35);
-    pdf.line(10, 37, 200, 37);
-
-    pdf.setFont("helvetica", "bold");
-    pdf.setFontSize(10);
-    pdf.text("STATO DI TEXAS - CONTEA DI TRAVIS", 105, 20, { align: "center" });
-    pdf.setFontSize(18);
-    pdf.text("DECRETO DI VENDITA AUTOMOBILISTICA", 105, 28, { align: "center" });
-    
-    // Testo Premessa
-    pdf.setFontSize(11);
-    pdf.text("PREMESSO CHE", 10, 55);
-    pdf.setFont("helvetica", "italic");
-    pdf.setFontSize(9);
-    const premessa = "AutoNation, uno dei principali concessionari automobilistici di Austin, Texas, emette la presente fattura a conferma dell’avvenuta vendita e/o dei servizi erogati al cliente. Tutti i veicoli e gli interventi forniti rispettano gli standard di qualità e trasparenza che contraddistinguono il nostro marchio. I dati riportati di seguito rappresentano in modo accurato e dettagliato l’operazione effettuata, nel pieno rispetto delle normative vigenti e delle politiche interne di AutoNation.";
+    pdf.setLineWidth(0.5); pdf.line(10, 35, 200, 35); pdf.line(10, 37, 200, 37);
+    pdf.setFont("helvetica", "bold"); pdf.setFontSize(10); pdf.text("STATO DI TEXAS - CONTEA DI TRAVIS", 105, 20, { align: "center" });
+    pdf.setFontSize(18); pdf.text("FATTURA DI VENDITA UFFICIALE", 105, 28, { align: "center" });
+    pdf.setFontSize(11); pdf.text("PREMESSO CHE", 10, 55);
+    pdf.setFont("helvetica", "italic"); pdf.setFontSize(9);
+    const premessa = "AutoNation, uno dei principali concessionari automobilistici di Austin, Texas, emette la presente fattura a conferma dell’avvenuta vendita e/o dei servizi erogati al cliente. Tutti i veicoli e gli interventi forniti rispettano gli standard di qualità e trasparenza che contraddistinguono il nostro marchio.";
     pdf.text(pdf.splitTextToSize(premessa, 180), 10, 62);
-
-    // Dati
-    pdf.setFont("helvetica", "bold");
-    pdf.setFontSize(11);
-    pdf.text("OGGETTO DEL PROVVEDIMENTO", 10, 100);
-    pdf.setFont("helvetica", "normal");
-    pdf.setFontSize(10);
-    pdf.text("CLIENTE: " + document.getElementById("fNome").value.toUpperCase(), 15, 110);
-    pdf.text("VEICOLO: " + document.getElementById("fAuto").value.toUpperCase(), 15, 118);
-    pdf.text("TARGA: " + document.getElementById("fTarga").value.toUpperCase(), 15, 126);
-    pdf.text("TOTALE: " + document.getElementById("fPrezzo").value, 15, 134);
-
-    // Firme
-    pdf.setFont("helvetica", "bold");
-    pdf.text("FIRMA RESPONSABILE", 10, 180);
-    pdf.text(document.getElementById("fFirma").value.toUpperCase(), 10, 190);
-    pdf.text("FIRMA CLIENTE", 140, 180);
-    pdf.line(140, 190, 190, 190);
-
-    pdf.save("Fattura_AutoNation.pdf");
+    pdf.setFont("helvetica", "bold"); pdf.setFontSize(11); pdf.text("DATI TRANSAZIONE", 10, 90);
+    pdf.setFont("helvetica", "normal"); pdf.setFontSize(10);
+    pdf.text("CLIENTE: " + document.getElementById("fNome").value.toUpperCase(), 15, 100);
+    pdf.text("MODELLO: " + document.getElementById("fAuto").value.toUpperCase(), 15, 108);
+    pdf.text("TARGA ASSEGNATA: " + document.getElementById("fTarga").value, 15, 116);
+    pdf.text("PREZZO: " + document.getElementById("fPrezzo").value, 15, 124);
+    pdf.setFont("helvetica", "bold"); pdf.text("FIRMA RESPONSABILE: " + document.getElementById("fFirma").value.toUpperCase(), 10, 160);
+    pdf.save("Fattura_" + document.getElementById("fTarga").value + ".pdf");
 }
 </script>
 </body>
