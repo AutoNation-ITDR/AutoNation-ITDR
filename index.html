@@ -29,7 +29,6 @@
         .page { display: none; padding-top: 100px; animation: fadeInUp 0.6s ease forwards; min-height: 100vh; }
         .active { display: block; }
 
-        /* Background Video */
         .hero-new { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; text-align: center; overflow: hidden; }
         .video-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.9) 100%); z-index: 1; }
         .hero-video { position: absolute; width: 100%; height: 100%; object-fit: cover; z-index: 0; filter: brightness(0.4); }
@@ -38,6 +37,8 @@
         
         .btn-action { margin-top: 40px; padding: 18px 45px; background: transparent; color: #fff; border: 1px solid var(--neon); font-family: 'Orbitron'; font-size: 13px; cursor: pointer; box-shadow: 0 0 15px var(--neon); transition: 0.3s; }
         .btn-action:hover { background: var(--neon); color: #000; }
+        .btn-danger { background: rgba(255,0,0,0.2); border: 1px solid #ff0000; color: #ff0000; padding: 10px 20px; cursor: pointer; font-family: 'Orbitron'; font-size: 10px; margin-top: 10px; }
+        .btn-danger:hover { background: #ff0000; color: #fff; }
 
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; padding: 40px 5%; }
         .car-card { background: var(--glass); border: 1px solid var(--border); }
@@ -47,9 +48,9 @@
         .glass-box { max-width: 600px; margin: 40px auto; background: var(--glass); padding: 40px; border: 1px solid var(--border); backdrop-filter: blur(15px); }
         input, select { width: 100%; padding: 14px; margin-bottom: 15px; background: #080808; border: 1px solid #222; color: #fff; }
 
-        .log-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 12px; }
-        .log-table th, .log-table td { border: 1px solid var(--border); padding: 10px; text-align: left; }
-        .log-table th { background: rgba(255,0,0,0.1); color: var(--neon); text-transform: uppercase; }
+        .log-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 11px; color: #ccc; }
+        .log-table th, .log-table td { border: 1px solid var(--border); padding: 12px; text-align: left; }
+        .log-table th { background: rgba(255,0,0,0.1); color: var(--neon); text-transform: uppercase; font-family: 'Orbitron'; font-size: 10px; }
 
         .hidden { display: none; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -73,7 +74,11 @@
         <video autoplay loop muted playsinline class="hero-video">
             <source src="https://coverr.co/articles/homepage-video-background-with-css/coverr-night-traffic-1571761271617.mp4" type="video/mp4">
         </video>
-        <div class="hero-text"><h1>AUSTIN<br>PRIDE</h1><p style="letter-spacing:10px; color:var(--neon)">ELITE AUTOMOTIVE HUB</p><button class="btn-action" onclick="goPage('auto')">DISCOVER THE FLEET</button></div>
+        <div class="hero-text">
+            <h1>AUSTIN<br>PRIDE</h1>
+            <p style="letter-spacing:10px; color:var(--neon)">ELITE AUTOMOTIVE HUB</p>
+            <button class="btn-action" onclick="goPage('auto')">DISCOVER THE FLEET</button>
+        </div>
     </section>
 </div>
 
@@ -84,39 +89,42 @@
 
 <div id="personale" class="page">
     <div id="personal-login" class="glass-box">
-        <h3 style="text-align:center;">STAFF LOGIN</h3>
-        <input id="uStaff" placeholder="ID"><input id="pStaff" type="password" placeholder="PASSWORD">
+        <h3 style="text-align:center; font-family:'Orbitron';">STAFF PORTAL</h3>
+        <input id="uStaff" placeholder="OPERATOR ID"><input id="pStaff" type="password" placeholder="PASSWORD">
         <button class="btn-action" style="width:100%" onclick="loginP()">ACCEDI</button>
     </div>
     <div id="personal-content" class="hidden">
         <div class="glass-box">
-            <h3>COMPILAZIONE CONTRATTO</h3>
-            <select id="selAuto" onchange="updateFatturaFields()"></select>
-            <input id="fCliente" placeholder="NOME ACQUIRENTE">
-            <input id="fPrezzo" placeholder="PREZZO FINALE (es. $50.000)">
-            <input id="fFirmaStaff" placeholder="FIRMA OPERATORE">
-            <p style="font-size:10px; color:#666;">* La targa TEX verrà generata automaticamente al salvataggio.</p>
-            <button class="btn-action" style="width:100%" onclick="finalizzaVendita()">EMETTI CONTRATTO E TARGA</button>
+            <h3 style="font-family:'Orbitron'; color:var(--neon);">NUOVA VENDITA</h3>
+            <select id="selAuto" onchange="updatePrice()"></select>
+            <input id="fCliente" placeholder="NOME COMPLETO ACQUIRENTE">
+            <input id="fPrezzo" placeholder="PREZZO FINALE">
+            <input id="fFirmaStaff" placeholder="IL TUO NOME (FIRMA)">
+            <button class="btn-action" style="width:100%" onclick="eseguiVendita()">REGISTRA E GENERA CONTRATTO</button>
         </div>
     </div>
 </div>
 
 <div id="owner" class="page">
     <div id="owner-login" class="glass-box">
-        <h3>OWNER RESERVED</h3>
+        <h3 style="font-family:'Orbitron';">OWNER ACCESS</h3>
         <input id="oPass" type="password" placeholder="MASTER KEY">
-        <button class="btn-action" style="width:100%" onclick="loginO()">ENTRA</button>
+        <button class="btn-action" style="width:100%" onclick="loginO()">SBLOCCA CORE</button>
     </div>
     <div id="owner-content" class="hidden">
         <div class="glass-box">
-            <h3>CARICA NUOVO VEICOLO</h3>
-            <input id="cName" placeholder="MODELLO"><input id="cPrice" placeholder="PREZZO BASE"><input type="file" id="cImg">
-            <button class="btn-action" style="width:100%" onclick="caricaAuto()">AGGIUNGI A INVENTARIO</button>
+            <h3 style="font-family:'Orbitron'; color:var(--neon);">AGGIUNGI AUTO</h3>
+            <input id="cName" placeholder="MODELLO"><input id="cPrice" placeholder="PREZZO LISTINO"><input type="file" id="cImg">
+            <button class="btn-action" style="width:100%" onclick="caricaAuto()">CARICA IN SHOWROOM</button>
         </div>
-        <div class="glass-box" style="max-width:95%">
-            <h3>LOGS VENDITE E TARGHE EMESSE</h3>
+        
+        <div class="glass-box" style="max-width:98%">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h3 style="font-family:'Orbitron';">LOGS VENDITE</h3>
+                <button class="btn-danger" onclick="resetTarghe()">RESET TARGHE E VENDITE</button>
+            </div>
             <table class="log-table">
-                <thead><tr><th>DATA</th><th>CLIENTE</th><th>VEICOLO</th><th>TARGA</th><th>PREZZO</th><th>STAFF</th></tr></thead>
+                <thead><tr><th>DATA</th><th>CLIENTE</th><th>AUTO</th><th>TARGA</th><th>PREZZO</th><th>OPERATORE</th></tr></thead>
                 <tbody id="logs-body"></tbody>
             </table>
         </div>
@@ -124,6 +132,7 @@
 </div>
 
 <script>
+// --- FIREBASE ---
 const firebaseConfig = {
     apiKey: "AIzaSyCUH4SGDnbvh1clXm_R_n3ynmDndhIwsbM",
     authDomain: "autonation-bc786.firebaseapp.com",
@@ -137,23 +146,30 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 let tempImg = null;
 
-// Funzione Targa Progressiva
-async function getNuovaTarga() {
+// --- GESTIONE TARGHE ---
+async function calcolaProssimaTarga() {
     const snap = await db.ref('sales_logs').limitToLast(1).once('value');
     const data = snap.val();
     if (!data) return "TEX-001";
     const lastKey = Object.keys(data)[0];
     const lastTarga = data[lastKey].targa;
-    const currentNum = parseInt(lastTarga.split('-')[1]);
-    return "TEX-" + (currentNum + 1).toString().padStart(3, '0');
+    const num = parseInt(lastTarga.split('-')[1]);
+    return "TEX-" + (num + 1).toString().padStart(3, '0');
 }
 
-// Sync Dati
+// --- RESET VENDITE (SOLO OWNER) ---
+function resetTarghe() {
+    if(confirm("ATTENZIONE: Stai per cancellare tutto lo storico vendite e resettare le targhe a TEX-001. Continuare?")) {
+        db.ref('sales_logs').remove().then(() => alert("Database vendite resettato."));
+    }
+}
+
+// --- SYNC ---
 db.ref('cars').on('value', s => {
     const data = s.val();
     const grid = document.getElementById("car-list");
     const sel = document.getElementById("selAuto");
-    grid.innerHTML = ""; sel.innerHTML = "<option>Seleziona Auto...</option>";
+    grid.innerHTML = ""; sel.innerHTML = "<option>Scegli Veicolo...</option>";
     for(let id in data){
         grid.innerHTML += `<div class="car-card"><img src="${data[id].image}"><div class="car-info"><h3>${data[id].name}</h3><div style="color:red">${data[id].price}</div></div></div>`;
         sel.innerHTML += `<option value="${data[id].name}" data-p="${data[id].price}">${data[id].name}</option>`;
@@ -164,75 +180,49 @@ db.ref('sales_logs').on('value', s => {
     const data = s.val();
     const body = document.getElementById("logs-body");
     body.innerHTML = "";
-    for(let id in data){
-        const v = data[id];
-        body.innerHTML += `<tr><td>${v.data}</td><td>${v.cliente}</td><td>${v.veicolo}</td><td style="color:red; font-weight:bold;">${v.targa}</td><td>${v.prezzo}</td><td>${v.staff}</td></tr>`;
+    if(data){
+        Object.keys(data).reverse().forEach(id => {
+            const v = data[id];
+            body.innerHTML += `<tr><td>${v.data}</td><td>${v.cliente}</td><td>${v.veicolo}</td><td style="color:red; font-weight:bold;">${v.targa}</td><td>${v.prezzo}</td><td>${v.staff}</td></tr>`;
+        });
     }
 });
 
 function goPage(p) { document.querySelectorAll('.page').forEach(pg => pg.classList.remove('active')); document.getElementById(p).classList.add('active'); window.scrollTo(0,0); }
 
+// OWNER ACTIONS
 document.getElementById('cImg').onchange = e => { const r = new FileReader(); r.onload = ev => tempImg = ev.target.result; r.readAsDataURL(e.target.files[0]); };
-
 function caricaAuto() {
     const n = document.getElementById('cName').value, p = document.getElementById('cPrice').value;
-    if(!n || !p || !tempImg) return alert("Completa i campi");
-    db.ref('cars').push({ name:n, price:p, image:tempImg }).then(()=>alert("Auto Inserita"));
+    if(!n || !p || !tempImg) return alert("Completa i dati");
+    db.ref('cars').push({ name:n, price:p, image:tempImg }).then(()=> { alert("Showroom aggiornato!"); });
 }
 
-function updateFatturaFields() {
-    const s = document.getElementById("selAuto");
-    document.getElementById("fPrezzo").value = s.options[s.selectedIndex].dataset.p || "";
-}
-
-async function finalizzaVendita() {
+// STAFF ACTIONS
+function updatePrice() { const s = document.getElementById("selAuto"); document.getElementById("fPrezzo").value = s.options[s.selectedIndex].dataset.p || ""; }
+async function eseguiVendita() {
     const cli = document.getElementById("fCliente").value, vei = document.getElementById("selAuto").value, prz = document.getElementById("fPrezzo").value, stf = document.getElementById("fFirmaStaff").value;
-    if(!cli || !stf || vei === "Seleziona Auto...") return alert("Dati incompleti");
-
-    const targa = await getNuovaTarga();
+    if(!cli || !stf || vei === "Scegli Veicolo...") return alert("Dati mancanti");
+    const targa = await calcolaProssimaTarga();
     const oggi = new Date().toLocaleDateString('it-IT');
-
-    // Salva nei LOGS (Owner Reserved)
     db.ref('sales_logs').push({ data: oggi, cliente: cli, veicolo: vei, targa: targa, prezzo: prz, staff: stf }).then(() => {
-        generaContrattoPDF(cli, vei, targa, prz, stf, oggi);
-        alert("Vendita registrata! Targa assegnata: " + targa);
+        generaPDF(cli, vei, targa, prz, stf, oggi);
+        alert("Contratto Eseguito!");
     });
 }
 
-function generaContrattoPDF(cli, vei, targa, prz, stf, data) {
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF();
-    
-    // Header
-    pdf.setFont("helvetica", "bold"); pdf.setFontSize(22); pdf.text("AUTONATION AUSTIN", 105, 20, {align:"center"});
-    pdf.setFontSize(10); pdf.text("OFFICIAL SALES CONTRACT - STATE OF TEXAS", 105, 28, {align:"center"});
+function generaPDF(cli, vei, targa, prz, stf, data) {
+    const { jsPDF } = window.jspdf; const pdf = new jsPDF();
+    pdf.setFont("helvetica", "bold"); pdf.text("AUTONATION AUSTIN", 105, 20, {align:"center"});
+    pdf.setFontSize(10); pdf.text("CERTIFICATO DI VENDITA", 105, 28, {align:"center"});
     pdf.line(10, 32, 200, 32);
-
-    // Sezioni
-    pdf.setFontSize(12); pdf.text("DETTAGLI ACQUIRENTE", 10, 45);
-    pdf.setFont("helvetica", "normal"); pdf.setFontSize(10);
-    pdf.text("Nome: " + cli.toUpperCase(), 10, 52);
-    pdf.text("Data di emissione: " + data, 10, 58);
-
-    pdf.setFont("helvetica", "bold"); pdf.text("DETTAGLI VEICOLO E TARGA", 10, 75);
-    pdf.setFont("helvetica", "normal");
-    pdf.text("Modello: " + vei, 10, 82);
-    pdf.setFont("helvetica", "bold"); pdf.text("TARGA ASSEGNATA: " + targa, 10, 89);
-    pdf.setFont("helvetica", "normal"); pdf.text("Prezzo pattuito: " + prz, 10, 96);
-
-    // Corpo Contratto (Stile immagine utente)
-    pdf.setFontSize(8);
-    const clausole = "Il presente documento certifica il passaggio di proprietà del veicolo sopra indicato. AutoNation garantisce che il veicolo risponde agli standard dello Stato del Texas. L'acquirente dichiara di aver visionato il mezzo e di accettarne le condizioni. La targa emessa è registrata nei log ufficiali della sede di Austin.";
-    pdf.text(pdf.splitTextToSize(clausole, 180), 10, 115);
-
-    // Firme
-    pdf.setFont("helvetica", "bold"); pdf.setFontSize(10);
-    pdf.text("FIRMA RESPONSABILE VENDITE", 10, 160);
-    pdf.text(stf.toUpperCase(), 10, 170);
-    pdf.text("FIRMA CLIENTE", 140, 160);
-    pdf.line(140, 172, 190, 172);
-
-    pdf.save(`Contratto_${cli}_${targa}.pdf`);
+    pdf.text("Data: " + data, 10, 45);
+    pdf.text("Acquirente: " + cli.toUpperCase(), 10, 52);
+    pdf.text("Veicolo: " + vei, 10, 65);
+    pdf.setFontSize(16); pdf.text("TARGA ASSEGNATA: " + targa, 10, 75);
+    pdf.setFontSize(10); pdf.text("Prezzo: " + prz, 10, 85);
+    pdf.text("Firma Staff: " + stf.toUpperCase(), 10, 120);
+    pdf.save(`Contratto_${targa}.pdf`);
 }
 
 function loginO() { if(document.getElementById('oPass').value === "OWNER123") { document.getElementById('owner-login').classList.add('hidden'); document.getElementById('owner-content').classList.remove('hidden'); } }
