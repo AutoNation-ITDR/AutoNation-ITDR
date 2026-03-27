@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AUTONATION | Austin Neon Edition</title>
+    <title>AUTONATION | Pavel Edition</title>
 
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
@@ -11,90 +11,109 @@
 
     <style>
         :root { 
-            --red-neon: #ff0000; 
-            --red-glow: rgba(255, 0, 0, 0.6);
-            --black: #0a0a0a; 
-            --white: #ffffff; 
-            --gray: #f0f0f0;
+            --neon-red: #ff0000; 
+            --glow-red: rgba(255, 0, 0, 0.8);
+            --bg-dark: #050505; 
+            --card-bg: #0f0f0f;
+            --text-white: #ffffff; 
         }
 
-        * { box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        * { box-sizing: border-box; font-family: 'Orbitron', 'Segoe UI', sans-serif; transition: all 0.3s ease; }
         
-        body { margin: 0; background: var(--white); color: var(--black); overflow-x: hidden; }
+        body { margin: 0; background: var(--bg-dark); color: var(--text-white); overflow-x: hidden; }
 
         /* HEADER */
         header { 
             display: flex; justify-content: space-between; align-items: center; 
-            padding: 15px 5%; background: var(--white); border-bottom: 3px solid var(--black);
-            position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 20px 5%; background: rgba(0,0,0,0.95); border-bottom: 2px solid var(--neon-red);
+            position: sticky; top: 0; z-index: 1000; box-shadow: 0 0 20px var(--glow-red);
         }
-        .logo { font-size: 26px; font-weight: 900; letter-spacing: -1px; }
-        .logo span { color: var(--red-neon); text-shadow: 0 0 10px var(--red-glow); }
-        nav a { color: var(--black); margin-left: 25px; text-decoration: none; font-weight: 700; font-size: 13px; text-transform: uppercase; cursor: pointer; }
-        nav a:hover { color: var(--red-neon); text-shadow: 0 0 5px var(--red-glow); }
+        .logo { font-size: 28px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; }
+        .logo span { color: var(--neon-red); text-shadow: 0 0 15px var(--neon-red); }
+        
+        nav a { color: #fff; margin-left: 25px; text-decoration: none; font-weight: 700; font-size: 12px; text-transform: uppercase; cursor: pointer; }
+        nav a:hover { color: var(--neon-red); text-shadow: 0 0 10px var(--neon-red); }
 
-        /* HERO VIDEO */
+        /* TASTI GLOW */
+        .btn-glow { 
+            background: transparent; 
+            color: var(--neon-red); 
+            border: 2px solid var(--neon-red); 
+            padding: 15px 30px; 
+            font-weight: 900; 
+            text-transform: uppercase; 
+            cursor: pointer; 
+            border-radius: 5px;
+            box-shadow: 0 0 10px var(--glow-red), inset 0 0 5px var(--glow-red);
+            text-shadow: 0 0 5px var(--neon-red);
+            letter-spacing: 2px;
+        }
+        .btn-glow:hover { 
+            background: var(--neon-red); 
+            color: #000; 
+            box-shadow: 0 0 30px var(--neon-red);
+            text-shadow: none;
+        }
+
+        /* HERO SECTION */
         .hero { 
-            position: relative; height: 70vh; display: flex; align-items: center; justify-content: center; 
-            background: #000; overflow: hidden; color: #fff;
+            position: relative; height: 80vh; display: flex; align-items: center; justify-content: center; 
+            overflow: hidden; border-bottom: 1px solid #222;
         }
-        .hero video { position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; transform: translate(-50%, -50%); object-fit: cover; opacity: 0.6; }
+        .hero video { position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; transform: translate(-50%, -50%); object-fit: cover; opacity: 0.4; }
         .hero-content { position: relative; z-index: 10; text-align: center; }
-        .hero h1 { font-size: 60px; margin: 0; font-weight: 900; letter-spacing: 2px; }
+        .hero h1 { font-size: clamp(40px, 8vw, 80px); margin: 0; font-weight: 900; text-shadow: 0 0 20px #000; }
 
-        /* --- EFFETTO NEON PER LE CASELLE --- */
+        /* SHOWROOM NERO & NEON */
         #car-list, #owner-car-list { 
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
-            gap: 40px; padding: 40px 5%; max-width: 1400px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+            gap: 40px; padding: 60px 5%; max-width: 1400px; margin: 0 auto;
         }
 
         .car-card { 
-            background: var(--white); 
-            border: 2px solid var(--black); 
-            border-radius: 5px;
+            background: var(--card-bg); 
+            border: 1px solid #222; 
+            border-radius: 10px;
             overflow: hidden;
             position: relative;
-            box-shadow: 0 0 5px rgba(0,0,0,0.1);
-        }
-
-        /* Il "Bordo Neon" */
-        .car-card::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            border: 2px solid transparent; border-radius: 3px; pointer-events: none;
-            transition: 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .car-card:hover {
-            transform: scale(1.05);
-            border-color: var(--red-neon);
-            box-shadow: 0 0 20px var(--red-glow), inset 0 0 10px var(--red-glow);
+            border-color: var(--neon-red);
+            box-shadow: 0 0 25px var(--glow-red);
+            transform: translateY(-10px);
         }
 
-        .car-card img { width: 100%; height: 220px; object-fit: cover; border-bottom: 2px solid var(--black); }
-        .car-details { padding: 20px; text-align: center; }
-        .car-name { font-size: 22px; font-weight: 900; margin: 10px 0; text-transform: uppercase; }
-        .car-price { font-size: 18px; color: var(--red-neon); font-weight: 700; letter-spacing: 1px; }
-        .car-meta { font-size: 11px; font-weight: 800; color: #888; margin-bottom: 5px; }
+        .car-card img { width: 100%; height: 240px; object-fit: cover; border-bottom: 1px solid #222; }
+        .car-details { padding: 25px; text-align: left; }
+        .car-name { font-size: 24px; font-weight: 900; margin: 10px 0; text-transform: uppercase; color: #fff; }
+        .car-price { font-size: 20px; color: var(--neon-red); font-weight: 700; text-shadow: 0 0 5px var(--glow-red); }
+        .car-meta { font-size: 10px; color: #666; letter-spacing: 2px; font-weight: 800; }
 
         /* PANNELLI */
-        .page { display: none; padding: 60px 5%; animation: fadeIn 0.4s; }
+        .page { display: none; padding: 80px 5%; animation: fadeIn 0.5s ease-in-out; }
         .page.active { display: block; }
-        @keyframes fadeIn { from {opacity: 0; transform: translateY(10px);} to {opacity: 1; transform: translateY(0);} }
+        @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
 
-        .form-container { max-width: 450px; margin: 0 auto; background: var(--gray); padding: 40px; border: 3px solid var(--black); box-shadow: 10px 10px 0px var(--red-neon); }
-        input, select { width: 100%; padding: 12px; margin-bottom: 15px; border: 2px solid var(--black); font-weight: 700; }
-        input:focus { outline: none; border-color: var(--red-neon); box-shadow: 0 0 10px var(--red-glow); }
-        
-        .btn-main { 
-            background: var(--black); color: #fff; padding: 15px 30px; border: none; font-weight: 900; 
-            text-transform: uppercase; cursor: pointer; width: 100%; letter-spacing: 1px;
+        .form-container { 
+            max-width: 450px; margin: 0 auto; background: var(--card-bg); 
+            padding: 40px; border: 1px solid #333; 
+            box-shadow: 0 0 20px rgba(255,0,0,0.1);
         }
-        .btn-main:hover { background: var(--red-neon); box-shadow: 0 0 15px var(--red-neon); }
+        input, select { 
+            width: 100%; padding: 15px; margin-bottom: 20px; border: 1px solid #222; 
+            background: #000; color: #fff; border-radius: 4px;
+        }
+        input:focus { outline: none; border-color: var(--neon-red); box-shadow: 0 0 10px var(--glow-red); }
 
-        .btn-del { background: #000; color: #fff; border: none; padding: 10px; width: 100%; cursor: pointer; font-size: 11px; margin-top: 10px; }
-        .btn-del:hover { background: var(--red-neon); }
+        .btn-del { 
+            background: #000; color: #555; border: 1px solid #222; 
+            padding: 10px; width: 100%; cursor: pointer; margin-top: 15px; font-size: 10px;
+        }
+        .btn-del:hover { color: #fff; border-color: var(--neon-red); background: var(--neon-red); }
 
-        footer { background: var(--black); color: #fff; padding: 40px; text-align: center; margin-top: 50px; }
+        footer { background: #000; color: #333; padding: 60px; text-align: center; border-top: 1px solid #111; }
         .hidden { display: none; }
     </style>
 </head>
@@ -104,9 +123,9 @@
     <div class="logo">AUTO<span>NATION</span></div>
     <nav>
         <a onclick="goPage('home')">Home</a>
-        <a onclick="goPage('auto')">Inventario</a>
-        <a onclick="goPage('personale')">Personale</a>
-        <a onclick="goPage('owner')">Admin</a>
+        <a onclick="goPage('auto')">Showroom</a>
+        <a onclick="goPage('personale')">Staff</a>
+        <a onclick="goPage('owner')">Control</a>
     </nav>
 </header>
 
@@ -116,56 +135,57 @@
             <source src="https://coverr.co/articles/homepage-video-background-with-css/coverr-night-traffic-1571761271617.mp4" type="video/mp4">
         </video>
         <div class="hero-content">
-            <h1>AUSTIN PREMUM</h1>
-            <p>Trasparenza. Qualità. Tecnologia Neon.</p>
-            <button class="btn-main" style="width:auto" onclick="goPage('auto')">Esplora Showroom</button>
+            <h1 style="letter-spacing: 10px;">AUSTIN CLOUD</h1>
+            <p style="letter-spacing: 3px; color: var(--neon-red);">SISTEMA GESTIONALE DI ALTA PRECISIONE</p>
+            <button class="btn-glow" onclick="goPage('auto')" style="margin-top: 20px;">ENTRA NELL'INVENTARIO</button>
         </div>
     </section>
 
-    <div style="padding: 80px 10%; text-align: center;">
-        <h2 style="font-size: 35px; font-weight: 900;">IL PILASTRO DI <span style="color:var(--red-neon)">AUSTIN</span></h2>
-        <p style="max-width: 800px; margin: 20px auto; font-size: 18px; line-height: 1.8; color: #555; text-transform: none;">
-            AutoNation è considerato uno dei concessionari più affidabili del Texas. La nostra reputazione nasce da anni di professionalità, offrendo un ambiente serio e organizzato.
+    <div style="padding: 100px 10%; text-align: center; background: radial-gradient(circle, #0f0f0f 0%, #050505 100%);">
+        <h2 style="font-size: 40px; margin-bottom: 30px;">THE PILLAR OF <span style="color:var(--neon-red)">AUSTIN</span></h2>
+        <p style="max-width: 900px; margin: 0 auto; font-size: 18px; line-height: 2; color: #888; text-transform: none;">
+            AutoNation è il punto di riferimento per l'automotive in Texas. <br>
+            Ogni veicolo è un'opera d'arte tecnologica, selezionata per garantire prestazioni estreme e affidabilità totale.
         </p>
     </div>
 </div>
 
 <div id="auto" class="page">
-    <h2 style="text-align:center; font-size: 40px; font-weight: 900; margin-bottom: 50px;">SHOWROOM <span style="color:var(--red-neon)">LIVE</span></h2>
-    <div id="car-list">Caricamento inventario...</div>
+    <h2 style="text-align:center; font-size: 45px; margin-bottom: 60px; letter-spacing: 5px;">LIVE <span style="color:var(--neon-red)">SHOWROOM</span></h2>
+    <div id="car-list">Sincronizzazione Cloud in corso...</div>
 </div>
 
 <div id="personale" class="page">
     <div id="personal-login" class="form-container">
-        <h3>Staff Login</h3>
-        <input id="userIdInput" placeholder="Operatore ID">
-        <input id="userPassInput" type="password" placeholder="Password">
-        <button class="btn-main" onclick="loginOperator()">Accedi</button>
+        <h3 style="text-align:center; color: var(--neon-red);">STAFF LOGIN</h3>
+        <input id="userIdInput" placeholder="OPERATOR ID">
+        <input id="userPassInput" type="password" placeholder="PASSWORD">
+        <button class="btn-glow" onclick="loginOperator()" style="width:100%">UNLOCK SYSTEM</button>
     </div>
     <div id="personal-content" class="hidden">
         <div class="form-container">
-            <h3>Generatore Fattura</h3>
+            <h3>GENERATORE FATTURE</h3>
             <select id="selectAuto" onchange="autoSelezionata()"></select>
-            <input id="fNome" placeholder="Nome Cliente">
-            <input id="fAuto" placeholder="Veicolo" readonly>
-            <input id="fPrezzo" placeholder="Prezzo" readonly>
-            <input id="fFirma" placeholder="Firma Staff">
-            <button class="btn-main" onclick="generaPDF()">Genera PDF</button>
+            <input id="fNome" placeholder="NOME CLIENTE">
+            <input id="fAuto" placeholder="VEICOLO" readonly>
+            <input id="fPrezzo" placeholder="PREZZO" readonly>
+            <input id="fFirma" placeholder="FIRMA DIGITALE">
+            <button class="btn-glow" onclick="generaPDF()" style="width:100%">GENERATE PDF</button>
         </div>
     </div>
 </div>
 
 <div id="owner" class="page">
     <div id="owner-login" class="form-container">
-        <h3>Admin Access</h3>
-        <input id="ownerPassInput" type="password" placeholder="Master Password">
-        <button class="btn-main" onclick="loginOwner()">Entra nel Sistema</button>
+        <h3 style="text-align:center; color: var(--neon-red);">MASTER CONTROL</h3>
+        <input id="ownerPassInput" type="password" placeholder="ADMIN PASSWORD">
+        <button class="btn-glow" onclick="loginOwner()" style="width:100%">ACCESS CORE</button>
     </div>
     <div id="owner-content" class="hidden">
         <div class="form-container">
-            <h3>Aggiungi Veicolo</h3>
-            <input id="name" placeholder="Modello">
-            <input id="price" placeholder="Prezzo (€)">
+            <h3>AGGIUNGI VEICOLO</h3>
+            <input id="name" placeholder="MODELLO">
+            <input id="price" placeholder="PREZZO (€)">
             <select id="type">
                 <option value="Regular">Regular</option><option value="Prestige">Prestige</option>
                 <option value="Electric">Electric</option><option value="Classic">Classic</option>
@@ -175,16 +195,16 @@
                 <option value="SUV">SUV</option><option value="Industrial">Industrial</option>
             </select>
             <input type="file" id="imageFile">
-            <button class="btn-main" onclick="addCar()">Pubblica nel Cloud</button>
+            <button class="btn-glow" onclick="addCar()" style="width:100%">UPLOADING TO CLOUD</button>
         </div>
-        <h3 style="text-align:center; margin-top:50px;">Gestione Eliminazione</h3>
+        <h3 style="text-align:center; margin-top:80px; letter-spacing: 3px;">DELETE INVENTORY</h3>
         <div id="owner-car-list"></div>
     </div>
 </div>
 
 <footer>
-    <div class="logo" style="color:#fff">AUTO<span>NATION</span></div>
-    <p>© 2026 Austin, Texas. Powered by Neon Cloud.</p>
+    <div class="logo" style="color:#222; margin-bottom: 20px;">AUTO<span>NATION</span></div>
+    <p style="letter-spacing: 2px;">© 2026 AUSTIN, TEXAS. <br> Powered by <span style="color:#555">Pavel</span></p>
 </footer>
 
 <script>
@@ -210,13 +230,13 @@ db.ref('cars').on('value', snap => {
     
     publicList.innerHTML = "";
     ownerList.innerHTML = "";
-    select.innerHTML = `<option value="">Scegli Veicolo...</option>`;
+    select.innerHTML = `<option value="">CHOOSE VEHICLE...</option>`;
 
     if(data) {
         for(let id in data) {
             let c = { id, ...data[id] };
             
-            let cardHtml = `
+            publicList.innerHTML += `
                 <div class="car-card">
                     <img src="${c.image}">
                     <div class="car-details">
@@ -226,14 +246,12 @@ db.ref('cars').on('value', snap => {
                     </div>
                 </div>`;
             
-            publicList.innerHTML += cardHtml;
-            
             ownerList.innerHTML += `
                 <div class="car-card">
                     <img src="${c.image}">
                     <div class="car-details">
                         <div class="car-name">${c.name}</div>
-                        <button class="btn-del" onclick="deleteCar('${c.id}')">ELIMINA</button>
+                        <button class="btn-del" onclick="deleteCar('${c.id}')">REMOVE PERMANENTLY</button>
                     </div>
                 </div>`;
             
@@ -259,21 +277,21 @@ function addCar() {
     const p = document.getElementById('price').value;
     const t = document.getElementById('type').value;
     const c = document.getElementById('class').value;
-    if(!n || !p || !currentImg) return alert("Dati mancanti!");
+    if(!n || !p || !currentImg) return alert("SYSTEM ERROR: DATA MISSING");
     db.ref('cars').push({ name:n, price:p, type:t, class:c, image:currentImg }).then(() => {
-        alert("Auto Pubblicata!");
+        alert("UPLOAD COMPLETE");
     });
 }
 
 function deleteCar(id) {
-    if(confirm("Eliminare?")) db.ref('cars/'+id).remove();
+    if(confirm("DELETE CORE DATA?")) db.ref('cars/'+id).remove();
 }
 
 function loginOwner() {
     if(document.getElementById('ownerPassInput').value === "OWNER123") {
         document.getElementById('owner-login').classList.add('hidden');
         document.getElementById('owner-content').classList.remove('hidden');
-    } else alert("Accesso Negato");
+    } else alert("ACCESS DENIED");
 }
 
 function loginOperator() {
@@ -284,7 +302,7 @@ function loginOperator() {
         if((!c && u==="admin" && p==="1234") || (c && u===c.user && p===c.pass)) {
             document.getElementById('personal-login').classList.add('hidden');
             document.getElementById('personal-content').classList.remove('hidden');
-        } else alert("Negato");
+        } else alert("LOGIN FAILED");
     });
 }
 
@@ -297,10 +315,9 @@ function autoSelezionata() {
 function generaPDF() {
     const {jsPDF} = window.jspdf;
     const pdf = new jsPDF();
-    pdf.text("AUTONATION FATTURA", 10, 20);
-    pdf.text("Modello: " + document.getElementById("fAuto").value, 10, 40);
-    pdf.text("Prezzo: " + document.getElementById("fPrezzo").value, 10, 50);
-    pdf.save("Fattura.pdf");
+    pdf.text("AUTONATION INVOICE", 10, 20);
+    pdf.text("Vehicle: " + document.getElementById("fAuto").value, 10, 40);
+    pdf.save("Invoice_AutoNation.pdf");
 }
 </script>
 </body>
