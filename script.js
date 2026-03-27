@@ -1,179 +1,125 @@
-const ADMIN_PASSWORD="1234"
+const PASSWORD = "1234";
 
-let cars=JSON.parse(localStorage.getItem("cars"))||[]
-let sales=JSON.parse(localStorage.getItem("sales"))||[]
-let plate=localStorage.getItem("plate")||1
+let cars = JSON.parse(localStorage.getItem("cars")) || [];
 
-function showPage(id){
+const carList = document.getElementById("car-list");
 
-document.querySelectorAll(".page").forEach(p=>p.style.display="none")
 
-document.getElementById(id).style.display="block"
+function displayCars() {
+
+carList.innerHTML = "";
+
+cars.forEach((car,index)=>{
+
+const div = document.createElement("div");
+
+div.classList.add("car");
+
+div.innerHTML = `
+<img src="${car.image}" onerror="this.src='https://via.placeholder.com/300x200'">
+
+<h3>${car.name}</h3>
+
+<p>${car.price}</p>
+
+<button onclick="buyCar('${car.name}')">Seleziona</button>
+
+<button onclick="removeCar(${index})" class="delete">Rimuovi</button>
+`;
+
+carList.appendChild(div);
+
+});
 
 }
 
-function openAdmin(){
 
-let pass=prompt("Password Admin")
 
-if(pass===ADMIN_PASSWORD){
+function openPanel(){
 
-showPage("vendite")
+const pass = prompt("Accesso riservato al personale:");
+
+if(pass === PASSWORD){
+
+document.getElementById("panel").classList.remove("hidden");
 
 }else{
 
-alert("Accesso negato")
+alert("Accesso negato!");
 
 }
 
 }
 
-function save(){
 
-localStorage.setItem("cars",JSON.stringify(cars))
-localStorage.setItem("sales",JSON.stringify(sales))
-localStorage.setItem("plate",plate)
+
+function closePanel(){
+
+document.getElementById("panel").classList.add("hidden");
 
 }
+
+
 
 function addCar(){
 
-let name=document.getElementById("carName").value
-let price=document.getElementById("carPrice").value
-let file=document.getElementById("imgUpload").files[0]
+const name = document.getElementById("name").value.trim();
+const price = document.getElementById("price").value.trim();
+const image = document.getElementById("image").value.trim();
 
-let reader=new FileReader()
+if(!name || !price || !image){
 
-reader.onload=function(){
-
-cars.push({
-name,
-price,
-image:reader.result
-})
-
-save()
-loadCars()
+alert("Compila tutti i campi!");
+return;
 
 }
 
-reader.readAsDataURL(file)
+cars.push({name,price,image});
+
+localStorage.setItem("cars",JSON.stringify(cars));
+
+displayCars();
+
+document.getElementById("name").value="";
+document.getElementById("price").value="";
+document.getElementById("image").value="";
 
 }
 
-function loadCars(){
 
-let list=document.getElementById("carList")
-list.innerHTML=""
 
-cars.forEach((c,i)=>{
+function removeCar(index){
 
-list.innerHTML+=`
+if(confirm("Vuoi eliminare questa auto?")){
 
-<div class="car">
+cars.splice(index,1);
 
-<img src="${c.image}">
+localStorage.setItem("cars",JSON.stringify(cars));
 
-<h3>${c.name}</h3>
-
-<p>${c.price}</p>
-
-<button onclick="sellCar(${i})">Vendi</button>
-
-</div>
-
-`
-
-})
+displayCars();
 
 }
 
-function sellCar(i){
+}
 
-let nome=prompt("Nome cliente")
-let cognome=prompt("Cognome cliente")
 
-let t="TEX-"+String(plate).padStart(3,"0")
 
-plate++
+function buyCar(name){
 
-let data=new Date().toLocaleDateString()
-
-sales.push({
-
-plate:t,
-nome,
-cognome,
-auto:cars[i].name,
-data
-
-})
-
-generatePDF(nome,cognome,cars[i].name,t)
-
-save()
-
-loadSales()
-updateDashboard()
+alert("Hai selezionato: "+name);
 
 }
 
-function loadSales(){
 
-let table=document.getElementById("sales")
-table.innerHTML=""
 
-sales.forEach(v=>{
+function scrollToCars(){
 
-table.innerHTML+=`
-
-<tr>
-
-<td>${v.plate}</td>
-<td>${v.nome} ${v.cognome}</td>
-<td>${v.auto}</td>
-<td>${v.data}</td>
-
-</tr>
-
-`
-
-})
+document.getElementById("cars").scrollIntoView({
+behavior:"smooth"
+});
 
 }
 
-function updateDashboard(){
 
-document.getElementById("totAuto").innerText=cars.length
-document.getElementById("totVendite").innerText=sales.length
 
-}
-
-function generatePDF(nome,cognome,auto,plate){
-
-const { jsPDF } = window.jspdf
-
-let doc=new jsPDF()
-
-doc.text("Contratto Vendita Auto",20,20)
-doc.text("Cliente: "+nome+" "+cognome,20,40)
-doc.text("Auto: "+auto,20,60)
-doc.text("Targa: "+plate,20,80)
-
-doc.save("contratto-"+plate+".pdf")
-
-}
-
-let canvas=document.getElementById("signature")
-
-if(canvas){
-
-new SignaturePad(canvas)
-
-}
-
-showPage("dashboard")
-
-loadCars()
-loadSales()
-updateDashboard()
+displayCars();
