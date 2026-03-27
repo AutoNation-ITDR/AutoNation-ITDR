@@ -3,19 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AutoNation | Gestionale</title>
+<title>AUTONATION | GESTIONALE</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
+<!-- FONT MONOSPACE -->
 <style>
-/* -------------------- CSS COMPLETO -------------------- */
-
 *{box-sizing:border-box}
 body{
     margin:0;
-    font-family:'Poppins',sans-serif;
+    font-family:'Courier New', monospace;
     background:#050505;
     color:white;
+    text-transform:uppercase;
 }
 
 /* HEADER */
@@ -27,18 +25,19 @@ header{
     background:black;
     border-bottom:2px solid #cc0000;
 }
-.logo{font-size:24px;font-weight:700;margin:0}
+.logo{font-size:26px;font-weight:700;margin:0}
 nav a{
     color:white;
     margin-left:20px;
     text-decoration:none;
-    font-weight:500;
+    font-weight:700;
+    cursor:pointer;
 }
 nav a:hover{color:#cc0000}
 
 /* PAGINE */
 .page{display:none;padding:40px 20px}
-.active{display:block}
+.page.active{display:block}
 
 /* HOME */
 .hero{
@@ -48,7 +47,7 @@ nav a:hover{color:#cc0000}
     url('https://images.unsplash.com/photo-1503376780353-7e6692767b70') center/cover;
 }
 .hero h1{font-size:60px;font-weight:700;margin:0 0 10px}
-.hero p{font-size:18px;font-weight:300;margin-bottom:25px}
+.hero p{font-size:18px;font-weight:400;margin-bottom:25px}
 .btn{
     display:inline-block;
     padding:12px 30px;
@@ -56,7 +55,8 @@ nav a:hover{color:#cc0000}
     color:white;
     text-decoration:none;
     border-radius:6px;
-    font-weight:600;
+    font-weight:700;
+    cursor:pointer;
 }
 
 /* AUTO */
@@ -79,6 +79,8 @@ nav a:hover{color:#cc0000}
     object-fit:cover;
     border-radius:8px;
 }
+.car h3{margin:10px 0 5px}
+.car p{margin:0 0 10px;color:#ccc}
 .car button{
     margin-top:8px;
     padding:6px 10px;
@@ -106,6 +108,7 @@ nav a:hover{color:#cc0000}
     border:1px solid #333;
     background:#000;
     color:white;
+    font-family:'Courier New', monospace;
 }
 
 /* FIRMA */
@@ -125,6 +128,7 @@ nav a:hover{color:#cc0000}
     color:black;
     padding:20px;
     border-radius:10px;
+    text-transform:none;
 }
 
 /* UTILI */
@@ -135,6 +139,7 @@ footer{
     padding:10px;
     background:black;
     border-top:1px solid #222;
+    font-size:12px;
 }
 </style>
 </head>
@@ -142,92 +147,93 @@ footer{
 <body>
 
 <header>
-    <h1 class="logo">AutoNation</h1>
+    <h1 class="logo">AUTONATION</h1>
     <nav>
-        <a onclick="goPage('home')">Home</a>
-        <a onclick="goPage('auto')">Auto</a>
-        <a onclick="goPage('personale')">Personale</a>
-        <a onclick="goPage('owner')">Owner</a>
+        <a onclick="goPage('home')">HOME</a>
+        <a onclick="goPage('auto')">AUTO</a>
+        <a onclick="goPage('personale')">PERSONALE</a>
+        <a onclick="goPage('owner')">OWNER</a>
     </nav>
 </header>
 
-<!-- -------------------- PAGINA HOME -------------------- -->
+<!-- HOME -->
 <div id="home" class="page active">
     <section class="hero">
-        <h1>Benvenuto in AutoNation</h1>
-        <p>Il concessionario premium dove qualità e passione si incontrano.</p>
-        <a onclick="goPage('auto')" class="btn">SCOPRI LE AUTO</a>
+        <h1>BENVENUTO IN AUTONATION</h1>
+        <p>IL CONCESSIONARIO PREMIUM DOVE QUALITÀ E PASSIONE SI INCONTRANO.</p>
+        <span class="btn" onclick="goPage('auto')">SCOPRI LE AUTO</span>
     </section>
 </div>
 
-<!-- -------------------- PAGINA AUTO -------------------- -->
+<!-- AUTO -->
 <div id="auto" class="page">
-    <h2 style="text-align:center">Veicoli Disponibili</h2>
+    <h2 style="text-align:center">VEICOLI DISPONIBILI</h2>
     <div id="car-list"></div>
 </div>
 
-<!-- -------------------- PAGINA PERSONALE -------------------- -->
+<!-- PERSONALE -->
 <div id="personale" class="page">
-    <h2 style="text-align:center">Area Personale Operatore</h2>
+    <h2 style="text-align:center">AREA PERSONALE OPERATORE</h2>
 
     <div id="personal-login" class="panel-box">
-        <input id="userIdInput" placeholder="User ID">
-        <input id="userPassInput" type="password" placeholder="Password">
-        <button onclick="loginOperator()">Accedi</button>
+        <input id="userIdInput" placeholder="USER ID">
+        <input id="userPassInput" type="password" placeholder="PASSWORD">
+        <button onclick="loginOperator()">ACCEDI</button>
     </div>
 
     <div id="personal-content" class="hidden">
 
-        <h3 style="text-align:center">Aggiungi Auto</h3>
+        <h3 style="text-align:center">AGGIUNGI AUTO</h3>
         <div class="panel-box">
-            <input id="name" placeholder="Nome auto">
-            <input id="price" placeholder="Prezzo">
+            <input id="name" placeholder="NOME AUTO">
+            <input id="price" placeholder="PREZZO">
             <input type="file" id="imageFile" accept="image/*">
-            <button onclick="addCar()">Aggiungi Auto</button>
+            <button onclick="addCar()">AGGIUNGI AUTO</button>
         </div>
 
-        <h3 style="text-align:center">Creazione Fattura</h3>
+        <h3 style="text-align:center">CREA FATTURA (FIRMA DIPENDENTE)</h3>
         <div class="panel-box">
-            <input id="fatturaNome" placeholder="Nome cliente">
-            <input id="fatturaCognome" placeholder="Cognome cliente">
-            <input id="fatturaTarga" placeholder="Targa">
-            <input id="fatturaAuto" placeholder="Modello auto">
-            <input id="fatturaPrezzo" placeholder="Prezzo">
+            <input id="fatturaNome" placeholder="NOME CLIENTE">
+            <input id="fatturaCognome" placeholder="COGNOME CLIENTE">
+            <input id="fatturaTarga" placeholder="TARGA">
+            <input id="fatturaAuto" placeholder="MODELLO AUTO">
+            <input id="fatturaPrezzo" placeholder="PREZZO">
 
-            <p>Firma cliente:</p>
+            <p>FIRMA DIPENDENTE:</p>
             <canvas id="firmaCanvas" width="300" height="150"></canvas>
-            <button onclick="clearSignature()">Pulisci firma</button>
+            <button onclick="clearSignature()">PULISCI FIRMA</button>
 
-            <button onclick="generaFattura()">Genera Fattura</button>
+            <button onclick="generaFatturaPDF()">GENERA FATTURA PDF</button>
         </div>
-
-        <div id="fattura-output" class="fattura hidden"></div>
     </div>
 </div>
 
-<!-- -------------------- PAGINA OWNER -------------------- -->
+<!-- OWNER -->
 <div id="owner" class="page">
-    <h2 style="text-align:center">Dashboard Owner</h2>
+    <h2 style="text-align:center">DASHBOARD OWNER</h2>
 
     <div id="owner-login" class="panel-box">
-        <input id="ownerPassInput" type="password" placeholder="Password Owner">
-        <button onclick="loginOwner()">Accedi</button>
-        <p>Password Owner: <b>OWNER123</b></p>
+        <input id="ownerPassInput" type="password" placeholder="PASSWORD OWNER">
+        <button onclick="loginOwner()">ACCEDI</button>
+        <p>PASSWORD OWNER: <b>OWNER123</b></p>
     </div>
 
     <div id="owner-content" class="hidden">
-        <h3 style="text-align:center">Imposta credenziali operatore</h3>
+        <h3 style="text-align:center">IMPOSTA CREDENZIALI OPERATORE</h3>
         <div class="panel-box">
-            <input id="setUserId" placeholder="User ID operatore">
-            <input id="setUserPass" type="password" placeholder="Password operatore">
-            <button onclick="salvaCredenzialiOperatore()">Salva</button>
+            <input id="setUserId" placeholder="USER ID OPERATORE">
+            <input id="setUserPass" type="password" placeholder="PASSWORD OPERATORE">
+            <button onclick="salvaCredenzialiOperatore()">SALVA</button>
         </div>
     </div>
 </div>
 
 <footer>
-    <p>© 2026 AutoNation</p>
+    <p>© 2026 AUTONATION</p>
 </footer>
+
+<!-- jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <script>
 /* -------------------- JS COMPLETO -------------------- */
@@ -242,12 +248,12 @@ function goPage(page){
     if(page==="auto") displayCars();
 }
 
-/* MOSTRA AUTO */
+/* AUTO */
 function displayCars(){
     const carList=document.getElementById("car-list");
     carList.innerHTML="";
     if(cars.length===0){
-        carList.innerHTML="<p>Nessun veicolo presente.</p>";
+        carList.innerHTML="<p>NESSUN VEICOLO PRESENTE.</p>";
         return;
     }
     cars.forEach((car,i)=>{
@@ -256,16 +262,16 @@ function displayCars(){
             <img src="${car.image}">
             <h3>${car.name}</h3>
             <p>${car.price}</p>
-            <button onclick="removeCar(${i})">Rimuovi</button>
+            <button onclick="removeCar(${i})">RIMUOVI</button>
         </div>`;
     });
 }
 
-/* AGGIUNGI AUTO */
 let currentImageBase64=null;
 document.addEventListener("change",e=>{
     if(e.target.id==="imageFile"){
         const file=e.target.files[0];
+        if(!file) return;
         const reader=new FileReader();
         reader.onload=ev=>currentImageBase64=ev.target.result;
         reader.readAsDataURL(file);
@@ -276,12 +282,12 @@ function addCar(){
     let name=document.getElementById("name").value.trim();
     let price=document.getElementById("price").value.trim();
     if(!name||!price||!currentImageBase64){
-        alert("Compila tutto");
+        alert("COMPILA TUTTO");
         return;
     }
     cars.push({name,price,image:currentImageBase64});
     localStorage.setItem("cars",JSON.stringify(cars));
-    alert("Auto aggiunta");
+    alert("AUTO AGGIUNTA");
 }
 
 /* RIMUOVI AUTO */
@@ -297,10 +303,14 @@ function loginOperator(){
     let pw=document.getElementById("userPassInput").value.trim();
     let sid=localStorage.getItem("operatorUserId");
     let spw=localStorage.getItem("operatorUserPass");
+    if(!sid||!spw){
+        alert("IMPOSTA LE CREDENZIALI NEL PANNELLO OWNER");
+        return;
+    }
     if(id===sid && pw===spw){
         document.getElementById("personal-login").classList.add("hidden");
         document.getElementById("personal-content").classList.remove("hidden");
-    }else alert("Credenziali errate");
+    }else alert("CREDENZIALI ERRATE");
 }
 
 /* LOGIN OWNER */
@@ -309,20 +319,20 @@ function loginOwner(){
     if(pw===OWNER_PASSWORD){
         document.getElementById("owner-login").classList.add("hidden");
         document.getElementById("owner-content").classList.remove("hidden");
-    }else alert("Password errata");
+    }else alert("PASSWORD OWNER ERRATA");
 }
 
 /* SALVA CREDENZIALI OPERATORE */
 function salvaCredenzialiOperatore(){
     let id=document.getElementById("setUserId").value.trim();
     let pw=document.getElementById("setUserPass").value.trim();
-    if(!id||!pw){alert("Compila tutto");return;}
+    if(!id||!pw){alert("COMPILA TUTTO");return;}
     localStorage.setItem("operatorUserId",id);
     localStorage.setItem("operatorUserPass",pw);
-    alert("Credenziali salvate");
+    alert("CREDENZIALI SALVATE");
 }
 
-/* FIRMA */
+/* FIRMA DIPENDENTE */
 let canvas=document.getElementById("firmaCanvas");
 let ctx=canvas.getContext("2d");
 let drawing=false;
@@ -345,8 +355,8 @@ function clearSignature(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
 }
 
-/* FATTURA */
-function generaFattura(){
+/* FATTURA PDF */
+async function generaFatturaPDF(){
     let nome=document.getElementById("fatturaNome").value.trim();
     let cognome=document.getElementById("fatturaCognome").value.trim();
     let targa=document.getElementById("fatturaTarga").value.trim();
@@ -354,23 +364,34 @@ function generaFattura(){
     let prezzo=document.getElementById("fatturaPrezzo").value.trim();
 
     if(!nome||!cognome||!targa||!auto||!prezzo){
-        alert("Compila tutto");
+        alert("COMPILA TUTTO");
         return;
     }
 
-    let firma=canvas.toDataURL();
-    let out=document.getElementById("fattura-output");
-    out.classList.remove("hidden");
+    const firmaData=canvas.toDataURL("image/png");
 
-    out.innerHTML=`
-        <h3>Fattura di Vendita</h3>
-        <p><b>Cliente:</b> ${nome} ${cognome}</p>
-        <p><b>Targa:</b> ${targa}</p>
-        <p><b>Auto:</b> ${auto}</p>
-        <p><b>Prezzo:</b> ${prezzo}</p>
-        <p><b>Firma Cliente:</b></p>
-        <img src="${firma}" style="max-width:300px;border:1px solid black">
-    `;
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF();
+
+    pdf.setFont("courier","bold");
+    pdf.setFontSize(20);
+    pdf.text("FATTURA DI VENDITA", 10, 20);
+
+    pdf.setFontSize(12);
+    pdf.setFont("courier","normal");
+    let y=40;
+    pdf.text(`CLIENTE: ${nome} ${cognome}`,10,y); y+=8;
+    pdf.text(`TARGA: ${targa}`,10,y); y+=8;
+    pdf.text(`MODELLO: ${auto}`,10,y); y+=8;
+    pdf.text(`PREZZO: ${prezzo}`,10,y); y+=8;
+    pdf.text(`CONCESSIONARIO: AUTONATION`,10,y); y+=12;
+
+    pdf.text("FIRMA DIPENDENTE:",10,y);
+    pdf.addImage(firmaData,"PNG",10,y+5,60,30);
+
+    pdf.save(`FATTURA_${nome}_${cognome}.PDF`);
+
+    alert("FATTURA PDF GENERATA");
 }
 </script>
 
