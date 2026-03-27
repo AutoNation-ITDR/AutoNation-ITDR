@@ -1,43 +1,56 @@
-const PASSWORD = "1234";
+const PASSWORD="1234"
 
-let cars = JSON.parse(localStorage.getItem("cars")) || [];
+let cars=JSON.parse(localStorage.getItem("cars"))||[]
 
-const carList = document.getElementById("car-list");
+const carList=document.getElementById("car-list")
 
-function displayCars() {
+function enterSite(){
 
-carList.innerHTML = "";
+document.getElementById("welcome").style.display="none"
+
+}
+
+function displayCars(){
+
+carList.innerHTML=""
 
 cars.forEach((car,index)=>{
 
-const div=document.createElement("div");
-div.classList.add("car");
+let div=document.createElement("div")
 
-div.innerHTML = `
+div.classList.add("car")
+
+div.innerHTML=`
+
 <img src="${car.image}">
+
 <h3>${car.name}</h3>
+
 <p>${car.price}</p>
+
 <button onclick="buyCar('${car.name}')">Seleziona</button>
+
 <button onclick="removeCar(${index})">Rimuovi</button>
-`;
 
-carList.appendChild(div);
+`
 
-});
+carList.appendChild(div)
+
+})
 
 }
 
 function openPanel(){
 
-let pass = prompt("Accesso personale");
+let pass=prompt("Accesso personale")
 
-if(pass === PASSWORD){
+if(pass===PASSWORD){
 
-document.getElementById("panel").classList.remove("hidden");
+document.getElementById("panel").classList.remove("hidden")
 
 }else{
 
-alert("Accesso negato");
+alert("Accesso negato")
 
 }
 
@@ -45,53 +58,51 @@ alert("Accesso negato");
 
 function closePanel(){
 
-document.getElementById("panel").classList.add("hidden");
+document.getElementById("panel").classList.add("hidden")
 
 }
 
 function addCar(){
 
-let name=document.getElementById("name").value;
-let price=document.getElementById("price").value;
-let image=document.getElementById("image").value;
+let name=document.getElementById("name").value
+let price=document.getElementById("price").value
+let image=document.getElementById("image").value
 
-if(!name || !price || !image){
+if(!name||!price||!image){
 
-alert("Compila tutti i campi");
-return;
+alert("Compila tutti i campi")
+return
 
 }
 
-cars.push({name,price,image});
+cars.push({name,price,image})
 
-localStorage.setItem("cars",JSON.stringify(cars));
+localStorage.setItem("cars",JSON.stringify(cars))
 
-displayCars();
+displayCars()
 
 }
 
 function removeCar(index){
 
-cars.splice(index,1);
+cars.splice(index,1)
 
-localStorage.setItem("cars",JSON.stringify(cars));
+localStorage.setItem("cars",JSON.stringify(cars))
 
-displayCars();
+displayCars()
 
 }
 
 function buyCar(name){
 
-alert("Hai selezionato: "+name);
+alert("Hai selezionato: "+name)
 
 }
 
 function scrollToCars(){
 
-document.getElementById("cars").scrollIntoView({
-behavior:"smooth"
-});
+document.getElementById("cars").scrollIntoView({behavior:"smooth"})
 
 }
 
-displayCars();
+displayCars()
