@@ -3,24 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>AutoNation | FiveM Dealership</title>
+
+<!-- FONT FIGO -->
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header>
-    <img src="logo.png" class="logo">
+    <img src="https://image2url.com/r2/default/images/1774614384610-971b0e79-0e76-406c-9777-e1e61f46a6a0.png" class="logo">
+
     <nav>
         <a href="#">Home</a>
         <a href="#cars">Auto</a>
-        <a href="#admin">Admin</a>
+        <a onclick="openAdmin()">Admin</a>
     </nav>
 </header>
 
 <section class="hero">
     <h1>AutoNation</h1>
-    <p>Concessionario Ufficiale FiveM</p>
-    <button onclick="scrollToCars()">Guarda le Auto</button>
+    <p>Concessionario FiveM Premium</p>
+    <button onclick="scrollToCars()">ENTRA</button>
 </section>
 
 <section id="cars">
@@ -28,16 +34,19 @@
     <div id="car-list"></div>
 </section>
 
-<!-- ADMIN PANEL -->
-<section id="admin">
-    <h2>Pannello Admin</h2>
+<!-- ADMIN (NASCOSTO) -->
+<div id="admin-panel" class="hidden">
+    <div class="admin-box">
+        <h2>Admin Panel</h2>
 
-    <input type="text" id="name" placeholder="Nome auto">
-    <input type="text" id="price" placeholder="Prezzo">
-    <input type="text" id="image" placeholder="Link immagine">
+        <input type="text" id="name" placeholder="Nome auto">
+        <input type="text" id="price" placeholder="Prezzo">
+        <input type="text" id="image" placeholder="Link immagine">
 
-    <button onclick="addCar()">Aggiungi Auto</button>
-</section>
+        <button onclick="addCar()">Aggiungi</button>
+        <button onclick="closeAdmin()" class="close">Chiudi</button>
+    </div>
+</div>
 
 <footer>
     <p>© 2026 AutoNation RP</p>
