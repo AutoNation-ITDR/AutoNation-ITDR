@@ -1,237 +1,147 @@
-body{
+const PASSWORD = "1234";
 
-margin:0;
+let cars = JSON.parse(localStorage.getItem("cars")) || [];
 
-font-family:'Orbitron',sans-serif;
+const carList = document.getElementById("car-list");
 
-background:#050505;
+displayCars();
 
-color:white;
+function displayCars(){
 
-}
+carList.innerHTML="";
 
+cars.forEach((car,index)=>{
 
-header{
+const div=document.createElement("div");
 
-display:flex;
+div.classList.add("car");
 
-justify-content:space-between;
+div.innerHTML=`
 
-padding:15px 30px;
+<img src="${car.image}">
 
-background:black;
+<h3>${car.name}</h3>
 
-border-bottom:2px solid #cc0000;
+<p>${car.price}</p>
 
-}
+<button onclick="buyCar('${car.name}')">Seleziona</button>
 
-.logo{
+<button onclick="removeCar(${index})">Elimina</button>
 
-height:60px;
+`;
 
-}
+carList.appendChild(div);
 
-
-nav a{
-
-color:white;
-
-margin-left:20px;
-
-cursor:pointer;
-
-text-decoration:none;
-
-}
-
-nav a:hover{
-
-color:#cc0000;
+});
 
 }
 
 
-.hero{
+function openPanel(){
 
-text-align:center;
+const pass=prompt("Accesso personale:");
 
-padding:120px;
+if(pass===PASSWORD){
 
-background:linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.9)),
-url('https://images.unsplash.com/photo-1503376780353-7e6692767b70') center/cover;
+document.getElementById("panel").classList.remove("hidden");
 
-}
+}else{
 
-.hero h1{
-
-font-size:70px;
-
-text-shadow:0 0 10px white;
+alert("Accesso negato");
 
 }
-
-.hero button{
-
-padding:12px 30px;
-
-background:#cc0000;
-
-border:none;
-
-color:white;
-
-cursor:pointer;
 
 }
 
 
-#cars{
+function closePanel(){
 
-padding:50px;
-
-text-align:center;
-
-}
-
-#car-list{
-
-display:flex;
-
-flex-wrap:wrap;
-
-justify-content:center;
+document.getElementById("panel").classList.add("hidden");
 
 }
 
 
-.car{
+function addCar(){
 
-background:#111;
+const name=document.getElementById("name").value;
 
-margin:15px;
+const price=document.getElementById("price").value;
 
-padding:15px;
+const image=document.getElementById("image").value;
 
-width:260px;
+if(!name||!price||!image){
 
-border-radius:12px;
+alert("Compila tutti i campi");
 
-transition:0.3s;
-
-}
-
-.car:hover{
-
-transform:scale(1.05);
-
-box-shadow:0 0 20px #cc0000;
+return;
 
 }
 
-.car img{
+cars.push({name,price,image});
 
-width:100%;
+localStorage.setItem("cars",JSON.stringify(cars));
 
-border-radius:8px;
+displayCars();
 
 }
 
 
-.hidden{
+function removeCar(index){
 
-display:none;
+if(confirm("Eliminare auto?")){
+
+cars.splice(index,1);
+
+localStorage.setItem("cars",JSON.stringify(cars));
+
+displayCars();
+
+}
 
 }
 
 
-#panel{
+function buyCar(name){
 
-position:fixed;
-
-width:100%;
-
-height:100%;
-
-background:rgba(0,0,0,0.9);
-
-top:0;
-
-left:0;
+alert("Hai selezionato: "+name);
 
 }
 
 
-.panel-box{
+function scrollToCars(){
 
-background:#111;
+document.getElementById("cars").scrollIntoView({
 
-padding:30px;
+behavior:"smooth"
 
-margin:100px auto;
-
-width:300px;
-
-text-align:center;
-
-border-radius:10px;
+});
 
 }
 
 
-.panel-box input{
+const dropArea=document.getElementById("drop-area");
 
-width:100%;
+dropArea.addEventListener("dragover",e=>{
 
-margin:10px 0;
+e.preventDefault();
 
-padding:10px;
-
-}
+});
 
 
-.panel-box button{
+dropArea.addEventListener("drop",e=>{
 
-padding:10px;
+e.preventDefault();
 
-margin:5px;
+const file=e.dataTransfer.files[0];
 
-border:none;
+const reader=new FileReader();
 
-background:#cc0000;
+reader.onload=function(event){
 
-color:white;
+document.getElementById("image").value=event.target.result;
 
-cursor:pointer;
+};
 
-}
+reader.readAsDataURL(file);
 
-
-.close{
-
-background:gray;
-
-}
-
-
-#drop-area{
-
-border:2px dashed #cc0000;
-
-padding:20px;
-
-margin-top:10px;
-
-cursor:pointer;
-
-}
-
-
-footer{
-
-text-align:center;
-
-padding:10px;
-
-background:black;
-
-}
+});
