@@ -1,50 +1,37 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"
-import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"
-
-const firebaseConfig = {
-
-apiKey:"API_KEY",
-authDomain:"PROJECT.firebaseapp.com",
-projectId:"PROJECT_ID"
-
+const USERS={
+admin:"1234",
+dipendente:"0000"
 }
 
-const app=initializeApp(firebaseConfig)
+let cars=JSON.parse(localStorage.getItem("cars"))||[]
+let sales=JSON.parse(localStorage.getItem("sales"))||[]
+let plate=localStorage.getItem("plate")||1
 
-const auth=getAuth()
+function login(){
 
-const db=getFirestore()
+let u=document.getElementById("username").value
+let p=document.getElementById("password").value
 
-let role="dipendente"
-
-window.login=async()=>{
-
-let email=document.getElementById("email").value
-let pass=document.getElementById("password").value
-
-await signInWithEmailAndPassword(auth,email,pass)
-
-}
-
-onAuthStateChanged(auth,user=>{
-
-if(user){
+if(USERS[u] && USERS[u]===p){
 
 document.getElementById("login").style.display="none"
 document.getElementById("app").style.display="block"
 
-if(user.email.includes("admin"))
-role="admin"
+showPage("dashboard")
 
 loadCars()
-loadVendite()
+loadSales()
+updateDashboard()
+
+}else{
+
+alert("Login errato")
 
 }
 
-})
+}
 
-window.showPage=(id)=>{
+function showPage(id){
 
 document.querySelectorAll(".page").forEach(p=>p.style.display="none")
 
@@ -52,43 +39,57 @@ document.getElementById(id).style.display="block"
 
 }
 
-window.addCar=async()=>{
+function save(){
+
+localStorage.setItem("cars",JSON.stringify(cars))
+localStorage.setItem("sales",JSON.stringify(sales))
+localStorage.setItem("plate",plate)
+
+}
+
+function addCar(){
 
 let name=document.getElementById("carName").value
 let price=document.getElementById("carPrice").value
+let file=document.getElementById("imgUpload").files[0]
 
-await addDoc(collection(db,"cars"),{
+let reader=new FileReader()
 
+reader.onload=function(){
+
+cars.push({
 name,
-price
-
+price,
+image:reader.result
 })
 
+save()
 loadCars()
 
 }
 
-async function loadCars(){
+reader.readAsDataURL(file)
+
+}
+
+function loadCars(){
 
 let list=document.getElementById("carList")
-
 list.innerHTML=""
 
-const query=await getDocs(collection(db,"cars"))
-
-query.forEach(doc=>{
-
-let c=doc.data()
+cars.forEach((c,i)=>{
 
 list.innerHTML+=`
 
 <div class="car">
 
+<img src="${c.image}">
+
 <h3>${c.name}</h3>
 
 <p>${c.price}</p>
 
-<button onclick="sellCar('${c.name}')">Vendi</button>
+<button onclick="sellCar(${i})">Vendi</button>
 
 </div>
 
@@ -98,46 +99,42 @@ list.innerHTML+=`
 
 }
 
-let targa=1
-
-window.sellCar=async(auto)=>{
+function sellCar(i){
 
 let nome=prompt("Nome cliente")
 let cognome=prompt("Cognome cliente")
 
-let plate="TEX-"+String(targa).padStart(3,"0")
+let t="TEX-"+String(plate).padStart(3,"0")
 
-targa++
+plate++
 
 let data=new Date().toLocaleDateString()
 
-await addDoc(collection(db,"sales"),{
+sales.push({
 
+plate:t,
 nome,
 cognome,
-auto,
-plate,
+auto:cars[i].name,
 data
 
 })
 
-generatePDF(nome,cognome,auto,plate)
+generatePDF(nome,cognome,cars[i].name,t)
 
-loadVendite()
+save()
+
+loadSales()
+updateDashboard()
 
 }
 
-async function loadVendite(){
+function loadSales(){
 
 let table=document.getElementById("sales")
-
 table.innerHTML=""
 
-const query=await getDocs(collection(db,"sales"))
-
-query.forEach(doc=>{
-
-let v=doc.data()
+sales.forEach(v=>{
 
 table.innerHTML+=`
 
@@ -156,6 +153,13 @@ table.innerHTML+=`
 
 }
 
+function updateDashboard(){
+
+document.getElementById("totAuto").innerText=cars.length
+document.getElementById("totVendite").innerText=sales.length
+
+}
+
 function generatePDF(nome,cognome,auto,plate){
 
 const { jsPDF } = window.jspdf
@@ -163,11 +167,8 @@ const { jsPDF } = window.jspdf
 let doc=new jsPDF()
 
 doc.text("Contratto Vendita Auto",20,20)
-
 doc.text("Cliente: "+nome+" "+cognome,20,40)
-
 doc.text("Auto: "+auto,20,60)
-
 doc.text("Targa: "+plate,20,80)
 
 doc.save("contratto-"+plate+".pdf")
@@ -178,6 +179,6 @@ let canvas=document.getElementById("signature")
 
 if(canvas){
 
-let signaturePad=new SignaturePad(canvas)
+new SignaturePad(canvas)
 
 }
