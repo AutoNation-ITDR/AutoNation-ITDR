@@ -5,10 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AUTONATION | GESTIONALE</title>
 
-<!-- jsPDF -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
 <style>
+/* -------------------- GLOBAL -------------------- */
 *{box-sizing:border-box}
 body{
     margin:0;
@@ -18,7 +16,7 @@ body{
     text-transform:uppercase;
 }
 
-/* HEADER */
+/* -------------------- HEADER -------------------- */
 header{
     display:flex;
     justify-content:space-between;
@@ -28,7 +26,7 @@ header{
     border-bottom:2px solid #cc0000;
 }
 .logo{
-    font-size:26px;
+    font-size:28px;
     font-weight:700;
     margin:0;
 }
@@ -45,7 +43,7 @@ nav a:hover{
     text-shadow:0 0 10px #ff3b3b;
 }
 
-/* BUTTONS */
+/* -------------------- BUTTONS -------------------- */
 button, .btn{
     background:#cc0000;
     border:none;
@@ -63,7 +61,7 @@ button:hover, .btn:hover{
     transform:scale(1.05);
 }
 
-/* PAGES */
+/* -------------------- PAGES -------------------- */
 .page{
     display:none;
     padding:40px 20px;
@@ -72,7 +70,7 @@ button:hover, .btn:hover{
     display:block;
 }
 
-/* HOME */
+/* -------------------- HOME -------------------- */
 .hero{
     text-align:center;
     padding:120px 20px;
@@ -91,7 +89,7 @@ button:hover, .btn:hover{
     margin-bottom:25px;
 }
 
-/* AUTO */
+/* -------------------- AUTO -------------------- */
 #car-list{
     display:flex;
     flex-wrap:wrap;
@@ -105,7 +103,6 @@ button:hover, .btn:hover{
     border-radius:12px;
     border:1px solid #222;
     transition:0.2s;
-    cursor:pointer;
 }
 .car:hover{
     transform:scale(1.05);
@@ -124,12 +121,8 @@ button:hover, .btn:hover{
     margin:0 0 10px;
     color:#ccc;
 }
-.car button{
-    margin-top:5px;
-    width:100%;
-}
 
-/* PANELS */
+/* -------------------- PANELS -------------------- */
 .panel-box{
     background:#111;
     padding:20px;
@@ -138,8 +131,7 @@ button:hover, .btn:hover{
     margin:20px auto;
     border:1px solid #222;
 }
-.panel-box input,
-.panel-box select{
+.panel-box input, .panel-box select{
     width:100%;
     margin:8px 0;
     padding:10px;
@@ -150,7 +142,7 @@ button:hover, .btn:hover{
     font-family:'Courier New', monospace;
 }
 
-/* FOOTER */
+/* -------------------- FOOTER -------------------- */
 footer{
     text-align:center;
     padding:10px;
@@ -158,9 +150,13 @@ footer{
     border-top:1px solid #222;
     font-size:12px;
 }
-.hidden{display:none}
+
+.hidden{
+    display:none;
+}
 </style>
 </head>
+
 <body>
 
 <header>
@@ -211,6 +207,7 @@ footer{
         <h3 style="text-align:center">CREA FATTURA</h3>
         <div class="panel-box">
 
+            <!-- MENU A TENDINA AUTO -->
             <select id="selectAuto" onchange="autoSelezionata()">
                 <option value="">SELEZIONA VEICOLO</option>
             </select>
@@ -254,11 +251,16 @@ footer{
     <p>© 2026 AUTONATION</p>
 </footer>
 
+<!-- jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 <script>
+/* -------------------- JS COMPLETO -------------------- */
+
 const OWNER_PASSWORD = "OWNER123";
 let cars = JSON.parse(localStorage.getItem("cars")) || [];
 
-/* CAMBIO PAGINA */
+/* -------------------- CAMBIO PAGINA -------------------- */
 function goPage(page){
     document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
     document.getElementById(page).classList.add('active');
@@ -267,7 +269,7 @@ function goPage(page){
     if(page === "personale") aggiornaSelectAuto();
 }
 
-/* MOSTRA AUTO ORDINATE */
+/* -------------------- MOSTRA AUTO ORDINATE -------------------- */
 function displayCars(){
     const carList = document.getElementById("car-list");
     carList.innerHTML = "";
@@ -280,28 +282,25 @@ function displayCars(){
     cars.sort((a,b)=> a.name.localeCompare(b.name));
 
     cars.forEach((car, index)=>{
-        const div = document.createElement("div");
-        div.className = "car";
-        div.onclick = ()=> selezionaAuto(car.name, car.price);
-
-        div.innerHTML = `
-            <img src="${car.image}">
-            <h3>${car.name}</h3>
-            <p>${car.price}</p>
-            <button onclick="event.stopPropagation(); removeCar(${index})">RIMUOVI</button>
+        carList.innerHTML += `
+            <div class="car" onclick="selezionaAuto('${car.name.replace(/'/g,"\\'")}', '${car.price.replace(/'/g,"\\'")}')">
+                <img src="${car.image}">
+                <h3>${car.name}</h3>
+                <p>${car.price}</p>
+                <button onclick="event.stopPropagation(); removeCar(${index})">RIMUOVI</button>
+            </div>
         `;
-        carList.appendChild(div);
     });
 }
 
-/* CLICK SU AUTO → COMPILA FATTURA */
+/* -------------------- CLICK SU AUTO → COMPILA FATTURA -------------------- */
 function selezionaAuto(nome, prezzo){
     goPage("personale");
     document.getElementById("fatturaAuto").value = nome;
     document.getElementById("fatturaPrezzo").value = prezzo;
 }
 
-/* MENU A TENDINA AUTO */
+/* -------------------- MENU A TENDINA AUTO -------------------- */
 function aggiornaSelectAuto(){
     const select = document.getElementById("selectAuto");
     select.innerHTML = `<option value="">SELEZIONA VEICOLO</option>`;
@@ -322,12 +321,11 @@ function autoSelezionata(){
     const nome = select.value;
     if(!nome) return;
     const prezzo = select.options[select.selectedIndex].dataset.price;
-
     document.getElementById("fatturaAuto").value = nome;
     document.getElementById("fatturaPrezzo").value = prezzo;
 }
 
-/* AGGIUNGI AUTO */
+/* -------------------- AGGIUNGI AUTO -------------------- */
 let currentImageBase64 = null;
 
 document.addEventListener("change", e=>{
@@ -355,14 +353,14 @@ function addCar(){
     alert("AUTO AGGIUNTA");
 }
 
-/* RIMUOVI AUTO */
+/* -------------------- RIMUOVI AUTO -------------------- */
 function removeCar(i){
     cars.splice(i,1);
     localStorage.setItem("cars", JSON.stringify(cars));
     displayCars();
 }
 
-/* LOGIN OPERATORE */
+/* -------------------- LOGIN OPERATORE -------------------- */
 function loginOperator(){
     let id = document.getElementById("userIdInput").value.trim();
     let pw = document.getElementById("userPassInput").value.trim();
@@ -383,7 +381,7 @@ function loginOperator(){
     }
 }
 
-/* LOGIN OWNER */
+/* -------------------- LOGIN OWNER -------------------- */
 function loginOwner(){
     let pw = document.getElementById("ownerPassInput").value.trim();
 
@@ -395,7 +393,7 @@ function loginOwner(){
     }
 }
 
-/* SALVA CREDENZIALI OPERATORE */
+/* -------------------- SALVA CREDENZIALI OPERATORE -------------------- */
 function salvaCredenzialiOperatore(){
     let id = document.getElementById("setUserId").value.trim();
     let pw = document.getElementById("setUserPass").value.trim();
@@ -411,7 +409,7 @@ function salvaCredenzialiOperatore(){
     alert("CREDENZIALI SALVATE");
 }
 
-/* FATTURA PDF */
+/* -------------------- PDF CON TIMBRO DIGITALE -------------------- */
 async function generaFatturaPDF(){
     let nome = document.getElementById("fatturaNome").value.trim();
     let cognome = document.getElementById("fatturaCognome").value.trim();
@@ -428,34 +426,41 @@ async function generaFatturaPDF(){
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF();
 
+    /* LOGO TESTUALE */
     pdf.setFont("courier","bold");
-    pdf.setFontSize(20);
-    pdf.text("AUTONATION", 10, 15);
+    pdf.setFontSize(24);
+    pdf.text("AUTONATION", 140, 15, {align:"right"});
 
-    pdf.setFontSize(16);
+    /* TITOLO */
+    pdf.setFontSize(20);
     pdf.text("FATTURA DI VENDITA", 10, 25);
 
     pdf.setFontSize(12);
     pdf.setFont("courier","normal");
 
-    let y = 40;
+    let y = 45;
     pdf.text(`CLIENTE: ${nome} ${cognome}`,10,y); y+=8;
     pdf.text(`TARGA: ${targa}`,10,y); y+=8;
     pdf.text(`MODELLO: ${auto}`,10,y); y+=8;
     pdf.text(`PREZZO: ${prezzo}`,10,y); y+=12;
 
+    /* FIRMA DIGITALE */
     pdf.text("FIRMA DIGITALE DIPENDENTE:",10,y);
     pdf.text(firma, 80, y);
     y+=20;
 
+    /* TIMBRO DIGITALE (RIQUADRO ROSSO) */
     pdf.setDrawColor(255,0,0);
-    pdf.setLineWidth(0.7);
-    pdf.rect(10, y, 80, 25);
+    pdf.setLineWidth(0.8);
+    pdf.rect(10, y, 90, 28);
+
     pdf.setFont("courier","bold");
     pdf.text("TIMBRO DIGITALE", 15, y+10);
     pdf.text("AUTONATION", 15, y+20);
+
     y+=40;
 
+    /* DISCLAIMER */
     pdf.setFontSize(10);
     pdf.setFont("courier","normal");
     pdf.text("QUESTA FATTURA È GENERATA DIGITALMENTE DA AUTONATION.",10,y); y+=6;
