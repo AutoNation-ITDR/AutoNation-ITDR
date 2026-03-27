@@ -38,7 +38,7 @@ function displayCars() {
     });
 }
 
-// APERTURA PANNELLO (SOLO SE CLICCHI PERSONALE)
+// APERTURA PANNELLO
 function openPanel() {
     let pass = prompt("Accesso personale");
     if (pass === PASSWORD) {
@@ -98,7 +98,7 @@ function scrollToCars() {
     document.getElementById("cars").scrollIntoView({ behavior: "smooth" });
 }
 
-/* GESTIONE UPLOAD IMMAGINE */
+/* UPLOAD IMMAGINE */
 
 // click su area -> apre file input
 dropArea.addEventListener("click", () => {
