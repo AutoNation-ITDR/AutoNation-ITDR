@@ -1,41 +1,30 @@
-const USERS={
-admin:"1234",
-dipendente:"0000"
-}
+const ADMIN_PASSWORD="1234"
 
 let cars=JSON.parse(localStorage.getItem("cars"))||[]
 let sales=JSON.parse(localStorage.getItem("sales"))||[]
 let plate=localStorage.getItem("plate")||1
-
-function login(){
-
-let u=document.getElementById("username").value
-let p=document.getElementById("password").value
-
-if(USERS[u] && USERS[u]===p){
-
-document.getElementById("login").style.display="none"
-document.getElementById("app").style.display="block"
-
-showPage("dashboard")
-
-loadCars()
-loadSales()
-updateDashboard()
-
-}else{
-
-alert("Login errato")
-
-}
-
-}
 
 function showPage(id){
 
 document.querySelectorAll(".page").forEach(p=>p.style.display="none")
 
 document.getElementById(id).style.display="block"
+
+}
+
+function openAdmin(){
+
+let pass=prompt("Password Admin")
+
+if(pass===ADMIN_PASSWORD){
+
+showPage("vendite")
+
+}else{
+
+alert("Accesso negato")
+
+}
 
 }
 
@@ -182,3 +171,9 @@ if(canvas){
 new SignaturePad(canvas)
 
 }
+
+showPage("dashboard")
+
+loadCars()
+loadSales()
+updateDashboard()
