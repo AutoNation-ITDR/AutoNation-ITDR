@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoNation Austin | Rainbow Smoke Luxury</title>
+    <title>AutoNation Austin | Typography Smoke Luxury</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Montserrat:wght@700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -25,12 +25,12 @@
             --glass: blur(10px) saturate(180%);
         }
 
-        /* --- RAINBOW SMOKE CANVAS CSS --- */
+        /* --- TYPOGRAPHY SMOKE CANVAS CSS --- */
         #smoke-canvas {
             position: fixed;
             top: 0; left: 0;
             width: 100vw; height: 100vh;
-            pointer-events: none; /* Non blocca i clic sui pulsanti */
+            pointer-events: none; /* Non blocca i clic */
             z-index: 9999; /* Sopra a tutto */
         }
 
@@ -90,15 +90,11 @@
         .tag-Electric { background: #00ff88; color: #000; }
         .tag-Classic { background: #9d50bb; color: #fff; }
 
-        /* OWNER/SALES PANELS */
+        /* PANEL */
         .panel-card { background: var(--surface); border-radius: var(--radius-lg); padding: 45px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 30px; backdrop-filter: var(--glass); }
-        .input-group { margin-bottom: 20px; }
-        .input-group label { display: block; font-size: 0.7rem; font-weight: 800; color: var(--primary); text-transform: uppercase; margin-bottom: 8px; }
         input, select { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); padding: 15px; border-radius: var(--radius-md); color: white; font-family: 'Outfit'; }
-        
         .btn-main { background: var(--primary); color: white; border: none; padding: 18px; border-radius: var(--radius-md); font-weight: 900; width: 100%; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
         .btn-main:hover { transform: scale(1.02); box-shadow: 0 0 30px rgba(255,46,77,0.4); }
-        
         .btn-secondary { background: transparent; color: var(--text-dim); border: 1px solid rgba(255,255,255,0.1); padding: 15px; border-radius: var(--radius-md); font-weight: 700; cursor: pointer; text-transform: uppercase; width: 100%; margin-top: 15px; }
 
         /* TABLES */
@@ -225,100 +221,144 @@ firebase.initializeApp(config);
 const db = firebase.database();
 let carStorage = {}, cachedImg = null;
 
-// --- LOGICA RAINBOW SMOKE ---
+// --- LOGICA TYPOGRAPHY SMOKE ---
 const canvas = document.getElementById('smoke-canvas');
 const ctx = canvas.getContext('2d');
 
 let particles = [];
-let hue = 0; // Colore iniziale (Arcobaleno)
 const mouse = { x: undefined, y: undefined };
+const textToCompose = "AUTONATION"; // Testo da comporre
 
-// Ridimensiona il canvas a tutto schermo
+// Ridimensiona canvas
 function resizeCanvas() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 }
 window.addEventListener('resize', resizeCanvas);
-resizeCanvas(); // Iniziale
+resizeCanvas();
 
-// Traccia il mouse
+// Traccia mouse
 window.addEventListener('mousemove', (e) => {
     mouse.x = e.clientX;
     mouse.y = e.clientY;
-    
-    // Genera particelle mentre il mouse si muove
-    for (let i = 0; i < 3; i++) { // Quante particelle per movimento
-        particles.push(new Particle());
-    }
 });
 
-// Classe Particella (Fumo)
+// Classe Particella (Punto tipografico)
 class Particle {
-    constructor() {
-        this.x = mouse.x;
+    constructor(x, y, color) {
+        this.baseX = x; // Posizione target per comporre il testo
+        this.baseY = y;
+        this.x = mouse.x; // Parte dalla posizione attuale del mouse
         this.y = mouse.y;
+        this.size = Math.random() * 2 + 0.5; // Dimensione punto luminosa
+        this.color = color;
         
-        // Dimensione iniziale casuale
-        this.size = Math.random() * 15 + 5; 
+        // Movimento (effetto fumo che si allontana e dissolve)
+        this.vx = Math.random() * 3 - 1.5; 
+        this.vy = Math.random() * -2 - 0.5; 
         
-        // Velocità casuale (si espande)
-        this.speedX = Math.random() * 2 - 1; // -1 a 1
-        this.speedY = Math.random() * 2 - 1; 
-        
-        // Colore arcobaleno che cambia nel tempo
-        this.color = `hsla(${hue}, 100%, 50%, 0.8)`; 
-        
-        // Trasparenza iniziale
+        // Dissolvenza
         this.opacity = 1;
+        this.dissolveSpeed = Math.random() * 0.02 + 0.01;
+        
+        // Temporizzatore per iniziare a dissolversi
+        this.lifeSpan = 15; 
     }
 
     update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        
-        // La particella si rimpicciolisce
-        if (this.size > 0.2) this.size -= 0.15; 
-        
-        // Sfuma la trasparenza (fumo che si dissolve)
-        this.opacity -= 0.015;
+        // Se la particella ha finito la sua vita "target", inizia a "fumare"
+        if (this.lifeSpan > 0) {
+            // Effetto "magnetico" per comporre il testo temporaneamente
+            const dx = this.baseX - this.x;
+            const dy = this.baseY - this.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            const force = (50 - distance) / 100; // Forza di attrazione
+
+            if (distance > 2) {
+                this.x += dx * force;
+                this.y += dy * force;
+            }
+            this.lifeSpan--;
+        } else {
+            // Effetto fumo (si muove casualmente e sale)
+            this.x += this.vx;
+            this.y += this.vy;
+            this.opacity -= this.dissolveSpeed;
+        }
     }
 
     draw() {
         ctx.fillStyle = this.color;
-        ctx.globalAlpha = this.opacity; // Applica trasparenza
+        ctx.shadowBlur = 10; // Effetto bagliore
+        ctx.shadowColor = this.color;
+        ctx.globalAlpha = this.opacity;
         ctx.beginPath();
-        // Disegna un cerchio sfocato (effetto fumo)
-        ctx.arc(this.x, this.y, this.size, 0, Math.random() * Math.PI * 2);
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
-        ctx.globalAlpha = 1; // Resetta trasparenza
+        ctx.globalAlpha = 1; // Reset
+        ctx.shadowBlur = 0;
     }
 }
 
-// Ciclo di animazione principale
-function animateSmoke() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height); // Pulisce il canvas
-    
-    handleParticles();
-    
-    hue += 2; // Cambia il colore dell'arcobaleno continuamente
-    if (hue > 360) hue = 0;
+// Funzione per convertire il testo in coordinate di particelle
+function getTextParticles(text) {
+    // Canvas temporaneo invisibile per analizzare il testo
+    const textCanvas = document.createElement('canvas');
+    const tCtx = textCanvas.getContext('2d');
+    textCanvas.width = 300; // Spazio per il testo
+    textCanvas.height = 100;
 
-    requestAnimationFrame(animateSmoke);
+    tCtx.fillStyle = 'white';
+    tCtx.font = 'bold 30px Montserrat'; // Stile del logo
+    tCtx.textBaseline = 'middle';
+    tCtx.fillText(text, 10, 50);
+
+    const data = tCtx.getImageData(0, 0, textCanvas.width, textCanvas.height).data;
+    const newParticles = [];
+
+    for (let y = 0; y < textCanvas.height; y += 2) { // Campionamento
+        for (let x = 0; x < textCanvas.width; x += 2) {
+            // Se il pixel è bianco (fa parte del testo)
+            if (data[(y * textCanvas.width + x) * 4] > 128) {
+                // Coordinate relative al mouse (fluttuano accanto)
+                const posX = x + mouse.x + 20; 
+                const posY = y + mouse.y - 40; 
+                
+                // Colore alternato arcobaleno (richiamo logo)
+                const hue = (particles.length * 3) % 360;
+                const color = `hsla(${hue}, 100%, 60%, 1)`;
+
+                newParticles.push(new Particle(posX, posY, color));
+            }
+        }
+    }
+    return newParticles;
 }
 
-function handleParticles() {
+// Ciclo principale
+function animateSmoke() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // Pulisce
+    
+    // Se il mouse si muove, genera il testo
+    if (mouse.x && Math.random() < 0.2) { // Generazione non troppo frenetica
+        const tParticles = getTextParticles(textToCompose);
+        particles.push(...tParticles);
+    }
+
+    // Gestione particelle
     for (let i = 0; i < particles.length; i++) {
         particles[i].update();
         particles[i].draw();
         
-        // Rimuove le particelle trasparenti o troppo piccole
-        if (particles[i].opacity <= 0 || particles[i].size <= 0.3) {
+        // Rimuove particelle dissolte
+        if (particles[i].opacity <= 0) {
             particles.splice(i, 1);
-            i--; // Aggiusta l'indice dopo la rimozione
+            i--;
         }
     }
+    requestAnimationFrame(animateSmoke);
 }
-animateSmoke(); // Avvia animazione
+animateSmoke(); // Avvia
 
 // --- LOGICA SITO ---
 const LOGO_URL = "https://res.cloudinary.com/dn0k6htsv/image/upload/v1774647697/zcbubagqn4hpxmlzwwan.png";
@@ -365,8 +405,9 @@ async function generatePDF(data) {
     doc.setFontSize(10); doc.setTextColor(0);
     doc.text(`CLIENTE: ${data.cliente.toUpperCase()}`, 15, 60);
     doc.text(`VEICOLO: ${data.veicolo}`, 15, 70);
-    doc.text(`PREZZO: $ ${parseInt(data.prezzo).toLocaleString()}`, 15, 80);
-    doc.text(`FIRMA AGENTE: ${data.staff}`, 15, 140);
+    doc.text(`TARGA: ${data.targa}`, 15, 80);
+    doc.text(`PREZZO: $ ${parseInt(data.prezzo).toLocaleString()}`, 15, 90);
+    doc.text(`FIRMA AGENTE: ${data.staff}`, 15, 150);
     try { doc.addImage(TIMBRO_URL, 'PNG', 130, 130, 45, 45); } catch(e){}
     doc.save(`Fattura_${data.targa}.pdf`);
 }
