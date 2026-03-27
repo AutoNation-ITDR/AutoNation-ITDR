@@ -3,158 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AUTONATION | PRO CLOUD GESTIONALE</title>
+    <title>AUTONATION | CLOUD SYSTEM</title>
 
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <style>
-        :root {
-            --primary: #cc0000;
-            --primary-hover: #ff3b3b;
-            --bg: #050505;
-            --card-bg: #111;
-            --border: #222;
-            --text: #ffffff;
-        }
-
-        * { box-sizing: border-box; transition: all 0.3s ease; }
+        :root { --red: #cc0000; --red-h: #ff3b3b; --bg: #050505; --card: #111; }
+        * { box-sizing: border-box; font-family: 'Courier New', monospace; }
+        body { margin: 0; background: var(--bg); color: white; text-transform: uppercase; }
         
-        body {
-            margin: 0;
-            font-family: 'Courier New', monospace;
-            background: var(--bg);
-            color: var(--text);
-            text-transform: uppercase;
-            overflow-x: hidden;
-        }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 30px; background: #000; border-bottom: 2px solid var(--red); position: sticky; top: 0; z-index: 100; }
+        .logo { font-size: 26px; font-weight: 900; letter-spacing: 2px; margin: 0; }
+        nav a { color: white; margin-left: 20px; text-decoration: none; font-weight: 700; cursor: pointer; font-size: 13px; }
+        nav a:hover { color: var(--red-h); }
 
-        /* Scrollbar stilizzata */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #000; }
-        ::-webkit-scrollbar-thumb { background: var(--primary); }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 40px;
-            background: rgba(0,0,0,0.95);
-            border-bottom: 3px solid var(--primary);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .logo { font-size: 32px; font-weight: 900; letter-spacing: 3px; color: var(--text); margin: 0; }
-        
-        nav a {
-            color: var(--text);
-            margin-left: 25px;
-            text-decoration: none;
-            font-weight: 700;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        nav a:hover { color: var(--primary-hover); text-shadow: 0 0 10px var(--primary-hover); }
-
-        .btn, button {
-            background: var(--primary);
-            border: none;
-            padding: 14px 28px;
-            border-radius: 4px;
-            color: white;
-            font-weight: 700;
-            cursor: pointer;
-            letter-spacing: 2px;
-            display: inline-block;
-            text-decoration: none;
-            margin-top: 10px;
-        }
-
-        .btn:hover, button:hover {
-            background: var(--primary-hover);
-            box-shadow: 0 0 20px rgba(255, 59, 59, 0.4);
-            transform: translateY(-2px);
-        }
-
-        .page { display: none; padding: 60px 20px; min-height: 80vh; animation: fadeIn 0.5s ease; }
+        .page { display: none; padding: 40px 20px; animation: fIn 0.4s; }
         .page.active { display: block; }
+        @keyframes fIn { from {opacity:0} to {opacity:1} }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .hero {
-            text-align: center;
-            padding: 150px 20px;
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), 
-                        url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1920&q=80') center/cover;
-            border-radius: 0 0 50px 50px;
-        }
-
-        .hero h1 { font-size: clamp(30px, 8vw, 70px); margin: 0; text-shadow: 2px 2px 10px #000; }
-
-        #car-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .car {
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: 15px;
-            border: 1px solid var(--border);
-            text-align: center;
-        }
-
-        .car:hover { border-color: var(--primary); transform: scale(1.03); }
-        .car img { width: 100%; height: 180px; object-fit: cover; border-radius: 10px; margin-bottom: 15px; }
-
-        .panel-box {
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 15px;
-            max-width: 450px;
-            margin: 0 auto 30px;
-            border: 1px solid var(--border);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        .panel-box h3 { border-bottom: 1px solid var(--primary); padding-bottom: 10px; margin-top: 0; }
-
-        input, select {
-            width: 100%;
-            margin: 12px 0;
-            padding: 12px;
-            border-radius: 6px;
-            border: 1px solid #333;
-            background: #000;
-            color: white;
-            font-family: inherit;
-        }
-
-        input:focus { border-color: var(--primary); outline: none; }
-
-        .status-tag {
-            font-size: 10px;
-            padding: 4px 8px;
-            background: #222;
-            border-radius: 4px;
-            margin-bottom: 10px;
-            display: inline-block;
-        }
-
-        footer { text-align: center; padding: 40px; background: #000; border-top: 1px solid var(--border); color: #444; }
+        .hero { text-align: center; padding: 100px 20px; background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80') center/cover; border-radius: 0 0 30px 30px; }
         
+        #car-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; max-width: 1200px; margin: 0 auto; }
+        .car { background: var(--card); padding: 15px; width: 280px; border-radius: 12px; border: 1px solid #222; position: relative; }
+        .car img { width: 100%; height: 160px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; }
+        .car-info { font-size: 12px; color: #aaa; margin-bottom: 5px; }
+
+        .panel-box { background: var(--card); padding: 25px; border-radius: 12px; max-width: 450px; margin: 0 auto 20px; border: 1px solid #333; }
+        input, select { width: 100%; margin: 8px 0; padding: 12px; border-radius: 5px; border: 1px solid #333; background: #000; color: white; }
+        
+        button, .btn { background: var(--red); border: none; padding: 12px 20px; color: white; font-weight: 700; cursor: pointer; width: 100%; border-radius: 5px; margin-top: 10px; }
+        button:hover { background: var(--red-h); transform: scale(1.02); }
+        .btn-del { background: #333; font-size: 10px; margin-top: 5px; }
+
         .hidden { display: none; }
-        .loading-spinner { color: var(--primary); text-align: center; font-weight: bold; }
+        footer { text-align: center; padding: 30px; font-size: 10px; color: #444; }
     </style>
 </head>
-
 <body>
 
 <header>
@@ -169,79 +55,83 @@
 
 <div id="home" class="page active">
     <section class="hero">
-        <div class="status-tag">SISTEMA CLOUD ATTIVO</div>
-        <h1>THE POWER OF EXCELLENCE</h1>
-        <p>GESTIONALE SINCRONIZZATO PER CONCESSIONARI PREMIUM</p>
-        <a class="btn" onclick="goPage('auto')">ENTRA NELLO SHOWROOM</a>
+        <h1>AUTONATION SYSTEM</h1>
+        <p>GESTIONALE CLOUD REAL-TIME</p>
+        <button onclick="goPage('auto')" style="width:auto">VEDI SHOWROOM</button>
     </section>
 </div>
 
 <div id="auto" class="page">
-    <h2 style="text-align:center; font-size: 32px;">SHOWROOM ONLINE</h2>
-    <div id="car-list" class="loading-spinner">CONNESSIONE AL DATABASE...</div>
+    <h2 style="text-align:center">VEICOLI DISPONIBILI</h2>
+    <div id="car-list">CARICAMENTO...</div>
 </div>
 
 <div id="personale" class="page">
-    <h2 style="text-align:center">GESTIONE OPERATIVA</h2>
-    
+    <h2 style="text-align:center">AREA OPERATIVA</h2>
     <div id="personal-login" class="panel-box">
-        <h3>ACCESSO OPERATORE</h3>
         <input id="userIdInput" placeholder="USER ID">
         <input id="userPassInput" type="password" placeholder="PASSWORD">
-        <button onclick="loginOperator()" style="width:100%">ENTRA</button>
-        <p style="font-size:10px; color:#666; margin-top:15px;">CREDENTIALI DEFAULT: admin / 1234 (Se non cambiate)</p>
+        <button onclick="loginOperator()">ACCEDI</button>
     </div>
-
     <div id="personal-content" class="hidden">
         <div class="panel-box">
-            <h3>AGGIUNGI NUOVO VEICOLO</h3>
-            <input id="name" placeholder="MODELLO AUTO (ES. PORSCHE 911)">
-            <input id="price" placeholder="PREZZO (ES. €120.000)">
-            <input type="file" id="imageFile" accept="image/*">
-            <button onclick="addCar()" style="width:100%">PUBBLICA SUL SITO</button>
-        </div>
-
-        <div class="panel-box">
-            <h3>GENERATORE FATTURE</h3>
-            <select id="selectAuto" onchange="autoSelezionata()">
-                <option value="">CARICAMENTO AUTO...</option>
-            </select>
-            <input id="fatturaNome" placeholder="NOME CLIENTE">
-            <input id="fatturaCognome" placeholder="COGNOME CLIENTE">
-            <input id="fatturaTarga" placeholder="TARGA VEICOLO">
-            <input id="fatturaAuto" placeholder="MODELLO SELEZIONATO" readonly>
-            <input id="fatturaPrezzo" placeholder="PREZZO" readonly>
-            <input id="firmaDigitale" placeholder="FIRMA OPERATORE">
-            <button onclick="generaFatturaPDF()" style="width:100%; background:#222; border:1px solid var(--primary)">SCARICA PDF FATTURA</button>
+            <h3>CREA FATTURA</h3>
+            <select id="selectAuto" onchange="autoSelezionata()"><option>CARICAMENTO...</option></select>
+            <input id="fNome" placeholder="NOME CLIENTE">
+            <input id="fTarga" placeholder="TARGA">
+            <input id="fAuto" placeholder="MODELLO" readonly>
+            <input id="fPrezzo" placeholder="PREZZO" readonly>
+            <input id="fFirma" placeholder="TUA FIRMA">
+            <button onclick="generaPDF()">SCARICA FATTURA</button>
         </div>
     </div>
 </div>
 
 <div id="owner" class="page">
-    <h2 style="text-align:center">PROPRIETARIO</h2>
+    <h2 style="text-align:center">DASHBOARD PROPRIETARIO</h2>
     <div id="owner-login" class="panel-box">
-        <h3>ACCESSO RISERVATO</h3>
-        <input id="ownerPassInput" type="password" placeholder="PASSWORD OWNER">
-        <button onclick="loginOwner()" style="width:100%">LOGIN</button>
+        <input id="ownerPassInput" type="password" placeholder="PASSWORD OWNER (OWNER123)">
+        <button onclick="loginOwner()">ACCEDI OWNER</button>
     </div>
-    
     <div id="owner-content" class="hidden">
         <div class="panel-box">
+            <h3>AGGIUNGI NUOVA AUTO</h3>
+            <input id="name" placeholder="NOME MODELLO">
+            <input id="price" placeholder="PREZZO (€)">
+            
+            <label style="font-size:10px">TYPE:</label>
+            <select id="type">
+                <option value="Regular">Regular</option>
+                <option value="Prestige">Prestige</option>
+                <option value="Electric">Electric</option>
+                <option value="Classic">Classic</option>
+            </select>
+
+            <label style="font-size:10px">CLASS:</label>
+            <select id="class">
+                <option value="Car">Car</option>
+                <option value="Truck">Truck</option>
+                <option value="SUV">SUV</option>
+                <option value="Industrial">Industrial</option>
+            </select>
+
+            <input type="file" id="imageFile" accept="image/*">
+            <button onclick="addCar()">PUBBLICA NEL DATABASE</button>
+        </div>
+
+        <div class="panel-box">
             <h3>CONFIGURA OPERATORE</h3>
-            <p style="font-size:11px">Cambia le credenziali per i tuoi dipendenti</p>
             <input id="setUserId" placeholder="NUOVO USER ID">
-            <input id="setUserPass" type="password" placeholder="NUOVA PASSWORD">
-            <button onclick="salvaCredenziali()" style="width:100%">AGGIORNA CLOUD</button>
+            <input id="setUserPass" placeholder="NUOVA PASSWORD">
+            <button onclick="salvaCredenziali()">SALVA CREDENZIALI</button>
         </div>
     </div>
 </div>
 
-<footer>
-    <p>© 2026 AUTONATION DATABASE SYSTEM | TUTTI I DIRITTI RISERVATI</p>
-</footer>
+<footer>AUTONATION CLOUD © 2026</footer>
 
 <script>
-// --- CONFIGURAZIONE FIREBASE ---
+// CONFIGURAZIONE
 const firebaseConfig = {
     apiKey: "AIzaSyCUH4SGDnbvh1clXm_R_n3ynmDndhIwsbM",
     authDomain: "autonation-bc786.firebaseapp.com",
@@ -252,196 +142,109 @@ const firebaseConfig = {
     appId: "1:440986575785:web:e80e42f31a0b5c0b095ab8"
 };
 
-// Inizializzazione
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
-
 let cars = [];
-let currentImageBase64 = null;
+let currentImg = null;
 
-// AGGIORNAMENTO DATI IN TEMPO REALE
-db.ref('cars').on('value', (snapshot) => {
-    const data = snapshot.val();
+// SYNC AUTO
+db.ref('cars').on('value', snap => {
+    const data = snap.val();
     cars = [];
+    const list = document.getElementById("car-list");
     const select = document.getElementById("selectAuto");
+    list.innerHTML = "";
     select.innerHTML = `<option value="">SELEZIONA VEICOLO</option>`;
-    
+
     if(data) {
         for(let id in data) {
-            let car = { id, ...data[id] };
-            cars.push(car);
-            
-            // Popola la tendina fattura
-            let opt = document.createElement("option");
-            opt.value = car.name;
-            opt.textContent = car.name;
-            opt.dataset.price = car.price;
-            select.appendChild(opt);
+            let c = { id, ...data[id] };
+            cars.push(c);
+            list.innerHTML += `
+                <div class="car">
+                    <img src="${c.image}">
+                    <div class="car-info">${c.type} | ${c.class}</div>
+                    <h3 style="margin:5px 0">${c.name}</h3>
+                    <p style="color:var(--red); font-weight:bold; margin:0">${c.price}</p>
+                    <button class="btn-del" onclick="deleteCar('${c.id}')">ELIMINA</button>
+                </div>`;
+            select.innerHTML += `<option value="${c.name}" data-price="${c.price}">${c.name}</option>`;
         }
-    }
-    displayCars();
-}, (error) => {
-    console.error("Errore Database:", error);
-    document.getElementById("car-list").innerHTML = "ERRORE DI CONNESSIONE. CONTROLLA LE REGOLE DEL DATABASE.";
+    } else { list.innerHTML = "DATABASE VUOTO"; }
 });
 
-function displayCars(){
-    const list = document.getElementById("car-list");
-    list.innerHTML = "";
-    if(cars.length === 0) {
-        list.innerHTML = "<div style='grid-column: 1/-1; text-align:center;'>NESSUNA AUTO NEL DATABASE CLOUD.</div>";
-        return;
-    }
-    cars.forEach(car => {
-        list.innerHTML += `
-            <div class="car">
-                <img src="${car.image}">
-                <h3>${car.name}</h3>
-                <p style="color:var(--primary); font-weight:bold">${car.price}</p>
-                <button onclick="preparaFatturaDiretta('${car.name}', '${car.price}')" style="font-size:10px; padding:8px">VENDI</button>
-                <button onclick="deleteCar('${car.id}')" style="font-size:10px; background:#333; padding:8px">X</button>
-            </div>`;
-    });
-}
-
-// FUNZIONI NAVIGAZIONE
-function goPage(p){
+function goPage(p) {
     document.querySelectorAll('.page').forEach(pg => pg.classList.remove('active'));
     document.getElementById(p).classList.add('active');
-    window.scrollTo(0,0);
 }
 
-// GESTIONE IMMAGINE (Conversione in stringa per il database)
-document.getElementById('imageFile').addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (file.size > 1000000) { // Limite 1MB per sicurezza database
-        alert("IMMAGINE TROPPO GRANDE! USA UN FILE SOTTO 1MB.");
-        e.target.value = "";
-        return;
-    }
-    const reader = new FileReader();
-    reader.onload = (ev) => currentImageBase64 = ev.target.result;
-    reader.readAsDataURL(file);
-});
+// IMMAGINE
+document.getElementById('imageFile').onchange = e => {
+    const r = new FileReader();
+    r.onload = ev => currentImg = ev.target.result;
+    r.readAsDataURL(e.target.files[0]);
+};
 
-function addCar(){
+// AZIONI OWNER
+function addCar() {
     const n = document.getElementById('name').value;
     const p = document.getElementById('price').value;
-    if(!n || !p || !currentImageBase64) return alert("ERRORE: COMPILA NOME, PREZZO E FOTO!");
+    const t = document.getElementById('type').value;
+    const c = document.getElementById('class').value;
+    if(!n || !p || !currentImg) return alert("MANCANO DATI!");
     
-    db.ref('cars').push({ name: n, price: p, image: currentImageBase64 })
-    .then(() => {
-        alert("AUTO CARICATA CON SUCCESSO!");
-        document.getElementById('name').value = "";
-        document.getElementById('price').value = "";
-        document.getElementById('imageFile').value = "";
-    });
+    db.ref('cars').push({ name:n, price:p, type:t, class:c, image:currentImg })
+    .then(() => { alert("AUTO AGGIUNTA!"); currentImg=null; document.getElementById('imageFile').value=""; });
 }
 
-function deleteCar(id){
-    if(confirm("VUOI ELIMINARE DEFINITIVAMENTE QUESTA AUTO?")) {
-        db.ref('cars/' + id).remove();
-    }
-}
-
-// SISTEMA LOGIN MIGLIORATO
-function loginOperator() {
-    const u = document.getElementById('userIdInput').value;
-    const p = document.getElementById('userPassInput').value;
-    
-    db.ref('settings/operator').once('value').then(snap => {
-        let cred = snap.val();
-        
-        // Se il database è nuovo, crea l'utente admin di default
-        if(!cred) {
-            if(u === "admin" && p === "1234") {
-                autorizzaOperatore();
-                // Salva admin nel cloud così esiste per il prossimo accesso
-                db.ref('settings/operator').set({ user: "admin", pass: "1234" });
-            } else alert("UTENTE DI DEFAULT: admin / 1234");
-            return;
-        }
-
-        if(u === cred.user && p === cred.pass) {
-            autorizzaOperatore();
-        } else {
-            alert("CREDENZIALI ERRATE!");
-        }
-    });
-}
-
-function autorizzaOperatore() {
-    document.getElementById('personal-login').classList.add('hidden');
-    document.getElementById('personal-content').classList.remove('hidden');
+function deleteCar(id) {
+    if(confirm("ELIMINARE?")) db.ref('cars/'+id).remove();
 }
 
 function loginOwner() {
     if(document.getElementById('ownerPassInput').value === "OWNER123") {
         document.getElementById('owner-login').classList.add('hidden');
         document.getElementById('owner-content').classList.remove('hidden');
-    } else alert("PASSWORD PROPRIETARIO ERRATA!");
+    } else alert("ERRORE");
 }
 
 function salvaCredenziali() {
-    const id = document.getElementById('setUserId').value;
-    const pw = document.getElementById('setUserPass').value;
-    if(!id || !pw) return alert("INSERISCI DATI VALIDI");
-    db.ref('settings/operator').set({ user: id, pass: pw })
-    .then(() => alert("CREDENZIALI OPERATORE AGGIORNATE SUL CLOUD!"));
+    const u = document.getElementById('setUserId').value;
+    const p = document.getElementById('setUserPass').value;
+    db.ref('settings/op').set({ user:u, pass:p }).then(()=>alert("SALVATO"));
 }
 
-// GESTIONE FATTURE
-function preparaFatturaDiretta(nome, prezzo) {
-    goPage('personale');
-    document.getElementById("fatturaAuto").value = nome;
-    document.getElementById("fatturaPrezzo").value = prezzo;
+// AZIONI OPERATORE
+function loginOperator() {
+    const u = document.getElementById('userIdInput').value;
+    const p = document.getElementById('userPassInput').value;
+    db.ref('settings/op').once('value').then(s => {
+        const c = s.val();
+        // Default admin/1234 se il db è vuoto
+        if((!c && u==="admin" && p==="1234") || (c && u===c.user && p===c.pass)) {
+            document.getElementById('personal-login').classList.add('hidden');
+            document.getElementById('personal-content').classList.remove('hidden');
+        } else alert("NEGATO");
+    });
 }
 
-function autoSelezionata(){
+function autoSelezionata() {
     const s = document.getElementById("selectAuto");
-    document.getElementById("fatturaAuto").value = s.value;
-    document.getElementById("fatturaPrezzo").value = s.options[s.selectedIndex].dataset.price || "";
+    document.getElementById("fAuto").value = s.value;
+    document.getElementById("fPrezzo").value = s.options[s.selectedIndex].dataset.price || "";
 }
 
-async function generaFatturaPDF(){
+function generaPDF() {
     const {jsPDF} = window.jspdf;
     const pdf = new jsPDF();
-    
-    const d = {
-        nome: document.getElementById("fatturaNome").value,
-        cognome: document.getElementById("fatturaCognome").value,
-        auto: document.getElementById("fatturaAuto").value,
-        targa: document.getElementById("fatturaTarga").value,
-        prezzo: document.getElementById("fatturaPrezzo").value,
-        firma: document.getElementById("firmaDigitale").value
-    };
-
-    if(!d.nome || !d.auto || !d.firma) return alert("MANCANO DATI PER LA FATTURA!");
-
-    // Design PDF
-    pdf.setFillColor(0,0,0);
-    pdf.rect(0, 0, 210, 40, 'F');
-    pdf.setTextColor(204, 0, 0);
-    pdf.setFontSize(30);
-    pdf.text("AUTONATION", 10, 25);
-    
-    pdf.setTextColor(0, 0, 0);
-    pdf.setFontSize(10);
-    pdf.text("DOCUMENTO DI VENDITA UFFICIALE", 10, 50);
-    pdf.line(10, 52, 200, 52);
-
-    pdf.setFontSize(12);
-    pdf.text(`CLIENTE: ${d.nome} ${d.cognome}`, 10, 70);
-    pdf.text(`VEICOLO: ${d.auto}`, 10, 80);
-    pdf.text(`TARGA: ${d.targa}`, 10, 90);
-    pdf.text(`TOTALE: ${d.prezzo}`, 10, 100);
-
-    pdf.setFontSize(10);
-    pdf.text("FIRMA RESPONSABILE VENDITE:", 120, 130);
-    pdf.setFont("courier", "italic");
-    pdf.text(d.firma, 120, 140);
-
-    pdf.save(`FATTURA_${d.nome}_AUTONATION.pdf`);
+    const n = document.getElementById("fNome").value;
+    if(!n) return alert("NOME CLIENTE MANCANTE");
+    pdf.text("AUTONATION - FATTURA", 10, 20);
+    pdf.text("CLIENTE: " + n, 10, 40);
+    pdf.text("AUTO: " + document.getElementById("fAuto").value, 10, 50);
+    pdf.text("PREZZO: " + document.getElementById("fPrezzo").value, 10, 60);
+    pdf.text("FIRMA: " + document.getElementById("fFirma").value, 10, 80);
+    pdf.save("Fattura_"+n+".pdf");
 }
 </script>
 </body>
