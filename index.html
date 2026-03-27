@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AUTONATION | GESTIONALE</title>
 
-<!-- FONT MONOSPACE -->
 <style>
+/* -------------------- GLOBAL -------------------- */
 *{box-sizing:border-box}
 body{
     margin:0;
@@ -16,7 +16,7 @@ body{
     text-transform:uppercase;
 }
 
-/* HEADER */
+/* -------------------- HEADER -------------------- */
 header{
     display:flex;
     justify-content:space-between;
@@ -25,21 +25,43 @@ header{
     background:black;
     border-bottom:2px solid #cc0000;
 }
-.logo{font-size:26px;font-weight:700;margin:0}
+.logo{font-size:28px;font-weight:700;margin:0}
 nav a{
     color:white;
     margin-left:20px;
     text-decoration:none;
     font-weight:700;
     cursor:pointer;
+    transition:0.2s;
 }
-nav a:hover{color:#cc0000}
+nav a:hover{
+    color:#ff3b3b;
+    text-shadow:0 0 10px #ff3b3b;
+}
 
-/* PAGINE */
+/* -------------------- BUTTONS -------------------- */
+button, .btn{
+    background:#cc0000;
+    border:none;
+    padding:12px 25px;
+    border-radius:6px;
+    color:white;
+    font-weight:700;
+    cursor:pointer;
+    transition:0.2s;
+    letter-spacing:1px;
+}
+button:hover, .btn:hover{
+    background:#ff3b3b;
+    box-shadow:0 0 15px #ff3b3b;
+    transform:scale(1.05);
+}
+
+/* -------------------- PAGES -------------------- */
 .page{display:none;padding:40px 20px}
 .page.active{display:block}
 
-/* HOME */
+/* -------------------- HOME -------------------- */
 .hero{
     text-align:center;
     padding:120px 20px;
@@ -48,18 +70,8 @@ nav a:hover{color:#cc0000}
 }
 .hero h1{font-size:60px;font-weight:700;margin:0 0 10px}
 .hero p{font-size:18px;font-weight:400;margin-bottom:25px}
-.btn{
-    display:inline-block;
-    padding:12px 30px;
-    background:#cc0000;
-    color:white;
-    text-decoration:none;
-    border-radius:6px;
-    font-weight:700;
-    cursor:pointer;
-}
 
-/* AUTO */
+/* -------------------- AUTO -------------------- */
 #car-list{
     display:flex;
     flex-wrap:wrap;
@@ -72,6 +84,11 @@ nav a:hover{color:#cc0000}
     width:260px;
     border-radius:12px;
     border:1px solid #222;
+    transition:0.2s;
+}
+.car:hover{
+    transform:scale(1.05);
+    box-shadow:0 0 15px #cc0000;
 }
 .car img{
     width:100%;
@@ -79,19 +96,8 @@ nav a:hover{color:#cc0000}
     object-fit:cover;
     border-radius:8px;
 }
-.car h3{margin:10px 0 5px}
-.car p{margin:0 0 10px;color:#ccc}
-.car button{
-    margin-top:8px;
-    padding:6px 10px;
-    border:none;
-    background:#cc0000;
-    color:white;
-    border-radius:4px;
-    cursor:pointer;
-}
 
-/* PANELLI */
+/* -------------------- PANELS -------------------- */
 .panel-box{
     background:#111;
     padding:20px;
@@ -108,10 +114,9 @@ nav a:hover{color:#cc0000}
     border:1px solid #333;
     background:#000;
     color:white;
-    font-family:'Courier New', monospace;
 }
 
-/* FIRMA */
+/* -------------------- SIGNATURE -------------------- */
 #firmaCanvas{
     background:#000;
     border:1px solid #444;
@@ -120,20 +125,7 @@ nav a:hover{color:#cc0000}
     margin:10px auto;
 }
 
-/* FATTURA */
-.fattura{
-    max-width:600px;
-    margin:20px auto;
-    background:white;
-    color:black;
-    padding:20px;
-    border-radius:10px;
-    text-transform:none;
-}
-
-/* UTILI */
-.hidden{display:none}
-
+/* -------------------- FOOTER -------------------- */
 footer{
     text-align:center;
     padding:10px;
@@ -141,6 +133,7 @@ footer{
     border-top:1px solid #222;
     font-size:12px;
 }
+.hidden{display:none}
 </style>
 </head>
 
@@ -156,7 +149,7 @@ footer{
     </nav>
 </header>
 
-<!-- HOME -->
+<!-- -------------------- HOME -------------------- -->
 <div id="home" class="page active">
     <section class="hero">
         <h1>BENVENUTO IN AUTONATION</h1>
@@ -165,13 +158,13 @@ footer{
     </section>
 </div>
 
-<!-- AUTO -->
+<!-- -------------------- AUTO -------------------- -->
 <div id="auto" class="page">
     <h2 style="text-align:center">VEICOLI DISPONIBILI</h2>
     <div id="car-list"></div>
 </div>
 
-<!-- PERSONALE -->
+<!-- -------------------- PERSONALE -------------------- -->
 <div id="personale" class="page">
     <h2 style="text-align:center">AREA PERSONALE OPERATORE</h2>
 
@@ -199,16 +192,15 @@ footer{
             <input id="fatturaAuto" placeholder="MODELLO AUTO">
             <input id="fatturaPrezzo" placeholder="PREZZO">
 
-            <p>FIRMA DIPENDENTE:</p>
-            <canvas id="firmaCanvas" width="300" height="150"></canvas>
-            <button onclick="clearSignature()">PULISCI FIRMA</button>
+            <p>FIRMA DIPENDENTE (SCRITTA):</p>
+            <input id="firmaDigitale" placeholder="NOME E COGNOME DIPENDENTE">
 
             <button onclick="generaFatturaPDF()">GENERA FATTURA PDF</button>
         </div>
     </div>
 </div>
 
-<!-- OWNER -->
+<!-- -------------------- OWNER -------------------- -->
 <div id="owner" class="page">
     <h2 style="text-align:center">DASHBOARD OWNER</h2>
 
@@ -332,66 +324,60 @@ function salvaCredenzialiOperatore(){
     alert("CREDENZIALI SALVATE");
 }
 
-/* FIRMA DIPENDENTE */
-let canvas=document.getElementById("firmaCanvas");
-let ctx=canvas.getContext("2d");
-let drawing=false;
-
-canvas.addEventListener("mousedown",e=>{
-    drawing=true;
-    ctx.beginPath();
-    ctx.moveTo(e.offsetX,e.offsetY);
-});
-canvas.addEventListener("mousemove",e=>{
-    if(!drawing)return;
-    ctx.lineTo(e.offsetX,e.offsetY);
-    ctx.strokeStyle="#fff";
-    ctx.lineWidth=2;
-    ctx.stroke();
-});
-window.addEventListener("mouseup",()=>drawing=false);
-
-function clearSignature(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-}
-
-/* FATTURA PDF */
+/* -------------------- FATTURA PDF -------------------- */
 async function generaFatturaPDF(){
     let nome=document.getElementById("fatturaNome").value.trim();
     let cognome=document.getElementById("fatturaCognome").value.trim();
     let targa=document.getElementById("fatturaTarga").value.trim();
     let auto=document.getElementById("fatturaAuto").value.trim();
     let prezzo=document.getElementById("fatturaPrezzo").value.trim();
+    let firma=document.getElementById("firmaDigitale").value.trim();
 
-    if(!nome||!cognome||!targa||!auto||!prezzo){
-        alert("COMPILA TUTTO");
+    if(!nome||!cognome||!targa||!auto||!prezzo||!firma){
+        alert("COMPILA TUTTI I CAMPI");
         return;
     }
 
-    const firmaData=canvas.toDataURL("image/png");
+    const logoURL = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Car_icon_2.svg/512px-Car_icon_2.svg.png";
 
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF();
 
-    pdf.setFont("courier","bold");
-    pdf.setFontSize(20);
-    pdf.text("FATTURA DI VENDITA", 10, 20);
+    /* LOGO */
+    const img = new Image();
+    img.src = logoURL;
 
-    pdf.setFontSize(12);
-    pdf.setFont("courier","normal");
-    let y=40;
-    pdf.text(`CLIENTE: ${nome} ${cognome}`,10,y); y+=8;
-    pdf.text(`TARGA: ${targa}`,10,y); y+=8;
-    pdf.text(`MODELLO: ${auto}`,10,y); y+=8;
-    pdf.text(`PREZZO: ${prezzo}`,10,y); y+=8;
-    pdf.text(`CONCESSIONARIO: AUTONATION`,10,y); y+=12;
+    img.onload = function(){
 
-    pdf.text("FIRMA DIPENDENTE:",10,y);
-    pdf.addImage(firmaData,"PNG",10,y+5,60,30);
+        pdf.addImage(img, "PNG", 150, 10, 40, 40);
 
-    pdf.save(`FATTURA_${nome}_${cognome}.PDF`);
+        pdf.setFont("courier","bold");
+        pdf.setFontSize(22);
+        pdf.text("FATTURA DI VENDITA", 10, 25);
 
-    alert("FATTURA PDF GENERATA");
+        pdf.setFontSize(12);
+        pdf.setFont("courier","normal");
+
+        let y=50;
+        pdf.text(`CLIENTE: ${nome} ${cognome}`,10,y); y+=8;
+        pdf.text(`TARGA: ${targa}`,10,y); y+=8;
+        pdf.text(`MODELLO: ${auto}`,10,y); y+=8;
+        pdf.text(`PREZZO: ${prezzo}`,10,y); y+=12;
+
+        pdf.text("FIRMA DIPENDENTE:",10,y);
+        pdf.text(firma, 60, y);
+
+        y+=20;
+
+        pdf.setFontSize(10);
+        pdf.text("DISCLAIMER:",10,y); y+=6;
+        pdf.text("QUESTA FATTURA È GENERATA DIGITALMENTE DA AUTONATION.",10,y); y+=6;
+        pdf.text("LA FIRMA DEL DIPENDENTE È UNA SOTTOSCRIZIONE DIGITALE VALIDA.",10,y); y+=6;
+        pdf.text("IL DOCUMENTO È VALIDO AI FINI DI LEGGE SE ACCOMPAGNATO DA DOCUMENTO D'IDENTITÀ.",10,y);
+
+        pdf.save(`FATTURA_${nome}_${cognome}.PDF`);
+        alert("FATTURA PDF GENERATA");
+    };
 }
 </script>
 
