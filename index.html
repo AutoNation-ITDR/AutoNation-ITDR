@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="it">
-
 <head>
 
 <meta charset="UTF-8">
@@ -8,9 +7,8 @@
 
 <title>AutoNation</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
 </head>
 
@@ -18,17 +16,16 @@
 
 <header>
 
-<img src="https://image2url.com/r2/default/images/1774614384610-971b0e79-0e76-406c-9777-e1e61f46a6a0.png" class="logo">
+<div class="logo">AutoNation</div>
 
 <nav>
-
 <a href="#">Home</a>
 <a href="#cars">Auto</a>
-<a onclick="openPanel()">Personale</a>
-
+<a href="#" onclick="openPanel()">Personale</a>
 </nav>
 
 </header>
+
 
 <section class="hero">
 
@@ -38,6 +35,7 @@
 <button onclick="scrollToCars()">SCOPRI LE AUTO</button>
 
 </section>
+
 
 <section id="cars">
 
@@ -54,25 +52,22 @@
 
 <h2>Pannello Personale</h2>
 
-<input type="text" id="name" placeholder="Nome auto">
+<input id="name" placeholder="Nome auto">
 
-<input type="text" id="price" placeholder="Prezzo">
+<input id="price" placeholder="Prezzo">
 
-<input type="text" id="image" placeholder="Link immagine">
+<input id="image" placeholder="Link immagine">
 
-<div id="drop-area">
-
-Trascina immagine qui
-
-</div>
+<div id="drop-area">Trascina immagine qui</div>
 
 <button onclick="addCar()">Aggiungi Auto</button>
 
-<button onclick="closePanel()" class="close">Chiudi</button>
+<button onclick="closePanel()">Chiudi</button>
 
 </div>
 
 </div>
+
 
 <footer>
 
@@ -83,5 +78,4 @@ Trascina immagine qui
 <script src="script.js"></script>
 
 </body>
-
 </html>
