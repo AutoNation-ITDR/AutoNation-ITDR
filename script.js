@@ -1,5 +1,5 @@
-// PASSWORD ADMIN (CAMBIALA QUI 🔥)
-const ADMIN_PASSWORD = "1234";
+// PASSWORD PERSONALE (CAMBIALA QUI)
+const PASSWORD = "1234";
 
 let cars = JSON.parse(localStorage.getItem("cars")) || [];
 
@@ -9,7 +9,7 @@ const carList = document.getElementById("car-list");
 function displayCars() {
     carList.innerHTML = "";
 
-    cars.forEach((car, index) => {
+    cars.forEach(car => {
         const div = document.createElement("div");
         div.classList.add("car");
 
@@ -17,26 +17,27 @@ function displayCars() {
             <img src="${car.image}">
             <h3>${car.name}</h3>
             <p>${car.price}</p>
-            <button onclick="buyCar('${car.name}')">Compra</button>
+            <button onclick="buyCar('${car.name}')">Seleziona</button>
         `;
 
         carList.appendChild(div);
     });
 }
 
-// ADMIN LOGIN
-function openAdmin() {
-    const pass = prompt("Inserisci password admin:");
+// APRI PANELLO
+function openPanel() {
+    const pass = prompt("Accesso riservato al personale:");
 
-    if (pass === ADMIN_PASSWORD) {
-        document.getElementById("admin-panel").classList.remove("hidden");
+    if (pass === PASSWORD) {
+        document.getElementById("panel").classList.remove("hidden");
     } else {
         alert("Accesso negato!");
     }
 }
 
-function closeAdmin() {
-    document.getElementById("admin-panel").classList.add("hidden");
+// CHIUDI
+function closePanel() {
+    document.getElementById("panel").classList.add("hidden");
 }
 
 // AGGIUNGI AUTO
@@ -45,7 +46,7 @@ function addCar() {
     const price = document.getElementById("price").value;
     const image = document.getElementById("image").value;
 
-    if (!name || !price || !image) return alert("Compila tutto!");
+    if (!name || !price || !image) return alert("Compila tutti i campi!");
 
     cars.push({ name, price, image });
 
