@@ -3,6 +3,7 @@
 <html lang="it">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -22,7 +23,7 @@
 <nav>
 <a href="#">Home</a>
 <a href="#cars">Auto</a>
-<a onclick="openPanel()">Personale</a>
+<a href="#" onclick="openPanel()">Personale</a>
 </nav>
 
 </header>
@@ -50,9 +51,9 @@
 
 <h2>Pannello Personale</h2>
 
-<input type="text" id="name" placeholder="Nome auto">
-<input type="text" id="price" placeholder="Prezzo">
-<input type="text" id="image" placeholder="Link immagine">
+<input id="name" placeholder="Nome auto">
+<input id="price" placeholder="Prezzo">
+<input id="image" placeholder="Link immagine">
 
 <button onclick="addCar()">Aggiungi Auto</button> <button onclick="closePanel()" class="close">Chiudi</button>
 
@@ -61,7 +62,9 @@
 </div>
 
 <footer>
+
 <p>© 2026 AutoNation</p>
+
 </footer>
 
 <script src="script.js"></script>
