@@ -1,11 +1,9 @@
-// PASSWORD PERSONALE (CAMBIALA QUI)
 const PASSWORD = "1234";
 
 let cars = JSON.parse(localStorage.getItem("cars")) || [];
 
 const carList = document.getElementById("car-list");
 
-// MOSTRA AUTO
 function displayCars() {
     carList.innerHTML = "";
 
@@ -24,7 +22,6 @@ function displayCars() {
     });
 }
 
-// APRI PANELLO
 function openPanel() {
     const pass = prompt("Accesso riservato al personale:");
 
@@ -35,12 +32,10 @@ function openPanel() {
     }
 }
 
-// CHIUDI
 function closePanel() {
     document.getElementById("panel").classList.add("hidden");
 }
 
-// AGGIUNGI AUTO
 function addCar() {
     const name = document.getElementById("name").value;
     const price = document.getElementById("price").value;
@@ -55,15 +50,12 @@ function addCar() {
     displayCars();
 }
 
-// AZIONE
 function buyCar(name) {
     alert("Hai selezionato: " + name);
 }
 
-// SCROLL
 function scrollToCars() {
     document.getElementById("cars").scrollIntoView({ behavior: "smooth" });
 }
 
-// AVVIO
 displayCars();
