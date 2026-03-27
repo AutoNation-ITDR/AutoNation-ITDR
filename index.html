@@ -3,7 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AUTONATION | FATTURE</title>
+<title>AUTONATION | GESTIONALE</title>
+
+<!-- jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
 *{box-sizing:border-box}
@@ -14,6 +17,8 @@ body{
     color:white;
     text-transform:uppercase;
 }
+
+/* HEADER */
 header{
     display:flex;
     justify-content:space-between;
@@ -27,49 +32,24 @@ header{
     font-weight:700;
     margin:0;
 }
-main{
-    padding:20px;
-    max-width:1100px;
-    margin:0 auto;
-}
-h2{
-    margin-top:20px;
-    margin-bottom:10px;
-}
-section{
-    margin-bottom:30px;
-}
-#car-list{
-    display:flex;
-    flex-wrap:wrap;
-    gap:15px;
-}
-.car{
-    background:#111;
-    padding:12px;
-    width:230px;
-    border-radius:10px;
-    border:1px solid #222;
+nav a{
+    color:white;
+    margin-left:20px;
+    text-decoration:none;
+    font-weight:700;
     cursor:pointer;
     transition:0.2s;
 }
-.car:hover{
-    transform:scale(1.03);
-    box-shadow:0 0 12px #cc0000;
+nav a:hover{
+    color:#ff3b3b;
+    text-shadow:0 0 10px #ff3b3b;
 }
-.car h3{
-    margin:5px 0;
-    font-size:16px;
-}
-.car p{
-    margin:0;
-    color:#ccc;
-    font-size:13px;
-}
-button,.btn{
+
+/* BUTTONS */
+button, .btn{
     background:#cc0000;
     border:none;
-    padding:10px 20px;
+    padding:12px 25px;
     border-radius:6px;
     color:white;
     font-weight:700;
@@ -77,150 +57,259 @@ button,.btn{
     transition:0.2s;
     letter-spacing:1px;
 }
-button:hover,.btn:hover{
+button:hover, .btn:hover{
     background:#ff3b3b;
-    box-shadow:0 0 12px #ff3b3b;
-    transform:scale(1.03);
+    box-shadow:0 0 15px #ff3b3b;
+    transform:scale(1.05);
 }
-.panel{
+
+/* PAGES */
+.page{
+    display:none;
+    padding:40px 20px;
+}
+.page.active{
+    display:block;
+}
+
+/* HOME */
+.hero{
+    text-align:center;
+    padding:120px 20px;
+    background:
+        linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.9)),
+        url('https://images.unsplash.com/photo-1503376780353-7e6692767b70') center/cover;
+}
+.hero h1{
+    font-size:60px;
+    font-weight:700;
+    margin:0 0 10px;
+}
+.hero p{
+    font-size:18px;
+    font-weight:400;
+    margin-bottom:25px;
+}
+
+/* AUTO */
+#car-list{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+.car{
+    background:#111;
+    margin:15px;
+    padding:15px;
+    width:260px;
+    border-radius:12px;
+    border:1px solid #222;
+    transition:0.2s;
+    cursor:pointer;
+}
+.car:hover{
+    transform:scale(1.05);
+    box-shadow:0 0 15px #cc0000;
+}
+.car img{
+    width:100%;
+    height:160px;
+    object-fit:cover;
+    border-radius:8px;
+}
+.car h3{
+    margin:10px 0 5px;
+}
+.car p{
+    margin:0 0 10px;
+    color:#ccc;
+}
+.car button{
+    margin-top:5px;
+    width:100%;
+}
+
+/* PANELS */
+.panel-box{
     background:#111;
     padding:20px;
     border-radius:10px;
+    max-width:400px;
+    margin:20px auto;
     border:1px solid #222;
 }
-.panel input,.panel select{
+.panel-box input,
+.panel-box select{
     width:100%;
-    margin:6px 0;
-    padding:8px;
+    margin:8px 0;
+    padding:10px;
     border-radius:6px;
     border:1px solid #333;
     background:#000;
     color:white;
     font-family:'Courier New', monospace;
 }
-.row{
-    display:flex;
-    flex-wrap:wrap;
-    gap:20px;
-}
-.col{
-    flex:1 1 300px;
-}
+
+/* FOOTER */
 footer{
     text-align:center;
     padding:10px;
     background:black;
     border-top:1px solid #222;
     font-size:12px;
-    margin-top:20px;
 }
+.hidden{display:none}
 </style>
 </head>
 <body>
 
 <header>
     <h1 class="logo">AUTONATION</h1>
-    <span>GESTIONALE FATTURE</span>
+    <nav>
+        <a onclick="goPage('home')">HOME</a>
+        <a onclick="goPage('auto')">AUTO</a>
+        <a onclick="goPage('personale')">PERSONALE</a>
+        <a onclick="goPage('owner')">OWNER</a>
+    </nav>
 </header>
 
-<main>
-    <section>
-        <h2>VEICOLI DISPONIBILI</h2>
-        <div id="car-list"></div>
+<!-- HOME -->
+<div id="home" class="page active">
+    <section class="hero">
+        <h1>BENVENUTO IN AUTONATION</h1>
+        <p>IL CONCESSIONARIO PREMIUM DOVE QUALITÀ E PASSIONE SI INCONTRANO.</p>
+        <span class="btn" onclick="goPage('auto')">SCOPRI LE AUTO</span>
     </section>
+</div>
 
-    <section class="panel">
-        <h2>DATI FATTURA</h2>
+<!-- AUTO -->
+<div id="auto" class="page">
+    <h2 style="text-align:center">VEICOLI DISPONIBILI</h2>
+    <div id="car-list"></div>
+</div>
 
-        <div class="row">
-            <div class="col">
-                <h3>SELEZIONA VEICOLO</h3>
-                <select id="selectAuto" onchange="autoDaSelect()">
-                    <option value="">SELEZIONA VEICOLO</option>
-                </select>
-                <p style="font-size:11px;color:#aaa;margin-top:4px;">
-                    PUOI ANCHE CLICCARE DIRETTAMENTE SUL VEICOLO NELLA LISTA SOPRA.
-                </p>
-            </div>
+<!-- PERSONALE -->
+<div id="personale" class="page">
+    <h2 style="text-align:center">AREA PERSONALE OPERATORE</h2>
 
-            <div class="col">
-                <h3>DATI CLIENTE</h3>
-                <input id="fatturaNome" placeholder="NOME CLIENTE">
-                <input id="fatturaCognome" placeholder="COGNOME CLIENTE">
-                <input id="fatturaTarga" placeholder="TARGA VEICOLO">
-            </div>
+    <div id="personal-login" class="panel-box">
+        <input id="userIdInput" placeholder="USER ID">
+        <input id="userPassInput" type="password" placeholder="PASSWORD">
+        <button onclick="loginOperator()">ACCEDI</button>
+    </div>
 
-            <div class="col">
-                <h3>DATI VEICOLO</h3>
-                <input id="fatturaAuto" placeholder="MODELLO AUTO" readonly>
-                <input id="fatturaPrezzo" placeholder="PREZZO" readonly>
-            </div>
+    <div id="personal-content" class="hidden">
+
+        <h3 style="text-align:center">AGGIUNGI AUTO</h3>
+        <div class="panel-box">
+            <input id="name" placeholder="NOME AUTO">
+            <input id="price" placeholder="PREZZO">
+            <input type="file" id="imageFile" accept="image/*">
+            <button onclick="addCar()">AGGIUNGI AUTO</button>
         </div>
 
-        <div class="row" style="margin-top:15px;">
-            <div class="col">
-                <h3>FIRMA DIGITALE DIPENDENTE</h3>
-                <input id="firmaDigitale" placeholder="NOME E COGNOME DIPENDENTE">
-            </div>
-        </div>
+        <h3 style="text-align:center">CREA FATTURA</h3>
+        <div class="panel-box">
 
-        <div style="margin-top:20px;text-align:right;">
+            <select id="selectAuto" onchange="autoSelezionata()">
+                <option value="">SELEZIONA VEICOLO</option>
+            </select>
+
+            <input id="fatturaNome" placeholder="NOME CLIENTE">
+            <input id="fatturaCognome" placeholder="COGNOME CLIENTE">
+            <input id="fatturaTarga" placeholder="TARGA">
+
+            <input id="fatturaAuto" placeholder="MODELLO AUTO" readonly>
+            <input id="fatturaPrezzo" placeholder="PREZZO" readonly>
+
+            <p>FIRMA DIGITALE DIPENDENTE:</p>
+            <input id="firmaDigitale" placeholder="NOME E COGNOME DIPENDENTE">
+
             <button onclick="generaFatturaPDF()">GENERA FATTURA PDF</button>
         </div>
-    </section>
-</main>
+    </div>
+</div>
+
+<!-- OWNER -->
+<div id="owner" class="page">
+    <h2 style="text-align:center">DASHBOARD OWNER</h2>
+
+    <div id="owner-login" class="panel-box">
+        <input id="ownerPassInput" type="password" placeholder="PASSWORD OWNER">
+        <button onclick="loginOwner()">ACCEDI</button>
+        <p>PASSWORD OWNER: <b>OWNER123</b></p>
+    </div>
+
+    <div id="owner-content" class="hidden">
+        <h3 style="text-align:center">IMPOSTA CREDENZIALI OPERATORE</h3>
+        <div class="panel-box">
+            <input id="setUserId" placeholder="USER ID OPERATORE">
+            <input id="setUserPass" type="password" placeholder="PASSWORD OPERATORE">
+            <button onclick="salvaCredenzialiOperatore()">SALVA</button>
+        </div>
+    </div>
+</div>
 
 <footer>
-    © 2026 AUTONATION - DOCUMENTO GENERATO DIGITALMENTE
+    <p>© 2026 AUTONATION</p>
 </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
-/* ================== DATI VEICOLI ================== */
-/* Puoi modificare questa lista come vuoi */
-let cars = [
-    { name:"ALFA ROMEO GIULIA", price:"€ 45.000" },
-    { name:"AUDI A3", price:"€ 32.000" },
-    { name:"BMW M4 COMPETITION", price:"€ 95.000" },
-    { name:"FIAT 500 ELETTRICA", price:"€ 24.000" },
-    { name:"MERCEDES CLA 220D", price:"€ 52.000" },
-    { name:"VOLKSWAGEN GOLF R", price:"€ 48.000" }
-];
+const OWNER_PASSWORD = "OWNER123";
+let cars = JSON.parse(localStorage.getItem("cars")) || [];
 
-/* ================== INIZIALIZZAZIONE ================== */
-document.addEventListener("DOMContentLoaded", ()=>{
-    renderCars();
-    popolaSelect();
-});
+/* CAMBIO PAGINA */
+function goPage(page){
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById(page).classList.add('active');
 
-/* ================== RENDER LISTA AUTO ================== */
-function renderCars(){
+    if(page === "auto") displayCars();
+    if(page === "personale") aggiornaSelectAuto();
+}
+
+/* MOSTRA AUTO ORDINATE */
+function displayCars(){
     const carList = document.getElementById("car-list");
     carList.innerHTML = "";
 
+    if(cars.length === 0){
+        carList.innerHTML = "<p>NESSUN VEICOLO PRESENTE.</p>";
+        return;
+    }
+
     cars.sort((a,b)=> a.name.localeCompare(b.name));
 
-    cars.forEach(car=>{
+    cars.forEach((car, index)=>{
         const div = document.createElement("div");
         div.className = "car";
         div.onclick = ()=> selezionaAuto(car.name, car.price);
+
         div.innerHTML = `
+            <img src="${car.image}">
             <h3>${car.name}</h3>
-            <p>PREZZO: ${car.price}</p>
+            <p>${car.price}</p>
+            <button onclick="event.stopPropagation(); removeCar(${index})">RIMUOVI</button>
         `;
         carList.appendChild(div);
     });
 }
 
-/* ================== POPOLA SELECT ================== */
-function popolaSelect(){
+/* CLICK SU AUTO → COMPILA FATTURA */
+function selezionaAuto(nome, prezzo){
+    goPage("personale");
+    document.getElementById("fatturaAuto").value = nome;
+    document.getElementById("fatturaPrezzo").value = prezzo;
+}
+
+/* MENU A TENDINA AUTO */
+function aggiornaSelectAuto(){
     const select = document.getElementById("selectAuto");
-    select.innerHTML = '<option value="">SELEZIONA VEICOLO</option>';
+    select.innerHTML = `<option value="">SELEZIONA VEICOLO</option>`;
 
     cars.sort((a,b)=> a.name.localeCompare(b.name));
 
     cars.forEach(car=>{
-        const opt = document.createElement("option");
+        let opt = document.createElement("option");
         opt.value = car.name;
         opt.textContent = car.name;
         opt.dataset.price = car.price;
@@ -228,22 +317,7 @@ function popolaSelect(){
     });
 }
 
-/* ================== SELEZIONE DA LISTA (CLICK) ================== */
-function selezionaAuto(nome, prezzo){
-    document.getElementById("fatturaAuto").value = nome;
-    document.getElementById("fatturaPrezzo").value = prezzo;
-
-    const select = document.getElementById("selectAuto");
-    for(let i=0;i<select.options.length;i++){
-        if(select.options[i].value === nome){
-            select.selectedIndex = i;
-            break;
-        }
-    }
-}
-
-/* ================== SELEZIONE DA SELECT ================== */
-function autoDaSelect(){
+function autoSelezionata(){
     const select = document.getElementById("selectAuto");
     const nome = select.value;
     if(!nome) return;
@@ -253,48 +327,116 @@ function autoDaSelect(){
     document.getElementById("fatturaPrezzo").value = prezzo;
 }
 
-/* ================== GENERA FATTURA PDF ================== */
+/* AGGIUNGI AUTO */
+let currentImageBase64 = null;
+
+document.addEventListener("change", e=>{
+    if(e.target.id === "imageFile"){
+        const file = e.target.files[0];
+        if(!file) return;
+        const reader = new FileReader();
+        reader.onload = ev => currentImageBase64 = ev.target.result;
+        reader.readAsDataURL(file);
+    }
+});
+
+function addCar(){
+    let name = document.getElementById("name").value.trim();
+    let price = document.getElementById("price").value.trim();
+
+    if(!name || !price || !currentImageBase64){
+        alert("COMPILA TUTTI I CAMPI");
+        return;
+    }
+
+    cars.push({name, price, image: currentImageBase64});
+    localStorage.setItem("cars", JSON.stringify(cars));
+
+    alert("AUTO AGGIUNTA");
+}
+
+/* RIMUOVI AUTO */
+function removeCar(i){
+    cars.splice(i,1);
+    localStorage.setItem("cars", JSON.stringify(cars));
+    displayCars();
+}
+
+/* LOGIN OPERATORE */
+function loginOperator(){
+    let id = document.getElementById("userIdInput").value.trim();
+    let pw = document.getElementById("userPassInput").value.trim();
+
+    let sid = localStorage.getItem("operatorUserId");
+    let spw = localStorage.getItem("operatorUserPass");
+
+    if(!sid || !spw){
+        alert("IMPOSTA LE CREDENZIALI NEL PANNELLO OWNER");
+        return;
+    }
+
+    if(id === sid && pw === spw){
+        document.getElementById("personal-login").classList.add("hidden");
+        document.getElementById("personal-content").classList.remove("hidden");
+    } else {
+        alert("CREDENZIALI ERRATE");
+    }
+}
+
+/* LOGIN OWNER */
+function loginOwner(){
+    let pw = document.getElementById("ownerPassInput").value.trim();
+
+    if(pw === OWNER_PASSWORD){
+        document.getElementById("owner-login").classList.add("hidden");
+        document.getElementById("owner-content").classList.remove("hidden");
+    } else {
+        alert("PASSWORD OWNER ERRATA");
+    }
+}
+
+/* SALVA CREDENZIALI OPERATORE */
+function salvaCredenzialiOperatore(){
+    let id = document.getElementById("setUserId").value.trim();
+    let pw = document.getElementById("setUserPass").value.trim();
+
+    if(!id || !pw){
+        alert("COMPILA TUTTO");
+        return;
+    }
+
+    localStorage.setItem("operatorUserId", id);
+    localStorage.setItem("operatorUserPass", pw);
+
+    alert("CREDENZIALI SALVATE");
+}
+
+/* FATTURA PDF */
 async function generaFatturaPDF(){
-    const nome = document.getElementById("fatturaNome").value.trim();
-    const cognome = document.getElementById("fatturaCognome").value.trim();
-    const targa = document.getElementById("fatturaTarga").value.trim();
-    const auto = document.getElementById("fatturaAuto").value.trim();
-    const prezzo = document.getElementById("fatturaPrezzo").value.trim();
-    const firma = document.getElementById("firmaDigitale").value.trim();
+    let nome = document.getElementById("fatturaNome").value.trim();
+    let cognome = document.getElementById("fatturaCognome").value.trim();
+    let targa = document.getElementById("fatturaTarga").value.trim();
+    let auto = document.getElementById("fatturaAuto").value.trim();
+    let prezzo = document.getElementById("fatturaPrezzo").value.trim();
+    let firma = document.getElementById("firmaDigitale").value.trim();
 
     if(!nome || !cognome || !targa || !auto || !prezzo || !firma){
-        alert("COMPILA TUTTI I CAMPI PRIMA DI GENERARE LA FATTURA");
+        alert("COMPILA TUTTI I CAMPI");
         return;
     }
 
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF();
 
-    /* LOGO (semplice icona auto) */
-    const logoURL = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Car_icon_2.svg/512px-Car_icon_2.svg.png";
-
-    let logoBase64 = null;
-    try{
-        const blob = await fetch(logoURL).then(r=>r.blob());
-        logoBase64 = await new Promise(resolve=>{
-            const reader = new FileReader();
-            reader.onload = ()=> resolve(reader.result);
-            reader.readAsDataURL(blob);
-        });
-    }catch(e){
-        logoBase64 = null;
-    }
-
-    if(logoBase64){
-        pdf.addImage(logoBase64,"PNG",150,10,40,40);
-    }
-
     pdf.setFont("courier","bold");
     pdf.setFontSize(20);
-    pdf.text("FATTURA DI VENDITA", 10, 20);
+    pdf.text("AUTONATION", 10, 15);
 
-    pdf.setFont("courier","normal");
+    pdf.setFontSize(16);
+    pdf.text("FATTURA DI VENDITA", 10, 25);
+
     pdf.setFontSize(12);
+    pdf.setFont("courier","normal");
 
     let y = 40;
     pdf.text(`CLIENTE: ${nome} ${cognome}`,10,y); y+=8;
@@ -304,25 +446,22 @@ async function generaFatturaPDF(){
 
     pdf.text("FIRMA DIGITALE DIPENDENTE:",10,y);
     pdf.text(firma, 80, y);
-    y += 20;
+    y+=20;
 
-    /* TIMBRO DIGITALE (RIQUADRO ROSSO) */
     pdf.setDrawColor(255,0,0);
     pdf.setLineWidth(0.7);
-    pdf.rect(10, y, 90, 25);
+    pdf.rect(10, y, 80, 25);
     pdf.setFont("courier","bold");
     pdf.text("TIMBRO DIGITALE", 15, y+10);
     pdf.text("AUTONATION", 15, y+20);
-    y += 40;
+    y+=40;
 
-    /* DISCLAIMER */
-    pdf.setFont("courier","normal");
     pdf.setFontSize(10);
+    pdf.setFont("courier","normal");
     pdf.text("QUESTA FATTURA È GENERATA DIGITALMENTE DA AUTONATION.",10,y); y+=6;
-    pdf.text("VALIDA AI FINI DI LEGGE SE ACCOMPAGNATA DA DOCUMENTO D'IDENTITÀ.",10,y); y+=6;
-    pdf.text("L'USO IMPROPRIO DI QUESTO DOCUMENTO È PERSEGUIBILE A NORMA DI LEGGE.",10,y);
+    pdf.text("VALIDA AI FINI DI LEGGE SE ACCOMPAGNATA DA DOCUMENTO D'IDENTITÀ.",10,y);
 
-    pdf.save(`FATTURA_${nome}_${cognome}.pdf`);
+    pdf.save(`FATTURA_${nome}_${cognome}.PDF`);
     alert("FATTURA PDF GENERATA");
 }
 </script>
