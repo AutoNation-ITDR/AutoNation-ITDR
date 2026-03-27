@@ -3,41 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AUTONATION | Austin TX</title>
+    <title>AUTONATION | Austin's Automotive Pillar</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Inter:wght@300;400;800&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <style>
-        :root { --neon: #ff0000; --bg: #000; --glass: rgba(255, 255, 255, 0.05); --border: rgba(255, 255, 255, 0.1); }
-        body { margin: 0; background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; }
-        
+        :root { --neon: #ff0000; --bg: #000000; --glass: rgba(255, 255, 255, 0.03); --border: rgba(255, 255, 255, 0.1); }
+        * { box-sizing: border-box; scroll-behavior: smooth; }
+        body { margin: 0; background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
         header { 
+            position: fixed; top: 0; width: 100%; z-index: 1000; 
             display: flex; justify-content: space-between; align-items: center; 
-            padding: 20px 5%; background: #000; border-bottom: 1px solid var(--border);
+            padding: 25px 5%; background: rgba(0,0,0,0.7); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
         }
-        .logo { font-family: 'Orbitron'; font-size: 24px; font-weight: 900; }
-        .logo span { color: var(--neon); }
-        
-        nav a { color: #fff; margin-left: 20px; text-decoration: none; font-size: 12px; text-transform: uppercase; cursor: pointer; }
+        .logo { font-family: 'Orbitron'; font-size: 22px; letter-spacing: 4px; font-weight: 900; }
+        .logo span { color: var(--neon); text-shadow: 0 0 15px var(--neon); }
+        nav a { color: #fff; margin-left: 30px; text-decoration: none; font-size: 11px; letter-spacing: 2px; font-weight: 700; text-transform: uppercase; cursor: pointer; opacity: 0.6; transition: 0.4s; }
+        nav a:hover { opacity: 1; color: var(--neon); }
 
-        .page { display: none; padding: 50px 5%; }
+        .hero-new { 
+            height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            position: relative; text-align: center; overflow: hidden;
+        }
+        .video-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.9) 100%); z-index: 1; }
+        .hero-video { position: absolute; width: 100%; height: 100%; object-fit: cover; z-index: 0; filter: brightness(0.5); }
+        .hero-text { z-index: 2; }
+        .hero-text h1 { font-family: 'Orbitron'; font-size: clamp(40px, 12vw, 120px); margin: 0; line-height: 0.8; letter-spacing: -5px; }
+        .hero-text p { font-size: clamp(12px, 2vw, 18px); letter-spacing: 8px; color: var(--neon); margin-top: 20px; font-weight: 300; }
+
+        .btn-action { 
+            padding: 20px 50px; background: transparent; color: #fff; border: 1px solid var(--neon);
+            font-family: 'Orbitron'; font-size: 14px; cursor: pointer; box-shadow: 0 0 15px var(--neon); transition: 0.3s;
+        }
+        .btn-action:hover { background: var(--neon); color: #000; box-shadow: 0 0 40px var(--neon); }
+
+        .page { display: none; padding-top: 100px; animation: fadeInUp 0.8s ease; }
         .active { display: block; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-top: 30px; }
-        .car-card { background: var(--glass); border: 1px solid var(--border); padding: 15px; position: relative; }
-        .targa-badge { position: absolute; top: 10px; right: 10px; background: #fff; color: #000; padding: 2px 5px; font-weight: 800; font-size: 10px; font-family: 'Orbitron'; }
-        .car-card img { width: 100%; height: 200px; object-fit: cover; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 30px; padding: 50px 5%; }
+        .car-card { background: var(--glass); border: 1px solid var(--border); transition: 0.4s; position: relative; }
+        .targa-badge { position: absolute; top: 15px; right: 15px; background: #fff; color: #000; padding: 3px 10px; font-family: 'Orbitron'; font-weight: 900; font-size: 12px; }
+        .car-card img { width: 100%; height: 250px; object-fit: cover; }
+        .car-info { padding: 25px; }
+        .car-info h3 { font-family: 'Orbitron'; margin: 0; font-size: 20px; }
+        .car-price { color: var(--neon); font-weight: 800; font-size: 24px; margin-top: 10px; }
 
-        .glass-box { max-width: 600px; margin: 0 auto; background: var(--glass); padding: 30px; border: 1px solid var(--border); }
-        input, select { width: 100%; padding: 12px; margin-bottom: 15px; background: #111; border: 1px solid #333; color: #fff; }
-        
-        .btn { background: var(--neon); color: #fff; border: none; padding: 12px 25px; cursor: pointer; font-family: 'Orbitron'; width: 100%; }
-        
-        .log-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 12px; }
-        .log-table th, .log-table td { border: 1px solid var(--border); padding: 8px; text-align: left; }
+        .glass-box { max-width: 500px; margin: 50px auto; background: var(--glass); padding: 50px; border: 1px solid var(--border); backdrop-filter: blur(10px); }
+        input, select { width: 100%; padding: 15px; margin-bottom: 20px; background: #111; border: 1px solid #333; color: #fff; }
+
+        .log-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 12px; border: 1px solid var(--border); }
+        .log-table th, .log-table td { border: 1px solid var(--border); padding: 12px; text-align: left; }
+        .log-table th { background: rgba(255,0,0,0.1); color: var(--neon); text-transform: uppercase; }
+
+        footer { padding: 80px 5%; text-align: center; border-top: 1px solid var(--border); color: #444; font-size: 11px; letter-spacing: 2px; }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
@@ -45,67 +70,81 @@
 <header>
     <div class="logo">AUTO<span>NATION</span></div>
     <nav>
-        <a onclick="goPage('home')">Home</a>
-        <a onclick="goPage('auto')">Auto</a>
+        <a onclick="goPage('home')">Overview</a>
+        <a onclick="goPage('auto')">Inventory</a>
         <a onclick="goPage('personale')">Personale AutoNation</a>
         <a onclick="goPage('owner')">Owner Reserved</a>
     </nav>
 </header>
 
-<div id="home" class="page active">
-    <div style="text-align:center; padding: 100px 0;">
-        <h1 style="font-family:'Orbitron'; font-size: 60px;">BENVENUTO</h1>
-        <p>AUTONATION AUSTIN, TEXAS</p>
-    </div>
+<div id="home" class="page active" style="padding-top:0;">
+    <section class="hero-new">
+        <div class="video-overlay"></div>
+        <video autoplay loop muted playsinline class="hero-video">
+            <source src="https://coverr.co/articles/homepage-video-background-with-css/coverr-night-traffic-1571761271617.mp4" type="video/mp4">
+        </video>
+        <div class="hero-text">
+            <h1>AUSTIN<br>PRIDE</h1>
+            <p>ESTABLISHED EXCELLENCE</p>
+            <button class="btn-action" style="margin-top: 50px;" onclick="goPage('auto')">EXPLORE THE FLEET</button>
+        </div>
+    </section>
 </div>
 
 <div id="auto" class="page">
-    <h2 style="font-family:'Orbitron';">INVENTARIO</h2>
+    <h2 style="text-align:center; font-family:'Orbitron'; font-size: 40px;">THE <span style="color:var(--neon)">FLEET</span></h2>
     <div id="car-list" class="grid"></div>
 </div>
 
 <div id="personale" class="page">
     <div id="personal-login" class="glass-box">
-        <h3>ACCESSO PERSONALE</h3>
-        <input id="uP" placeholder="ID">
+        <h3 style="text-align:center; font-family:'Orbitron'; color:var(--neon);">STAFF LOGIN</h3>
+        <input id="uP" placeholder="OPERATOR ID">
         <input id="pP" type="password" placeholder="PASSWORD">
-        <button class="btn" onclick="loginP()">ACCEDI</button>
+        <button class="btn-action" style="width:100%" onclick="loginP()">ENTRA</button>
     </div>
-    <div id="personal-content" style="display:none;" class="glass-box">
-        <h3>FATTURAZIONE</h3>
-        <select id="selA" onchange="updateF()"></select>
-        <input id="fN" placeholder="NOME CLIENTE">
-        <input id="fT" placeholder="TARGA" readonly>
-        <input id="fM" placeholder="MODELLO" readonly>
-        <input id="fPr" placeholder="PREZZO" readonly>
-        <input id="fF" placeholder="FIRMA OPERATORE">
-        <button class="btn" onclick="generaPDF()">GENERA FATTURA</button>
+    <div id="personal-content" class="hidden">
+        <div class="glass-box">
+            <h3>SISTEMA FATTURAZIONE</h3>
+            <select id="selA" onchange="upF()"></select>
+            <input id="fN" placeholder="NOME CLIENTE">
+            <input id="fT" placeholder="TARGA" readonly style="color:var(--neon);">
+            <input id="fM" placeholder="VEICOLO" readonly>
+            <input id="fPr" placeholder="PREZZO" readonly>
+            <input id="fF" placeholder="FIRMA DIGITALE">
+            <button class="btn-action" style="width:100%" onclick="genPDF()">GENERA FATTURA</button>
+        </div>
     </div>
 </div>
 
 <div id="owner" class="page">
     <div id="owner-login" class="glass-box">
-        <h3>OWNER RESERVED</h3>
-        <input id="oP" type="password" placeholder="MASTER PASSWORD">
-        <button class="btn" onclick="loginO()">ACCEDI</button>
+        <h3 style="text-align:center; font-family:'Orbitron'; color:var(--neon);">OWNER RESERVED</h3>
+        <input id="oP" type="password" placeholder="MASTER KEY">
+        <button class="btn-action" style="width:100%" onclick="loginO()">ACCESS CORE</button>
     </div>
-    <div id="owner-content" style="display:none;">
+    <div id="owner-content" class="hidden">
         <div class="glass-box">
-            <h3>REGISTRA AUTO</h3>
-            <input id="name" placeholder="MODELLO">
-            <input id="price" placeholder="PREZZO">
+            <h3>NEW VEHICLE</h3>
+            <input id="name" placeholder="MODEL NAME">
+            <input id="price" placeholder="PRICE">
             <input type="file" id="imgF">
-            <button class="btn" onclick="addCar()">REGISTRA E ASSEGNA TARGA</button>
+            <button class="btn-action" style="width:100%" onclick="addCar()">UPLOAD TO CLOUD</button>
         </div>
-        <div class="glass-box" style="max-width:95%; margin-top:20px;">
-            <h3>LOGS REGISTRAZIONI</h3>
+        <div class="glass-box" style="max-width: 90%;">
+            <h3>VEHICLE LOGS</h3>
             <table class="log-table">
-                <thead><tr><th>DATA</th><th>MODELLO</th><th>TARGA</th><th>PREZZO</th><th>ELIMINA</th></tr></thead>
+                <thead><tr><th>DATA</th><th>MODELLO</th><th>TARGA</th><th>PREZZO</th><th>ACTION</th></tr></thead>
                 <tbody id="logs"></tbody>
             </table>
         </div>
     </div>
 </div>
+
+<footer>
+    <div class="logo">AUTO<span>NATION</span></div>
+    <p>© 2026 AUSTIN, TEXAS. POWERED BY PAVEL</p>
+</footer>
 
 <script>
 const firebaseConfig = {
@@ -121,36 +160,30 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 let currentImg = null;
 
-async function generaTarga() {
-    const snap = await db.ref('cars').limitToLast(1).once('value');
-    const data = snap.val();
-    if (!data) return "TEX-001";
-    const lastKey = Object.keys(data)[0];
-    const lastTarga = data[lastKey].targa;
-    const num = parseInt(lastTarga.split('-')[1]);
+async function getNextTarga() {
+    const s = await db.ref('cars').limitToLast(1).once('value');
+    const d = s.val();
+    if(!d) return "TEX-001";
+    const last = d[Object.keys(d)[0]].targa;
+    const num = parseInt(last.split('-')[1]);
     return "TEX-" + (num + 1).toString().padStart(3, '0');
 }
 
 db.ref('cars').on('value', snap => {
     const data = snap.val();
-    const pL = document.getElementById("car-list");
+    const list = document.getElementById("car-list");
     const logs = document.getElementById("logs");
     const sel = document.getElementById("selA");
-    pL.innerHTML = ""; logs.innerHTML = ""; sel.innerHTML = `<option value="">Scegli...</option>`;
-    if(data) {
-        for(let id in data) {
-            let c = { id, ...data[id] };
-            pL.innerHTML += `<div class="car-card"><div class="targa-badge">${c.targa}</div><img src="${c.image}"><h3>${c.name}</h3><p>${c.price}</p></div>`;
-            logs.innerHTML += `<tr><td>${c.dataReg}</td><td>${c.name}</td><td>${c.targa}</td><td>${c.price}</td><td><button onclick="del('${c.id}')">X</button></td></tr>`;
-            sel.innerHTML += `<option value="${c.name}" data-p="${c.price}" data-t="${c.targa}">${c.name}</option>`;
-        }
+    list.innerHTML = ""; logs.innerHTML = ""; sel.innerHTML = `<option value="">SELECT...</option>`;
+    for(let id in data) {
+        let c = data[id];
+        list.innerHTML += `<div class="car-card"><div class="targa-badge">${c.targa}</div><img src="${c.image}"><div class="car-info"><h3>${c.name}</h3><div class="car-price">${c.price}</div></div></div>`;
+        logs.innerHTML += `<tr><td>${c.data}</td><td>${c.name}</td><td><b>${c.targa}</b></td><td>${c.price}</td><td><button onclick="del('${id}')" style="background:red; color:white; border:none; padding:5px;">X</button></td></tr>`;
+        sel.innerHTML += `<option value="${c.name}" data-p="${c.price}" data-t="${c.targa}">${c.name}</option>`;
     }
 });
 
-function goPage(p) {
-    document.querySelectorAll('.page').forEach(pg => pg.classList.remove('active'));
-    document.getElementById(p).classList.add('active');
-}
+function goPage(p) { document.querySelectorAll('.page').forEach(pg => pg.classList.remove('active')); document.getElementById(p).classList.add('active'); }
 
 document.getElementById('imgF').onchange = e => {
     const r = new FileReader();
@@ -159,38 +192,36 @@ document.getElementById('imgF').onchange = e => {
 };
 
 async function addCar() {
-    const n = document.getElementById('name').value;
-    const p = document.getElementById('price').value;
-    if(!n || !p || !currentImg) return alert("Dati mancanti");
-    const t = await generaTarga();
+    const n = document.getElementById('name').value, p = document.getElementById('price').value;
+    if(!n || !p || !currentImg) return alert("MISSING DATA");
+    const t = await getNextTarga();
     const d = new Date().toLocaleDateString('it-IT');
-    db.ref('cars').push({ name:n, price:p, image:currentImg, targa:t, dataReg:d }).then(() => alert("Registrata: " + t));
+    db.ref('cars').push({ name:n, price:p, image:currentImg, targa:t, data:d }).then(() => alert("REGISTERED: " + t));
 }
 
-function del(id) { if(confirm("Eliminare?")) db.ref('cars/'+id).remove(); }
-function loginO() { if(document.getElementById('oP').value === "OWNER123") { document.getElementById('owner-login').style.display='none'; document.getElementById('owner-content').style.display='block'; } }
-function loginP() { if(document.getElementById('uP').value === "admin" && document.getElementById('pP').value === "1234") { document.getElementById('personal-login').style.display='none'; document.getElementById('personal-content').style.display='block'; } }
+function del(id) { if(confirm("DELETE?")) db.ref('cars/'+id).remove(); }
+function loginO() { if(document.getElementById('oP').value === "OWNER123") { document.getElementById('owner-login').classList.add('hidden'); document.getElementById('owner-content').classList.remove('hidden'); } }
+function loginP() { if(document.getElementById('uP').value === "admin" && document.getElementById('pP').value === "1234") { document.getElementById('personal-login').classList.add('hidden'); document.getElementById('personal-content').classList.remove('hidden'); } }
 
-function updateF() {
+function upF() {
     const s = document.getElementById("selA");
     document.getElementById("fM").value = s.value;
     document.getElementById("fPr").value = s.options[s.selectedIndex].dataset.p || "";
     document.getElementById("fT").value = s.options[s.selectedIndex].dataset.t || "";
 }
 
-function generaPDF() {
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF();
-    pdf.setFontSize(10); pdf.text("STATO DI TEXAS - CONTEA DI TRAVIS", 105, 20, { align: "center" });
-    pdf.setFontSize(18); pdf.text("FATTURA DI VENDITA", 105, 28, { align: "center" });
-    const p = "AutoNation, uno dei principali concessionari automobilistici di Austin, Texas, emette la presente fattura a conferma dell’avvenuta vendita e/o dei servizi erogati al cliente. Tutti i veicoli e gli interventi forniti rispettano gli standard di qualità e trasparenza che contraddistinguono il nostro marchio. I dati riportati di seguito rappresentano in modo accurato e dettagliato l’operazione effettuata, nel pieno rispetto delle normative vigenti e delle politiche interne di AutoNation.";
-    pdf.setFontSize(9); pdf.text(pdf.splitTextToSize(p, 180), 10, 45);
-    pdf.text("CLIENTE: " + document.getElementById("fN").value, 10, 80);
+function genPDF() {
+    const { jsPDF } = window.jspdf; const pdf = new jsPDF();
+    pdf.setFontSize(10); pdf.text("STATO DI TEXAS - CONTEA DI TRAVIS", 105, 20, {align:"center"});
+    pdf.setFontSize(18); pdf.text("FATTURA AUTONATION", 105, 30, {align:"center"});
+    const prem = "AutoNation, uno dei principali concessionari automobilistici di Austin, Texas, emette la presente fattura a conferma dell’avvenuta vendita e/o dei servizi erogati al cliente. Tutti i veicoli e gli interventi forniti rispettano gli standard di qualità e trasparenza che contraddistinguono il nostro marchio. I dati riportati di seguito rappresentano in modo accurato e dettagliato l’operazione effettuata, nel pieno rispetto delle normative vigenti e delle politiche interne di AutoNation.";
+    pdf.setFontSize(9); pdf.text(pdf.splitTextToSize(prem, 180), 10, 45);
+    pdf.text("CLIENTE: " + document.getElementById("fN").value.toUpperCase(), 10, 80);
     pdf.text("MODELLO: " + document.getElementById("fM").value, 10, 90);
     pdf.text("TARGA: " + document.getElementById("fT").value, 10, 100);
     pdf.text("PREZZO: " + document.getElementById("fPr").value, 10, 110);
-    pdf.text("FIRMA: " + document.getElementById("fF").value, 10, 150);
-    pdf.save("Fattura.pdf");
+    pdf.text("FIRMA: " + document.getElementById("fF").value.toUpperCase(), 10, 150);
+    pdf.save("Fattura_" + document.getElementById("fT").value + ".pdf");
 }
 </script>
 </body>
