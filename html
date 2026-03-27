@@ -1,70 +1,48 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoNation - Concessionario</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AutoNation | FiveM Dealership</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- HEADER -->
-    <header>
-        <div class="logo">
-            <img src="logo.png" alt="AutoNation Logo">
-        </div>
-        <nav>
-            <a href="#">Home</a>
-            <a href="#auto">Auto</a>
-            <a href="#contatti">Contatti</a>
-        </nav>
-    </header>
+<header>
+    <img src="logo.png" class="logo">
+    <nav>
+        <a href="#">Home</a>
+        <a href="#cars">Auto</a>
+        <a href="#admin">Admin</a>
+    </nav>
+</header>
 
-    <!-- HERO -->
-    <section class="hero">
-        <h1>Benvenuto da AutoNation</h1>
-        <p>Trova l'auto dei tuoi sogni</p>
-        <button onclick="scrollToCars()">Scopri di più</button>
-    </section>
+<section class="hero">
+    <h1>AutoNation</h1>
+    <p>Concessionario Ufficiale FiveM</p>
+    <button onclick="scrollToCars()">Guarda le Auto</button>
+</section>
 
-    <!-- AUTO -->
-    <section id="auto" class="cars">
-        <h2>Le nostre auto</h2>
+<section id="cars">
+    <h2>Veicoli Disponibili</h2>
+    <div id="car-list"></div>
+</section>
 
-        <div class="car-card">
-            <h3>BMW Serie 3</h3>
-            <p>€25.000</p>
-            <button onclick="showAlert('BMW Serie 3')">Dettagli</button>
-        </div>
+<!-- ADMIN PANEL -->
+<section id="admin">
+    <h2>Pannello Admin</h2>
 
-        <div class="car-card">
-            <h3>Audi A4</h3>
-            <p>€27.500</p>
-            <button onclick="showAlert('Audi A4')">Dettagli</button>
-        </div>
+    <input type="text" id="name" placeholder="Nome auto">
+    <input type="text" id="price" placeholder="Prezzo">
+    <input type="text" id="image" placeholder="Link immagine">
 
-        <div class="car-card">
-            <h3>Mercedes Classe C</h3>
-            <p>€30.000</p>
-            <button onclick="showAlert('Mercedes Classe C')">Dettagli</button>
-        </div>
-    </section>
+    <button onclick="addCar()">Aggiungi Auto</button>
+</section>
 
-    <!-- CONTATTI -->
-    <section id="contatti" class="contact">
-        <h2>Contattaci</h2>
-        <form onsubmit="sendMessage(event)">
-            <input type="text" placeholder="Nome" required>
-            <input type="email" placeholder="Email" required>
-            <textarea placeholder="Messaggio" required></textarea>
-            <button type="submit">Invia</button>
-        </form>
-    </section>
+<footer>
+    <p>© 2026 AutoNation RP</p>
+</footer>
 
-    <footer>
-        <p>© 2026 AutoNation</p>
-    </footer>
-
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
