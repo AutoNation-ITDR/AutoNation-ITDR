@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoNation Austin | Elite Showroom v9.0</title>
+    <title>AUTONATION AUSTIN | NEON INTERFACE v10</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
@@ -15,154 +15,360 @@
     <style>
         :root {
             --accent: #ff2e4d;
-            --accent-glow: rgba(255, 46, 77, 0.4);
-            --bg: #0a0b10;
-            --panel: #11141b;
-            --card: #1a1d26;
-            --border: rgba(255, 255, 255, 0.08);
-            --text: #ffffff;
-            --text-dim: #94a3b8;
-            --radius: 20px;
+            --accent-rgb: 255, 46, 77;
+            --bg: #050608;
+            --panel: rgba(13, 15, 20, 0.95);
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 46, 77, 0.2);
+            --text: #e2e8f0;
+            --neon-shadow: 0 0 15px rgba(255, 46, 77, 0.4);
+            --glass: blur(12px) saturate(180%);
         }
 
-        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
-        body { margin: 0; background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; display: flex; height: 100vh; overflow: hidden; }
-
-        /* NAV */
-        nav { width: 280px; background: var(--panel); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 40px 20px; z-index: 100; }
-        .logo-img { width: 100%; filter: drop-shadow(0 0 15px var(--accent-glow)); margin-bottom: 50px; cursor: pointer; }
-        .nav-link { display: flex; align-items: center; padding: 16px 20px; color: var(--text-dim); text-decoration: none; border-radius: 12px; margin-bottom: 8px; font-weight: 700; cursor: pointer; transition: 0.3s; }
-        .nav-link.active { background: var(--accent); color: white; box-shadow: 0 10px 25px var(--accent-glow); }
-
-        /* MAIN */
-        main { flex: 1; overflow-y: auto; background: radial-gradient(circle at top right, #1c1f2b, #0a0b10); }
-        .page { display: none; padding: 50px; opacity: 0; transform: translateY(20px); transition: 0.4s; }
-        .page.active { display: block; opacity: 1; transform: translateY(0); }
-
-        /* INVENTORY SPECIFIC */
-        .inventory-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
-        .search-bar { background: var(--card); border: 1px solid var(--border); padding: 15px 25px; border-radius: 50px; color: white; width: 350px; font-family: 'Outfit'; outline: none; }
-        .search-bar:focus { border-color: var(--accent); box-shadow: 0 0 15px var(--accent-glow); }
-
-        .inventory-layout { display: grid; grid-template-columns: 280px 1fr; gap: 40px; }
+        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; scrollbar-width: thin; scrollbar-color: var(--accent) transparent; }
         
-        /* Sidebar Filters */
-        .filter-section { background: rgba(255,255,255,0.02); padding: 25px; border-radius: var(--radius); border: 1px solid var(--border); }
-        .sidebar-label { font-size: 0.75rem; color: var(--accent); font-weight: 900; text-transform: uppercase; letter-spacing: 2px; margin: 25px 0 15px 0; display: block; }
+        body { 
+            margin: 0; 
+            background: var(--bg); 
+            color: var(--text); 
+            font-family: 'Outfit', sans-serif; 
+            display: flex; 
+            height: 100vh; 
+            overflow: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(255, 46, 77, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(255, 46, 77, 0.05) 0%, transparent 40%);
+        }
+
+        /* --- SIDEBAR NEON --- */
+        nav { 
+            width: 300px; 
+            background: var(--panel); 
+            border-right: 1px solid var(--border); 
+            display: flex; 
+            flex-direction: column; 
+            padding: 50px 25px; 
+            z-index: 100;
+            backdrop-filter: var(--glass);
+        }
+
+        .logo-box {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .logo-img { 
+            width: 100%; 
+            filter: drop-shadow(0 0 10px var(--accent-glow));
+            transition: 0.5s;
+            cursor: pointer;
+        }
+
+        .nav-link { 
+            display: flex; 
+            align-items: center; 
+            padding: 18px 22px; 
+            color: #64748b; 
+            text-decoration: none; 
+            border-radius: 12px; 
+            margin-bottom: 12px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            transition: 0.3s ease;
+            border: 1px solid transparent;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .nav-link i { margin-right: 15px; width: 20px; font-size: 1.2rem; }
+        .nav-link:hover { color: #fff; background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); }
+        .nav-link.active { 
+            background: linear-gradient(90deg, rgba(255, 46, 77, 0.2) 0%, transparent 100%);
+            color: var(--accent);
+            border-left: 4px solid var(--accent);
+            box-shadow: var(--neon-shadow);
+        }
+
+        /* --- MAIN CONTENT AREA --- */
+        main { flex: 1; overflow-y: auto; position: relative; padding-bottom: 100px; }
+        .page { display: none; padding: 60px; max-width: 1400px; margin: 0 auto; opacity: 0; transform: scale(0.98); transition: 0.5s cubic-bezier(0.2, 1, 0.3, 1); }
+        .page.active { display: block; opacity: 1; transform: scale(1); }
+
+        /* --- HOME SECTION --- */
+        .hero-slider {
+            position: relative;
+            height: 600px;
+            border-radius: 30px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            margin-bottom: 50px;
+        }
+        .slide {
+            position: absolute; inset: 0; opacity: 0; transition: 1.2s ease-in-out;
+            background-size: cover; background-position: center;
+            display: flex; align-items: center; padding: 100px;
+        }
+        .slide.active { opacity: 1; transform: scale(1.05); }
+        .slide::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(90deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 50%, transparent 100%);
+        }
+        .slide-text { position: relative; z-index: 2; max-width: 700px; }
+        .slide-text h1 { font-size: 5rem; font-weight: 900; margin: 0; line-height: 0.9; text-transform: uppercase; }
+        .slide-text p { color: var(--accent); font-family: 'JetBrains Mono'; letter-spacing: 5px; text-transform: uppercase; margin-bottom: 20px; font-weight: 700; }
         
-        /* Car Cards */
-        .car-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
-        .car-card { background: var(--card); border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; }
-        .car-card:hover { transform: translateY(-12px); border-color: var(--accent); box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
+        .home-info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .info-card { 
+            background: var(--panel); border: 1px solid var(--border); padding: 40px; border-radius: 20px;
+            transition: 0.4s; backdrop-filter: var(--glass);
+        }
+        .info-card:hover { border-color: var(--accent); transform: translateY(-10px); box-shadow: var(--neon-shadow); }
+        .info-card i { font-size: 2.5rem; color: var(--accent); margin-bottom: 25px; }
+        .info-card h3 { font-size: 1.5rem; margin-bottom: 15px; text-transform: uppercase; }
+
+        /* --- SHOWROOM --- */
+        .inventory-header { margin-bottom: 40px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .search-box { 
+            background: rgba(255,255,255,0.05); border: 1px solid var(--border); 
+            padding: 15px 30px; border-radius: 50px; color: white; width: 400px;
+            transition: 0.3s; outline: none; font-family: 'Outfit';
+        }
+        .search-box:focus { border-color: var(--accent); box-shadow: var(--neon-shadow); }
+
+        .car-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 35px; }
+        .car-card { 
+            background: var(--panel); border-radius: 24px; overflow: hidden; border: 1px solid var(--border);
+            transition: 0.4s; position: relative;
+        }
+        .car-card:hover { transform: translateY(-15px); border-color: var(--accent); box-shadow: 0 15px 35px rgba(255, 46, 77, 0.2); }
+        .car-img-wrap { height: 250px; overflow: hidden; position: relative; }
+        .car-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
+        .car-card:hover .car-img-wrap img { transform: scale(1.15); filter: brightness(0.8); }
         
-        .img-container { position: relative; height: 220px; overflow: hidden; }
-        .car-img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
-        .car-card:hover .car-img { transform: scale(1.1); filter: brightness(0.7); }
+        .car-details { padding: 30px; }
+        .car-price { font-family: 'JetBrains Mono'; font-size: 2rem; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .car-badge { 
+            display: inline-block; padding: 5px 15px; border-radius: 5px; font-size: 0.7rem; 
+            font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px;
+        }
+        .badge-prestige { background: #ffd700; color: #000; box-shadow: 0 0 10px rgba(255,215,0,0.4); }
+        .badge-regular { background: var(--accent); color: #fff; }
 
-        .car-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.3s; }
-        .car-card:hover .car-overlay { opacity: 1; }
-        .view-btn { background: white; color: black; padding: 10px 20px; border-radius: 50px; font-weight: 800; font-size: 0.8rem; text-transform: uppercase; }
+        /* --- SALES & TERMINAL DESIGN --- */
+        .terminal-box {
+            background: #0d0f14; border: 1px solid var(--border); border-radius: 20px;
+            padding: 50px; box-shadow: 0 30px 60px rgba(0,0,0,0.6); position: relative;
+            overflow: hidden;
+        }
+        .terminal-box::before {
+            content: 'SYSTEM_ACTIVE'; position: absolute; top: 15px; right: 20px;
+            font-family: 'JetBrains Mono'; font-size: 0.6rem; color: var(--accent); opacity: 0.5;
+        }
 
-        .car-info { padding: 25px; }
-        .car-type-badge { font-family: 'JetBrains Mono'; font-size: 0.65rem; padding: 5px 12px; border-radius: 5px; text-transform: uppercase; font-weight: 700; margin-bottom: 10px; display: inline-block; }
-        .type-prestige { background: #ffd700; color: #000; box-shadow: 0 0 10px rgba(255,215,0,0.3); }
-        .type-regular { background: var(--accent); color: #fff; }
+        .input-group { margin-bottom: 25px; }
+        .input-group label { display: block; font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--accent); margin-bottom: 10px; text-transform: uppercase; }
+        input, select {
+            width: 100%; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+            padding: 18px; border-radius: 12px; color: #fff; font-family: 'Outfit'; transition: 0.3s;
+        }
+        input:focus { border-color: var(--accent); background: rgba(255, 46, 77, 0.05); outline: none; }
 
-        .car-name { font-size: 1.4rem; font-weight: 900; margin: 5px 0 15px 0; letter-spacing: -0.5px; }
-        .car-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.05); }
-        .car-price { font-family: 'JetBrains Mono'; font-size: 1.6rem; font-weight: 700; color: #fff; }
+        .btn-neon {
+            background: var(--accent); color: white; border: none; padding: 20px;
+            border-radius: 12px; font-weight: 900; text-transform: uppercase;
+            cursor: pointer; width: 100%; letter-spacing: 2px; transition: 0.4s;
+            box-shadow: var(--neon-shadow); display: flex; align-items: center; justify-content: center; gap: 15px;
+        }
+        .btn-neon:hover { filter: brightness(1.2); transform: scale(1.02); box-shadow: 0 0 25px var(--accent); }
+
+        /* --- ADMIN LOGS --- */
+        .log-container {
+            max-height: 600px; overflow-y: auto; background: rgba(0,0,0,0.2); border-radius: 15px;
+        }
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 20px; color: var(--accent); font-family: 'JetBrains Mono'; font-size: 0.8rem; border-bottom: 1px solid var(--border); }
+        td { padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.02); font-size: 0.9rem; }
+        .status-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; display: inline-block; margin-right: 10px; box-shadow: 0 0 10px var(--accent); }
 
         /* UTILS */
         .hidden { display: none !important; }
-        input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; }
-        .btn { background: var(--accent); color: white; border: none; padding: 18px; font-weight: 900; cursor: pointer; text-transform: uppercase; width: 100%; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 10px; font-family: 'JetBrains Mono'; }
+        .txt-accent { color: var(--accent); }
     </style>
 </head>
 <body>
 
 <nav>
-    <img src="https://res.cloudinary.com/dn0k6htsv/image/upload/v1774647697/zcbubagqn4hpxmlzwwan.png" class="logo-img" onclick="navTo('home')">
-    <div class="nav-link" onclick="navTo('home')" id="n-home"><i class="fa-solid fa-house"></i> Home</div>
-    <div class="nav-link active" onclick="navTo('showroom')" id="n-showroom"><i class="fa-solid fa-car"></i> Showroom</div>
-    <div class="nav-link" onclick="navTo('staff')" id="n-staff"><i class="fa-solid fa-file-invoice"></i> Sales</div>
-    <div class="nav-link" onclick="navTo('admin')" id="n-admin"><i class="fa-solid fa-screwdriver-wrench"></i> Terminal</div>
+    <div class="logo-box">
+        <img src="https://res.cloudinary.com/dn0k6htsv/image/upload/v1774647697/zcbubagqn4hpxmlzwwan.png" class="logo-img" onclick="navTo('home')">
+        <div style="font-family:'JetBrains Mono'; font-size:0.6rem; margin-top:10px; letter-spacing:2px; color:var(--accent);">OPERATIONAL TERMINAL v10.4</div>
+    </div>
+    
+    <div class="nav-link active" onclick="navTo('home')" id="n-home"><i class="fa-solid fa-house-chimney"></i> Dashboard</div>
+    <div class="nav-link" onclick="navTo('showroom')" id="n-showroom"><i class="fa-solid fa-car-rear"></i> Showroom</div>
+    <div class="nav-link" onclick="navTo('staff')" id="n-staff"><i class="fa-solid fa-file-contract"></i> Sales Point</div>
+    <div class="nav-link" onclick="navTo('admin')" id="n-admin"><i class="fa-solid fa-terminal"></i> Command Center</div>
+    
+    <div style="margin-top:auto; padding-top:20px; border-top:1px solid var(--border);">
+        <div style="display:flex; align-items:center; gap:10px;">
+            <div class="status-dot"></div>
+            <span style="font-size:0.7rem; color:#64748b;">SYSTEMS ONLINE</span>
+        </div>
+    </div>
 </nav>
 
 <main>
-    <div id="showroom" class="page active">
+    <div id="home" class="page active">
+        <div class="hero-slider">
+            <div class="slide active" style="background-image:url('https://images.unsplash.com/photo-1603584173870-7f3ca912711d?q=80&w=2069');">
+                <div class="slide-text">
+                    <p>Austin Elite Motors</p>
+                    <h1>BEYOND THE LIMITS.</h1>
+                </div>
+            </div>
+            <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=2072');">
+                <div class="slide-text">
+                    <p>Luxury Collection</p>
+                    <h1>PURE PERFORMANCE.</h1>
+                </div>
+            </div>
+            <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1614162692292-7ac56d7fd701?q=80&w=2070');">
+                <div class="slide-text">
+                    <p>Texas Finest</p>
+                    <h1>DRIVE THE NEON.</h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="home-info-grid">
+            <div class="info-card">
+                <i class="fa-solid fa-shield-halved"></i>
+                <h3>Asset Protection</h3>
+                <p>Ogni veicolo è monitorato e certificato tramite protocolli di sicurezza Austin Elite.</p>
+            </div>
+            <div class="info-card">
+                <i class="fa-solid fa-microchip"></i>
+                <h3>Smart Terminal</h3>
+                <p>Gestione digitale istantanea di contratti, tassi e documenti fiscali in tempo reale.</p>
+            </div>
+            <div class="info-card">
+                <i class="fa-solid fa-bolt"></i>
+                <h3>Flash Delivery</h3>
+                <p>Dalla firma alla chiave: processo di vendita ottimizzato per la massima velocità.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="showroom" class="page">
         <div class="inventory-header">
             <div>
-                <h1 style="font-size: 3rem; margin:0; font-weight:900;">FLIGHT FLEET</h1>
-                <p style="color:var(--accent); font-family:'JetBrains Mono'; text-transform:uppercase; letter-spacing:3px;">Austin Elite Inventory</p>
+                <h1 style="font-size: 3.5rem; margin:0; font-weight:900;">INVENTORY</h1>
+                <div style="height:4px; width:100px; background:var(--accent); margin-top:5px;"></div>
             </div>
-            <input type="text" id="car-search" class="search-bar" placeholder="Cerca modello..." onkeyup="applyF()">
+            <input type="text" id="car-search" class="search-box" placeholder="Search by model name..." onkeyup="applyF()">
         </div>
 
-        <div class="inventory-layout">
+        <div style="display:grid; grid-template-columns: 300px 1fr; gap:50px;">
             <aside>
-                <div class="filter-section">
-                    <span class="sidebar-label" style="margin-top:0;">Price Limit</span>
-                    <input type="range" id="f-price" min="0" oninput="applyF()">
-                    <div id="p-val" style="color:white; font-weight:800; font-size:1.6rem; font-family:'JetBrains Mono'; margin-top:10px;">$ 0</div>
-
-                    <span class="sidebar-label">Collections</span>
-                    <div style="display:flex; flex-direction:column; gap:12px;">
-                        <label style="cursor:pointer;"><input type="checkbox" class="t-check" value="Regular" checked onchange="applyF()"> Regular Stock</label>
-                        <label style="cursor:pointer;"><input type="checkbox" class="t-check" value="Prestige" checked onchange="applyF()"> Prestige Elite</label>
-                    </div>
-
-                    <span class="sidebar-label">Category</span>
-                    <div style="display:flex; flex-direction:column; gap:12px;">
-                        <label style="cursor:pointer;"><input type="checkbox" class="c-check" value="Car" checked onchange="applyF()"> Coupe & Sedan</label>
-                        <label style="cursor:pointer;"><input type="checkbox" class="c-check" value="SUV" checked onchange="applyF()"> SUV & Trucks</label>
-                    </div>
+                <div class="terminal-box" style="padding:30px;">
+                    <label class="input-group"><label>Price Filter</label>
+                        <input type="range" id="f-price" min="0" oninput="applyF()">
+                        <div id="p-val" style="color:var(--accent); font-weight:800; font-size:1.8rem; font-family:'JetBrains Mono'; margin-top:10px;">$ 0</div>
+                    </label>
+                    
+                    <label class="input-group" style="margin-top:40px;"><label>Vehicle Class</label>
+                        <div style="display:flex; flex-direction:column; gap:12px;">
+                            <label style="font-size:0.9rem;"><input type="checkbox" class="t-check" value="Regular" checked onchange="applyF()"> Regular Series</label>
+                            <label style="font-size:0.9rem;"><input type="checkbox" class="t-check" value="Prestige" checked onchange="applyF()"> Prestige Elite</label>
+                        </div>
+                    </label>
                 </div>
             </aside>
-
-            <div id="fleet-grid" class="car-grid">
-                </div>
+            <div id="fleet-grid" class="car-grid"></div>
         </div>
     </div>
 
-    <div id="home" class="page">
-        <div class="glass-card"><h1>Welcome to AutoNation</h1><button class="btn" onclick="navTo('showroom')">Entra nello Showroom</button></div>
-    </div>
     <div id="staff" class="page">
-        <div id="s-auth" class="filter-section" style="max-width:400px; margin:auto; text-align:center;">
-            <input id="s-pass" type="password" placeholder="PIN VENDITE">
-            <button class="btn" onclick="authS()">Sblocca Fatturazione</button>
+        <div id="s-auth" class="terminal-box" style="max-width:500px; margin: 50px auto; text-align:center;">
+            <i class="fa-solid fa-lock" style="font-size:3rem; color:var(--accent); margin-bottom:20px;"></i>
+            <h2>AGENT AUTH</h2>
+            <input id="s-pass" type="password" placeholder="ENTER ACCESS CODE" style="text-align:center;">
+            <button class="btn-neon" onclick="authS()" style="margin-top:20px;">UNLOCK SYSTEM</button>
         </div>
-        <div id="s-main" class="hidden filter-section">
-            <h2 style="color:var(--accent);">Emissione Fattura Certificata</h2>
-            <div id="next-p" style="font-family:'JetBrains Mono'; margin-bottom:20px;">TEX-???</div>
-            <select id="v-sel" onchange="syncP()"></select>
-            <input id="v-buyer" placeholder="Nome Cliente">
-            <input id="v-price" type="number" placeholder="Prezzo Finale">
-            <input id="v-sign" placeholder="Firma Operatore">
-            <button class="btn" onclick="doSale()">Genera PDF & Timbro</button>
+
+        <div id="s-main" class="hidden">
+            <div class="terminal-box">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:40px;">
+                    <h2 style="margin:0;">CONTRACT GENERATOR</h2>
+                    <div id="next-p" style="font-family:'JetBrains Mono'; background:rgba(255, 46, 77, 0.1); padding:10px 20px; border-radius:10px; border:1px solid var(--accent); color:var(--accent); font-weight:900;">TEX-000</div>
+                </div>
+                
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:40px;">
+                    <div>
+                        <div class="input-group">
+                            <label>Target Asset</label>
+                            <select id="v-sel" onchange="syncP()"></select>
+                        </div>
+                        <div class="input-group">
+                            <label>Customer Legal Name</label>
+                            <input id="v-buyer" placeholder="E.g. Elon Musk">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="input-group">
+                            <label>Agreed Sale Price ($)</label>
+                            <input id="v-price" type="number" placeholder="0.00">
+                        </div>
+                        <div class="input-group">
+                            <label>Agent Signature</label>
+                            <input id="v-sign" placeholder="Agent Digital Sign">
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-neon" onclick="doSale()" style="margin-top:30px;">
+                    <i class="fa-solid fa-file-pdf"></i> GENERATE LEGAL INVOICE
+                </button>
+            </div>
         </div>
     </div>
+
     <div id="admin" class="page">
-        <div id="a-auth" class="filter-section" style="max-width:400px; margin:auto;">
-            <input id="a-key" type="password" placeholder="ADMIN KEY">
-            <button class="btn" onclick="authA()">Accedi al Database</button>
+        <div id="a-auth" class="terminal-box" style="max-width:500px; margin: 50px auto; text-align:center;">
+            <i class="fa-solid fa-skull" style="font-size:3rem; color:var(--accent); margin-bottom:20px;"></i>
+            <h2>ROOT TERMINAL</h2>
+            <input id="a-key" type="password" placeholder="MASTER KEY" style="text-align:center;">
+            <button class="btn-neon" onclick="authA()" style="margin-top:20px;">ACCESS KERNEL</button>
         </div>
-        <div id="a-main" class="hidden grid" style="display:grid; grid-template-columns: 1fr 1fr; gap:30px;">
-            <div class="filter-section">
-                <h3>Carica Veicolo</h3>
-                <input id="n-name" placeholder="Modello">
-                <input id="n-price" type="number" placeholder="Prezzo">
-                <select id="n-type"><option value="Regular">Regular</option><option value="Prestige">Prestige</option></select>
-                <select id="n-class"><option value="Car">Vettura</option><option value="SUV">SUV/Truck</option></select>
-                <input type="file" id="n-img">
-                <button class="btn" onclick="addCar()">Pubblica nello Showroom</button>
-            </div>
-            <div class="filter-section" id="admin-logs">
-                <h3>Log Vendite / Gestione</h3>
-                <button class="btn" style="background:#444;" onclick="resetPlates()">Reset Targhe</button>
-                <table style="width:100%; margin-top:20px; font-size:0.8rem;">
-                    <tbody id="edit-inventory-body"></tbody>
-                </table>
+
+        <div id="a-main" class="hidden">
+            <div style="display:grid; grid-template-columns: 1fr 1.5fr; gap:40px;">
+                <div class="terminal-box">
+                    <h3 class="txt-accent">ASSET INJECTION</h3>
+                    <div class="input-group"><label>Model</label><input id="n-name"></div>
+                    <div class="input-group"><label>Base Price</label><input id="n-price" type="number"></div>
+                    <div class="input-group"><label>Class</label>
+                        <select id="n-type"><option value="Regular">Regular</option><option value="Prestige">Prestige</option></select>
+                    </div>
+                    <div class="input-group"><label>Blueprint (Image)</label><input type="file" id="n-img"></div>
+                    <button class="btn-neon" onclick="addCar()">UPLOAD TO CLOUD</button>
+                    
+                    <div style="margin-top:50px; border-top:1px solid var(--border); padding-top:30px;">
+                        <h3 class="txt-accent">DANGER ZONE</h3>
+                        <button class="btn-neon" style="background:#333; margin-bottom:10px;" onclick="resetPlates()">RESET SEQUENCER</button>
+                        <button class="btn-neon" style="background:#600;" onclick="clearLogs()">WIPE TRANSACTION LOGS</button>
+                    </div>
+                </div>
+
+                <div class="terminal-box">
+                    <h3 class="txt-accent">TRANSACTION FEED</h3>
+                    <div class="log-container">
+                        <table id="log-table">
+                            <thead><tr><th>REF_ID</th><th>CLIENT</th><th>VEHICLE</th><th>STATUS</th></tr></thead>
+                            <tbody id="log-body"></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -183,8 +389,9 @@ let carStorage = {}, cachedImg = null;
 
 const LOGO_URL = "https://res.cloudinary.com/dn0k6htsv/image/upload/v1774647697/zcbubagqn4hpxmlzwwan.png";
 const TIMBRO_URL = "https://res.cloudinary.com/dn0k6htsv/image/upload/v1774648015/ay8vqwcnfa2sgnfywv26.png";
-const PREMESSA = "AutoNation Austin emette la presente fattura a conferma dell’avvenuta vendita. Tutti i veicoli rispettano gli standard di qualità AutoNation.";
+const PREMESSA = "AutoNation Austin Hub emette questo documento come contratto di vendita legalmente vincolante. Il veicolo descritto è stato ispezionato e certificato secondo gli standard Elite Motorsport del Texas.";
 
+// NAV LOGIC
 function navTo(id) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
@@ -192,14 +399,22 @@ function navTo(id) {
     document.getElementById('n-'+id).classList.add('active');
 }
 
+// AUTH
 function authS() { if(document.getElementById('s-pass').value === "1234") { document.getElementById('s-auth').classList.add('hidden'); document.getElementById('s-main').classList.remove('hidden'); refreshP(); } }
 function authA() { if(document.getElementById('a-key').value === "OWNER123") { document.getElementById('a-auth').classList.add('hidden'); document.getElementById('a-main').classList.remove('hidden'); } }
 
+// DATA SYNC
 db.ref('cars').on('value', s => {
     carStorage = s.val() || {};
     applyF();
-    const eb = document.getElementById('edit-inventory-body'); eb.innerHTML = "";
-    for(let k in carStorage) eb.innerHTML += `<tr><td>${carStorage[k].name}</td><td><button onclick="deleteCar('${k}')" style="background:red; color:white; border:none; padding:5px; cursor:pointer;">X</button></td></tr>`;
+});
+
+db.ref('sales_logs').on('value', s => {
+    const logs = s.val() || {};
+    const lb = document.getElementById('log-body'); lb.innerHTML = "";
+    Object.values(logs).reverse().forEach(l => {
+        lb.innerHTML += `<tr><td>${l.targa}</td><td>${l.cliente}</td><td>${l.veicolo}</td><td><span class="status-dot"></span>VALIDATED</td></tr>`;
+    });
 });
 
 function applyF() {
@@ -207,30 +422,21 @@ function applyF() {
     const search = document.getElementById('car-search').value.toLowerCase();
     document.getElementById('p-val').innerText = `$ ${max.toLocaleString()}`;
     const types = Array.from(document.querySelectorAll('.t-check:checked')).map(c => c.value);
-    const classes = Array.from(document.querySelectorAll('.c-check:checked')).map(c => c.value);
     
     const g = document.getElementById('fleet-grid'), sel = document.getElementById('v-sel');
-    g.innerHTML = ""; sel.innerHTML = "<option>Seleziona veicolo...</option>";
+    g.innerHTML = ""; sel.innerHTML = "<option>-- SELECT SYSTEM ASSET --</option>";
     
     for(let k in carStorage) {
         const c = carStorage[k];
-        const matchSearch = c.name.toLowerCase().includes(search);
-        
-        if(c.price <= max && types.includes(c.type) && classes.includes(c.class) && matchSearch) {
-            const badgeClass = c.type === 'Prestige' ? 'type-prestige' : 'type-regular';
+        if(c.price <= max && types.includes(c.type) && c.name.toLowerCase().includes(search)) {
+            const bCls = c.type === 'Prestige' ? 'badge-prestige' : 'badge-regular';
             g.innerHTML += `
             <div class="car-card">
-                <div class="img-container">
-                    <img src="${c.image}" class="car-img">
-                    <div class="car-overlay"><div class="view-btn">Dettagli Asset</div></div>
-                </div>
-                <div class="car-info">
-                    <span class="car-type-badge ${badgeClass}">${c.type}</span>
-                    <div class="car-name">${c.name}</div>
-                    <div class="car-footer">
-                        <div class="car-price">$ ${c.price.toLocaleString()}</div>
-                        <i class="fa-solid fa-arrow-right" style="color:var(--accent);"></i>
-                    </div>
+                <div class="car-img-wrap"><img src="${c.image}"></div>
+                <div class="car-details">
+                    <span class="car-badge ${bCls}">${c.type}</span>
+                    <div style="font-size:1.5rem; font-weight:900; margin-bottom:15px;">${c.name}</div>
+                    <div class="car-price">$ ${c.price.toLocaleString()}</div>
                 </div>
             </div>`;
             sel.innerHTML += `<option value="${c.name}" data-p="${c.price}">${c.name}</option>`;
@@ -238,37 +444,51 @@ function applyF() {
     }
 }
 
-// PDF & LOGIC (Rimangono come richiesto prima)
+// PDF ENGINE (v10 Refined)
 async function generatePDF(data) {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
+    
     try { doc.addImage(LOGO_URL, 'PNG', 15, 12, 55, 22); } catch(e){}
-    doc.setTextColor(255, 46, 77); doc.setFontSize(26); doc.setFont(undefined, 'bold');
-    doc.text("SALES CONTRACT", 110, 28);
-    doc.setFontSize(9); doc.setTextColor(100, 100, 100);
-    doc.text(doc.splitTextToSize(PREMESSA, 170), 15, 55);
-    doc.setTextColor(0,0,0); doc.setFontSize(12); doc.text(`CLIENTE: ${data.cliente.toUpperCase()}`, 15, 90);
-    doc.text(`VEICOLO: ${data.veicolo}`, 15, 100);
-    doc.setTextColor(255, 46, 77); doc.text(`PREZZO: $ ${parseInt(data.prezzo).toLocaleString()}`, 15, 110);
-    doc.setTextColor(0,0,0); doc.setFont("courier", "italic"); doc.text(`Agente: ${data.staff}`, 15, 160);
-    try { doc.addImage(TIMBRO_URL, 'PNG', 130, 140, 50, 50); } catch(e){}
-    doc.save(`AutoNation_${data.targa}.pdf`);
+    doc.setTextColor(255, 46, 77); doc.setFontSize(28); doc.setFont(undefined, 'bold');
+    doc.text("SALES INVOICE", 110, 28);
+    
+    doc.setFillColor(245, 245, 245); doc.rect(15, 45, 180, 40, 'F');
+    doc.setTextColor(60, 60, 60); doc.setFontSize(9); doc.setFont(undefined, 'normal');
+    doc.text(doc.splitTextToSize(PREMESSA, 170), 20, 53);
+    
+    doc.setTextColor(0,0,0); doc.setFontSize(12); doc.setFont(undefined, 'bold');
+    doc.text("CUSTOMER DETAILS", 15, 100);
+    doc.setFont(undefined, 'normal'); doc.text(data.cliente.toUpperCase(), 15, 108);
+    
+    doc.setDrawColor(255, 46, 77); doc.setLineWidth(1); doc.line(15, 115, 195, 115);
+    
+    doc.setFont(undefined, 'bold'); doc.text("ASSET DESCRIPTION", 15, 125); doc.text("TOTAL PAID", 150, 125);
+    doc.setFont(undefined, 'normal'); doc.text(data.veicolo, 15, 135);
+    doc.setTextColor(255, 46, 77); doc.setFontSize(16); doc.text(`$ ${parseInt(data.prezzo).toLocaleString()}`, 150, 135);
+    
+    doc.setTextColor(0,0,0); doc.setFontSize(10); doc.text("DIGITAL SIGNATURE:", 15, 175);
+    doc.setFont("courier", "italic"); doc.setFontSize(14); doc.text(data.staff, 15, 185);
+    
+    try { doc.addImage(TIMBRO_URL, 'PNG', 130, 155, 50, 50); } catch(e){}
+    doc.save(`Invoice_${data.targa}.pdf`);
 }
 
 function doSale() {
     const b = document.getElementById('v-buyer').value, v = document.getElementById('v-sel').value, p = document.getElementById('v-price').value, s = document.getElementById('v-sign').value, t = document.getElementById('next-p').innerText;
-    if(!b || v.includes("Seleziona")) return alert("Mancano dati");
+    if(!b || v.includes("SELECT")) return alert("ACCESS DENIED: DATA INCOMPLETE");
     const saleData = { data: new Date().toLocaleDateString(), cliente: b, veicolo: v, targa: t, prezzo: p, staff: s };
     db.ref('sales_logs').push(saleData).then(() => { generatePDF(saleData); refreshP(); });
 }
 
+// ASSET MGMT
 document.getElementById('n-img').onchange = e => { const r = new FileReader(); r.onload = ev => cachedImg = ev.target.result; r.readAsDataURL(e.target.files[0]); };
 function addCar() {
-    const n = document.getElementById('n-name').value, p = document.getElementById('n-price').value, t = document.getElementById('n-type').value, cl = document.getElementById('n-class').value;
-    if(n && p && cachedImg) db.ref('cars').push({ name:n, price:parseInt(p), type:t, class:cl, image:cachedImg }).then(() => location.reload());
+    const n = document.getElementById('n-name').value, p = document.getElementById('n-price').value, t = document.getElementById('n-type').value;
+    if(n && p && cachedImg) db.ref('cars').push({ name:n, price:parseInt(p), type:t, image:cachedImg }).then(() => location.reload());
 }
-function deleteCar(k) { if(confirm("Eliminare?")) db.ref('cars/'+k).remove(); }
-function resetPlates() { if(confirm("Reset targhe?")) db.ref('sales_logs').remove().then(()=>location.reload()); }
+function resetPlates() { if(confirm("RESET SEQUENCER?")) db.ref('sales_logs').remove().then(()=>location.reload()); }
+function clearLogs() { if(confirm("WIPE ALL LOGS?")) db.ref('sales_logs').remove(); }
 async function refreshP() {
     const s = await db.ref('sales_logs').limitToLast(1).once('value');
     const logs = s.val();
@@ -277,6 +497,17 @@ async function refreshP() {
 }
 function syncP() { const s = document.getElementById('v-sel'); document.getElementById('v-price').value = s.options[s.selectedIndex].dataset.p || ""; }
 db.ref('settings/max_budget').on('value', s => { const v = s.val() || 3000000; const f = document.getElementById('f-price'); f.max = v; f.value = v; applyF(); });
+
+// SLIDER
+let sIdx = 0;
+setInterval(() => {
+    const slides = document.querySelectorAll('.slide');
+    if(slides.length){
+        slides.forEach(s => s.classList.remove('active'));
+        sIdx = (sIdx + 1) % slides.length;
+        slides[sIdx].classList.add('active');
+    }
+}, 5000);
 </script>
 </body>
 </html>
