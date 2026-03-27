@@ -23,20 +23,16 @@
 
 <body>
 
-<!-- LOGIN -->
-
 <div id="login">
 
 <h2>Login</h2>
 
-<input id="email" placeholder="Email">
+<input id="username" placeholder="Utente">
 <input id="password" type="password" placeholder="Password">
 
 <button onclick="login()">Login</button>
 
 </div>
-
-<!-- APP -->
 
 <div id="app">
 
@@ -52,8 +48,6 @@
 
 </header>
 
-<!-- DASHBOARD -->
-
 <section id="dashboard" class="page">
 
 <h2>Dashboard</h2>
@@ -66,7 +60,7 @@
 </div>
 
 <div class="card">
-<h3>Vendite totali</h3>
+<h3>Vendite</h3>
 <p id="totVendite"></p>
 </div>
 
@@ -76,22 +70,19 @@
 
 </section>
 
-<!-- AUTO -->
-
 <section id="auto" class="page">
 
 <h2>Aggiungi Auto</h2>
 
 <input id="carName" placeholder="Modello">
 <input id="carPrice" placeholder="Prezzo">
+<input type="file" id="imgUpload">
 
 <button onclick="addCar()">Aggiungi</button>
 
 <div id="carList"></div>
 
 </section>
-
-<!-- FIRMA -->
 
 <section id="firma">
 
@@ -101,8 +92,6 @@
 
 </section>
 
-<!-- VENDITE -->
-
 <section id="vendite" class="page">
 
 <h2>Registro Vendite</h2>
@@ -110,14 +99,12 @@
 <table>
 
 <thead>
-
 <tr>
 <th>Targa</th>
 <th>Cliente</th>
 <th>Auto</th>
 <th>Data</th>
 </tr>
-
 </thead>
 
 <tbody id="sales"></tbody>
@@ -126,7 +113,7 @@
 
 </section>
 
-<script type="module" src="script.js"></script>
+<script src="script.js"></script>
 
 </body>
 
