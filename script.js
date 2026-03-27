@@ -1,20 +1,21 @@
-const PASSWORD = "1234";
+const PASSWORD = "1234"
 
-let cars = JSON.parse(localStorage.getItem("cars")) || [];
+let cars = JSON.parse(localStorage.getItem("cars")) || []
 
-const carList = document.getElementById("car-list");
+const carList = document.getElementById("car-list")
 
-displayCars();
+displayCars()
+
 
 function displayCars(){
 
-carList.innerHTML="";
+carList.innerHTML=""
 
 cars.forEach((car,index)=>{
 
-const div=document.createElement("div");
+const div=document.createElement("div")
 
-div.classList.add("car");
+div.classList.add("car")
 
 div.innerHTML=`
 
@@ -24,30 +25,30 @@ div.innerHTML=`
 
 <p>${car.price}</p>
 
-<button onclick="buyCar('${car.name}')">Seleziona</button>
+<button onclick="editCar(${index})">Modifica</button>
 
 <button onclick="removeCar(${index})">Elimina</button>
 
-`;
+`
 
-carList.appendChild(div);
+carList.appendChild(div)
 
-});
+})
 
 }
 
 
 function openPanel(){
 
-const pass=prompt("Accesso personale:");
+const pass=prompt("Password personale")
 
 if(pass===PASSWORD){
 
-document.getElementById("panel").classList.remove("hidden");
+document.getElementById("panel").classList.remove("hidden")
 
 }else{
 
-alert("Accesso negato");
+alert("Accesso negato")
 
 }
 
@@ -56,32 +57,45 @@ alert("Accesso negato");
 
 function closePanel(){
 
-document.getElementById("panel").classList.add("hidden");
+document.getElementById("panel").classList.add("hidden")
 
 }
 
 
 function addCar(){
 
-const name=document.getElementById("name").value;
-
-const price=document.getElementById("price").value;
-
-const image=document.getElementById("image").value;
+const name=document.getElementById("name").value
+const price=document.getElementById("price").value
+const image=document.getElementById("image").value
 
 if(!name||!price||!image){
 
-alert("Compila tutti i campi");
+alert("Compila tutto")
 
-return;
+return
 
 }
 
-cars.push({name,price,image});
+cars.push({name,price,image})
 
-localStorage.setItem("cars",JSON.stringify(cars));
+save()
 
-displayCars();
+displayCars()
+
+}
+
+
+function editCar(index){
+
+const name=prompt("Nuovo nome",cars[index].name)
+const price=prompt("Nuovo prezzo",cars[index].price)
+
+cars[index].name=name
+cars[index].price=price
+
+save()
+
+displayCars()
 
 }
 
@@ -90,20 +104,20 @@ function removeCar(index){
 
 if(confirm("Eliminare auto?")){
 
-cars.splice(index,1);
+cars.splice(index,1)
 
-localStorage.setItem("cars",JSON.stringify(cars));
+save()
 
-displayCars();
-
-}
+displayCars()
 
 }
 
+}
 
-function buyCar(name){
 
-alert("Hai selezionato: "+name);
+function save(){
+
+localStorage.setItem("cars",JSON.stringify(cars))
 
 }
 
@@ -114,34 +128,34 @@ document.getElementById("cars").scrollIntoView({
 
 behavior:"smooth"
 
-});
+})
 
 }
 
 
-const dropArea=document.getElementById("drop-area");
+const dropArea=document.getElementById("drop-area")
 
 dropArea.addEventListener("dragover",e=>{
 
-e.preventDefault();
+e.preventDefault()
 
-});
+})
 
 
 dropArea.addEventListener("drop",e=>{
 
-e.preventDefault();
+e.preventDefault()
 
-const file=e.dataTransfer.files[0];
+const file=e.dataTransfer.files[0]
 
-const reader=new FileReader();
+const reader=new FileReader()
 
 reader.onload=function(event){
 
-document.getElementById("image").value=event.target.result;
+document.getElementById("image").value=event.target.result
 
-};
+}
 
-reader.readAsDataURL(file);
+reader.readAsDataURL(file)
 
-});
+})
