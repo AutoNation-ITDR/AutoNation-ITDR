@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AUTONATION | Pavel Edition</title>
+    <title>AUTONATION | Pavel Elite System</title>
 
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -12,108 +14,133 @@
     <style>
         :root { 
             --neon-red: #ff0000; 
-            --glow-red: rgba(255, 0, 0, 0.8);
-            --bg-dark: #050505; 
-            --card-bg: #0f0f0f;
-            --text-white: #ffffff; 
+            --glow-red: rgba(255, 0, 0, 0.5);
+            --bg-dark: #020202; 
+            --glass: rgba(15, 15, 15, 0.8);
+            --border-glass: rgba(255, 255, 255, 0.05);
         }
 
-        * { box-sizing: border-box; font-family: 'Orbitron', 'Segoe UI', sans-serif; transition: all 0.3s ease; }
+        * { box-sizing: border-box; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         
-        body { margin: 0; background: var(--bg-dark); color: var(--text-white); overflow-x: hidden; }
+        body { 
+            margin: 0; 
+            background: var(--bg-dark); 
+            color: #fff; 
+            font-family: 'Inter', sans-serif; 
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .logo { font-family: 'Orbitron', sans-serif; text-transform: uppercase; }
+
+        /* SCROLLBAR CUSTOM */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: var(--neon-red); border-radius: 10px; }
 
         /* HEADER */
         header { 
             display: flex; justify-content: space-between; align-items: center; 
-            padding: 20px 5%; background: rgba(0,0,0,0.95); border-bottom: 2px solid var(--neon-red);
-            position: sticky; top: 0; z-index: 1000; box-shadow: 0 0 20px var(--glow-red);
+            padding: 15px 5%; background: rgba(0,0,0,0.8); 
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border-glass);
+            position: sticky; top: 0; z-index: 1000;
         }
-        .logo { font-size: 28px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; }
-        .logo span { color: var(--neon-red); text-shadow: 0 0 15px var(--neon-red); }
+        .logo { font-size: 24px; font-weight: 900; letter-spacing: 3px; }
+        .logo span { color: var(--neon-red); text-shadow: 0 0 10px var(--neon-red); }
         
-        nav a { color: #fff; margin-left: 25px; text-decoration: none; font-weight: 700; font-size: 12px; text-transform: uppercase; cursor: pointer; }
-        nav a:hover { color: var(--neon-red); text-shadow: 0 0 10px var(--neon-red); }
+        nav a { 
+            color: #aaa; margin-left: 20px; text-decoration: none; 
+            font-size: 11px; font-weight: 700; letter-spacing: 1px;
+            cursor: pointer;
+        }
+        nav a:hover { color: #fff; text-shadow: 0 0 8px #fff; }
 
-        /* TASTI GLOW */
+        /* TASTO NEON GLOW */
         .btn-glow { 
-            background: transparent; 
-            color: var(--neon-red); 
-            border: 2px solid var(--neon-red); 
-            padding: 15px 30px; 
-            font-weight: 900; 
-            text-transform: uppercase; 
-            cursor: pointer; 
-            border-radius: 5px;
-            box-shadow: 0 0 10px var(--glow-red), inset 0 0 5px var(--glow-red);
-            text-shadow: 0 0 5px var(--neon-red);
-            letter-spacing: 2px;
+            background: transparent; color: #fff; 
+            border: 1px solid var(--neon-red); 
+            padding: 14px 28px; font-weight: 700; 
+            cursor: pointer; position: relative;
+            overflow: hidden; border-radius: 4px;
+            box-shadow: 0 0 10px var(--glow-red);
         }
         .btn-glow:hover { 
             background: var(--neon-red); 
-            color: #000; 
             box-shadow: 0 0 30px var(--neon-red);
-            text-shadow: none;
+            transform: translateY(-2px);
         }
 
-        /* HERO SECTION */
+        /* HERO */
         .hero { 
-            position: relative; height: 80vh; display: flex; align-items: center; justify-content: center; 
-            overflow: hidden; border-bottom: 1px solid #222;
+            height: 90vh; display: flex; align-items: center; justify-content: center; 
+            position: relative; overflow: hidden;
         }
-        .hero video { position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; transform: translate(-50%, -50%); object-fit: cover; opacity: 0.4; }
-        .hero-content { position: relative; z-index: 10; text-align: center; }
-        .hero h1 { font-size: clamp(40px, 8vw, 80px); margin: 0; font-weight: 900; text-shadow: 0 0 20px #000; }
+        .hero-video {
+            position: absolute; width: 100%; height: 100%; object-fit: cover;
+            opacity: 0.3; z-index: -1; filter: grayscale(1);
+        }
+        .hero-content { text-align: center; z-index: 10; padding: 20px; }
+        .hero h1 { font-size: clamp(3rem, 10vw, 6rem); margin: 0; line-height: 0.9; }
+        .hero p { color: var(--neon-red); letter-spacing: 5px; font-size: 14px; margin: 20px 0; }
 
-        /* SHOWROOM NERO & NEON */
-        #car-list, #owner-car-list { 
+        /* SHOWROOM GRID */
+        .container { max-width: 1400px; margin: 0 auto; padding: 60px 5%; }
+        .car-grid { 
             display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
-            gap: 40px; padding: 60px 5%; max-width: 1400px; margin: 0 auto;
+            gap: 30px; 
         }
 
         .car-card { 
-            background: var(--card-bg); 
-            border: 1px solid #222; 
-            border-radius: 10px;
-            overflow: hidden;
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            background: var(--glass); 
+            border: 1px solid var(--border-glass);
+            border-radius: 12px; overflow: hidden;
+            backdrop-filter: blur(5px);
         }
-
-        .car-card:hover {
-            border-color: var(--neon-red);
-            box-shadow: 0 0 25px var(--glow-red);
-            transform: translateY(-10px);
+        .car-card:hover { 
+            border-color: var(--neon-red); 
+            box-shadow: 0 10px 40px rgba(255,0,0,0.15);
+            transform: scale(1.02);
         }
+        .car-img-box { position: relative; height: 220px; overflow: hidden; }
+        .car-img-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .car-card:hover .car-img-box img { transform: scale(1.1); }
 
-        .car-card img { width: 100%; height: 240px; object-fit: cover; border-bottom: 1px solid #222; }
-        .car-details { padding: 25px; text-align: left; }
-        .car-name { font-size: 24px; font-weight: 900; margin: 10px 0; text-transform: uppercase; color: #fff; }
-        .car-price { font-size: 20px; color: var(--neon-red); font-weight: 700; text-shadow: 0 0 5px var(--glow-red); }
-        .car-meta { font-size: 10px; color: #666; letter-spacing: 2px; font-weight: 800; }
+        .car-info { padding: 20px; }
+        .car-info h3 { margin: 0; font-size: 20px; color: #fff; }
+        .car-tag { font-size: 9px; color: var(--neon-red); font-weight: 700; letter-spacing: 2px; }
+        .car-price { font-size: 22px; margin-top: 10px; font-weight: 900; color: #fff; }
 
-        /* PANNELLI */
-        .page { display: none; padding: 80px 5%; animation: fadeIn 0.5s ease-in-out; }
-        .page.active { display: block; }
+        /* FORMS & PANELS (Glassmorphism) */
+        .page { display: none; min-height: 100vh; animation: fadeIn 0.6s ease; }
+        .active { display: block; }
         @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
 
-        .form-container { 
-            max-width: 450px; margin: 0 auto; background: var(--card-bg); 
-            padding: 40px; border: 1px solid #333; 
-            box-shadow: 0 0 20px rgba(255,0,0,0.1);
+        .glass-panel { 
+            max-width: 450px; margin: 40px auto; 
+            background: var(--glass); 
+            padding: 40px; border-radius: 20px;
+            border: 1px solid var(--border-glass);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
+
         input, select { 
-            width: 100%; padding: 15px; margin-bottom: 20px; border: 1px solid #222; 
-            background: #000; color: #fff; border-radius: 4px;
+            width: 100%; padding: 15px; margin-bottom: 20px; 
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            color: #fff; border-radius: 8px; font-family: 'Inter', sans-serif;
         }
-        input:focus { outline: none; border-color: var(--neon-red); box-shadow: 0 0 10px var(--glow-red); }
+        input:focus { outline: none; border-color: var(--neon-red); background: rgba(255,255,255,0.1); }
 
         .btn-del { 
-            background: #000; color: #555; border: 1px solid #222; 
-            padding: 10px; width: 100%; cursor: pointer; margin-top: 15px; font-size: 10px;
+            background: rgba(255,0,0,0.1); color: var(--neon-red); 
+            border: 1px solid var(--neon-red); padding: 8px; 
+            width: 100%; border-radius: 4px; cursor: pointer; font-size: 10px; font-weight: 700;
         }
-        .btn-del:hover { color: #fff; border-color: var(--neon-red); background: var(--neon-red); }
+        .btn-del:hover { background: var(--neon-red); color: #fff; }
 
-        footer { background: #000; color: #333; padding: 60px; text-align: center; border-top: 1px solid #111; }
+        footer { 
+            padding: 80px 5%; text-align: center; border-top: 1px solid var(--border-glass);
+            background: #000; color: #444; font-size: 12px;
+        }
         .hidden { display: none; }
     </style>
 </head>
@@ -122,92 +149,103 @@
 <header>
     <div class="logo">AUTO<span>NATION</span></div>
     <nav>
-        <a onclick="goPage('home')">Home</a>
-        <a onclick="goPage('auto')">Showroom</a>
-        <a onclick="goPage('personale')">Staff</a>
-        <a onclick="goPage('owner')">Control</a>
+        <a onclick="goPage('home')">HUB</a>
+        <a onclick="goPage('auto')">INVENTARIO</a>
+        <a onclick="goPage('personale')">STAFF</a>
+        <a onclick="goPage('owner')">OWNER</a>
     </nav>
 </header>
 
-<div id="home" class="page active" style="padding:0">
+<div id="home" class="page active">
     <section class="hero">
-        <video autoplay loop muted playsinline>
+        <video autoplay loop muted playsinline class="hero-video">
             <source src="https://coverr.co/articles/homepage-video-background-with-css/coverr-night-traffic-1571761271617.mp4" type="video/mp4">
         </video>
         <div class="hero-content">
-            <h1 style="letter-spacing: 10px;">AUSTIN CLOUD</h1>
-            <p style="letter-spacing: 3px; color: var(--neon-red);">SISTEMA GESTIONALE DI ALTA PRECISIONE</p>
-            <button class="btn-glow" onclick="goPage('auto')" style="margin-top: 20px;">ENTRA NELL'INVENTARIO</button>
+            <p>ELITE AUTOMOTIVE HUB // AUSTIN TX</p>
+            <h1>PRECISION<br>MOTORS</h1>
+            <button class="btn-glow" style="margin-top: 40px;" onclick="goPage('auto')">ACCEDI ALLO SHOWROOM</button>
         </div>
     </section>
 
-    <div style="padding: 100px 10%; text-align: center; background: radial-gradient(circle, #0f0f0f 0%, #050505 100%);">
-        <h2 style="font-size: 40px; margin-bottom: 30px;">THE PILLAR OF <span style="color:var(--neon-red)">AUSTIN</span></h2>
-        <p style="max-width: 900px; margin: 0 auto; font-size: 18px; line-height: 2; color: #888; text-transform: none;">
-            AutoNation è il punto di riferimento per l'automotive in Texas. <br>
-            Ogni veicolo è un'opera d'arte tecnologica, selezionata per garantire prestazioni estreme e affidabilità totale.
-        </p>
+    <div class="container">
+        <div style="text-align: center; margin-bottom: 60px;">
+            <h2 style="font-size: 32px;">IL PILASTRO DI AUSTIN</h2>
+            <p style="color: #666; max-width: 700px; margin: 20px auto; line-height: 1.8;">
+                AutoNation rappresenta l'eccellenza tecnologica nel mercato texano. Ogni veicolo è processato attraverso il nostro sistema Cloud per garantire trasparenza e qualità certificata.
+            </p>
+        </div>
     </div>
 </div>
 
 <div id="auto" class="page">
-    <h2 style="text-align:center; font-size: 45px; margin-bottom: 60px; letter-spacing: 5px;">LIVE <span style="color:var(--neon-red)">SHOWROOM</span></h2>
-    <div id="car-list">Sincronizzazione Cloud in corso...</div>
+    <div class="container">
+        <h2 style="text-align:center; font-size: 40px; margin-bottom: 50px;">LIVE <span style="color:var(--neon-red)">DATA</span></h2>
+        <div id="car-list" class="car-grid">Sincronizzazione...</div>
+    </div>
 </div>
 
 <div id="personale" class="page">
-    <div id="personal-login" class="form-container">
-        <h3 style="text-align:center; color: var(--neon-red);">STAFF LOGIN</h3>
-        <input id="userIdInput" placeholder="OPERATOR ID">
-        <input id="userPassInput" type="password" placeholder="PASSWORD">
-        <button class="btn-glow" onclick="loginOperator()" style="width:100%">UNLOCK SYSTEM</button>
-    </div>
-    <div id="personal-content" class="hidden">
-        <div class="form-container">
-            <h3>GENERATORE FATTURE</h3>
-            <select id="selectAuto" onchange="autoSelezionata()"></select>
-            <input id="fNome" placeholder="NOME CLIENTE">
-            <input id="fAuto" placeholder="VEICOLO" readonly>
-            <input id="fPrezzo" placeholder="PREZZO" readonly>
-            <input id="fFirma" placeholder="FIRMA DIGITALE">
-            <button class="btn-glow" onclick="generaPDF()" style="width:100%">GENERATE PDF</button>
+    <div class="container">
+        <div id="personal-login" class="glass-panel">
+            <h3 style="margin-top:0; color: var(--neon-red);">STAFF LOGIN</h3>
+            <input id="userIdInput" placeholder="OPERATOR ID">
+            <input id="userPassInput" type="password" placeholder="ACCESS KEY">
+            <button class="btn-glow" onclick="loginOperator()" style="width:100%">DECRYPT SYSTEM</button>
+        </div>
+        
+        <div id="personal-content" class="hidden">
+            <div class="glass-panel">
+                <h3>GENERATORE FATTURE</h3>
+                <select id="selectAuto" onchange="autoSelezionata()"></select>
+                <input id="fNome" placeholder="NOME CLIENTE">
+                <input id="fAuto" placeholder="VEICOLO" readonly>
+                <input id="fPrezzo" placeholder="PREZZO" readonly>
+                <input id="fFirma" placeholder="FIRMA DIGITALE">
+                <button class="btn-glow" onclick="generaPDF()" style="width:100%">EXPORT PDF</button>
+            </div>
         </div>
     </div>
 </div>
 
 <div id="owner" class="page">
-    <div id="owner-login" class="form-container">
-        <h3 style="text-align:center; color: var(--neon-red);">MASTER CONTROL</h3>
-        <input id="ownerPassInput" type="password" placeholder="ADMIN PASSWORD">
-        <button class="btn-glow" onclick="loginOwner()" style="width:100%">ACCESS CORE</button>
-    </div>
-    <div id="owner-content" class="hidden">
-        <div class="form-container">
-            <h3>AGGIUNGI VEICOLO</h3>
-            <input id="name" placeholder="MODELLO">
-            <input id="price" placeholder="PREZZO (€)">
-            <select id="type">
-                <option value="Regular">Regular</option><option value="Prestige">Prestige</option>
-                <option value="Electric">Electric</option><option value="Classic">Classic</option>
-            </select>
-            <select id="class">
-                <option value="Car">Car</option><option value="Truck">Truck</option>
-                <option value="SUV">SUV</option><option value="Industrial">Industrial</option>
-            </select>
-            <input type="file" id="imageFile">
-            <button class="btn-glow" onclick="addCar()" style="width:100%">UPLOADING TO CLOUD</button>
+    <div class="container">
+        <div id="owner-login" class="glass-panel">
+            <h3 style="margin-top:0; color: var(--neon-red);">MASTER CONTROL</h3>
+            <input id="ownerPassInput" type="password" placeholder="ADMIN PASSWORD">
+            <button class="btn-glow" onclick="loginOwner()" style="width:100%">ACCESS CORE</button>
         </div>
-        <h3 style="text-align:center; margin-top:80px; letter-spacing: 3px;">DELETE INVENTORY</h3>
-        <div id="owner-car-list"></div>
+        
+        <div id="owner-content" class="hidden">
+            <div class="glass-panel">
+                <h3>NUOVO VEICOLO</h3>
+                <input id="name" placeholder="MODELLO">
+                <input id="price" placeholder="PREZZO (€)">
+                <select id="type">
+                    <option value="Regular">Regular</option><option value="Prestige">Prestige</option>
+                    <option value="Electric">Electric</option><option value="Classic">Classic</option>
+                </select>
+                <select id="class">
+                    <option value="Car">Car</option><option value="Truck">Truck</option>
+                    <option value="SUV">SUV</option><option value="Industrial">Industrial</option>
+                </select>
+                <input type="file" id="imageFile">
+                <button class="btn-glow" onclick="addCar()" style="width:100%">SYNK TO CLOUD</button>
+            </div>
+            
+            <h3 style="text-align:center; margin-top:80px;">ARCHIVIO DATABASE</h3>
+            <div id="owner-car-list" class="car-grid"></div>
+        </div>
     </div>
 </div>
 
 <footer>
-    <div class="logo" style="color:#222; margin-bottom: 20px;">AUTO<span>NATION</span></div>
-    <p style="letter-spacing: 2px;">© 2026 AUSTIN, TEXAS. <br> Powered by <span style="color:#555">Pavel</span></p>
+    <div class="logo" style="opacity: 0.2;">AUTO<span>NATION</span></div>
+    <p>© 2026 CLOUD SYSTEM AUSTIN. <br> Powered by <span style="color:#888">Pavel</span></p>
 </footer>
 
 <script>
+// CONFIGURAZIONE FIREBASE
 const firebaseConfig = {
     apiKey: "AIzaSyCUH4SGDnbvh1clXm_R_n3ynmDndhIwsbM",
     authDomain: "autonation-bc786.firebaseapp.com",
@@ -222,6 +260,7 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 let currentImg = null;
 
+// SYNC REAL-TIME
 db.ref('cars').on('value', snap => {
     const data = snap.val();
     const publicList = document.getElementById("car-list");
@@ -236,22 +275,24 @@ db.ref('cars').on('value', snap => {
         for(let id in data) {
             let c = { id, ...data[id] };
             
-            publicList.innerHTML += `
+            let cardHtml = `
                 <div class="car-card">
-                    <img src="${c.image}">
-                    <div class="car-details">
-                        <div class="car-meta">${c.type} // ${c.class}</div>
-                        <div class="car-name">${c.name}</div>
+                    <div class="car-img-box"><img src="${c.image}"></div>
+                    <div class="car-info">
+                        <div class="car-tag">${c.type} // ${c.class}</div>
+                        <h3>${c.name}</h3>
                         <div class="car-price">${c.price}</div>
                     </div>
                 </div>`;
             
+            publicList.innerHTML += cardHtml;
+            
             ownerList.innerHTML += `
                 <div class="car-card">
-                    <img src="${c.image}">
-                    <div class="car-details">
-                        <div class="car-name">${c.name}</div>
-                        <button class="btn-del" onclick="deleteCar('${c.id}')">REMOVE PERMANENTLY</button>
+                    <div class="car-img-box"><img src="${c.image}"></div>
+                    <div class="car-info">
+                        <h3>${c.name}</h3>
+                        <button class="btn-del" onclick="deleteCar('${c.id}')">ERASE DATA</button>
                     </div>
                 </div>`;
             
@@ -263,7 +304,7 @@ db.ref('cars').on('value', snap => {
 function goPage(p) {
     document.querySelectorAll('.page').forEach(pg => pg.classList.remove('active'));
     document.getElementById(p).classList.add('active');
-    window.scrollTo(0,0);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 document.getElementById('imageFile').onchange = e => {
@@ -277,21 +318,22 @@ function addCar() {
     const p = document.getElementById('price').value;
     const t = document.getElementById('type').value;
     const c = document.getElementById('class').value;
-    if(!n || !p || !currentImg) return alert("SYSTEM ERROR: DATA MISSING");
+    if(!n || !p || !currentImg) return alert("ERRORE: DATI MANCANTI");
     db.ref('cars').push({ name:n, price:p, type:t, class:c, image:currentImg }).then(() => {
-        alert("UPLOAD COMPLETE");
+        alert("VEICOLO SINCRONIZZATO");
+        document.getElementById('name').value = "";
     });
 }
 
 function deleteCar(id) {
-    if(confirm("DELETE CORE DATA?")) db.ref('cars/'+id).remove();
+    if(confirm("ELIMINARE DEFINITIVAMENTE DAL CLOUD?")) db.ref('cars/'+id).remove();
 }
 
 function loginOwner() {
     if(document.getElementById('ownerPassInput').value === "OWNER123") {
-        document.getElementById('owner-login').classList.add('hidden');
+        document.getElementById('owner-login').style.display = 'none';
         document.getElementById('owner-content').classList.remove('hidden');
-    } else alert("ACCESS DENIED");
+    } else alert("ACCESSO NEGATO");
 }
 
 function loginOperator() {
@@ -300,9 +342,9 @@ function loginOperator() {
     db.ref('settings/op').once('value').then(s => {
         const c = s.val();
         if((!c && u==="admin" && p==="1234") || (c && u===c.user && p===c.pass)) {
-            document.getElementById('personal-login').classList.add('hidden');
+            document.getElementById('personal-login').style.display = 'none';
             document.getElementById('personal-content').classList.remove('hidden');
-        } else alert("LOGIN FAILED");
+        } else alert("KEY NON VALIDA");
     });
 }
 
@@ -315,9 +357,18 @@ function autoSelezionata() {
 function generaPDF() {
     const {jsPDF} = window.jspdf;
     const pdf = new jsPDF();
-    pdf.text("AUTONATION INVOICE", 10, 20);
-    pdf.text("Vehicle: " + document.getElementById("fAuto").value, 10, 40);
-    pdf.save("Invoice_AutoNation.pdf");
+    pdf.setFillColor(0,0,0);
+    pdf.rect(0,0,210,40,'F');
+    pdf.setTextColor(255,255,255);
+    pdf.setFontSize(22);
+    pdf.text("AUTONATION ELITE INVOICE", 15, 25);
+    pdf.setTextColor(0,0,0);
+    pdf.setFontSize(12);
+    pdf.text("CLIENTE: " + document.getElementById("fNome").value, 15, 60);
+    pdf.text("VEICOLO: " + document.getElementById("fAuto").value, 15, 75);
+    pdf.text("PREZZO: " + document.getElementById("fPrezzo").value, 15, 90);
+    pdf.text("FIRMA: " + document.getElementById("fFirma").value, 15, 120);
+    pdf.save("Invoice_" + document.getElementById("fNome").value + ".pdf");
 }
 </script>
 </body>
