@@ -1,6 +1,4 @@
-* {
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
     margin: 0;
@@ -9,7 +7,7 @@ body {
     color: white;
 }
 
-/* WELCOME SCREEN */
+/* WELCOME */
 #welcome {
     position: fixed;
     width: 100%;
@@ -26,24 +24,14 @@ body {
     padding: 60px;
     border-radius: 15px;
     text-align: center;
-    box-shadow: 0 0 40px rgba(255, 0, 0, 0.4);
+    box-shadow: 0 0 40px rgba(255,0,0,0.4);
 }
 
-.welcome-logo {
-    width: 120px;
-    margin-bottom: 20px;
-}
+.welcome-logo { width: 120px; margin-bottom: 20px; }
 
-.welcome-card h1 {
-    color: #ff2b2b;
-    font-size: 32px;
-    font-weight: 700;
-}
+.welcome-card h1 { color: #ff2b2b; font-size: 32px; font-weight: 700; }
 
-.welcome-card p {
-    color: #ddd;
-    font-weight: 300;
-}
+.welcome-card p { color: #ddd; font-weight: 300; }
 
 .welcome-card button {
     background: #cc0000;
@@ -65,11 +53,8 @@ header {
     border-bottom: 2px solid #cc0000;
 }
 
-.logo {
-    height: 60px;
-}
+.logo { height: 60px; }
 
-/* NAV */
 nav a {
     color: white;
     margin-left: 20px;
@@ -78,9 +63,7 @@ nav a {
     font-weight: 500;
 }
 
-nav a:hover {
-    color: #cc0000;
-}
+nav a:hover { color: #cc0000; }
 
 /* HERO */
 .hero {
@@ -97,10 +80,7 @@ nav a:hover {
     text-shadow: 0 0 10px rgba(255,255,255,0.8);
 }
 
-.hero p {
-    font-size: 20px;
-    font-weight: 300;
-}
+.hero p { font-size: 20px; font-weight: 300; }
 
 .hero button {
     padding: 12px 30px;
@@ -113,10 +93,7 @@ nav a:hover {
 }
 
 /* AUTO */
-#cars {
-    padding: 50px;
-    text-align: center;
-}
+#cars { padding: 50px; text-align: center; }
 
 #car-list {
     display: flex;
@@ -156,10 +133,8 @@ nav a:hover {
     font-weight: 600;
 }
 
-/* PANEL */
-.hidden {
-    display: none;
-}
+/* PANELLO PERSONALE */
+.hidden { display: none; }
 
 #panel {
     position: fixed;
@@ -197,19 +172,14 @@ nav a:hover {
     cursor: pointer;
 }
 
-#drop-area p {
-    margin: 0;
-    font-weight: 300;
-}
+#drop-area p { margin: 0; font-weight: 300; }
 
 #drop-area.dragover {
     background: rgba(204,0,0,0.2);
     border-color: #ff2b2b;
 }
 
-#imageFile {
-    display: none;
-}
+#imageFile { display: none; }
 
 /* FOOTER */
 footer {
