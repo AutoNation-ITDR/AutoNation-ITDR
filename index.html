@@ -1,5 +1,7 @@
 <!DOCTYPE html>
+
 <html lang="it">
+
 <head>
 
 <meta charset="UTF-8">
@@ -8,6 +10,7 @@
 <title>AutoNation</title>
 
 <link rel="stylesheet" href="style.css">
+
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
 </head>
@@ -16,58 +19,94 @@
 
 <header>
 
-<div class="logo">AutoNation</div>
+<h1 class="logo">AutoNation</h1>
 
 <nav>
 <a href="#">Home</a>
 <a href="#cars">Auto</a>
+<a href="#vendite">Vendite</a>
 <a href="#" onclick="openPanel()">Personale</a>
 </nav>
 
 </header>
 
-
 <section class="hero">
 
-<h1>AutoNation</h1>
-<p>Concessionario Premium</p>
+<h2>Concessionario Premium</h2>
 
-<button onclick="scrollToCars()">SCOPRI LE AUTO</button>
+<button onclick="scrollToCars()">Scopri le auto</button>
 
 </section>
 
-
 <section id="cars">
 
-<h2>Veicoli Disponibili</h2>
+<h2>Auto disponibili</h2>
 
 <div id="car-list"></div>
 
 </section>
 
+<section id="vendite">
+
+<h2>Registro vendite</h2>
+
+<div class="vendita-form">
+
+<input id="nome" placeholder="Nome">
+
+<input id="cognome" placeholder="Cognome">
+
+<input id="modello" placeholder="Modello auto">
+
+<button onclick="registraVendita()">Registra vendita</button>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Targa</th>
+<th>Nome</th>
+<th>Cognome</th>
+<th>Modello</th>
+<th>Azioni</th>
+</tr>
+
+</thead>
+
+<tbody id="lista-vendite"></tbody>
+
+</table>
+
+</section>
 
 <div id="panel" class="hidden">
 
 <div class="panel-box">
 
-<h2>Pannello Personale</h2>
+<h2>Pannello Auto</h2>
 
-<input id="name" placeholder="Nome auto">
+<input type="text" id="name" placeholder="Nome auto">
 
-<input id="price" placeholder="Prezzo">
+<input type="text" id="price" placeholder="Prezzo">
 
-<input id="image" placeholder="Link immagine">
+<input type="text" id="image" placeholder="Link immagine">
 
-<div id="drop-area">Trascina immagine qui</div>
+<div id="drop-area">
 
-<button onclick="addCar()">Aggiungi Auto</button>
+Trascina immagine qui
+
+</div>
+
+<button onclick="addCar()">Aggiungi auto</button>
 
 <button onclick="closePanel()">Chiudi</button>
 
 </div>
 
 </div>
-
 
 <footer>
 
@@ -78,4 +117,5 @@
 <script src="script.js"></script>
 
 </body>
+
 </html>
