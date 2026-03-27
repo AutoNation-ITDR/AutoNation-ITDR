@@ -4,11 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>AutoNation | FiveM Dealership</title>
+<title>AutoNation | Concessionario</title>
 
-<!-- FONT FIGO -->
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -19,14 +17,14 @@
     <nav>
         <a href="#">Home</a>
         <a href="#cars">Auto</a>
-        <a onclick="openAdmin()">Admin</a>
+        <a onclick="openPanel()">Personale</a>
     </nav>
 </header>
 
 <section class="hero">
     <h1>AutoNation</h1>
-    <p>Concessionario FiveM Premium</p>
-    <button onclick="scrollToCars()">ENTRA</button>
+    <p>Concessionario Premium</p>
+    <button onclick="scrollToCars()">SCOPRI LE AUTO</button>
 </section>
 
 <section id="cars">
@@ -34,22 +32,22 @@
     <div id="car-list"></div>
 </section>
 
-<!-- ADMIN (NASCOSTO) -->
-<div id="admin-panel" class="hidden">
-    <div class="admin-box">
-        <h2>Admin Panel</h2>
+<!-- PANELLO PERSONALE -->
+<div id="panel" class="hidden">
+    <div class="panel-box">
+        <h2>Pannello Personale</h2>
 
         <input type="text" id="name" placeholder="Nome auto">
         <input type="text" id="price" placeholder="Prezzo">
         <input type="text" id="image" placeholder="Link immagine">
 
-        <button onclick="addCar()">Aggiungi</button>
-        <button onclick="closeAdmin()" class="close">Chiudi</button>
+        <button onclick="addCar()">Aggiungi Auto</button>
+        <button onclick="closePanel()" class="close">Chiudi</button>
     </div>
 </div>
 
 <footer>
-    <p>© 2026 AutoNation RP</p>
+    <p>© 2026 AutoNation</p>
 </footer>
 
 <script src="script.js"></script>
