@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoNation Austin | Luxury Corporate Suite</title>
+    <title>AutoNation Austin | Rainbow Smoke Luxury</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Montserrat:wght@700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -16,68 +16,66 @@
         :root {
             --primary: #ff2e4d;
             --bg-dark: #0a0b0e;
-            --surface: #12141c;
+            --surface: rgba(18, 20, 28, 0.9);
             --text-main: #ffffff;
             --text-dim: #94a3b8;
             --radius-lg: 30px;
             --radius-md: 15px;
-            --shadow: 0 20px 40px rgba(0,0,0,0.4);
+            --shadow: 0 20px 40px rgba(0,0,0,0.5);
+            --glass: blur(10px) saturate(180%);
         }
 
-        /* CURSORE ANIMATO CSS */
-        * { cursor: none !important; } /* Nasconde il cursore di sistema */
-
-        #cursor-dot {
-            width: 6px; height: 6px; background: var(--primary);
-            position: fixed; top: 0; left: 0; border-radius: 50%;
-            pointer-events: none; z-index: 9999;
-            transition: transform 0.1s;
+        /* --- RAINBOW SMOKE CANVAS CSS --- */
+        #smoke-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            pointer-events: none; /* Non blocca i clic sui pulsanti */
+            z-index: 9999; /* Sopra a tutto */
         }
 
-        #cursor-outline {
-            width: 30px; height: 30px; border: 2px solid var(--primary);
-            position: fixed; top: 0; left: 0; border-radius: 50%;
-            pointer-events: none; z-index: 9998;
-            transition: transform 0.15s ease-out, width 0.3s, height 0.3s, background 0.3s;
-        }
-
-        /* Effetto hover sugli elementi cliccabili */
-        .cursor-hover #cursor-outline {
-            width: 50px; height: 50px; background: rgba(255, 46, 77, 0.1);
-            border-color: white;
-        }
+        /* Nascondiamo il cursore di sistema */
+        * { cursor: none !important; }
 
         * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
         body { margin: 0; background: var(--bg-dark); color: var(--text-main); font-family: 'Outfit', sans-serif; display: flex; height: 100vh; overflow: hidden; }
 
-        /* SIDEBAR */
-        nav { width: 300px; background: var(--surface); border-right: 1px solid rgba(255,255,255,0.03); display: flex; flex-direction: column; padding: 50px 30px; z-index: 100; }
+        /* SIDEBAR GLASS */
+        nav { 
+            width: 300px; background: var(--surface); border-right: 1px solid rgba(255,255,255,0.03); 
+            display: flex; flex-direction: column; padding: 50px 30px; z-index: 100;
+            backdrop-filter: var(--glass);
+        }
         .logo-area { text-align: center; margin-bottom: 60px; }
         .logo-img { width: 100%; filter: drop-shadow(0 0 10px rgba(255,46,77,0.2)); }
         
-        .nav-link { display: flex; align-items: center; padding: 18px 25px; color: var(--text-dim); text-decoration: none; border-radius: var(--radius-md); margin-bottom: 12px; font-weight: 600; transition: 0.3s; }
+        .nav-link { 
+            display: flex; align-items: center; padding: 18px 25px; color: var(--text-dim); 
+            text-decoration: none; border-radius: var(--radius-md); margin-bottom: 12px; 
+            font-weight: 600; cursor: pointer; transition: 0.3s;
+        }
         .nav-link i { margin-right: 18px; font-size: 1.2rem; }
         .nav-link.active { background: var(--primary); color: white; box-shadow: 0 10px 25px rgba(255,46,77,0.3); }
 
-        /* MAIN */
+        /* MAIN CONTENT */
         main { flex: 1; overflow-y: auto; background: radial-gradient(circle at top right, #1a1c26, #0a0b0e); }
-        .page { display: none; padding: 60px; max-width: 1400px; margin: 0 auto; opacity: 0; transform: translateY(15px); transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .page { display: none; padding: 60px; max-width: 1400px; margin: 0 auto; opacity: 0; transform: translateY(15px); transition: 0.5s ease; }
         .page.active { display: block; opacity: 1; transform: translateY(0); }
 
-        /* HOME */
-        .hero-section { position: relative; height: 500px; border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 60px; box-shadow: var(--shadow); }
+        /* HOME HERO */
+        .hero-section { position: relative; height: 500px; border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 60px; box-shadow: var(--shadow); border: 1px solid rgba(255,255,255,0.03); }
         .slide { position: absolute; inset: 0; opacity: 0; transition: 1.5s; background-size: cover; background-position: center; display: flex; align-items: center; padding: 80px; }
         .slide.active { opacity: 1; transform: scale(1.05); }
         .slide::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,0.85) 0%, transparent 70%); }
-        .slide-content h1 { font-family: 'Montserrat'; font-size: 4rem; line-height: 1; margin: 0; font-weight: 900; }
+        .slide-content h1 { font-family: 'Montserrat'; font-size: 4rem; margin: 0; font-weight: 900; line-height: 1; }
         .slide-content p { color: var(--primary); font-size: 1.1rem; letter-spacing: 5px; font-weight: 800; text-transform: uppercase; margin-bottom: 20px; }
 
-        .stat-card { background: var(--surface); padding: 30px; border-radius: var(--radius-md); text-align: center; border: 1px solid rgba(255,255,255,0.03); }
+        .stat-card { background: var(--surface); padding: 30px; border-radius: var(--radius-md); text-align: center; border: 1px solid rgba(255,255,255,0.03); backdrop-filter: var(--glass); }
         .stat-card h2 { color: var(--primary); font-family: 'Montserrat'; font-size: 2.5rem; margin: 0; }
 
         /* SHOWROOM */
         .showroom-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 35px; }
-        .car-card { background: var(--surface); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid rgba(255,255,255,0.05); transition: 0.4s ease; }
+        .car-card { background: var(--surface); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid rgba(255,255,255,0.05); transition: 0.4s ease; backdrop-filter: var(--glass); }
         .car-card:hover { transform: translateY(-12px); border-color: var(--primary); box-shadow: var(--shadow); }
         .car-img-box { height: 220px; overflow: hidden; }
         .car-img-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.8s; }
@@ -92,15 +90,20 @@
         .tag-Electric { background: #00ff88; color: #000; }
         .tag-Classic { background: #9d50bb; color: #fff; }
 
-        /* INPUTS & BUTTONS */
-        .panel-card { background: var(--surface); border-radius: var(--radius-lg); padding: 45px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 30px; }
+        /* OWNER/SALES PANELS */
+        .panel-card { background: var(--surface); border-radius: var(--radius-lg); padding: 45px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 30px; backdrop-filter: var(--glass); }
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; font-size: 0.7rem; font-weight: 800; color: var(--primary); text-transform: uppercase; margin-bottom: 8px; }
         input, select { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); padding: 15px; border-radius: var(--radius-md); color: white; font-family: 'Outfit'; }
-        .btn-main { background: var(--primary); color: white; border: none; padding: 18px; border-radius: var(--radius-md); font-weight: 900; width: 100%; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
-        .btn-secondary { background: transparent; color: var(--text-dim); border: 1px solid rgba(255,255,255,0.1); padding: 15px; border-radius: var(--radius-md); font-weight: 700; width: 100%; margin-top: 15px; transition: 0.3s; }
+        
+        .btn-main { background: var(--primary); color: white; border: none; padding: 18px; border-radius: var(--radius-md); font-weight: 900; width: 100%; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
+        .btn-main:hover { transform: scale(1.02); box-shadow: 0 0 30px rgba(255,46,77,0.4); }
+        
+        .btn-secondary { background: transparent; color: var(--text-dim); border: 1px solid rgba(255,255,255,0.1); padding: 15px; border-radius: var(--radius-md); font-weight: 700; cursor: pointer; text-transform: uppercase; width: 100%; margin-top: 15px; }
 
         /* TABLES */
         table { width: 100%; border-collapse: separate; border-spacing: 0 8px; }
-        td { background: rgba(255,255,255,0.02); padding: 15px 20px; }
+        td { background: rgba(255,255,255,0.02); padding: 15px 20px; font-size: 0.9rem; }
         .btn-del { background: rgba(255,0,0,0.1); color: #ff4444; border: 1px solid #ff4444; padding: 6px 12px; border-radius: 8px; font-size: 0.65rem; font-weight: 800; }
 
         .hidden { display: none !important; }
@@ -108,8 +111,7 @@
 </head>
 <body>
 
-<div id="cursor-dot"></div>
-<div id="cursor-outline"></div>
+<canvas id="smoke-canvas"></canvas>
 
 <nav>
     <div class="logo-area">
@@ -162,20 +164,20 @@
         </div>
         <div id="s-main" class="hidden panel-card">
             <h2>Emissione Fattura</h2>
-            <div id="next-p" style="color:var(--primary); font-family:'JetBrains Mono'; margin-bottom:20px;">TARGA: TEX-000</div>
+            <div id="next-p" style="color:var(--primary); font-family:'JetBrains Mono'; margin-bottom:20px;">TEX-000</div>
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:30px;">
                 <select id="v-sel" onchange="syncP()"></select>
                 <input id="v-buyer" placeholder="Nome Cliente">
                 <input id="v-price" type="number" placeholder="Prezzo Concordato">
                 <input id="v-sign" placeholder="Firma Agente">
             </div>
-            <button class="btn-main" style="margin-top:30px;" onclick="doSale()">Stampa Contratto PDF</button>
+            <button class="btn-main" style="margin-top:30px;" onclick="doSale()">Stampa PDF</button>
         </div>
     </div>
 
     <div id="admin" class="page">
         <div id="a-auth" class="panel-card" style="max-width:450px; margin:auto; text-align:center;">
-            <h2>Owner Control</h2>
+            <h2>Owner Area</h2>
             <input id="a-key" type="password" placeholder="Master Key">
             <button class="btn-main" onclick="authA()" style="margin-top:20px;">Accedi</button>
         </div>
@@ -195,9 +197,7 @@
                     </select>
                     <input type="file" id="n-img">
                     <button class="btn-main" onclick="addCar()">Aggiungi</button>
-                    
                     <button class="btn-secondary" onclick="resetPlates()">Resetta Targhe</button>
-                    <button class="btn-secondary" style="color:red;" onclick="clearLogs()">Svuota Log</button>
                 </div>
                 <div class="panel-card">
                     <h3>Gestione Showroom</h3>
@@ -212,7 +212,7 @@
 </main>
 
 <script>
-// CONFIGURAZIONE FIREBASE
+// CONFIG FIREBASE
 const config = {
     apiKey: "AIzaSyCUH4SGDnbvh1clXm_R_n3ynmDndhIwsbM",
     authDomain: "autonation-bc786.firebaseapp.com",
@@ -225,27 +225,102 @@ firebase.initializeApp(config);
 const db = firebase.database();
 let carStorage = {}, cachedImg = null;
 
-// LOGIC CURSORE ANIMATO
-const dot = document.getElementById("cursor-dot");
-const outline = document.getElementById("cursor-outline");
+// --- LOGICA RAINBOW SMOKE ---
+const canvas = document.getElementById('smoke-canvas');
+const ctx = canvas.getContext('2d');
 
-window.addEventListener("mousemove", (e) => {
-    const posX = e.clientX;
-    const posY = e.clientY;
+let particles = [];
+let hue = 0; // Colore iniziale (Arcobaleno)
+const mouse = { x: undefined, y: undefined };
 
-    dot.style.transform = `translate(${posX - 3}px, ${posY - 3}px)`;
-    outline.style.transform = `translate(${posX - 15}px, ${posY - 15}px)`;
+// Ridimensiona il canvas a tutto schermo
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas(); // Iniziale
 
-    // Se stiamo sopra un elemento interattivo
-    const target = e.target;
-    if (target.closest('button, a, .nav-link, .car-card, input, select')) {
-        document.body.classList.add('cursor-hover');
-    } else {
-        document.body.classList.remove('cursor-hover');
+// Traccia il mouse
+window.addEventListener('mousemove', (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+    
+    // Genera particelle mentre il mouse si muove
+    for (let i = 0; i < 3; i++) { // Quante particelle per movimento
+        particles.push(new Particle());
     }
 });
 
-// LOGICA SITO
+// Classe Particella (Fumo)
+class Particle {
+    constructor() {
+        this.x = mouse.x;
+        this.y = mouse.y;
+        
+        // Dimensione iniziale casuale
+        this.size = Math.random() * 15 + 5; 
+        
+        // Velocità casuale (si espande)
+        this.speedX = Math.random() * 2 - 1; // -1 a 1
+        this.speedY = Math.random() * 2 - 1; 
+        
+        // Colore arcobaleno che cambia nel tempo
+        this.color = `hsla(${hue}, 100%, 50%, 0.8)`; 
+        
+        // Trasparenza iniziale
+        this.opacity = 1;
+    }
+
+    update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        
+        // La particella si rimpicciolisce
+        if (this.size > 0.2) this.size -= 0.15; 
+        
+        // Sfuma la trasparenza (fumo che si dissolve)
+        this.opacity -= 0.015;
+    }
+
+    draw() {
+        ctx.fillStyle = this.color;
+        ctx.globalAlpha = this.opacity; // Applica trasparenza
+        ctx.beginPath();
+        // Disegna un cerchio sfocato (effetto fumo)
+        ctx.arc(this.x, this.y, this.size, 0, Math.random() * Math.PI * 2);
+        ctx.fill();
+        ctx.globalAlpha = 1; // Resetta trasparenza
+    }
+}
+
+// Ciclo di animazione principale
+function animateSmoke() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // Pulisce il canvas
+    
+    handleParticles();
+    
+    hue += 2; // Cambia il colore dell'arcobaleno continuamente
+    if (hue > 360) hue = 0;
+
+    requestAnimationFrame(animateSmoke);
+}
+
+function handleParticles() {
+    for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+        
+        // Rimuove le particelle trasparenti o troppo piccole
+        if (particles[i].opacity <= 0 || particles[i].size <= 0.3) {
+            particles.splice(i, 1);
+            i--; // Aggiusta l'indice dopo la rimozione
+        }
+    }
+}
+animateSmoke(); // Avvia animazione
+
+// --- LOGICA SITO ---
 const LOGO_URL = "https://res.cloudinary.com/dn0k6htsv/image/upload/v1774647697/zcbubagqn4hpxmlzwwan.png";
 const TIMBRO_URL = "https://res.cloudinary.com/dn0k6htsv/image/upload/v1774648015/ay8vqwcnfa2sgnfywv26.png";
 
@@ -277,14 +352,10 @@ function applyF() {
 
 function renderInventory() {
     const ib = document.getElementById('inventory-body'); ib.innerHTML = "";
-    for(let k in carStorage) {
-        ib.innerHTML += `<tr><td>${carStorage[k].name}</td><td>${carStorage[k].class}</td><td><button class="btn-del" onclick="deleteCar('${k}')">RIMUOVI</button></td></tr>`;
-    }
+    for(let k in carStorage) { ib.innerHTML += `<tr><td>${carStorage[k].name}</td><td>${carStorage[k].class}</td><td><button class="btn-del" onclick="deleteCar('${k}')">RIMUOVI</button></td></tr>`; }
 }
-
 function deleteCar(key) { if(confirm("Rimuovere?")) db.ref('cars/' + key).remove(); }
-function resetPlates() { if(confirm("Resettare targhe?")) db.ref('sales_logs').remove().then(()=>location.reload()); }
-function clearLogs() { if(confirm("Svuotare storico?")) db.ref('sales_logs').remove(); }
+function resetPlates() { if(confirm("Reset targhe?")) db.ref('sales_logs').remove().then(()=>location.reload()); }
 
 async function generatePDF(data) {
     const { jsPDF } = window.jspdf;
@@ -294,16 +365,15 @@ async function generatePDF(data) {
     doc.setFontSize(10); doc.setTextColor(0);
     doc.text(`CLIENTE: ${data.cliente.toUpperCase()}`, 15, 60);
     doc.text(`VEICOLO: ${data.veicolo}`, 15, 70);
-    doc.text(`TARGA: ${data.targa}`, 15, 80);
-    doc.text(`PREZZO: $ ${parseInt(data.prezzo).toLocaleString()}`, 15, 90);
-    doc.text(`FIRMA AGENTE: ${data.staff}`, 15, 150);
+    doc.text(`PREZZO: $ ${parseInt(data.prezzo).toLocaleString()}`, 15, 80);
+    doc.text(`FIRMA AGENTE: ${data.staff}`, 15, 140);
     try { doc.addImage(TIMBRO_URL, 'PNG', 130, 130, 45, 45); } catch(e){}
     doc.save(`Fattura_${data.targa}.pdf`);
 }
 
 function doSale() {
     const b = document.getElementById('v-buyer').value, v = document.getElementById('v-sel').value, p = document.getElementById('v-price').value, s = document.getElementById('v-sign').value, t = document.getElementById('next-p').innerText.split(': ')[1];
-    if(!b || v.includes("Scegli")) return alert("Dati incompleti!");
+    if(!b || v.includes("Scegli")) return alert("Mancano dati!");
     const saleData = { data: new Date().toLocaleDateString(), cliente: b, veicolo: v, targa: t, prezzo: p, staff: s };
     db.ref('sales_logs').push(saleData).then(() => { generatePDF(saleData); refreshP(); });
 }
@@ -313,14 +383,12 @@ function addCar() {
     const n = document.getElementById('n-name').value, p = document.getElementById('n-price').value, t = document.getElementById('n-type').value, cl = document.getElementById('n-class').value;
     if(n && p && cachedImg) db.ref('cars').push({ name:n, price:parseInt(p), type:t, class:cl, image:cachedImg }).then(() => location.reload());
 }
-
 async function refreshP() {
     const s = await db.ref('sales_logs').limitToLast(1).once('value');
     const logs = s.val();
     const last = logs ? Object.values(logs)[Object.values(logs).length - 1].targa : "TEX-000";
     document.getElementById('next-p').innerText = "TARGA: TEX-" + (parseInt(last.split('-')[1]) + 1).toString().padStart(3, '0');
 }
-
 function syncP() { const s = document.getElementById('v-sel'); document.getElementById('v-price').value = s.options[s.selectedIndex].dataset.p || ""; }
 
 setInterval(() => {
