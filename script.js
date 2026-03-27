@@ -38,7 +38,7 @@ function displayCars() {
     });
 }
 
-// APERTURA PANNELLO
+// APERTURA PANNELLO (SOLO SE CLICCHI PERSONALE)
 function openPanel() {
     let pass = prompt("Accesso personale");
     if (pass === PASSWORD) {
@@ -60,6 +60,8 @@ function resetForm() {
     document.getElementById("price").value = "";
     imageInput.value = "";
     currentImageBase64 = null;
+    dropArea.querySelector("p").innerHTML =
+        "Trascina qui l'immagine dell'auto<br><span>oppure clicca per selezionarla</span>";
 }
 
 // AGGIUNGI AUTO
