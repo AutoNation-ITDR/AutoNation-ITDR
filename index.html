@@ -52,7 +52,6 @@
         .slide-content { position: relative; z-index: 2; max-width: 550px; }
         .slide-content h2 { font-size: 3rem; margin: 0; font-weight: 800; line-height: 1.1; }
 
-        /* --- HOME DESCRIPTION --- */
         .company-desc { font-size: 1.1rem; line-height: 1.8; color: var(--text-secondary); border-left: 4px solid var(--an-red); padding-left: 30px; margin: 40px 0; }
         .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin: 40px 0; }
         .feature-card { background: var(--card-bg); padding: 30px; border-radius: 18px; border-bottom: 3px solid var(--border-color); transition: 0.3s; }
@@ -102,7 +101,7 @@
             <div class="nav-item" onclick="nav('staff')" id="n-staff"><i class="fa-solid fa-file-contract"></i> Sales Portal</div>
             <div class="nav-item" onclick="nav('admin')" id="n-admin"><i class="fa-solid fa-shield-halved"></i> Admin Core</div>
         </div>
-        <div style="font-size: 0.65rem; color: var(--text-secondary); opacity: 0.6; padding-left:10px;">AUSTIN TX HUB v4.0</div>
+        <div style="font-size: 0.65rem; color: var(--text-secondary); opacity: 0.6; padding-left:10px;">AUSTIN TX HUB v4.1</div>
     </aside>
 
     <main>
@@ -151,14 +150,6 @@
                     <p>Officina interna con tecnici specializzati in diagnosi e riparazioni.</p>
                 </div>
             </div>
-
-            <div class="card" style="display: flex; align-items: center; gap: 40px; margin-top: 50px;">
-                <div style="flex:1;">
-                    <h3>🏙️ Atmosfera e Posizione</h3>
-                    <p style="color: var(--text-secondary); line-height: 1.8;">Situato nella zona nord di Austin, AutoNation dispone di ampi spazi moderni e ordinati, trasmettendo immediatamente competenza. L'accoglienza clienti è pensata per offrire il massimo comfort durante la scelta del veicolo ideale.</p>
-                </div>
-                <div style="width: 320px; height: 180px; border-radius: 15px; background: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=500') center/cover;"></div>
-            </div>
         </div>
 
         <div id="showroom" class="page">
@@ -166,8 +157,8 @@
                 <aside class="filter-sidebar">
                     <div class="filter-section">
                         <label>Max Budget ($)</label>
-                        <input type="range" id="f-price" min="0" max="300000" step="5000" value="300000" oninput="applyF()">
-                        <div id="p-val" style="color:var(--an-red); font-weight:800; font-family:'JetBrains Mono'; margin-top:10px;">$ 300.000</div>
+                        <input type="range" id="f-price" min="0" step="1000" oninput="applyF()">
+                        <div id="p-val" style="color:var(--an-red); font-weight:800; font-family:'JetBrains Mono'; margin-top:10px;">$ 0</div>
                     </div>
 
                     <div class="filter-section">
@@ -228,6 +219,14 @@
                 <button class="btn-pro" onclick="authA()" style="margin-top:25px;">Accedi ai Sistemi</button>
             </div>
             <div id="a-main" class="hidden">
+                <div class="card" style="border-color: var(--an-red);">
+                    <h3>Impostazioni Globali</h3>
+                    <div class="input-group">
+                        <label>Imposta Budget Massimo del Filtro ($)</label>
+                        <input type="number" id="global-max" placeholder="Es: 500000" onchange="updateMax()">
+                    </div>
+                </div>
+                
                 <div class="card">
                     <h3>Aggiunta Asset</h3>
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-bottom:15px;">
@@ -266,7 +265,6 @@
     </main>
 
     <script>
-        // FIREBASE
         const config = {
             apiKey: "AIzaSyCUH4SGDnbvh1clXm_R_n3ynmDndhIwsbM",
             authDomain: "autonation-bc786.firebaseapp.com",
@@ -281,7 +279,6 @@
         let cachedImg = null;
         let carStorage = {};
 
-        // NAVIGATION
         function nav(id) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active-nav'));
@@ -289,11 +286,24 @@
             document.getElementById('n-'+id).classList.add('active-nav');
         }
 
-        // AUTH
         function authS() { if(document.getElementById('s-user').value === "staff" && document.getElementById('s-pass').value === "1234") { document.getElementById('s-auth').classList.add('hidden'); document.getElementById('s-main').classList.remove('hidden'); refreshP(); } }
         function authA() { if(document.getElementById('a-key').value === "OWNER123") { document.getElementById('a-auth').classList.add('hidden'); document.getElementById('a-main').classList.remove('hidden'); } }
 
-        // LOGIC & FILTERS
+        // Sincronizza il Max Budget con Firebase così rimane salvato
+        function updateMax() {
+            const val = document.getElementById('global-max').value;
+            db.ref('settings/max_budget').set(val);
+        }
+
+        db.ref('settings/max_budget').on('value', s => {
+            const val = s.val() || 300000;
+            const filterInput = document.getElementById('f-price');
+            filterInput.max = val;
+            filterInput.value = val;
+            document.getElementById('global-max').value = val;
+            applyF();
+        });
+
         async function getP() {
             const s = await db.ref('sales_logs').limitToLast(1).once('value');
             if(!s.val()) return "TEX-001";
@@ -337,7 +347,6 @@
             }
         }
 
-        // ACTIONS
         document.getElementById('n-img').onchange = e => { const r = new FileReader(); r.onload = ev => cachedImg = ev.target.result; r.readAsDataURL(e.target.files[0]); };
         function addCar() {
             const n = document.getElementById('n-name').value, p = document.getElementById('n-price').value,
@@ -359,7 +368,6 @@
             });
         }
 
-        // PDF GENERATOR
         function genPDF(buyer, car, plate, price, staff, date) {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
@@ -381,7 +389,6 @@
             doc.save(`AutoNation_${plate}.pdf`);
         }
 
-        // SLIDER
         let sIdx = 0;
         const slides = document.querySelectorAll('.slide');
         setInterval(() => {
