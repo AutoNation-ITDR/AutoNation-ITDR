@@ -5,13 +5,113 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>AutoNation</title>
+<title>AutoNation Gestionale</title>
 
-<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+<style>
+
+body{
+font-family:Inter;
+margin:0;
+background:#0f172a;
+color:white;
+}
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px;
+background:#020617;
+}
+
+nav a{
+margin-left:20px;
+cursor:pointer;
+text-decoration:none;
+color:white;
+font-weight:600;
+}
+
+nav a:hover{
+color:#22c55e;
+}
+
+.page{
+display:none;
+padding:40px;
+}
+
+.active{
+display:block;
+}
+
+input,select{
+padding:10px;
+margin:5px;
+border-radius:6px;
+border:none;
+}
+
+button{
+padding:10px 20px;
+border:none;
+border-radius:6px;
+background:#22c55e;
+color:white;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+transform:scale(1.05);
+}
+
+.card{
+background:#1e293b;
+padding:30px;
+border-radius:10px;
+width:200px;
+}
+
+.dashboard{
+display:flex;
+gap:20px;
+}
+
+#carList{
+display:flex;
+flex-wrap:wrap;
+}
+
+.car{
+background:#1e293b;
+margin:10px;
+padding:15px;
+border-radius:8px;
+width:200px;
+}
+
+.car img{
+width:100%;
+border-radius:6px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+}
+
+th,td{
+border:1px solid #334155;
+padding:10px;
+}
+
+</style>
 
 </head>
 
@@ -19,103 +119,286 @@
 
 <header>
 
-<h1 class="logo">AutoNation</h1>
+<h1>AutoNation</h1>
 
 <nav>
-<a href="#">Home</a>
-<a href="#cars">Auto</a>
-<a href="#vendite">Vendite</a>
-<a href="#" onclick="openPanel()">Personale</a>
+
+<a onclick="showPage('dashboard')">Dashboard</a> <a onclick="showPage('auto')">Auto</a> <a onclick="showPage('vendite')">Vendite</a> <a onclick="showPage('clienti')">Clienti</a>
+
 </nav>
 
 </header>
 
-<section class="hero">
+<section id="dashboard" class="page active">
 
-<h2>Concessionario Premium</h2>
+<h2>Dashboard</h2>
 
-<button onclick="scrollToCars()">Scopri le auto</button>
+<div class="dashboard">
 
-</section>
+<div class="card">
+<h3>Auto</h3>
+<p id="totAuto">0</p>
+</div>
 
-<section id="cars">
-
-<h2>Auto disponibili</h2>
-
-<div id="car-list"></div>
-
-</section>
-
-<section id="vendite">
-
-<h2>Registro vendite</h2>
-
-<div class="vendita-form">
-
-<input id="nome" placeholder="Nome">
-
-<input id="cognome" placeholder="Cognome">
-
-<input id="modello" placeholder="Modello auto">
-
-<button onclick="registraVendita()">Registra vendita</button>
+<div class="card">
+<h3>Vendite</h3>
+<p id="totVendite">0</p>
+</div>
 
 </div>
+
+</section>
+
+<section id="auto" class="page">
+
+<h2>Aggiungi Auto</h2>
+
+<input id="name" placeholder="Modello auto">
+<input id="price" placeholder="Prezzo">
+<input id="image" placeholder="Link immagine">
+
+<button onclick="addCar()">Aggiungi</button>
+
+<h2>Lista Auto</h2>
+
+<div id="carList"></div>
+
+</section>
+
+<section id="vendite" class="page">
+
+<h2>Nuova Vendita</h2>
+
+<select id="autoSelect"></select>
+
+<input id="nome" placeholder="Nome cliente">
+<input id="cognome" placeholder="Cognome cliente">
+
+<button onclick="vendiAuto()">Registra vendita</button>
 
 <table>
 
 <thead>
-
 <tr>
 <th>Targa</th>
-<th>Nome</th>
-<th>Cognome</th>
-<th>Modello</th>
-<th>Azioni</th>
+<th>Cliente</th>
+<th>Auto</th>
 </tr>
-
 </thead>
 
-<tbody id="lista-vendite"></tbody>
+<tbody id="venditeList"></tbody>
 
 </table>
 
 </section>
 
-<div id="panel" class="hidden">
+<section id="clienti" class="page">
 
-<div class="panel-box">
+<h2>Ricerca clienti</h2>
 
-<h2>Pannello Auto</h2>
+<input id="search" placeholder="Cerca cliente">
 
-<input type="text" id="name" placeholder="Nome auto">
+<table>
 
-<input type="text" id="price" placeholder="Prezzo">
+<thead>
+<tr>
+<th>Targa</th>
+<th>Nome</th>
+<th>Cognome</th>
+<th>Auto</th>
+</tr>
+</thead>
 
-<input type="text" id="image" placeholder="Link immagine">
+<tbody id="clientList"></tbody>
 
-<div id="drop-area">
+</table>
 
-Trascina immagine qui
+</section>
+
+<script>
+
+let cars = JSON.parse(localStorage.getItem("cars")) || []
+let vendite = JSON.parse(localStorage.getItem("vendite")) || []
+let numeroTarga = localStorage.getItem("targa") || 1
+
+function save(){
+
+localStorage.setItem("cars",JSON.stringify(cars))
+localStorage.setItem("vendite",JSON.stringify(vendite))
+
+}
+
+function showPage(id){
+
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"))
+
+document.getElementById(id).classList.add("active")
+
+}
+
+function addCar(){
+
+let name=document.getElementById("name").value
+let price=document.getElementById("price").value
+let image=document.getElementById("image").value
+
+if(!name||!price||!image) return alert("Compila tutto")
+
+cars.push({name,price,image})
+
+save()
+
+location.reload()
+
+}
+
+function generaTarga(){
+
+let num=String(numeroTarga).padStart(3,"0")
+
+numeroTarga++
+
+localStorage.setItem("targa",numeroTarga)
+
+return "TEX-"+num
+
+}
+
+function vendiAuto(){
+
+let nome=document.getElementById("nome").value
+let cognome=document.getElementById("cognome").value
+let auto=document.getElementById("autoSelect").value
+
+let targa=generaTarga()
+
+vendite.push({targa,nome,cognome,auto})
+
+save()
+
+location.reload()
+
+}
+
+function loadCars(){
+
+let list=document.getElementById("carList")
+
+let select=document.getElementById("autoSelect")
+
+if(list){
+
+cars.forEach(c=>{
+
+list.innerHTML+=`
+
+<div class="car">
+
+<img src="${c.image}">
+
+<h3>${c.name}</h3>
+
+<p>${c.price}</p>
 
 </div>
 
-<button onclick="addCar()">Aggiungi auto</button>
+`
 
-<button onclick="closePanel()">Chiudi</button>
+})
 
-</div>
+}
 
-</div>
+if(select){
 
-<footer>
+cars.forEach(c=>{
 
-<p>© 2026 AutoNation</p>
+select.innerHTML+=`<option>${c.name}</option>`
 
-</footer>
+})
 
-<script src="script.js"></script>
+}
+
+}
+
+function loadVendite(){
+
+let list=document.getElementById("venditeList")
+
+let clienti=document.getElementById("clientList")
+
+vendite.forEach(v=>{
+
+if(list){
+
+list.innerHTML+=`
+
+<tr>
+
+<td>${v.targa}</td>
+<td>${v.nome} ${v.cognome}</td>
+<td>${v.auto}</td>
+
+</tr>
+
+`
+
+}
+
+if(clienti){
+
+clienti.innerHTML+=`
+
+<tr>
+
+<td>${v.targa}</td>
+<td>${v.nome}</td>
+<td>${v.cognome}</td>
+<td>${v.auto}</td>
+
+</tr>
+
+`
+
+}
+
+})
+
+}
+
+document.getElementById("search").addEventListener("input",e=>{
+
+let q=e.target.value.toLowerCase()
+
+let clienti=document.getElementById("clientList")
+
+clienti.innerHTML=""
+
+vendite.filter(v=>v.nome.toLowerCase().includes(q)).forEach(v=>{
+
+clienti.innerHTML+=`
+
+<tr>
+
+<td>${v.targa}</td>
+<td>${v.nome}</td>
+<td>${v.cognome}</td>
+<td>${v.auto}</td>
+
+</tr>
+
+`
+
+})
+
+})
+
+document.getElementById("totAuto").innerText=cars.length
+document.getElementById("totVendite").innerText=vendite.length
+
+loadCars()
+loadVendite()
+
+</script>
 
 </body>
-
 </html>
