@@ -1,255 +1,183 @@
-const PASSWORD="1234"
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"
+import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"
 
-let cars=JSON.parse(localStorage.getItem("cars"))||[]
+const firebaseConfig = {
 
-let vendite=JSON.parse(localStorage.getItem("vendite"))||[]
+apiKey:"API_KEY",
+authDomain:"PROJECT.firebaseapp.com",
+projectId:"PROJECT_ID"
 
-let numeroTarga=localStorage.getItem("numeroTarga")||1
+}
 
-const carList=document.getElementById("car-list")
+const app=initializeApp(firebaseConfig)
 
-const listaVendite=document.getElementById("lista-vendite")
+const auth=getAuth()
 
-displayCars()
+const db=getFirestore()
 
-mostraVendite()
+let role="dipendente"
 
+window.login=async()=>{
 
-function displayCars(){
+let email=document.getElementById("email").value
+let pass=document.getElementById("password").value
 
-carList.innerHTML=""
+await signInWithEmailAndPassword(auth,email,pass)
 
-cars.forEach((car,index)=>{
+}
 
-const div=document.createElement("div")
+onAuthStateChanged(auth,user=>{
 
-div.classList.add("car")
+if(user){
 
-div.innerHTML=`
+document.getElementById("login").style.display="none"
+document.getElementById("app").style.display="block"
 
-<img src="${car.image}">
+if(user.email.includes("admin"))
+role="admin"
 
-<h3>${car.name}</h3>
+loadCars()
+loadVendite()
 
-<p>${car.price}</p>
+}
 
-<button onclick="editCar(${index})">Modifica</button>
+})
 
-<button onclick="removeCar(${index})">Elimina</button>
+window.showPage=(id)=>{
+
+document.querySelectorAll(".page").forEach(p=>p.style.display="none")
+
+document.getElementById(id).style.display="block"
+
+}
+
+window.addCar=async()=>{
+
+let name=document.getElementById("carName").value
+let price=document.getElementById("carPrice").value
+
+await addDoc(collection(db,"cars"),{
+
+name,
+price
+
+})
+
+loadCars()
+
+}
+
+async function loadCars(){
+
+let list=document.getElementById("carList")
+
+list.innerHTML=""
+
+const query=await getDocs(collection(db,"cars"))
+
+query.forEach(doc=>{
+
+let c=doc.data()
+
+list.innerHTML+=`
+
+<div class="car">
+
+<h3>${c.name}</h3>
+
+<p>${c.price}</p>
+
+<button onclick="sellCar('${c.name}')">Vendi</button>
+
+</div>
 
 `
 
-carList.appendChild(div)
-
 })
 
 }
 
+let targa=1
 
-function openPanel(){
+window.sellCar=async(auto)=>{
 
-const pass=prompt("Password personale")
+let nome=prompt("Nome cliente")
+let cognome=prompt("Cognome cliente")
 
-if(pass===PASSWORD){
+let plate="TEX-"+String(targa).padStart(3,"0")
 
-document.getElementById("panel").classList.remove("hidden")
+targa++
 
-}else{
+let data=new Date().toLocaleDateString()
 
-alert("Accesso negato")
+await addDoc(collection(db,"sales"),{
 
-}
-
-}
-
-
-function closePanel(){
-
-document.getElementById("panel").classList.add("hidden")
-
-}
-
-
-function addCar(){
-
-const name=document.getElementById("name").value
-const price=document.getElementById("price").value
-const image=document.getElementById("image").value
-
-if(!name||!price||!image){
-
-alert("Compila tutti i campi")
-
-return
-
-}
-
-cars.push({name,price,image})
-
-saveCars()
-
-displayCars()
-
-}
-
-
-function editCar(index){
-
-const name=prompt("Nuovo nome",cars[index].name)
-const price=prompt("Nuovo prezzo",cars[index].price)
-
-cars[index].name=name
-cars[index].price=price
-
-saveCars()
-
-displayCars()
-
-}
-
-
-function removeCar(index){
-
-if(confirm("Eliminare auto?")){
-
-cars.splice(index,1)
-
-saveCars()
-
-displayCars()
-
-}
-
-}
-
-
-function saveCars(){
-
-localStorage.setItem("cars",JSON.stringify(cars))
-
-}
-
-
-function scrollToCars(){
-
-document.getElementById("cars").scrollIntoView({
-
-behavior:"smooth"
-
-})
-
-}
-
-
-function generaTarga(){
-
-let numero=String(numeroTarga).padStart(3,"0")
-
-let targa="TEX-"+numero
-
-numeroTarga++
-
-localStorage.setItem("numeroTarga",numeroTarga)
-
-return targa
-
-}
-
-
-function registraVendita(){
-
-const nome=document.getElementById("nome").value
-const cognome=document.getElementById("cognome").value
-const modello=document.getElementById("modello").value
-
-if(!nome||!cognome||!modello){
-
-alert("Compila tutti i campi")
-
-return
-
-}
-
-const targa=generaTarga()
-
-vendite.push({
-
-targa,
 nome,
 cognome,
-modello
+auto,
+plate,
+data
 
 })
 
-localStorage.setItem("vendite",JSON.stringify(vendite))
+generatePDF(nome,cognome,auto,plate)
 
-mostraVendite()
+loadVendite()
 
 }
 
+async function loadVendite(){
 
-function mostraVendite(){
+let table=document.getElementById("sales")
 
-listaVendite.innerHTML=""
+table.innerHTML=""
 
-vendite.forEach((v,index)=>{
+const query=await getDocs(collection(db,"sales"))
 
-const row=document.createElement("tr")
+query.forEach(doc=>{
 
-row.innerHTML=`
+let v=doc.data()
 
-<td>${v.targa}</td>
-<td>${v.nome}</td>
-<td>${v.cognome}</td>
-<td>${v.modello}</td>
-<td><button onclick="eliminaVendita(${index})">Elimina</button></td>
+table.innerHTML+=`
+
+<tr>
+
+<td>${v.plate}</td>
+<td>${v.nome} ${v.cognome}</td>
+<td>${v.auto}</td>
+<td>${v.data}</td>
+
+</tr>
 
 `
 
-listaVendite.appendChild(row)
-
 })
 
 }
 
+function generatePDF(nome,cognome,auto,plate){
 
-function eliminaVendita(index){
+const { jsPDF } = window.jspdf
 
-if(confirm("Eliminare vendita?")){
+let doc=new jsPDF()
 
-vendite.splice(index,1)
+doc.text("Contratto Vendita Auto",20,20)
 
-localStorage.setItem("vendite",JSON.stringify(vendite))
+doc.text("Cliente: "+nome+" "+cognome,20,40)
 
-mostraVendite()
+doc.text("Auto: "+auto,20,60)
 
-}
+doc.text("Targa: "+plate,20,80)
 
-}
-
-
-const dropArea=document.getElementById("drop-area")
-
-dropArea.addEventListener("dragover",e=>{
-
-e.preventDefault()
-
-})
-
-dropArea.addEventListener("drop",e=>{
-
-e.preventDefault()
-
-const file=e.dataTransfer.files[0]
-
-const reader=new FileReader()
-
-reader.onload=function(event){
-
-document.getElementById("image").value=event.target.result
+doc.save("contratto-"+plate+".pdf")
 
 }
 
-reader.readAsDataURL(file)
+let canvas=document.getElementById("signature")
 
-})
+if(canvas){
+
+let signaturePad=new SignaturePad(canvas)
+
+}
