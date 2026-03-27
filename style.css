@@ -4,7 +4,7 @@
 
 body {
     margin: 0;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Poppins', sans-serif;
     background: #050505;
     color: white;
 }
@@ -37,10 +37,12 @@ body {
 .welcome-card h1 {
     color: #ff2b2b;
     font-size: 32px;
+    font-weight: 700;
 }
 
 .welcome-card p {
     color: #ddd;
+    font-weight: 300;
 }
 
 .welcome-card button {
@@ -51,6 +53,7 @@ body {
     cursor: pointer;
     margin-top: 20px;
     border-radius: 6px;
+    font-weight: 600;
 }
 
 /* HEADER */
@@ -72,6 +75,7 @@ nav a {
     margin-left: 20px;
     cursor: pointer;
     text-decoration: none;
+    font-weight: 500;
 }
 
 nav a:hover {
@@ -89,7 +93,13 @@ nav a:hover {
 
 .hero h1 {
     font-size: 70px;
+    font-weight: 700;
     text-shadow: 0 0 10px rgba(255,255,255,0.8);
+}
+
+.hero p {
+    font-size: 20px;
+    font-weight: 300;
 }
 
 .hero button {
@@ -99,12 +109,17 @@ nav a:hover {
     color: white;
     cursor: pointer;
     border-radius: 6px;
+    font-weight: 600;
 }
 
 /* AUTO */
 #cars {
     padding: 50px;
     text-align: center;
+}
+
+#cars h2 {
+    font-weight: 700;
 }
 
 #car-list {
@@ -142,6 +157,7 @@ nav a:hover {
     color: white;
     cursor: pointer;
     border-radius: 4px;
+    font-weight: 600;
 }
 
 /* PANEL */
@@ -173,6 +189,7 @@ nav a:hover {
     width: 100%;
     margin: 10px 0;
     padding: 10px;
+    font-family: 'Poppins', sans-serif;
 }
 
 /* DROP AREA */
@@ -186,6 +203,7 @@ nav a:hover {
 
 #drop-area p {
     margin: 0;
+    font-weight: 300;
 }
 
 #drop-area.dragover {
@@ -202,4 +220,5 @@ footer {
     text-align: center;
     padding: 10px;
     background: black;
+    font-weight: 300;
 }
