@@ -13,15 +13,11 @@ background:black;
 border-bottom:2px solid red;
 }
 
-.logo{
-font-size:24px;
-}
-
 nav a{
 color:white;
 margin-left:20px;
-text-decoration:none;
 cursor:pointer;
+text-decoration:none;
 }
 
 nav a:hover{
@@ -30,18 +26,13 @@ color:red;
 
 .hero{
 text-align:center;
-padding:120px;
+padding:100px;
 background:linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.9)),
 url("https://images.unsplash.com/photo-1503376780353-7e6692767b70") center/cover;
 }
 
-.hero h1{
-font-size:70px;
-text-shadow:0 0 10px white;
-}
-
 .hero button{
-padding:12px 30px;
+padding:12px 25px;
 background:red;
 border:none;
 color:white;
@@ -75,7 +66,7 @@ box-shadow:0 0 20px red;
 
 .car img{
 width:100%;
-border-radius:6px;
+border-radius:8px;
 }
 
 .hidden{
@@ -93,24 +84,24 @@ background:rgba(0,0,0,.9);
 
 .panel-box{
 background:#111;
-width:320px;
 padding:25px;
+width:300px;
 margin:100px auto;
-border-radius:10px;
 text-align:center;
+border-radius:10px;
 }
 
 .panel-box input{
 width:100%;
-margin:10px 0;
 padding:10px;
+margin:8px 0;
 }
 
 .panel-box button{
-margin:5px;
 padding:10px;
-border:none;
+margin-top:5px;
 background:red;
+border:none;
 color:white;
 cursor:pointer;
 }
@@ -120,6 +111,32 @@ border:2px dashed red;
 padding:20px;
 margin-top:10px;
 cursor:pointer;
+}
+
+#vendite{
+padding:50px;
+text-align:center;
+}
+
+.vendita-form input{
+padding:10px;
+margin:5px;
+}
+
+table{
+margin:auto;
+margin-top:20px;
+width:70%;
+border-collapse:collapse;
+}
+
+th,td{
+border:1px solid #333;
+padding:10px;
+}
+
+th{
+background:#111;
 }
 
 footer{
