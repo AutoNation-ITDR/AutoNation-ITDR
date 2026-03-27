@@ -1,4 +1,6 @@
-* { box-sizing: border-box; }
+* {
+    box-sizing: border-box;
+}
 
 body {
     margin: 0;
@@ -24,14 +26,24 @@ body {
     padding: 60px;
     border-radius: 15px;
     text-align: center;
-    box-shadow: 0 0 40px rgba(255,0,0,0.4);
+    box-shadow: 0 0 40px rgba(255, 0, 0, 0.4);
 }
 
-.welcome-logo { width: 120px; margin-bottom: 20px; }
+.welcome-logo {
+    width: 120px;
+    margin-bottom: 20px;
+}
 
-.welcome-card h1 { color: #ff2b2b; font-size: 32px; font-weight: 700; }
+.welcome-card h1 {
+    color: #ff2b2b;
+    font-size: 32px;
+    font-weight: 700;
+}
 
-.welcome-card p { color: #ddd; font-weight: 300; }
+.welcome-card p {
+    color: #ddd;
+    font-weight: 300;
+}
 
 .welcome-card button {
     background: #cc0000;
@@ -51,9 +63,14 @@ header {
     padding: 15px 30px;
     background: black;
     border-bottom: 2px solid #cc0000;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
-.logo { height: 60px; }
+.logo {
+    height: 60px;
+}
 
 nav a {
     color: white;
@@ -63,12 +80,14 @@ nav a {
     font-weight: 500;
 }
 
-nav a:hover { color: #cc0000; }
+nav a:hover {
+    color: #cc0000;
+}
 
 /* HERO */
 .hero {
     text-align: center;
-    padding: 120px;
+    padding: 120px 20px;
     background:
         linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.9)),
         url('https://images.unsplash.com/photo-1503376780353-7e6692767b70') center/cover;
@@ -78,9 +97,14 @@ nav a:hover { color: #cc0000; }
     font-size: 70px;
     font-weight: 700;
     text-shadow: 0 0 10px rgba(255,255,255,0.8);
+    margin: 0 0 10px;
 }
 
-.hero p { font-size: 20px; font-weight: 300; }
+.hero p {
+    font-size: 20px;
+    font-weight: 300;
+    margin-bottom: 25px;
+}
 
 .hero button {
     padding: 12px 30px;
@@ -93,7 +117,15 @@ nav a:hover { color: #cc0000; }
 }
 
 /* AUTO */
-#cars { padding: 50px; text-align: center; }
+#cars {
+    padding: 50px 20px;
+    text-align: center;
+}
+
+#cars h2 {
+    font-size: 28px;
+    margin-bottom: 30px;
+}
 
 #car-list {
     display: flex;
@@ -108,6 +140,7 @@ nav a:hover { color: #cc0000; }
     width: 260px;
     border-radius: 12px;
     transition: 0.3s;
+    border: 1px solid #222;
 }
 
 .car:hover {
@@ -122,6 +155,16 @@ nav a:hover { color: #cc0000; }
     object-fit: cover;
 }
 
+.car h3 {
+    margin: 10px 0 5px;
+    font-size: 18px;
+}
+
+.car p {
+    margin: 0 0 10px;
+    color: #ccc;
+}
+
 .car button {
     margin-top: 8px;
     padding: 6px 10px;
@@ -130,37 +173,96 @@ nav a:hover { color: #cc0000; }
     color: white;
     cursor: pointer;
     border-radius: 4px;
-    font-weight: 600;
+    font-size: 12px;
+    margin-right: 5px;
+    transition: 0.3s;
 }
 
-/* PANELLO PERSONALE */
-.hidden { display: none; }
+.car button:hover {
+    background: #ff2b2b;
+}
 
-#panel {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.9);
-    top: 0;
-    left: 0;
-    display: flex;
-    justify-content: center;
-    padding-top: 80px;
+/* SEZIONI PANELLI */
+#personal-panel,
+#owner-panel {
+    padding: 40px 20px;
+    border-top: 1px solid #222;
+}
+
+#personal-panel h2,
+#owner-panel h2 {
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 .panel-box {
     background: #111;
-    padding: 30px;
-    width: 320px;
-    text-align: center;
+    padding: 20px;
     border-radius: 10px;
+    margin: 15px auto;
+    max-width: 400px;
+    border: 1px solid #222;
 }
 
 .panel-box input {
     width: 100%;
-    margin: 10px 0;
+    margin: 8px 0;
     padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #333;
+    background: #000;
+    color: white;
     font-family: 'Poppins', sans-serif;
+}
+
+.panel-box button {
+    padding: 10px 15px;
+    margin-top: 10px;
+    border: none;
+    background: #cc0000;
+    color: white;
+    cursor: pointer;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+/* LOGIN BOXES */
+#personal-login,
+#owner-login {
+    max-width: 400px;
+    margin: 0 auto 20px;
+    background: #111;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #222;
+}
+
+#personal-login input,
+#owner-login input {
+    width: 100%;
+    margin: 8px 0;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #333;
+    background: #000;
+    color: white;
+}
+
+#personal-login button,
+#owner-login button {
+    padding: 10px 15px;
+    border: none;
+    background: #cc0000;
+    color: white;
+    cursor: pointer;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.hint {
+    font-size: 12px;
+    color: #aaa;
+    margin-top: 8px;
 }
 
 /* DROP AREA */
@@ -170,21 +272,80 @@ nav a:hover { color: #cc0000; }
     padding: 15px;
     margin: 10px 0 15px;
     cursor: pointer;
+    text-align: center;
 }
 
-#drop-area p { margin: 0; font-weight: 300; }
+#drop-area p {
+    margin: 0;
+    font-weight: 300;
+    font-size: 13px;
+}
+
+#drop-area span {
+    font-size: 11px;
+    color: #ccc;
+}
 
 #drop-area.dragover {
     background: rgba(204,0,0,0.2);
     border-color: #ff2b2b;
 }
 
-#imageFile { display: none; }
+#imageFile {
+    display: none;
+}
+
+/* FIRMA */
+#firmaCanvas {
+    background: #000;
+    border: 1px solid #444;
+    border-radius: 6px;
+    display: block;
+    margin: 10px auto;
+}
+
+.firma-buttons {
+    text-align: center;
+}
+
+.firma-buttons button {
+    padding: 6px 12px;
+    border: none;
+    background: #555;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+/* FATTURA OUTPUT */
+.fattura {
+    max-width: 600px;
+    margin: 20px auto;
+    background: #fff;
+    color: #000;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.fattura h3 {
+    margin-top: 0;
+}
+
+.fattura p {
+    margin: 4px 0;
+}
+
+/* UTILI */
+.hidden {
+    display: none;
+}
 
 /* FOOTER */
 footer {
     text-align: center;
     padding: 10px;
     background: black;
-    font-weight: 300;
+    border-top: 1px solid #222;
+    font-size: 12px;
 }
