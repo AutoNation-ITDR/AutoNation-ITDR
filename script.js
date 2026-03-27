@@ -18,7 +18,7 @@ function displayCars() {
     carList.innerHTML = "";
 
     if (cars.length === 0) {
-        carList.innerHTML = "<p>Nessun veicolo presente. Aggiungine uno dal pannello personale.</p>";
+        carList.innerHTML = "<p>Nessun veicolo presente.</p>";
         return;
     }
 
@@ -106,9 +106,7 @@ dropArea.addEventListener("click", () => {
 // cambio file da input
 imageInput.addEventListener("change", (e) => {
     const file = e.target.files[0];
-    if (file) {
-        readImageFile(file);
-    }
+    if (file) readImageFile(file);
 });
 
 // drag & drop
@@ -126,9 +124,7 @@ dropArea.addEventListener("drop", (e) => {
     dropArea.classList.remove("dragover");
 
     const file = e.dataTransfer.files[0];
-    if (file) {
-        readImageFile(file);
-    }
+    if (file) readImageFile(file);
 });
 
 // lettura file immagine -> base64
@@ -141,7 +137,7 @@ function readImageFile(file) {
     const reader = new FileReader();
     reader.onload = function (event) {
         currentImageBase64 = event.target.result;
-        dropArea.querySelector("p").innerHTML = "Immagine caricata ✔<br><span>Puoi cambiarla trascinando un'altra immagine</span>";
+        dropArea.querySelector("p").innerHTML = "Immagine caricata ✔";
     };
     reader.readAsDataURL(file);
 }
