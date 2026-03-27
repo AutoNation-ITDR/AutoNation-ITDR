@@ -118,10 +118,6 @@ nav a:hover {
     text-align: center;
 }
 
-#cars h2 {
-    font-weight: 700;
-}
-
 #car-list {
     display: flex;
     flex-wrap: wrap;
