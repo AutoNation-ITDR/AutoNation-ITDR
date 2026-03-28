@@ -963,7 +963,7 @@
       }
     }
 
-    /* --- BOOKING: SOLO LOG IN DB --- */
+    /* --- BOOKING: SALVA SOLO IN DB, OWNER GESTISCE --- */
     function submitBooking() {
       const name = document.getElementById('b-name').value;
       const discord = document.getElementById('b-discord').value;
@@ -1020,14 +1020,17 @@
               timestamp: new Date()
             }]
           })
+        }).then(() => {
+          db.ref('appointments').child(id).remove();
+          alert("Appuntamento accettato e notificato.");
+        }).catch(err => {
+          console.error("Errore Webhook:", err);
+          alert("Errore nell'invio dell'accettazione.");
         });
-
-        db.ref('appointments').child(id).remove();
-        alert("Appuntamento accettato e notificato.");
       });
     }
 
-    /* --- OWNER: RIFIUTO APPUNTAMENTO --- */
+    /* --- OWNER: RIFIUTO APPUNTAMENTO (STESSO WEBHOOK, EMBED ROSSO) --- */
     function rejectApp(id) {
       const motivo = prompt("Motivo del rifiuto? (es. Non disponibili a quell'ora)");
       if (!motivo) return alert("Rifiuto annullato.");
@@ -1047,23 +1050,26 @@
           body: JSON.stringify({
             content: `❌ **PRENOTAZIONE RIFIUTATA** | ${ping}`,
             embeds: [{
-              title: "⛔ Appuntamento Non Accettato",
+              title: "⛔ Appuntamento Rifiutato",
               description:
                 `Ciao ${ping}, purtroppo **non possiamo confermare** il tuo appuntamento.\n\n` +
                 `📆 **Data richiesta:** ${a.date}\n` +
                 `⏰ **Ora richiesta:** ${a.time}\n\n` +
                 `**Motivo:** ${motivo}\n\n` +
-                `Puoi riprovare con un altro orario.`,
+                `Puoi riprovare scegliendo un altro orario.`,
               color: 16711680,
               thumbnail: { url: LOGO_IMG },
               footer: { text: "AutoNation Texas — Appointment System" },
               timestamp: new Date()
             }]
           })
+        }).then(() => {
+          db.ref('appointments').child(id).remove();
+          alert("Appuntamento rifiutato e notificato.");
+        }).catch(err => {
+          console.error("Errore Webhook:", err);
+          alert("Errore nell'invio del rifiuto.");
         });
-
-        db.ref('appointments').child(id).remove();
-        alert("Appuntamento rifiutato e notificato.");
       });
     }
 
@@ -1158,7 +1164,7 @@
 
       doc.save(`Invoice_${invoiceId}.pdf`);
 
-      // WEBHOOK LOG
+      // WEBHOOK LOG VENDITA
       fetch(WEBHOOK_SALES, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
