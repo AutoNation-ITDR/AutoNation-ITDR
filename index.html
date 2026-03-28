@@ -1031,25 +1031,30 @@
     }
 
     /* --- OWNER: RIFIUTO APPUNTAMENTO (STESSO WEBHOOK, EMBED ROSSO) --- */
-    function rejectApp(id) {
-      const motivo = prompt("Motivo del rifiuto? (es. Non disponibili a quell'ora)");
-      if (!motivo) return alert("Rifiuto annullato.");
+  function rejectApp(id) {
+  const motivo = prompt("Motivo del rifiuto? (es. Non disponibili a quell'ora)");
+  if (motivo === null || motivo.trim() === "") {
+    return alert("Rifiuto annullato.");
+  }
 
-      db.ref('appointments').child(id).once('value').then(snap => {
-        const a = snap.val();
-        if (!a) return;
+  db.ref('appointments').child(id).once('value').then(snap => {
+    const a = snap.val();
+    if (!a) return;
 
-        let ping = a.discord;
-        if (!isNaN(a.discord) && String(a.discord).length > 15) {
-          ping = `<@${a.discord}>`;
-        }
+    let ping = a.discord;
+    if (!isNaN(a.discord) && String(a.discord).length > 15) {
+      ping = `<@${a.discord}>`;
+    }
 
-        fetch(WEBHOOK_APPOINTMENT, {
-          method: 'POST',
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            content: `❌ **PRENOTAZIONE RIFIUTATA** | ${ping}`,
-            embeds: [{
+    // Delay per evitare blocchi Discord
+    setTimeout(() => {
+      fetch(WEBHOOK_APPOINTMENT, {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          content: `❌ **PRENOTAZIONE RIFIUTATA** | ${ping}`,
+          embeds: [
+            {
               title: "⛔ Appuntamento Rifiutato",
               description:
                 `Ciao ${ping}, purtroppo **non possiamo confermare** il tuo appuntamento.\n\n` +
@@ -1060,19 +1065,23 @@
               color: 16711680,
               thumbnail: { url: LOGO_IMG },
               footer: { text: "AutoNation Texas — Appointment System" },
-              timestamp: new Date()
-            }]
-          })
-        }).then(() => {
-          db.ref('appointments').child(id).remove();
-          alert("Appuntamento rifiutato e notificato.");
-        }).catch(err => {
-          console.error("Errore Webhook:", err);
-          alert("Errore nell'invio del rifiuto.");
-        });
+              timestamp: new Date().toISOString()
+            }
+          ]
+        })
+      })
+      .then(() => {
+        db.ref('appointments').child(id).remove();
+        alert("Appuntamento rifiutato e notificato.");
+      })
+      .catch(err => {
+        console.error("Errore Webhook:", err);
+        alert("Errore nell'invio del rifiuto.");
       });
-    }
 
+    }, 300); // delay 300ms
+  });
+}
     /* --- VENDITA + PDF STILE TEX-005 --- */
     async function finalizeSale() {
       const { jsPDF } = window.jspdf;
