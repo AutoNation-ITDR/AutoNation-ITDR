@@ -35,14 +35,19 @@
         .hero-overlay { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: radial-gradient(circle, transparent, rgba(0,0,0,0.9)); }
         .hero-title { font-family: 'Orbitron'; font-size: 5rem; font-weight: 900; text-shadow: 0 0 30px var(--p); line-height: 1; }
 
-        /* --- SHOWROOM (RIPRISTINATO) --- */
+        /* --- SHOWROOM FILTERS --- */
+        .filter-bar { display: flex; gap: 10px; margin-bottom: 30px; justify-content: center; flex-wrap: wrap; }
+        .filter-btn { background: #111; border: 1px solid #333; color: #777; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-family: 'Orbitron'; font-size: 0.7rem; text-transform: uppercase; transition: 0.3s; }
+        .filter-btn:hover, .filter-btn.active { border-color: var(--p); color: #fff; background: rgba(255,46,77,0.1); }
+
+        /* --- GRID --- */
         .car-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
         .car-card { background: #0d0d0d; border: 1px solid var(--b); position: relative; border-radius: 10px; overflow: hidden; }
         .car-img { width: 100%; height: 200px; object-fit: cover; }
         .badge { position: absolute; top: 15px; right: 15px; padding: 5px 12px; font-size: 0.6rem; font-weight: 900; background: var(--p); color: white; border-radius: 4px; text-transform: uppercase; }
         .car-info { padding: 20px; }
 
-        /* --- PANELS & FORMS --- */
+        /* --- PANELS --- */
         .panel { background: #0a0a0a; border: 1px solid var(--b); padding: 35px; border-radius: 15px; max-width: 550px; margin: 0 auto; }
         .panel-title { font-family: 'Orbitron'; color: var(--p); margin-bottom: 25px; font-size: 1.2rem; text-align: center; }
         input, select { width: 100%; background: #000; border: 1px solid #333; color: #fff; padding: 15px; margin-bottom: 15px; border-radius: 8px; font-family: 'Outfit'; }
@@ -71,7 +76,13 @@
         </div>
 
         <div id="showroom" class="page">
-            <h2 style="font-family:'Orbitron'; margin-bottom:30px;">STOCK DISPONIBILE</h2>
+            <div class="filter-bar">
+                <button class="filter-btn active" onclick="filterShowroom('TUTTO', this)">TUTTO</button>
+                <button class="filter-btn" onclick="filterShowroom('Regular', this)">REGULAR</button>
+                <button class="filter-btn" onclick="filterShowroom('Prestige', this)">PRESTIGE</button>
+                <button class="filter-btn" onclick="filterShowroom('Electric', this)">ELECTRIC</button>
+                <button class="filter-btn" onclick="filterShowroom('Classic', this)">CLASSIC</button>
+            </div>
             <div id="fleet-grid" class="car-grid"></div>
         </div>
 
@@ -151,7 +162,7 @@
         const db = firebase.database();
         const WEBHOOK = "https://discord.com/api/webhooks/1487566509982355487/dekKyZ-WeiUCUvTpeacX6YSBRssl3e_27xTTgxQwPYdOrUP8bREE1hOIOpsw-_A7rC_W";
 
-        let allCars = {}, cacheImg = "";
+        let allCars = {}, cacheImg = "", currentFilter = "TUTTO";
 
         function navTo(id, el) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -169,10 +180,17 @@
 
         db.ref('cars').on('value', s => { 
             allCars = s.val() || {}; 
-            renderUI();
+            renderUI(currentFilter);
         });
 
-        function renderUI() {
+        function filterShowroom(cat, btn) {
+            currentFilter = cat;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderUI(cat);
+        }
+
+        function renderUI(filter = "TUTTO") {
             const grid = document.getElementById('fleet-grid');
             const sel = document.getElementById('inv-car');
             const ownList = document.getElementById('owner-stock-list');
@@ -180,7 +198,10 @@
             
             for(let k in allCars) {
                 const c = allCars[k];
-                grid.innerHTML += `<div class="car-card"><div class="badge">${c.type}</div><img src="${c.img}" class="car-img"><div class="car-info"><h3>${c.name}</h3><div style="color:var(--p); font-weight:900;">$ ${parseInt(c.price).toLocaleString()}</div></div></div>`;
+                // Mostra nel showroom solo se corrisponde al filtro
+                if(filter === "TUTTO" || c.type === filter) {
+                    grid.innerHTML += `<div class="car-card"><div class="badge">${c.type}</div><img src="${c.img}" class="car-img"><div class="car-info"><h3>${c.name}</h3><div style="color:var(--p); font-weight:900;">$ ${parseInt(c.price).toLocaleString()}</div></div></div>`;
+                }
                 sel.innerHTML += `<option value="${c.name}">${c.name}</option>`;
                 ownList.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:5px; padding:5px; border-bottom:1px solid #222;"><span>${c.name}</span><button onclick="deleteCar('${k}')" style="color:red; background:none; border:none; cursor:pointer;">ELIMINA</button></div>`;
             }
