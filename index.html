@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoNation Austin | Elite Operations v15.0</title>
+    <title>AutoNation Austin | Elite Operations v16.0</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -27,7 +27,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
         body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; display: flex; height: 100vh; overflow: hidden; }
 
-        /* --- SIDEBAR --- */
+        /* --- SIDEBAR DESIGN --- */
         nav { width: 280px; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 40px 20px; z-index: 100; }
         .logo-container img { width: 100%; margin-bottom: 40px; }
         .nav-link { 
@@ -36,58 +36,55 @@
             transition: var(--transition); cursor: pointer; border: none; background: none; 
             width: 100%; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;
         }
-        .nav-link i { margin-right: 15px; font-size: 1.2rem; width: 20px; text-align: center; }
+        .nav-link i { margin-right: 15px; font-size: 1.2rem; width: 25px; text-align: center; }
         .nav-link:hover, .nav-link.active { color: white; background: var(--surface-light); }
         .nav-link.active { color: var(--primary); border-left: 4px solid var(--primary); border-radius: 0 12px 12px 0; }
 
-        /* --- MAIN CONTENT --- */
-        main { flex: 1; overflow-y: auto; position: relative; scroll-behavior: smooth; }
+        /* --- MAIN AREA --- */
+        main { flex: 1; overflow-y: auto; position: relative; scroll-behavior: smooth; background: #050505; }
         .page { display: none; animation: fadeIn 0.4s ease; min-height: 100%; }
         .page.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* --- HOME: CINEMATIC --- */
+        /* --- HOME: CINEMATIC EXPERIENCE --- */
         .hero { height: 75vh; position: relative; display: flex; align-items: center; padding: 60px; overflow: hidden; border-bottom: 1px solid var(--border); }
-        .hero-video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.5; z-index: -1; }
-        .hero-content h1 { font-family: 'Montserrat'; font-size: 5.5rem; line-height: 0.8; letter-spacing: -4px; margin-bottom: 20px; }
-        .hero-content p { font-size: 1.2rem; max-width: 550px; color: #bbb; margin-bottom: 35px; line-height: 1.5; }
+        .hero-video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.4; z-index: -1; }
+        .hero-content h1 { font-family: 'Montserrat'; font-size: 6rem; line-height: 0.8; letter-spacing: -4px; margin-bottom: 20px; text-transform: uppercase; }
+        .hero-content p { font-size: 1.2rem; max-width: 600px; color: #bbb; margin-bottom: 35px; line-height: 1.6; }
         
-        .home-section { padding: 80px 60px; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-        .home-img-box img { width: 100%; border-radius: 25px; border: 1px solid var(--border); filter: grayscale(0.3); transition: 0.5s; }
-        .home-img-box img:hover { filter: grayscale(0); }
-        .home-text-box h2 { font-family: 'Montserrat'; font-size: 2.5rem; color: var(--primary); margin-bottom: 25px; text-transform: uppercase; }
-        .home-text-box p { color: #888; line-height: 1.8; font-size: 1.1rem; margin-bottom: 20px; }
+        .home-section { padding: 100px 60px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+        .home-img-box img { width: 100%; border-radius: 30px; border: 1px solid var(--border); box-shadow: 0 30px 60px rgba(0,0,0,0.5); }
+        .home-text-box h2 { font-family: 'Montserrat'; font-size: 3rem; color: var(--primary); margin-bottom: 25px; }
+        .home-text-box p { color: #888; line-height: 1.8; font-size: 1.15rem; }
 
-        /* --- SHOWROOM & FILTERS --- */
-        .filter-bar { display: flex; gap: 12px; padding: 40px 60px 20px 60px; flex-wrap: wrap; }
+        /* --- SHOWROOM --- */
+        .filter-bar { display: flex; gap: 15px; padding: 50px 60px 20px 60px; }
         .filter-btn { 
             background: var(--surface); color: var(--text-dim); border: 1px solid var(--border); 
-            padding: 12px 24px; border-radius: 12px; cursor: pointer; font-weight: 800; 
+            padding: 14px 28px; border-radius: 12px; cursor: pointer; font-weight: 800; 
             text-transform: uppercase; font-size: 0.75rem; transition: var(--transition); 
         }
-        .filter-btn:hover { border-color: var(--primary); color: white; }
-        .filter-btn.active { background: var(--primary); color: white; border-color: var(--primary); transform: scale(1.05); }
+        .filter-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 0 20px rgba(255, 46, 77, 0.3); }
 
-        .car-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; padding: 0 60px 60px 60px; }
-        .car-card { background: var(--surface); border-radius: 20px; overflow: hidden; border: 1px solid var(--border); position: relative; transition: var(--transition); }
+        .car-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 30px; padding: 0 60px 60px 60px; }
+        .car-card { background: var(--surface); border-radius: 25px; overflow: hidden; border: 1px solid var(--border); position: relative; transition: var(--transition); }
         .car-card:hover { border-color: var(--primary); transform: translateY(-10px); }
-        .car-img { width: 100%; height: 220px; object-fit: cover; }
-        .car-info { padding: 25px; }
-        .car-info h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 5px; }
-        .car-price { color: var(--primary); font-weight: 900; font-size: 1.6rem; }
-        .badge { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.85); padding: 6px 14px; border-radius: 10px; font-size: 0.7rem; color: var(--primary); border: 1px solid var(--primary); font-weight: 900; text-transform: uppercase; }
+        .car-img { width: 100%; height: 240px; object-fit: cover; }
+        .car-info { padding: 30px; }
+        .car-price { color: var(--primary); font-weight: 900; font-size: 1.8rem; margin-top: 10px; }
+        .badge { position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.8); padding: 8px 16px; border-radius: 12px; color: var(--primary); border: 1px solid var(--primary); font-weight: 900; font-size: 0.7rem; text-transform: uppercase; }
 
-        /* --- FORMS & UI --- */
-        .panel { background: var(--surface); padding: 45px; border-radius: 35px; border: 1px solid var(--border); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
-        .btn-prime { background: var(--primary); color: white; border: none; padding: 20px; border-radius: 15px; width: 100%; font-weight: 900; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: var(--transition); }
-        .btn-prime:hover { background: #d6223b; letter-spacing: 3px; }
+        /* --- FORMS & PANELS --- */
+        .panel { background: var(--surface); padding: 50px; border-radius: 40px; border: 1px solid var(--border); }
+        .btn-prime { background: var(--primary); color: white; border: none; padding: 22px; border-radius: 18px; width: 100%; font-weight: 900; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: var(--transition); }
+        .btn-prime:hover { filter: brightness(1.2); letter-spacing: 3px; }
         
-        input, select { width: 100%; padding: 16px; border-radius: 12px; background: #000; border: 1px solid #222; color: #fff; margin-bottom: 18px; font-family: 'Outfit'; font-size: 1rem; }
-        label { font-size: 0.75rem; color: var(--primary); font-weight: 800; text-transform: uppercase; margin-bottom: 8px; display: block; letter-spacing: 1px; }
+        input, select { width: 100%; padding: 18px; border-radius: 15px; background: #000; border: 1px solid #222; color: #fff; margin-bottom: 20px; font-family: 'Outfit'; }
+        label { font-size: 0.8rem; color: var(--primary); font-weight: 800; text-transform: uppercase; margin-bottom: 10px; display: block; }
 
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th { text-align: left; padding: 15px; color: var(--text-dim); text-transform: uppercase; font-size: 0.7rem; border-bottom: 1px solid var(--border); }
-        td { padding: 20px; border-bottom: 1px solid #111; font-size: 0.9rem; }
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 15px; border-bottom: 1px solid var(--border); color: var(--text-dim); font-size: 0.75rem; }
+        td { padding: 20px; border-bottom: 1px solid #111; }
         .hidden { display: none !important; }
     </style>
 </head>
@@ -95,13 +92,13 @@
 
     <nav>
         <div class="logo-container">
-            <img src="https://res.cloudinary.com/dn0k6htsv/image/upload/v1774647697/zcbubagqn4hpxmlzwwan.png" alt="Logo">
+            <img src="https://res.cloudinary.com/dn0k6htsv/image/upload/v1774647697/zcbubagqn4hpxmlzwwan.png" alt="Austin Logo">
         </div>
-        <button class="nav-link active" onclick="navTo('home', this)"><i class="fa-solid fa-house"></i> Home</button>
-        <button class="nav-link" onclick="navTo('showroom', this)"><i class="fa-solid fa-car"></i> Showroom</button>
-        <button class="nav-link" onclick="navTo('booking', this)"><i class="fa-solid fa-calendar-check"></i> Booking</button>
-        <button class="nav-link" onclick="navTo('sales', this)"><i class="fa-solid fa-file-invoice-dollar"></i> Fatturazione</button>
-        <button class="nav-link" onclick="navTo('owners', this)"><i class="fa-solid fa-crown"></i> Management</button>
+        <button class="nav-link active" onclick="navTo('home', this)"><i class="fa-solid fa-house-chimney"></i> Home</button>
+        <button class="nav-link" onclick="navTo('showroom', this)"><i class="fa-solid fa-car-side"></i> Showroom</button>
+        <button class="nav-link" onclick="navTo('booking', this)"><i class="fa-solid fa-calendar-days"></i> Booking</button>
+        <button class="nav-link" onclick="navTo('sales', this)"><i class="fa-solid fa-file-signature"></i> Fatturazione</button>
+        <button class="nav-link" onclick="navTo('owners', this)"><i class="fa-solid fa-user-tie"></i> Management</button>
     </nav>
 
     <main>
@@ -112,19 +109,18 @@
                 </video>
                 <div class="hero-content">
                     <h1>AUSTIN<br><span style="color:var(--primary)">ELITE.</span></h1>
-                    <p>Definiamo nuovi standard nel lusso automobilistico. La nostra flotta non accetta compromessi: potenza bruta ed eleganza senza tempo.</p>
-                    <button class="btn-prime" style="width: auto; padding: 18px 50px;" onclick="navTo('showroom', document.querySelectorAll('.nav-link')[1])">Vedi lo Stock</button>
+                    <p>Non vendiamo semplici veicoli. Progettiamo simboli di potere e ingegneria superiore per chi esige l'eccellenza assoluta.</p>
+                    <button class="btn-prime" style="width: auto; padding: 20px 60px;" onclick="navTo('showroom', document.querySelectorAll('.nav-link')[1])">Esplora Flotta</button>
                 </div>
             </div>
 
             <div class="home-section">
                 <div class="home-img-box">
-                    <img src="https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&q=80&w=1000" alt="Supercar">
+                    <img src="https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&q=80&w=1000">
                 </div>
                 <div class="home-text-box">
-                    <h2>ECCELLENZA TECNICA</h2>
-                    <p>Ogni veicolo della divisione Prestige viene ispezionato dai nostri ingegneri capo. Garantiamo non solo un'auto, ma un investimento nel tempo.</p>
-                    <p>Il nostro servizio di concierge ti seguirà in ogni passo, dal test drive alla consegna a domicilio.</p>
+                    <h2>DIVISIONE PRESTIGE</h2>
+                    <p>La nostra selezione curata offre solo il meglio del mercato Hypercar e Luxury. Ogni auto è un capolavoro di performance certificata dai nostri tecnici Austin Elite.</p>
                 </div>
             </div>
         </div>
@@ -135,18 +131,17 @@
                 <button class="filter-btn" onclick="filterShowroom('Regular', this)">Regular</button>
                 <button class="filter-btn" onclick="filterShowroom('Prestige', this)">Prestige</button>
                 <button class="filter-btn" onclick="filterShowroom('Electric', this)">Electric</button>
-                <button class="filter-btn" onclick="filterShowroom('Classic', this)">Classic</button>
             </div>
             <div id="fleet-grid" class="car-grid"></div>
         </div>
 
         <div id="booking" class="page">
-            <div class="panel" style="max-width: 650px; margin: 80px auto;">
-                <h2 style="font-family:'Montserrat'; text-align:center; margin-bottom: 35px; font-size: 2rem;">REQUEST APPOINTMENT</h2>
+            <div class="panel" style="max-width: 600px; margin: 80px auto;">
+                <h2 style="font-family:'Montserrat'; text-align:center; margin-bottom: 40px;">RESERVE YOUR EXPERIENCE</h2>
                 <label>Nome Completo</label>
-                <input id="book-name" placeholder="Esempio: Marco Rossi">
+                <input id="book-name" placeholder="Mario Rossi">
                 
-                <label>Discord ID (Per il Ping)</label>
+                <label>Discord ID (Per il Ping di conferma)</label>
                 <input id="book-discord" placeholder="Es: 283948572938475621">
                 
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
@@ -154,11 +149,11 @@
                     <div><label>Ora</label><input type="time" id="book-time"></div>
                 </div>
                 
-                <label>Servizio</label>
+                <label>Motivo della visita</label>
                 <select id="book-reason">
                     <option value="Acquisto Veicolo">Acquisto Veicolo</option>
-                    <option value="Test Drive Elite">Test Drive Elite</option>
-                    <option value="Consulenza Finanziaria">Consulenza Finanziaria</option>
+                    <option value="Test Drive Prestige">Test Drive Prestige</option>
+                    <option value="Consulenza Corporate">Consulenza Corporate</option>
                 </select>
                 
                 <button class="btn-prime" onclick="sendBooking()">Invia Richiesta</button>
@@ -166,57 +161,57 @@
         </div>
 
         <div id="sales" class="page">
-            <div id="sales-gate" class="panel" style="max-width:450px; margin: 120px auto; text-align:center;">
-                <input type="password" id="pw-sales" placeholder="PIN Staff" style="text-align:center; font-size: 1.5rem;">
-                <button class="btn-prime" onclick="verify('sales')">Accesso Hub</button>
+            <div id="sales-gate" class="panel" style="max-width:400px; margin: 120px auto; text-align:center;">
+                <h3>Staff PIN</h3>
+                <input type="password" id="pw-sales" style="text-align:center; font-size: 2rem; letter-spacing: 10px;">
+                <button class="btn-prime" onclick="verify('sales')">Sblocca Terminale</button>
             </div>
             <div id="sales-content" class="hidden">
-                <div class="panel" style="max-width: 600px; margin: 0 auto;">
-                    <h3 style="margin-bottom:30px;">Emissione Contratto TEX-001</h3>
-                    <label>Veicolo</label><select id="inv-car" onchange="updatePrice()"></select>
-                    <label>Cliente</label><input id="inv-name">
-                    <label>Prezzo Finale ($)</label><input id="inv-final" readonly>
-                    <label>Agente</label><input id="inv-sign">
-                    <button class="btn-prime" onclick="makeInvoice()">Genera & Salva PDF</button>
+                <div class="panel" style="max-width: 650px; margin: 0 auto;">
+                    <h3 style="margin-bottom:30px; font-family:'Montserrat';">NUOVO CONTRATTO DOCUSIGN</h3>
+                    <label>Seleziona Veicolo</label><select id="inv-car" onchange="updatePrice()"></select>
+                    <label>Nome Acquirente</label><input id="inv-name">
+                    <label>Prezzo Finale Convenuto ($)</label><input id="inv-final" readonly>
+                    <label>Agente Certificatore (Firma)</label><input id="inv-sign">
+                    <button class="btn-prime" onclick="makeInvoice()">Genera Contratto Certificato</button>
                 </div>
             </div>
         </div>
 
         <div id="owners" class="page">
-            <div id="owners-gate" class="panel" style="max-width:450px; margin: 120px auto; text-align:center;">
-                <input type="password" id="pw-owners" placeholder="Master Key" style="text-align:center;">
+            <div id="owners-gate" class="panel" style="max-width:400px; margin: 120px auto; text-align:center;">
+                <h3>Owner Key</h3>
+                <input type="password" id="pw-owners" style="text-align:center;">
                 <button class="btn-prime" onclick="verify('owners')">Login</button>
             </div>
             <div id="owners-content" class="hidden">
                 <div class="panel" style="margin-bottom: 30px;">
-                    <h3>Richieste Pendenti</h3>
+                    <h3>Appuntamenti in Attesa</h3>
                     <table>
-                        <thead><tr><th>CLIENTE</th><th>DATA</th><th>SERVIZIO</th><th>AZIONE</th></tr></thead>
+                        <thead><tr><th>CLIENTE</th><th>DATA</th><th>DETTAGLI</th><th>AZIONE</th></tr></thead>
                         <tbody id="app-tbody"></tbody>
                     </table>
                 </div>
                 <div class="panel">
-                    <h3>Carica Stock</h3>
+                    <h3>Carica Veicolo</h3>
                     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:25px;">
                         <div>
-                            <input id="add-n" placeholder="Modello">
+                            <input id="add-n" placeholder="Nome Modello">
                             <input id="add-p" type="number" placeholder="Prezzo">
                             <select id="add-type">
                                 <option value="Regular">Regular</option>
                                 <option value="Prestige">Prestige</option>
                                 <option value="Electric">Electric</option>
-                                <option value="Classic">Classic</option>
                             </select>
                         </div>
                         <div>
                             <select id="add-class">
                                 <option value="Car">Car</option>
-                                <option value="Truck">Truck</option>
                                 <option value="SUV">SUV</option>
-                                <option value="Industrial">Industrial</option>
+                                <option value="Truck">Truck</option>
                             </select>
                             <input type="file" id="add-file">
-                            <button class="btn-prime" onclick="saveToDB()">Pubblica</button>
+                            <button class="btn-prime" onclick="saveToDB()">Pubblica Stock</button>
                         </div>
                     </div>
                 </div>
@@ -225,6 +220,7 @@
     </main>
 
     <script>
+        // FIREBASE CONFIG
         const config = {
             apiKey: "AIzaSyCUH4SGDnbvh1clXm_R_n3ynmDndhIwsbM",
             authDomain: "autonation-bc786.firebaseapp.com",
@@ -238,12 +234,14 @@
         
         let allCars = {}, cacheImg = "", currentFilter = "All";
 
+        // NAVIGATION
         function navTo(id, el) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
             document.getElementById(id).classList.add('active'); el.classList.add('active');
         }
 
+        // AUTH
         function verify(type) {
             const keys = { sales: "1234", owners: "OWNER2026" };
             if(document.getElementById('pw-'+type).value === keys[type]) {
@@ -275,7 +273,7 @@
             for(let k in allCars) sel.innerHTML += `<option value="${allCars[k].name}">${allCars[k].name}</option>`;
         });
 
-        // BOOKING & DISCORD
+        // BOOKING & DISCORD PING
         function sendBooking() {
             const name = document.getElementById('book-name').value, dID = document.getElementById('book-discord').value;
             const date = document.getElementById('book-date').value, time = document.getElementById('book-time').value, reason = document.getElementById('book-reason').value;
@@ -284,18 +282,18 @@
 
         async function acceptApp(key, data) {
             const embed = {
-                content: `<@${data.discordID}>`,
-                username: "Austin Elite Hub",
+                content: `<@${data.discordID}>`, // PING DIRETTO
+                username: "Austin Elite Operations",
                 embeds: [{
-                    title: "✅ APPUNTAMENTO CONFERMATO",
-                    description: "La tua richiesta presso lo showroom Austin Elite è stata approvata con successo.",
+                    title: "✅ CONFERMA APPUNTAMENTO",
+                    description: "La tua richiesta presso AutoNation Austin è stata accettata.",
                     color: 16723533,
                     fields: [
                         { name: "👤 Cliente", value: `**${data.name}**`, inline: true },
-                        { name: "📅 Data & Ora", value: `**${data.date}** @ **${data.time}**`, inline: true },
+                        { name: "📅 Data/Ora", value: `**${data.date}** @ **${data.time}**`, inline: true },
                         { name: "🛠 Servizio", value: `${data.reason}`, inline: false }
                     ],
-                    footer: { text: "Protocollo Austin v15.0" }, timestamp: new Date()
+                    footer: { text: "Protocollo Austin v16.0" }, timestamp: new Date()
                 }]
             };
             await fetch(WEBHOOK, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(embed) });
@@ -309,16 +307,16 @@
             }
         });
 
-        // MANAGEMENT
+        // STOCK MANAGEMENT
         document.getElementById('add-file').onchange = (e) => {
             const r = new FileReader(); r.onload = (ev) => cacheImg = ev.target.result; r.readAsDataURL(e.target.files[0]);
         };
         function saveToDB() {
             const n = document.getElementById('add-n').value, p = document.getElementById('add-p').value, t = document.getElementById('add-type').value, c = document.getElementById('add-class').value;
-            if(n && p && cacheImg) db.ref('cars').push({ name: n, price: p, type: t, class: c, img: cacheImg }).then(() => alert("Caricato!"));
+            if(n && p && cacheImg) db.ref('cars').push({ name: n, price: p, type: t, class: c, img: cacheImg }).then(() => alert("Stock Caricato!"));
         }
 
-        // FATTURA TEX-001 CON FIRMA
+        // FATTURA DOCUSIGN STYLE
         async function makeInvoice() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
@@ -327,44 +325,50 @@
             const price = document.getElementById('inv-final').value || "0";
             const agent = document.getElementById('inv-sign').value || "Agente Austin";
             const invoiceID = "TEX-" + Math.floor(1000 + Math.random() * 9000);
+            const envelopeID = Math.random().toString(36).substring(2, 15).toUpperCase() + "-" + Math.random().toString(36).substring(2, 15).toUpperCase();
             const date = new Date().toLocaleDateString('it-IT');
 
-            // Header Nero
-            doc.setFillColor(10, 10, 10); doc.rect(0, 0, 210, 60, 'F');
-            doc.setTextColor(255, 46, 77); doc.setFontSize(30); doc.text("AUSTIN ELITE", 20, 35);
-            doc.setTextColor(255, 255, 255); doc.setFontSize(10); doc.text("VEHICLE SALES & OPERATIONS | TEXAS HUB", 20, 42);
-            doc.setFontSize(12); doc.text("CONTRATTO DI VENDITA", 140, 30);
-            doc.setFontSize(9); doc.text(`N. DOC: ${invoiceID}`, 140, 38);
-            doc.text(`DATA: ${date}`, 140, 43);
+            // Header DocuSign Style
+            doc.setFillColor(10, 10, 10); doc.rect(0, 0, 210, 50, 'F');
+            doc.setTextColor(255, 46, 77); doc.setFontSize(28); doc.setFont("helvetica", "bold");
+            doc.text("AUSTIN ELITE", 20, 30);
+            doc.setTextColor(255, 255, 255); doc.setFontSize(9); doc.text("OFFICIAL SECURE CONTRACT", 20, 38);
+            doc.setTextColor(180, 180, 180); doc.setFontSize(7); doc.text(`Envelope ID: ${envelopeID}`, 200, 10, { align: "right" });
 
             // Corpo
-            doc.setTextColor(0, 0, 0); doc.setDrawColor(255, 46, 77); doc.setLineWidth(1); doc.line(20, 70, 190, 70);
-            doc.setFontSize(11); doc.text("VENDITORE: AutoNation Austin Corporate", 20, 85);
+            doc.setTextColor(0, 0, 0); doc.setDrawColor(220, 220, 220); doc.line(20, 60, 190, 60);
+            doc.setFontSize(11); doc.text("VENDITORE: AutoNation Austin Corp.", 20, 85);
             doc.text("ACQUIRENTE: " + client, 110, 85);
 
-            // Tabella
+            // Tabella Ordine
             doc.setFillColor(245, 245, 245); doc.rect(20, 115, 170, 10, 'F');
-            doc.text("DESCRIZIONE VEICOLO", 25, 122); doc.text("PREZZO ($)", 150, 122);
+            doc.text("DESCRIZIONE", 25, 122); doc.text("PREZZO ($)", 150, 122);
             doc.line(20, 125, 190, 125); doc.text(car, 25, 135); doc.text("$ " + parseInt(price).toLocaleString(), 150, 135);
 
             // Totale
             doc.setFontSize(14); doc.setTextColor(255, 46, 77);
-            doc.text("TOTALE DOVUTO: $ " + parseInt(price).toLocaleString(), 110, 160);
+            doc.text("TOTALE: $ " + parseInt(price).toLocaleString(), 110, 160);
 
-            // Firme
-            doc.setTextColor(0, 0, 0); doc.rect(20, 220, 80, 35); doc.rect(110, 220, 80, 35);
-            doc.setFontSize(7); doc.text("FIRMA CLIENTE (PER ACCETTAZIONE)", 25, 226); doc.text("FIRMA AGENTE AUTORIZZATO", 115, 226);
+            // AREA FIRMA DOCUSIGN
+            doc.setDrawColor(255, 46, 77); doc.setFillColor(255, 245, 245); doc.rect(20, 180, 170, 60);
+            doc.setFillColor(255, 46, 77); doc.rect(20, 180, 30, 8, 'F');
+            doc.setTextColor(255, 255, 255); doc.setFontSize(8); doc.text("SIGN HERE", 23, 185);
 
-            // Firma Agente in Inchiostro Blu Cursivo
-            doc.setFont("courier", "italic"); doc.setFontSize(16); doc.setTextColor(20, 20, 150);
-            doc.text(agent, 150, 243, { align: "center" });
+            // Campo Firma Interattiva Cliente
+            doc.setTextColor(0, 0, 0); doc.setFontSize(9);
+            doc.text("Firma dell'Acquirente (Clicca per digitare il nome):", 25, 195);
+            doc.addField('firma_cliente_ds', 'Digita il tuo nome...', 25, 200, 70, 12);
 
-            // Timbro Approvazione
-            doc.setDrawColor(255, 46, 77); doc.setFontSize(7); doc.setTextColor(255, 46, 77);
-            doc.text("APPROVED BY AUSTIN ELITE", 150, 235, { align: "center" });
-            doc.rect(128, 231, 45, 6);
+            // Firma Agente Verificata
+            doc.text("Certificato da Austin Elite:", 110, 195);
+            doc.setFont("courier", "italic"); doc.setFontSize(14); doc.setTextColor(20, 20, 150);
+            doc.text(agent, 145, 208, { align: "center" });
+            
+            // Timbro Verde Verified
+            doc.setDrawColor(40, 167, 69); doc.setTextColor(40, 167, 69); doc.rect(125, 215, 40, 7);
+            doc.setFontSize(7); doc.setFont("helvetica", "bold"); doc.text("DIGITALLY VERIFIED", 145, 220, { align: "center" });
 
-            doc.save(`Fattura_${invoiceID}.pdf`);
+            doc.save(`Contratto_Austin_${invoiceID}.pdf`);
         }
 
         function updatePrice() {
