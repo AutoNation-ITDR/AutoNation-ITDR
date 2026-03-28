@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoNation Texas | Elite Operations v23.0</title>
+    <title>AutoNation Texas | Elite Operations v24.0</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -17,28 +17,24 @@
         * { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
         body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; display: flex; height: 100vh; overflow: hidden; }
 
-        /* --- SIDEBAR --- */
         nav { width: 260px; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 40px 20px; z-index: 100; }
         .logo-container img { width: 140px; height: 140px; margin: 0 auto 40px auto; border-radius: 50%; border: 2px solid var(--primary); object-fit: cover; }
         .nav-link { display: flex; align-items: center; padding: 15px; color: var(--text-dim); text-decoration: none; border-radius: 12px; margin-bottom: 8px; font-weight: 700; cursor: pointer; border: none; background: none; width: 100%; font-size: 0.8rem; text-align: left; }
         .nav-link.active { color: var(--primary); background: #111; border-left: 4px solid var(--primary); }
 
-        /* --- MAIN --- */
         main { flex: 1; overflow-y: auto; background: #050505; }
         .page { display: none; min-height: 100%; padding: 40px; }
         .page.active { display: block; }
 
-        /* --- HOME --- */
         .hero { height: 80vh; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 60px; overflow: hidden; border-radius: 30px; margin: 20px; border: 1px solid var(--border); }
         .hero-video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.4; z-index: -1; }
         .hero-content h1 { font-family: 'Montserrat'; font-size: 5rem; line-height: 1; margin-bottom: 15px; letter-spacing: -2px; }
 
-        /* --- FILTRI CATEGORIE --- */
-        .filter-bar { display: flex; gap: 10px; margin-bottom: 30px; justify-content: center; }
-        .filter-btn { background: var(--surface); border: 1px solid var(--border); color: white; padding: 10px 25px; border-radius: 30px; cursor: pointer; font-weight: 700; transition: 0.3s; }
+        /* --- FILTRI AGGIORNATI --- */
+        .filter-bar { display: flex; gap: 10px; margin-bottom: 30px; justify-content: center; flex-wrap: wrap; }
+        .filter-btn { background: var(--surface); border: 1px solid var(--border); color: white; padding: 10px 20px; border-radius: 30px; cursor: pointer; font-weight: 700; transition: 0.3s; font-size: 0.7rem; text-transform: uppercase; }
         .filter-btn.active { background: var(--primary); border-color: var(--primary); }
 
-        /* --- SHOWROOM GRID --- */
         .car-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
         .car-card { background: var(--surface); border-radius: 20px; overflow: hidden; border: 1px solid var(--border); position: relative; transition: 0.3s; }
         .car-card:hover { transform: translateY(-5px); border-color: var(--primary); }
@@ -46,7 +42,6 @@
         .car-info { padding: 20px; }
         .badge { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.8); padding: 5px 12px; border-radius: 8px; color: var(--primary); border: 1px solid var(--primary); font-size: 0.6rem; font-weight: 900; z-index: 2; }
 
-        /* --- PANELS & FORMS --- */
         .panel { background: var(--surface); padding: 40px; border-radius: 25px; border: 1px solid var(--border); max-width: 650px; margin: 0 auto; }
         .btn-prime { background: var(--primary); color: white; border: none; padding: 18px; border-radius: 12px; width: 100%; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
         input, select { width: 100%; padding: 15px; border-radius: 10px; background: #000; border: 1px solid #222; color: #fff; margin-bottom: 15px; font-family: 'Outfit'; }
@@ -85,6 +80,8 @@
                 <button class="filter-btn active" onclick="filterShowroom('TUTTO', this)">TUTTO</button>
                 <button class="filter-btn" onclick="filterShowroom('Regular', this)">REGULAR</button>
                 <button class="filter-btn" onclick="filterShowroom('Prestige', this)">PRESTIGE</button>
+                <button class="filter-btn" onclick="filterShowroom('Electric', this)">ELECTRIC</button>
+                <button class="filter-btn" onclick="filterShowroom('Classic', this)">CLASSIC</button>
             </div>
             <div id="fleet-grid" class="car-grid"></div>
         </div>
@@ -129,7 +126,12 @@
                     <h3>GESTIONE STOCK</h3>
                     <input id="add-n" placeholder="Modello Veicolo">
                     <input id="add-p" type="number" placeholder="Prezzo Listino">
-                    <select id="add-type"><option value="Regular">Regular</option><option value="Prestige">Prestige</option></select>
+                    <select id="add-type">
+                        <option value="Regular">Regular</option>
+                        <option value="Prestige">Prestige</option>
+                        <option value="Electric">Electric</option>
+                        <option value="Classic">Classic</option>
+                    </select>
                     <input type="file" id="add-file">
                     <button class="btn-prime" onclick="saveToDB()">PUBBLICA VEICOLO</button>
                 </div>
