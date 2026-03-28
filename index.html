@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoNation Austin | Elite Management Official</title>
+    <title>AutoNation Austin | Elite Management v4.0</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -15,106 +15,199 @@
     <style>
         :root {
             --primary: #ff2e4d;
+            --primary-dark: #c21d36;
             --bg: #030405;
             --surface: #0d0f14;
+            --surface-bright: #1a1c26;
             --text: #ffffff;
             --text-dim: #94a3b8;
-            --accent-glow: 0 0 20px rgba(255, 46, 77, 0.4);
+            --accent-glow: 0 0 30px rgba(255, 46, 77, 0.3);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; display: flex; height: 100vh; overflow: hidden; }
+        * { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
 
-        nav { width: 280px; background: var(--surface); border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; padding: 40px 20px; z-index: 100; }
-        .logo-container img { width: 100%; margin-bottom: 50px; filter: drop-shadow(var(--accent-glow)); }
+        body { 
+            background: var(--bg); 
+            color: var(--text); 
+            font-family: 'Outfit', sans-serif; 
+            display: flex; 
+            height: 100vh; 
+            overflow: hidden; 
+        }
+
+        /* SIDEBAR NAVIGATION */
+        nav { 
+            width: 300px; 
+            background: var(--surface); 
+            border-right: 1px solid rgba(255,255,255,0.05); 
+            display: flex; 
+            flex-direction: column; 
+            padding: 40px 25px; 
+            z-index: 100; 
+        }
+        .logo-container { margin-bottom: 60px; text-align: center; }
+        .logo-container img { width: 90%; filter: drop-shadow(var(--accent-glow)); transition: var(--transition); }
+        .logo-container img:hover { transform: scale(1.02); }
         
         .nav-link { 
-            display: flex; align-items: center; padding: 18px 20px; color: var(--text-dim); 
-            text-decoration: none; border-radius: 15px; margin-bottom: 12px; font-weight: 700; transition: 0.3s;
-            cursor: pointer; border: none; background: none; width: 100%; font-size: 0.9rem; text-transform: uppercase;
+            display: flex; align-items: center; padding: 18px 22px; color: var(--text-dim); 
+            text-decoration: none; border-radius: 18px; margin-bottom: 15px; font-weight: 700; 
+            transition: var(--transition); cursor: pointer; border: none; background: none; 
+            width: 100%; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px;
         }
-        .nav-link i { margin-right: 15px; font-size: 1.2rem; }
-        .nav-link.active { background: var(--primary); color: white; box-shadow: var(--accent-glow); }
+        .nav-link i { margin-right: 18px; font-size: 1.3rem; }
+        .nav-link:hover { color: white; background: rgba(255,255,255,0.03); }
+        .nav-link.active { 
+            background: var(--primary); 
+            color: white; 
+            box-shadow: var(--accent-glow); 
+            transform: translateX(5px);
+        }
 
-        main { flex: 1; overflow-y: auto; background: radial-gradient(circle at 0% 0%, #1a1c26 0%, #030405 100%); position: relative; }
-        .page { display: none; padding: 60px; max-width: 1400px; margin: 0 auto; animation: slideUp 0.5s ease; }
+        /* MAIN AREA */
+        main { flex: 1; overflow-y: auto; background: radial-gradient(circle at 0% 0%, #12141d 0%, #030405 100%); position: relative; }
+        .page { display: none; padding: 60px; max-width: 1400px; margin: 0 auto; animation: slideUp 0.6s ease-out; }
         .page.active { display: block; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-        .panel { background: var(--surface); padding: 30px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 25px; }
-        .hero-section { position: relative; height: 400px; border-radius: 40px; overflow: hidden; margin-bottom: 40px; }
-        .hero-video { width: 100%; height: 100%; object-fit: cover; opacity: 0.5; }
-        .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, #030405, transparent); display: flex; flex-direction: column; justify-content: flex-end; padding: 60px; }
+        /* HERO SECTION */
+        .hero-section { position: relative; height: 480px; border-radius: 50px; overflow: hidden; margin-bottom: 50px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .hero-video { width: 100%; height: 100%; object-fit: cover; opacity: 0.4; transform: scale(1.1); }
+        .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, #030405 10%, transparent 80%); display: flex; flex-direction: column; justify-content: flex-end; padding: 80px; }
+        .hero-overlay h1 { font-family: 'Montserrat'; font-size: 4.5rem; font-weight: 900; line-height: 0.95; letter-spacing: -2px; }
         
-        .filter-bar { background: var(--surface); padding: 20px; border-radius: 20px; margin-bottom: 30px; display: flex; flex-direction: column; gap: 15px; }
-        .filter-group { display: flex; gap: 10px; align-items: center; }
-        .cat-btn { padding: 8px 15px; border-radius: 8px; border: 1px solid #333; color: white; background: none; cursor: pointer; font-size: 0.8rem; font-weight: 700; }
-        .cat-btn.active { background: var(--primary); border: none; }
-        .car-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
-        .car-card { background: var(--surface); border-radius: 25px; overflow: hidden; border: 1px solid rgba(255,255,255,0.03); transition: 0.3s; }
-        .car-img { width: 100%; height: 200px; object-fit: cover; }
-        .car-info { padding: 20px; }
+        /* CARDS & PANELS */
+        .panel { background: var(--surface); padding: 40px; border-radius: 35px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 30px; transition: var(--transition); }
+        .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-bottom: 40px; }
+        .info-card { background: var(--surface-bright); padding: 30px; border-radius: 25px; text-align: center; border: 1px solid rgba(255,255,255,0.03); }
+        .info-card i { font-size: 2rem; color: var(--primary); margin-bottom: 15px; }
+        .info-card h3 { font-size: 2rem; font-weight: 800; margin-bottom: 5px; }
+        .info-card p { color: var(--text-dim); font-size: 0.85rem; text-transform: uppercase; font-weight: 700; }
 
-        .secure-gate { max-width: 400px; margin: 80px auto; text-align: center; background: var(--surface); padding: 50px; border-radius: 35px; border: 1px solid var(--primary); }
-        input, select { width: 100%; padding: 12px; border-radius: 10px; background: #000; border: 1px solid #333; color: #fff; margin-bottom: 12px; font-family: 'Outfit'; }
-        label { display: block; font-size: 0.75rem; color: var(--primary); margin-bottom: 5px; font-weight: 800; text-transform: uppercase; }
-        .btn-prime { background: var(--primary); color: white; border: none; padding: 15px; border-radius: 10px; width: 100%; font-weight: 900; cursor: pointer; text-transform: uppercase; }
-        .logout-btn { background: rgba(255,255,255,0.05); color: #ff4444; border: 1px solid #ff4444; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-weight: 800; float: right; font-size: 0.7rem; }
-        
-        .scroll-v { max-height: 350px; overflow-y: auto; }
-        table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
-        th { padding: 10px; text-align: left; color: var(--primary); border-bottom: 1px solid #333; }
-        td { padding: 10px; border-bottom: 1px solid #1a1a1a; }
-        .edit-input { background: #1a1a1a; border: 1px solid #333; color: white; padding: 4px; border-radius: 4px; width: 90%; }
+        /* SHOWROOM */
+        .filter-bar { background: var(--surface); padding: 25px 35px; border-radius: 25px; margin-bottom: 40px; display: flex; flex-direction: column; gap: 20px; }
+        .cat-btn { padding: 10px 22px; border-radius: 12px; border: 1px solid #222; color: var(--text-dim); background: none; cursor: pointer; font-size: 0.85rem; font-weight: 700; transition: var(--transition); }
+        .cat-btn:hover { border-color: var(--primary); color: white; }
+        .cat-btn.active { background: var(--primary); border-color: var(--primary); color: white; box-shadow: 0 5px 15px rgba(255, 46, 77, 0.2); }
+
+        .car-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
+        .car-card { background: var(--surface); border-radius: 30px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); transition: var(--transition); position: relative; }
+        .car-card:hover { transform: translateY(-10px); border-color: var(--primary); box-shadow: var(--accent-glow); }
+        .car-img-wrapper { height: 220px; width: 100%; overflow: hidden; }
+        .car-img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
+        .car-card:hover .car-img { transform: scale(1.1); }
+        .car-badge { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.7); padding: 6px 12px; border-radius: 10px; font-size: 0.7rem; font-weight: 800; color: var(--primary); backdrop-filter: blur(5px); }
+        .car-info { padding: 25px; }
+        .car-price { font-size: 1.6rem; font-weight: 900; color: white; margin-top: 10px; }
+
+        /* FORMS */
+        .btn-prime { background: var(--primary); color: white; border: none; padding: 18px; border-radius: 15px; width: 100%; font-weight: 900; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: var(--transition); }
+        .btn-prime:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: var(--accent-glow); }
+        input, select { width: 100%; padding: 15px; border-radius: 12px; background: #000; border: 1px solid #222; color: #fff; margin-bottom: 15px; font-family: 'Outfit'; font-weight: 600; }
+        input:focus { border-color: var(--primary); }
+        label { display: block; font-size: 0.75rem; color: var(--primary); margin-bottom: 8px; font-weight: 800; text-transform: uppercase; margin-left: 5px; }
+
+        .secure-gate { max-width: 450px; margin: 100px auto; text-align: center; background: var(--surface); padding: 60px; border-radius: 40px; border: 1px solid var(--primary); }
+        .logout-btn { background: rgba(255,46,77,0.1); color: #ff4444; border: 1px solid #ff4444; padding: 8px 16px; border-radius: 10px; cursor: pointer; font-weight: 800; float: right; font-size: 0.75rem; }
+
         .hidden { display: none !important; }
+        .drop-zone { border: 2px dashed #333; border-radius: 20px; padding: 30px; text-align: center; color: var(--text-dim); cursor: pointer; transition: var(--transition); }
+        .drop-zone:hover { border-color: var(--primary); background: rgba(255,46,77,0.02); }
         
-        .drop-zone { border: 2px dashed #444; border-radius: 15px; padding: 20px; text-align: center; color: var(--text-dim); cursor: pointer; margin-bottom: 15px; }
-        .preview-thumb { width: 100%; height: 80px; object-fit: cover; border-radius: 8px; margin-top: 10px; display: none; }
+        table { width: 100%; border-collapse: collapse; }
+        th { padding: 15px; text-align: left; color: var(--primary); font-size: 0.7rem; text-transform: uppercase; border-bottom: 1px solid #222; }
+        td { padding: 15px; border-bottom: 1px solid #111; font-weight: 600; font-size: 0.9rem; }
+        .del-btn { color: #ff4444; background: none; border: none; cursor: pointer; font-weight: 800; padding: 5px 10px; border-radius: 5px; transition: 0.2s; }
+        .del-btn:hover { background: rgba(255,68,68,0.1); }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="logo-container"><img src="https://res.cloudinary.com/dn0k6htsv/image/upload/v1774647697/zcbubagqn4hpxmlzwwan.png"></div>
-        <button class="nav-link active" onclick="navTo('home')"><i class="fa-solid fa-house"></i> Home</button>
-        <button class="nav-link" onclick="navTo('showroom')"><i class="fa-solid fa-car"></i> Showroom</button>
-        <button class="nav-link" onclick="navTo('sales')"><i class="fa-solid fa-file-invoice-dollar"></i> Fatture</button>
-        <button class="nav-link" onclick="navTo('owners')"><i class="fa-solid fa-crown"></i> Owners Area</button>
+        <div class="logo-container">
+            <img src="https://res.cloudinary.com/dn0k6htsv/image/upload/v1774647697/zcbubagqn4hpxmlzwwan.png">
+        </div>
+        <button class="nav-link active" onclick="navTo('home')"><i class="fa-solid fa-house-chimney"></i> Dashboard</button>
+        <button class="nav-link" onclick="navTo('showroom')"><i class="fa-solid fa-car-side"></i> Inventory</button>
+        <button class="nav-link" onclick="navTo('sales')"><i class="fa-solid fa-file-invoice-dollar"></i> Sales Hub</button>
+        <button class="nav-link" onclick="navTo('owners')"><i class="fa-solid fa-shield-halved"></i> Management</button>
     </nav>
 
     <main>
         <div id="home" class="page active">
             <div class="hero-section">
-                <video class="hero-video" autoplay muted loop playsinline><source src="https://assets.mixkit.co/videos/preview/mixkit-car-driving-on-a-highway-at-sunset-1558-large.mp4" type="video/mp4"></video>
+                <video class="hero-video" autoplay muted loop playsinline>
+                    <source src="https://assets.mixkit.co/videos/preview/mixkit-car-driving-on-a-highway-at-sunset-1558-large.mp4" type="video/mp4">
+                </video>
                 <div class="hero-overlay">
-                    <p>Austin, Texas • Luxury Division</p>
-                    <h1 style="font-family:'Montserrat'; font-size: 3.5rem; font-weight: 900; line-height: 1;">PRESTIGE &<br><span style="color:var(--primary)">PERFORMANCE.</span></h1>
-                    <p style="max-width: 600px; margin-top:15px; color:#ccc; font-size: 0.9rem;">Hub ufficiale di <strong>AutoNation Austin Luxury Motors</strong>. Gestione stock e contratti.</p>
+                    <p style="font-weight: 800; letter-spacing: 3px; color: var(--primary); margin-bottom: 10px;">AUSTIN, TEXAS • EST. 2026</p>
+                    <h1>ELITE<br><span style="color:var(--primary)">DIVISION.</span></h1>
+                    <p style="max-width: 650px; margin-top: 20px; color: #ddd; font-size: 1.1rem; line-height: 1.6; font-weight: 300;">
+                        Benvenuti nell'ecosistema gestionale di <strong>AutoNation Austin Luxury Motors</strong>. 
+                        La nostra missione è definire nuovi standard di eccellenza nel mercato automobilistico prestige, combinando 
+                        tecnologia all'avanguardia e una selezione di veicoli senza pari.
+                    </p>
                 </div>
             </div>
-            <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:20px;">
-                <div class="panel" style="text-align:center;"><h2 id="st-cars" style="font-size:2.5rem; color:var(--primary)">0</h2><p>STOCK</p></div>
-                <div class="panel" style="text-align:center;"><h2 id="st-sales" style="font-size:2.5rem; color:var(--primary)">0</h2><p>VENDITE</p></div>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <i class="fa-solid fa-gauge-high"></i>
+                    <h3 id="st-cars">0</h3>
+                    <p>Veicoli Disponibili</p>
+                </div>
+                <div class="info-card">
+                    <i class="fa-solid fa-handshake"></i>
+                    <h3 id="st-sales">0</h3>
+                    <p>Contratti Registrati</p>
+                </div>
+                <div class="info-card">
+                    <i class="fa-solid fa-map-location-dot"></i>
+                    <h3>AUSTIN</h3>
+                    <p>Corporate Hub Texas</p>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2 style="font-family:'Montserrat'; margin-bottom:20px;">I Nostri Valori</h2>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:40px;">
+                    <p style="color:var(--text-dim); font-size:0.95rem;">
+                        <strong style="color:white;">INTEGRITÀ:</strong> Ogni transazione è protetta da protocolli ufficiali e documentata con la massima trasparenza.<br><br>
+                        <strong style="color:white;">INNOVAZIONE:</strong> Dalle vetture elettriche alle hypercar, abbracciamo il futuro della mobilità.
+                    </p>
+                    <p style="color:var(--text-dim); font-size:0.95rem;">
+                        <strong style="color:white;">ESCLUSIVITÀ:</strong> Austin Elite non è per tutti. Gestiamo solo lo stock più raffinato dello stato del Texas.<br><br>
+                        <strong style="color:white;">ASSISTENZA:</strong> Ogni vendita include la nostra firma di garanzia Austin Elite per 12 mesi.
+                    </p>
+                </div>
             </div>
         </div>
 
         <div id="showroom" class="page">
             <div class="filter-bar">
                 <div class="filter-group">
-                    <span style="font-size:0.7rem; width:50px;">TYPE:</span>
-                    <button class="cat-btn active" onclick="setFilter('type', 'All')">All</button>
-                    <button class="cat-btn" onclick="setFilter('type', 'Regular')">Regular</button>
-                    <button class="cat-btn" onclick="setFilter('type', 'Prestige')">Prestige</button>
-                    <button class="cat-btn" onclick="setFilter('type', 'Electric')">Electric</button>
-                    <button class="cat-btn" onclick="setFilter('type', 'Classic')">Classic</button>
+                    <label>Filtra per Tipologia</label>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                        <button class="cat-btn active" onclick="setFilter('type', 'All')">All</button>
+                        <button class="cat-btn" onclick="setFilter('type', 'Regular')">Regular</button>
+                        <button class="cat-btn" onclick="setFilter('type', 'Prestige')">Prestige</button>
+                        <button class="cat-btn" onclick="setFilter('type', 'Electric')">Electric</button>
+                        <button class="cat-btn" onclick="setFilter('type', 'Classic')">Classic</button>
+                    </div>
                 </div>
                 <div class="filter-group">
-                    <span style="font-size:0.7rem; width:50px;">CLASS:</span>
-                    <button class="cat-btn active" onclick="setFilter('class', 'All')">All</button>
-                    <button class="cat-btn" onclick="setFilter('class', 'Car')">Car</button>
-                    <button class="cat-btn" onclick="setFilter('class', 'Truck')">Truck</button>
-                    <button class="cat-btn" onclick="setFilter('class', 'SUV')">SUV</button>
-                    <button class="cat-btn" onclick="setFilter('class', 'Industrial')">Industrial</button>
+                    <label>Filtra per Classe</label>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                        <button class="cat-btn active" onclick="setFilter('class', 'All')">All</button>
+                        <button class="cat-btn" onclick="setFilter('class', 'Car')">Car</button>
+                        <button class="cat-btn" onclick="setFilter('class', 'Truck')">Truck</button>
+                        <button class="cat-btn" onclick="setFilter('class', 'SUV')">SUV</button>
+                        <button class="cat-btn" onclick="setFilter('class', 'Industrial')">Industrial</button>
+                    </div>
                 </div>
             </div>
             <div id="fleet-grid" class="car-grid"></div>
@@ -122,69 +215,68 @@
 
         <div id="sales" class="page">
             <div id="sales-gate" class="secure-gate">
-                <h2>Staff Login</h2>
-                <input type="password" id="pw-sales" placeholder="PIN">
-                <button class="btn-prime" onclick="verify('sales')">Sblocca</button>
+                <i class="fa-solid fa-fingerprint" style="font-size: 3.5rem; color: var(--primary); margin-bottom: 25px;"></i>
+                <h2 style="font-family:'Montserrat';">Staff Authentication</h2>
+                <p style="color:var(--text-dim); margin-bottom:30px; font-size:0.9rem;">Inserire PIN Agente per accedere al modulo contratti.</p>
+                <input type="password" id="pw-sales" placeholder="Agent PIN">
+                <button class="btn-prime" onclick="verify('sales')">Sblocca Hub</button>
             </div>
             <div id="sales-content" class="hidden">
-                <button class="logout-btn" onclick="logout('sales')">ESCI</button>
-                <div class="panel" style="max-width: 500px; margin: 20px auto;">
-                    <h3>Emetti Contratto</h3>
-                    <label>Seleziona Veicolo</label>
-                    <select id="inv-car" onchange="autoSetPrice()"></select>
-                    <label>Nome Cliente</label>
-                    <input type="text" id="inv-name" placeholder="Es: MARK">
-                    <label>Prezzo Finale ($)</label>
-                    <input type="number" id="inv-final" readonly style="background: #111; color: #aaa;">
-                    <label>Firma Agente</label>
-                    <input type="text" id="inv-sign">
-                    <button class="btn-prime" onclick="makeInvoice()">Genera PDF</button>
+                <button class="logout-btn" onclick="logout('sales')">CHIUDI SESSIONE</button>
+                <div style="max-width: 600px; margin: 40px auto;">
+                    <div class="panel">
+                        <h3 style="margin-bottom:25px; font-family:'Montserrat'; text-align:center;">OFFICIAL SALES CONTRACT</h3>
+                        <label>Seleziona Veicolo dallo Stock</label>
+                        <select id="inv-car" onchange="autoSetPrice()"></select>
+                        <label>Nome Completo Cliente</label>
+                        <input type="text" id="inv-name" placeholder="Es. Mark Sterling">
+                        <label>Prezzo Finale Applicato ($)</label>
+                        <input type="number" id="inv-final" readonly style="background: rgba(255,255,255,0.02); cursor: not-allowed;">
+                        <label>Firma Agente Responsabile</label>
+                        <input type="text" id="inv-sign" placeholder="Il tuo nome">
+                        <button class="btn-prime" onclick="makeInvoice()"><i class="fa-solid fa-file-pdf"></i> Genera & Registra Fattura</button>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div id="owners" class="page">
             <div id="owners-gate" class="secure-gate">
-                <h2>Owner Master Access</h2>
+                <i class="fa-solid fa-shield-halved" style="font-size: 3.5rem; color: var(--primary); margin-bottom: 25px;"></i>
+                <h2 style="font-family:'Montserrat';">Owner Access</h2>
+                <p style="color:var(--text-dim); margin-bottom:30px; font-size:0.9rem;">Accesso riservato alla gestione flotta e logs vendite.</p>
                 <input type="password" id="pw-owners" placeholder="Master Key">
-                <button class="btn-prime" onclick="verify('owners')">Entra</button>
+                <button class="btn-prime" onclick="verify('owners')">Entra nel Sistema</button>
             </div>
             <div id="owners-content" class="hidden">
-                <button class="logout-btn" onclick="logout('owners')">LOCK</button>
-                <div style="display:grid; grid-template-columns: 1fr 1.5fr; gap:25px; margin-top:40px;">
+                <button class="logout-btn" onclick="logout('owners')">BLOCCA TERMINALE</button>
+                <div style="display:grid; grid-template-columns: 1fr 1.5fr; gap:30px; margin-top:50px;">
                     <div class="panel">
-                        <h3>Aggiungi Veicolo</h3>
-                        <label>Nome Modello</label>
-                        <input id="add-n" placeholder="es. Chevlon Captain">
-                        <label>Prezzo ($)</label>
+                        <h3 style="margin-bottom:20px;">Aggiungi Veicolo</h3>
+                        <label>Modello</label>
+                        <input id="add-n" placeholder="Nome auto...">
+                        <label>Prezzo Base</label>
                         <input id="add-p" type="number">
-                        <label>Type</label>
-                        <select id="add-type">
-                            <option value="Regular">Regular</option><option value="Prestige">Prestige</option>
-                            <option value="Electric">Electric</option><option value="Classic">Classic</option>
-                        </select>
-                        <label>Class</label>
-                        <select id="add-class">
-                            <option value="Car">Car</option><option value="Truck">Truck</option>
-                            <option value="SUV">SUV</option><option value="Industrial">Industrial</option>
-                        </select>
-                        <div id="drop-zone" class="drop-zone">Carica Immagine<input type="file" id="add-file" hidden accept="image/*"><img id="preview" class="preview-thumb"></div>
-                        <button class="btn-prime" onclick="saveToDB()">Pubblica Stock</button>
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                            <div><label>Type</label><select id="add-type"><option value="Regular">Regular</option><option value="Prestige">Prestige</option><option value="Electric">Electric</option><option value="Classic">Classic</option></select></div>
+                            <div><label>Class</label><select id="add-class"><option value="Car">Car</option><option value="Truck">Truck</option><option value="SUV">SUV</option><option value="Industrial">Industrial</option></select></div>
+                        </div>
+                        <div id="drop-zone" class="drop-zone">Trascina Foto o Clicca<input type="file" id="add-file" hidden accept="image/*"><img id="preview" style="width:100%; margin-top:15px; border-radius:10px; display:none;"></div>
+                        <button class="btn-prime" style="margin-top:20px;" onclick="saveToDB()">Pubblica Stock</button>
 
-                        <h3 style="margin-top:30px;">Gestione Stock (Elimina)</h3>
-                        <div class="scroll-v" style="max-height: 180px;">
-                            <table>
-                                <thead><tr><th>MODELLO</th><th>AZIONI</th></tr></thead>
+                        <h3 style="margin-top:40px; margin-bottom:15px;">Stock Attivo</h3>
+                        <div style="max-height: 250px; overflow-y:auto; background: #000; border-radius:15px; padding:10px;">
+                            <table style="font-size: 0.8rem;">
                                 <tbody id="stock-tbody"></tbody>
                             </table>
                         </div>
                     </div>
 
                     <div class="panel">
-                        <h3>Monitoraggio Fatture</h3>
-                        <div class="scroll-v">
+                        <h3 style="margin-bottom:20px;">Registri Vendite (Logs)</h3>
+                        <div style="max-height: 600px; overflow-y:auto;">
                             <table>
-                                <thead><tr><th>CLIENTE</th><th>AUTO</th><th>PREZZO</th><th>AZIONI</th></tr></thead>
+                                <thead><tr><th>CLIENTE</th><th>AUTO</th><th>PREZZO</th><th>DATA</th><th>AZIONI</th></tr></thead>
                                 <tbody id="logs-tbody"></tbody>
                             </table>
                         </div>
@@ -218,7 +310,7 @@
             if(document.getElementById('pw-' + type).value === KEYS[type]) {
                 document.getElementById(type + '-gate').style.display = 'none';
                 document.getElementById(type + '-content').classList.remove('hidden');
-            } else { alert("Accesso Negato"); }
+            } else { alert("Accesso Negato: Chiave errata."); }
         }
 
         function logout(type) {
@@ -232,10 +324,12 @@
             for(let k in allCars) if(allCars[k].name === name) document.getElementById('inv-final').value = allCars[k].price;
         }
 
+        // --- FILE HANDLING ---
         const dz = document.getElementById('drop-zone'), fi = document.getElementById('add-file');
         dz.onclick = () => fi.click();
-        dz.ondragover = (e) => e.preventDefault();
-        dz.ondrop = (e) => { e.preventDefault(); handleFile(e.dataTransfer.files[0]); };
+        dz.ondragover = (e) => { e.preventDefault(); dz.style.borderColor = "var(--primary)"; };
+        dz.ondragleave = () => { dz.style.borderColor = "#333"; };
+        dz.ondrop = (e) => { e.preventDefault(); dz.style.borderColor = "#333"; handleFile(e.dataTransfer.files[0]); };
         fi.onchange = (e) => handleFile(e.target.files[0]);
         function handleFile(file) {
             if (file) {
@@ -245,11 +339,12 @@
             }
         }
 
+        // --- REALTIME SYNC ---
         db.ref('cars').on('value', s => {
             allCars = s.val() || {}; 
             renderShowroom(); renderStockTable();
             document.getElementById('st-cars').innerText = Object.keys(allCars).length;
-            const sel = document.getElementById('inv-car'); sel.innerHTML = "<option disabled selected>Scegli...</option>";
+            const sel = document.getElementById('inv-car'); sel.innerHTML = "<option disabled selected>Seleziona veicolo...</option>";
             for(let k in allCars) sel.innerHTML += `<option value="${allCars[k].name}">${allCars[k].name}</option>`;
         });
 
@@ -259,71 +354,146 @@
             const tb = document.getElementById('logs-tbody'); tb.innerHTML = "";
             for(let k in data) {
                 tb.innerHTML += `<tr>
-                    <td><input type="text" class="edit-input" value="${data[k].client}" id="en-${k}"></td>
+                    <td><input type="text" class="edit-input" style="background:transparent; border:none; color:white; width:100px;" value="${data[k].client}" onchange="updateLog('${k}', 'client', this.value)"></td>
                     <td>${data[k].car}</td>
-                    <td><input type="number" class="edit-input" value="${data[k].price}" id="ep-${k}"></td>
-                    <td>
-                        <button onclick="saveLog('${k}')" style="color:#2ecc71; background:none; border:none;"><i class="fa-solid fa-floppy-disk"></i></button>
-                        <button onclick="delLog('${k}')" style="color:#e74c3c; background:none; border:none; margin-left:10px;"><i class="fa-solid fa-trash"></i></button>
-                    </td>
+                    <td>$ <input type="number" class="edit-input" style="background:transparent; border:none; color:white; width:80px;" value="${data[k].price}" onchange="updateLog('${k}', 'price', this.value)"></td>
+                    <td style="font-size:0.7rem; color:#666;">${data[k].date || 'N/A'}</td>
+                    <td><button onclick="delLog('${k}')" class="del-btn"><i class="fa-solid fa-trash-can"></i></button></td>
                 </tr>`;
             }
         });
 
+        // --- RENDERERS ---
         function renderShowroom() {
             const grid = document.getElementById('fleet-grid'); grid.innerHTML = "";
             for(let k in allCars) {
                 const c = allCars[k];
                 if((filters.type === 'All' || c.type === filters.type) && (filters.class === 'All' || c.class === filters.class)) {
-                    grid.innerHTML += `<div class="car-card"><img src="${c.img}" class="car-img"><div class="car-info"><small style="color:var(--primary); font-weight:800">${c.type} | ${c.class}</small><h3>${c.name}</h3><div style="font-size:1.3rem; font-weight:900">$ ${parseInt(c.price).toLocaleString()}</div></div></div>`;
+                    grid.innerHTML += `
+                        <div class="car-card">
+                            <div class="car-badge">${c.type}</div>
+                            <div class="car-img-wrapper"><img src="${c.img}" class="car-img"></div>
+                            <div class="car-info">
+                                <p style="color:var(--primary); font-size:0.75rem; font-weight:800; letter-spacing:1px; margin-bottom:5px;">${c.class}</p>
+                                <h3 style="font-family:'Montserrat'; font-weight:900;">${c.name}</h3>
+                                <div class="car-price">$ ${parseInt(c.price).toLocaleString()}</div>
+                            </div>
+                        </div>`;
                 }
             }
         }
 
         function renderStockTable() {
             const stb = document.getElementById('stock-tbody'); stb.innerHTML = "";
-            for(let k in allCars) stb.innerHTML += `<tr><td>${allCars[k].name}</td><td><button onclick="delCar('${k}')" style="color:red; background:none; border:none; cursor:pointer;">ELIMINA (X)</button></td></tr>`;
+            for(let k in allCars) {
+                stb.innerHTML += `<tr>
+                    <td style="color:#aaa;">${allCars[k].name}</td>
+                    <td style="text-align:right;"><button onclick="delCar('${k}')" class="del-btn">RIMUOVI</button></td>
+                </tr>`;
+            }
         }
 
+        // --- LOGIC ---
         function saveToDB() {
             const n = document.getElementById('add-n').value, p = document.getElementById('add-p').value, ty = document.getElementById('add-type').value, cl = document.getElementById('add-class').value;
             if(n && p && cacheImg) {
                 db.ref('cars').push({ name: n, price: parseInt(p), type: ty, class: cl, img: cacheImg }).then(() => {
-                    alert("Veicolo aggiunto!");
-                    // Resetta solo i campi, non ricarica la pagina
-                    document.getElementById('add-n').value = "";
-                    document.getElementById('add-p').value = "";
-                    document.getElementById('preview').style.display = 'none';
-                    cacheImg = "";
+                    alert("Pubblicazione riuscita.");
+                    document.getElementById('add-n').value = ""; document.getElementById('add-p').value = "";
+                    document.getElementById('preview').style.display = 'none'; cacheImg = "";
                 });
-            } else { alert("Compila tutti i campi e carica una immagine!"); }
+            } else { alert("Per favore completa tutti i campi."); }
         }
 
-        function delCar(k) { if(confirm("Eliminare?")) db.ref('cars/'+k).remove(); }
-        function saveLog(k) { db.ref('sales_logs/'+k).update({ client: document.getElementById('en-'+k).value, price: document.getElementById('ep-'+k).value }); alert("Salvato"); }
-        function delLog(k) { if(confirm("Eliminare?")) db.ref('sales_logs/'+k).remove(); }
-        function setFilter(dim, val) { filters[dim] = val; const btns = window.event.target.parentNode.querySelectorAll('.cat-btn'); btns.forEach(b => b.classList.remove('active')); window.event.target.classList.add('active'); renderShowroom(); }
+        function setFilter(dim, val) {
+            filters[dim] = val;
+            const btns = window.event.target.parentNode.querySelectorAll('.cat-btn');
+            btns.forEach(b => b.classList.remove('active'));
+            window.event.target.classList.add('active');
+            renderShowroom();
+        }
 
+        function updateLog(k, field, val) { db.ref('sales_logs/'+k).update({ [field]: val }); }
+        function delCar(k) { if(confirm("Eliminare definitivamente dallo stock?")) db.ref('cars/'+k).remove(); }
+        function delLog(k) { if(confirm("Eliminare log vendita?")) db.ref('sales_logs/'+k).remove(); }
+
+        // --- PDF ENGINE (PRECISO AL DOCUMENTO TEX-001) ---
         async function makeInvoice() {
-            const { jsPDF } = window.jspdf; const doc = new jsPDF();
-            const client = document.getElementById('inv-name').value || "CLIENTE", car = document.getElementById('inv-car').value, price = document.getElementById('inv-final').value, agent = document.getElementById('inv-sign').value || "AGENTE";
+            const { jsPDF } = window.jspdf; 
+            const doc = new jsPDF({ orientation: "p", unit: "mm", format: "a4" });
+            
+            const client = document.getElementById('inv-name').value.toUpperCase() || "CLIENTE";
+            const car = document.getElementById('inv-car').value;
+            const price = document.getElementById('inv-final').value;
+            const agent = document.getElementById('inv-sign').value.toUpperCase() || "AGENTE";
             const protocollo = "TEX-" + Math.floor(100 + Math.random() * 900);
+            const dataOggi = new Date().toLocaleDateString('it-IT');
 
-            doc.setFont("helvetica", "bold"); doc.setFontSize(24); doc.text("Auto Nation", 105, 40, null, null, "center");
-            doc.setFontSize(18); doc.text("SALES CONTRACT", 105, 55, null, null, "center");
-            doc.setFontSize(10); doc.text("CONCESSIONARIO:", 20, 75);
-            doc.setFont("helvetica", "normal"); doc.text("AutoNation Austin Luxury Motors", 20, 81); doc.text("Austin, Texas - Corporate Hub", 20, 87);
-            doc.setFont("helvetica", "bold"); doc.text("CLIENTE:", 20, 105);
-            doc.setFont("helvetica", "normal"); doc.text(client.toUpperCase(), 20, 111);
-            doc.setFont("helvetica", "bold"); doc.text("DETTAGLI VEICOLO", 20, 130);
-            doc.setFont("helvetica", "normal"); doc.text(`Modello: ${car}`, 20, 138); doc.text(`Protocollo: ${protocollo}`, 20, 144); doc.text(`Data: ${new Date().toLocaleDateString()}`, 20, 150);
-            doc.setFont("helvetica", "bold"); doc.setFontSize(14); doc.text(`TOTALE: $ ${parseInt(price).toLocaleString()}`, 20, 165);
-            doc.setFontSize(9); doc.setFont("helvetica", "normal");
-            doc.text(doc.splitTextToSize("Il presente documento certifica il passaggio di proprietà. Il veicolo viene venduto con garanzia Austin Elite di 12 mesi.", 170), 20, 180);
-            doc.setFont("helvetica", "bold"); doc.setFontSize(10); doc.text("FIRMA AGENTE", 150, 210); doc.text(agent.toUpperCase(), 150, 218);
+            // --- LAYOUT FATTURA ---
+            // Intestazione Centrale
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(26);
+            doc.text("Auto Nation", 105, 45, null, null, "center");
+            
+            doc.setFontSize(18);
+            doc.text("SALES CONTRACT", 105, 58, null, null, "center");
 
-            db.ref('sales_logs').push({ client, car, price, date: new Date().toLocaleString() });
-            doc.save(`Fattura_${protocollo}.pdf`);
+            // Info Concessionario (Sinistra)
+            doc.setFontSize(10);
+            doc.text("CONCESSIONARIO:", 25, 80);
+            doc.setFont("helvetica", "normal");
+            doc.text("AutoNation Austin Luxury Motors", 25, 86);
+            doc.text("Austin, Texas - Corporate Hub", 25, 91);
+
+            // Info Cliente (Sinistra)
+            doc.setFont("helvetica", "bold");
+            doc.text("CLIENTE:", 25, 108);
+            doc.setFont("helvetica", "normal");
+            doc.text(client, 25, 114);
+
+            // Dettagli Veicolo (Sinistra)
+            doc.setFont("helvetica", "bold");
+            doc.text("DETTAGLI VEICOLO", 25, 135);
+            doc.setFont("helvetica", "normal");
+            doc.text(`Modello: ${car}`, 25, 143);
+            doc.text(`Protocollo: ${protocollo}`, 25, 149);
+            doc.text(`Data Vendita: ${dataOggi}`, 25, 155);
+
+            // Totale (In Evidenza)
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(14);
+            doc.text(`TOTALE: $ ${parseInt(price).toLocaleString()}`, 25, 172);
+
+            // Clausole (Corpo Testo)
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(10);
+            const clausola = "Il presente documento certifica il passaggio di proprieta. Il veicolo viene venduto con garanzia Austin Elite di 12 mesi sulle componenti meccaniche.";
+            const splitClausola = doc.splitTextToSize(clausola, 160);
+            doc.text(splitClausola, 25, 185);
+
+            // Firma Agente (Destra)
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(11);
+            doc.text("FIRMA AGENTE", 155, 215, null, null, "center");
+            doc.setFont("helvetica", "normal");
+            doc.text(agent, 155, 223, null, null, "center");
+
+            // Footer / Sigillo (Centrale)
+            doc.setFontSize(9);
+            doc.text("AUTONATION TEXAS ★ VEHICLE DIVISION", 105, 275, null, null, "center");
+
+            // --- SAVE & LOG ---
+            db.ref('sales_logs').push({ 
+                client, 
+                car, 
+                price, 
+                agent, 
+                protocol: protocollo, 
+                date: dataOggi 
+            });
+            
+            doc.save(`Fattura_${protocollo}_${client.replace(/\s+/g, '_')}.pdf`);
+            alert("Contratto Generato e Archiviato.");
         }
     </script>
 </body>
