@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoNation Texas | Elite Operations v24.0</title>
+    <title>AutoNation Texas | Elite Operations v25.0</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -13,35 +13,60 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <style>
-        :root { --primary: #ff2e4d; --bg: #000000; --surface: #0a0a0a; --border: #1a1a1a; --text: #ffffff; --text-dim: #777; }
+        :root { 
+            --primary: #ff2e4d; 
+            --bg: #000000; 
+            --surface: #0a0a0a; 
+            --border: #1a1a1a; 
+            --text: #ffffff; 
+            --text-dim: #777;
+            /* Colori Categorie */
+            --cat-regular: #777;
+            --cat-prestige: #d4af37;
+            --cat-electric: #00d4ff;
+            --cat-classic: #2ecc71;
+        }
+
         * { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
         body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; display: flex; height: 100vh; overflow: hidden; }
 
+        /* --- SIDEBAR --- */
         nav { width: 260px; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 40px 20px; z-index: 100; }
         .logo-container img { width: 140px; height: 140px; margin: 0 auto 40px auto; border-radius: 50%; border: 2px solid var(--primary); object-fit: cover; }
         .nav-link { display: flex; align-items: center; padding: 15px; color: var(--text-dim); text-decoration: none; border-radius: 12px; margin-bottom: 8px; font-weight: 700; cursor: pointer; border: none; background: none; width: 100%; font-size: 0.8rem; text-align: left; }
         .nav-link.active { color: var(--primary); background: #111; border-left: 4px solid var(--primary); }
 
+        /* --- MAIN CONTENT --- */
         main { flex: 1; overflow-y: auto; background: #050505; }
         .page { display: none; min-height: 100%; padding: 40px; }
         .page.active { display: block; }
 
-        .hero { height: 80vh; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 60px; overflow: hidden; border-radius: 30px; margin: 20px; border: 1px solid var(--border); }
-        .hero-video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.4; z-index: -1; }
-        .hero-content h1 { font-family: 'Montserrat'; font-size: 5rem; line-height: 1; margin-bottom: 15px; letter-spacing: -2px; }
+        /* --- SHOWROOM FILTERS --- */
+        .filter-header { text-align: center; margin-bottom: 40px; }
+        .filter-header h2 { font-family: 'Montserrat'; font-size: 2rem; margin-bottom: 20px; letter-spacing: 2px; }
+        .filter-bar { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+        .filter-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text-dim); padding: 12px 24px; border-radius: 50px; cursor: pointer; font-weight: 800; transition: 0.3s; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; }
+        .filter-btn:hover { border-color: var(--primary); color: white; }
+        .filter-btn.active { background: var(--primary); border-color: var(--primary); color: white; box-shadow: 0 0 20px rgba(255, 46, 77, 0.3); }
 
-        /* --- FILTRI AGGIORNATI --- */
-        .filter-bar { display: flex; gap: 10px; margin-bottom: 30px; justify-content: center; flex-wrap: wrap; }
-        .filter-btn { background: var(--surface); border: 1px solid var(--border); color: white; padding: 10px 20px; border-radius: 30px; cursor: pointer; font-weight: 700; transition: 0.3s; font-size: 0.7rem; text-transform: uppercase; }
-        .filter-btn.active { background: var(--primary); border-color: var(--primary); }
+        /* --- SHOWROOM GRID --- */
+        .car-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
+        .car-card { background: var(--surface); border-radius: 24px; overflow: hidden; border: 1px solid var(--border); position: relative; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .car-card:hover { transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .car-img { width: 100%; height: 220px; object-fit: cover; border-bottom: 1px solid var(--border); }
+        
+        .car-info { padding: 25px; position: relative; }
+        .car-info h3 { font-family: 'Montserrat'; font-size: 1.2rem; margin-bottom: 8px; text-transform: uppercase; }
+        .car-price { color: var(--primary); font-size: 1.4rem; font-weight: 900; font-family: 'Outfit'; }
 
-        .car-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
-        .car-card { background: var(--surface); border-radius: 20px; overflow: hidden; border: 1px solid var(--border); position: relative; transition: 0.3s; }
-        .car-card:hover { transform: translateY(-5px); border-color: var(--primary); }
-        .car-img { width: 100%; height: 200px; object-fit: cover; }
-        .car-info { padding: 20px; }
-        .badge { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.8); padding: 5px 12px; border-radius: 8px; color: var(--primary); border: 1px solid var(--primary); font-size: 0.6rem; font-weight: 900; z-index: 2; }
+        /* BADGES COLORATI PER CATEGORIA */
+        .badge { position: absolute; top: 15px; right: 15px; padding: 6px 14px; border-radius: 10px; font-size: 0.65rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; z-index: 5; box-shadow: 0 4px 10px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); }
+        .badge-regular { background: #333; color: #fff; }
+        .badge-prestige { background: var(--cat-prestige); color: #000; }
+        .badge-electric { background: var(--cat-electric); color: #000; }
+        .badge-classic { background: var(--cat-classic); color: #000; }
 
+        /* --- PANELS & FORMS --- */
         .panel { background: var(--surface); padding: 40px; border-radius: 25px; border: 1px solid var(--border); max-width: 650px; margin: 0 auto; }
         .btn-prime { background: var(--primary); color: white; border: none; padding: 18px; border-radius: 12px; width: 100%; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
         input, select { width: 100%; padding: 15px; border-radius: 10px; background: #000; border: 1px solid #222; color: #fff; margin-bottom: 15px; font-family: 'Outfit'; }
@@ -69,19 +94,22 @@
                     <source src="https://assets.mixkit.co/videos/preview/mixkit-fast-driving-in-a-city-at-night-12344-large.mp4" type="video/mp4">
                 </video>
                 <div class="hero-content">
-                    <h1>AUTONATION<br><span style="color:var(--primary)">TEXAS.</span></h1>
-                    <p>Elite Vehicle Division Operations</p>
+                    <h1 style="font-family:'Montserrat'; font-size:5rem;">AUTONATION<br><span style="color:var(--primary)">TEXAS.</span></h1>
+                    <p style="letter-spacing:5px; color:var(--text-dim);">ELITE VEHICLE DIVISION</p>
                 </div>
             </div>
         </div>
 
         <div id="showroom" class="page">
-            <div class="filter-bar">
-                <button class="filter-btn active" onclick="filterShowroom('TUTTO', this)">TUTTO</button>
-                <button class="filter-btn" onclick="filterShowroom('Regular', this)">REGULAR</button>
-                <button class="filter-btn" onclick="filterShowroom('Prestige', this)">PRESTIGE</button>
-                <button class="filter-btn" onclick="filterShowroom('Electric', this)">ELECTRIC</button>
-                <button class="filter-btn" onclick="filterShowroom('Classic', this)">CLASSIC</button>
+            <div class="filter-header">
+                <h2>CURRENT FLEET</h2>
+                <div class="filter-bar">
+                    <button class="filter-btn active" onclick="filterShowroom('TUTTO', this)">TUTTO</button>
+                    <button class="filter-btn" onclick="filterShowroom('Regular', this)">REGULAR</button>
+                    <button class="filter-btn" onclick="filterShowroom('Prestige', this)">PRESTIGE</button>
+                    <button class="filter-btn" onclick="filterShowroom('Electric', this)">ELECTRIC</button>
+                    <button class="filter-btn" onclick="filterShowroom('Classic', this)">CLASSIC</button>
+                </div>
             </div>
             <div id="fleet-grid" class="car-grid"></div>
         </div>
@@ -185,7 +213,16 @@
             for(let k in allCars) {
                 const c = allCars[k];
                 if(filter === "TUTTO" || c.type === filter) {
-                    grid.innerHTML += `<div class="car-card"><div class="badge">${c.type}</div><img src="${c.img}" class="car-img"><div class="car-info"><h3>${c.name}</h3><div style="color:var(--primary); font-weight:900; margin-top:5px;">$ ${parseInt(c.price).toLocaleString()}</div></div></div>`;
+                    const badgeClass = `badge-${c.type.toLowerCase()}`;
+                    grid.innerHTML += `
+                        <div class="car-card">
+                            <div class="badge ${badgeClass}">${c.type}</div>
+                            <img src="${c.img}" class="car-img">
+                            <div class="car-info">
+                                <h3>${c.name}</h3>
+                                <div class="car-price">$ ${parseInt(c.price).toLocaleString()}</div>
+                            </div>
+                        </div>`;
                 }
             }
         }
