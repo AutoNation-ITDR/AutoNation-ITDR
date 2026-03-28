@@ -25,7 +25,6 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; display: flex; height: 100vh; overflow: hidden; }
 
-        /* SIDEBAR */
         nav { width: 280px; background: var(--surface); border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; padding: 40px 20px; z-index: 100; }
         .logo-container img { width: 100%; margin-bottom: 50px; filter: drop-shadow(var(--accent-glow)); }
         
@@ -37,19 +36,16 @@
         .nav-link i { margin-right: 15px; font-size: 1.2rem; }
         .nav-link.active { background: var(--primary); color: white; box-shadow: var(--accent-glow); }
 
-        /* MAIN */
         main { flex: 1; overflow-y: auto; background: radial-gradient(circle at 0% 0%, #1a1c26 0%, #030405 100%); position: relative; }
         .page { display: none; padding: 60px; max-width: 1400px; margin: 0 auto; animation: slideUp 0.5s ease; }
         .page.active { display: block; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* PANELS */
         .panel { background: var(--surface); padding: 30px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 25px; }
         .hero-section { position: relative; height: 400px; border-radius: 40px; overflow: hidden; margin-bottom: 40px; }
         .hero-video { width: 100%; height: 100%; object-fit: cover; opacity: 0.5; }
         .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, #030405, transparent); display: flex; flex-direction: column; justify-content: flex-end; padding: 60px; }
         
-        /* SHOWROOM */
         .filter-bar { background: var(--surface); padding: 20px; border-radius: 20px; margin-bottom: 30px; display: flex; flex-direction: column; gap: 15px; }
         .filter-group { display: flex; gap: 10px; align-items: center; }
         .cat-btn { padding: 8px 15px; border-radius: 8px; border: 1px solid #333; color: white; background: none; cursor: pointer; font-size: 0.8rem; font-weight: 700; }
@@ -59,7 +55,6 @@
         .car-img { width: 100%; height: 200px; object-fit: cover; }
         .car-info { padding: 20px; }
 
-        /* FORMS */
         .secure-gate { max-width: 400px; margin: 80px auto; text-align: center; background: var(--surface); padding: 50px; border-radius: 35px; border: 1px solid var(--primary); }
         input, select { width: 100%; padding: 12px; border-radius: 10px; background: #000; border: 1px solid #333; color: #fff; margin-bottom: 12px; font-family: 'Outfit'; }
         label { display: block; font-size: 0.75rem; color: var(--primary); margin-bottom: 5px; font-weight: 800; text-transform: uppercase; }
@@ -94,12 +89,12 @@
                 <div class="hero-overlay">
                     <p>Austin, Texas • Luxury Division</p>
                     <h1 style="font-family:'Montserrat'; font-size: 3.5rem; font-weight: 900; line-height: 1;">PRESTIGE &<br><span style="color:var(--primary)">PERFORMANCE.</span></h1>
-                    <p style="max-width: 600px; margin-top:15px; color:#ccc; font-size: 0.9rem;">Benvenuti nell'hub esclusivo di <strong>AutoNation Austin Luxury Motors</strong>. Siamo l'avanguardia del mercato automobilistico texano, unendo l'eredità delle grandi classiche alla potenza delle hypercar moderne.</p>
+                    <p style="max-width: 600px; margin-top:15px; color:#ccc; font-size: 0.9rem;">Hub ufficiale di <strong>AutoNation Austin Luxury Motors</strong>. Gestione stock e contratti.</p>
                 </div>
             </div>
             <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:20px;">
-                <div class="panel" style="text-align:center;"><h2 id="st-cars" style="font-size:2.5rem; color:var(--primary)">0</h2><p>VEICOLI IN STOCK</p></div>
-                <div class="panel" style="text-align:center;"><h2 id="st-sales" style="font-size:2.5rem; color:var(--primary)">0</h2><p>CONTRATTI CHIUSI</p></div>
+                <div class="panel" style="text-align:center;"><h2 id="st-cars" style="font-size:2.5rem; color:var(--primary)">0</h2><p>STOCK</p></div>
+                <div class="panel" style="text-align:center;"><h2 id="st-sales" style="font-size:2.5rem; color:var(--primary)">0</h2><p>VENDITE</p></div>
             </div>
         </div>
 
@@ -127,9 +122,8 @@
 
         <div id="sales" class="page">
             <div id="sales-gate" class="secure-gate">
-                <i class="fa-solid fa-id-card-clip" style="font-size: 3rem; color: var(--primary); margin-bottom: 20px;"></i>
                 <h2>Staff Login</h2>
-                <input type="password" id="pw-sales" placeholder="PIN Personale">
+                <input type="password" id="pw-sales" placeholder="PIN">
                 <button class="btn-prime" onclick="verify('sales')">Sblocca</button>
             </div>
             <div id="sales-content" class="hidden">
@@ -144,14 +138,13 @@
                     <input type="number" id="inv-final" readonly style="background: #111; color: #aaa;">
                     <label>Firma Agente</label>
                     <input type="text" id="inv-sign">
-                    <button class="btn-prime" onclick="makeInvoice()">Genera PDF Ufficiale</button>
+                    <button class="btn-prime" onclick="makeInvoice()">Genera PDF</button>
                 </div>
             </div>
         </div>
 
         <div id="owners" class="page">
             <div id="owners-gate" class="secure-gate">
-                <i class="fa-solid fa-user-shield" style="font-size: 3rem; color: var(--primary); margin-bottom: 20px;"></i>
                 <h2>Owner Master Access</h2>
                 <input type="password" id="pw-owners" placeholder="Master Key">
                 <button class="btn-prime" onclick="verify('owners')">Entra</button>
@@ -162,7 +155,7 @@
                     <div class="panel">
                         <h3>Aggiungi Veicolo</h3>
                         <label>Nome Modello</label>
-                        <input id="add-n" placeholder="es. Chevlon Captain - 1992">
+                        <input id="add-n" placeholder="es. Chevlon Captain">
                         <label>Prezzo ($)</label>
                         <input id="add-p" type="number">
                         <label>Type</label>
@@ -188,7 +181,7 @@
                     </div>
 
                     <div class="panel">
-                        <h3>Monitoraggio & Modifica Fatture</h3>
+                        <h3>Monitoraggio Fatture</h3>
                         <div class="scroll-v">
                             <table>
                                 <thead><tr><th>CLIENTE</th><th>AUTO</th><th>PREZZO</th><th>AZIONI</th></tr></thead>
@@ -239,7 +232,6 @@
             for(let k in allCars) if(allCars[k].name === name) document.getElementById('inv-final').value = allCars[k].price;
         }
 
-        // FILE HANDLING
         const dz = document.getElementById('drop-zone'), fi = document.getElementById('add-file');
         dz.onclick = () => fi.click();
         dz.ondragover = (e) => e.preventDefault();
@@ -253,7 +245,6 @@
             }
         }
 
-        // DATABASE SYNC
         db.ref('cars').on('value', s => {
             allCars = s.val() || {}; 
             renderShowroom(); renderStockTable();
@@ -272,14 +263,13 @@
                     <td>${data[k].car}</td>
                     <td><input type="number" class="edit-input" value="${data[k].price}" id="ep-${k}"></td>
                     <td>
-                        <button onclick="saveLog('${k}')" style="color:#2ecc71; background:none; border:none; cursor:pointer;"><i class="fa-solid fa-floppy-disk"></i></button>
-                        <button onclick="delLog('${k}')" style="color:#e74c3c; background:none; border:none; cursor:pointer; margin-left:10px;"><i class="fa-solid fa-trash"></i></button>
+                        <button onclick="saveLog('${k}')" style="color:#2ecc71; background:none; border:none;"><i class="fa-solid fa-floppy-disk"></i></button>
+                        <button onclick="delLog('${k}')" style="color:#e74c3c; background:none; border:none; margin-left:10px;"><i class="fa-solid fa-trash"></i></button>
                     </td>
                 </tr>`;
             }
         });
 
-        // RENDERING
         function renderShowroom() {
             const grid = document.getElementById('fleet-grid'); grid.innerHTML = "";
             for(let k in allCars) {
@@ -295,17 +285,25 @@
             for(let k in allCars) stb.innerHTML += `<tr><td>${allCars[k].name}</td><td><button onclick="delCar('${k}')" style="color:red; background:none; border:none; cursor:pointer;">ELIMINA (X)</button></td></tr>`;
         }
 
-        // ACTIONS
         function saveToDB() {
             const n = document.getElementById('add-n').value, p = document.getElementById('add-p').value, ty = document.getElementById('add-type').value, cl = document.getElementById('add-class').value;
-            if(n && p && cacheImg) db.ref('cars').push({ name: n, price: parseInt(p), type: ty, class: cl, img: cacheImg }).then(() => { alert("Pubblicato!"); location.reload(); });
+            if(n && p && cacheImg) {
+                db.ref('cars').push({ name: n, price: parseInt(p), type: ty, class: cl, img: cacheImg }).then(() => {
+                    alert("Veicolo aggiunto!");
+                    // Resetta solo i campi, non ricarica la pagina
+                    document.getElementById('add-n').value = "";
+                    document.getElementById('add-p').value = "";
+                    document.getElementById('preview').style.display = 'none';
+                    cacheImg = "";
+                });
+            } else { alert("Compila tutti i campi e carica una immagine!"); }
         }
+
         function delCar(k) { if(confirm("Eliminare?")) db.ref('cars/'+k).remove(); }
         function saveLog(k) { db.ref('sales_logs/'+k).update({ client: document.getElementById('en-'+k).value, price: document.getElementById('ep-'+k).value }); alert("Salvato"); }
         function delLog(k) { if(confirm("Eliminare?")) db.ref('sales_logs/'+k).remove(); }
         function setFilter(dim, val) { filters[dim] = val; const btns = window.event.target.parentNode.querySelectorAll('.cat-btn'); btns.forEach(b => b.classList.remove('active')); window.event.target.classList.add('active'); renderShowroom(); }
 
-        // PDF UFFICIALE
         async function makeInvoice() {
             const { jsPDF } = window.jspdf; const doc = new jsPDF();
             const client = document.getElementById('inv-name').value || "CLIENTE", car = document.getElementById('inv-car').value, price = document.getElementById('inv-final').value, agent = document.getElementById('inv-sign').value || "AGENTE";
