@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AUTONATION TEXAS | PREMIUM HUB</title>
+    <title>AUTONATION TEXAS | OFFICIAL HUB</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Orbitron:wght@400;900&family=Outfit:wght@300;600;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;500&family=Orbitron:wght@400;700;900&family=Outfit:wght@300;400;600;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
@@ -15,62 +15,57 @@
     <style>
         :root { 
             --p: #ff2e4d; 
-            --bg: #050505; 
-            --s: #0d0d0d; 
+            --bg: #000; 
+            --s: #0a0a0a; 
             --b: #1a1a1a; 
-            --t: #ffffff; 
-            --grad: linear-gradient(135deg, #ff2e4d, #b91c1c);
+            --t: #fff; 
+            --grad: linear-gradient(135deg, var(--p), #991b2d);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: var(--p); border-radius: 10px; }
+
         body { background: var(--bg); color: var(--t); font-family: 'Outfit', sans-serif; display: flex; height: 100vh; overflow: hidden; }
 
-        /* Sidebar */
         nav { 
             width: 280px; background: var(--s); border-right: 1px solid var(--b); 
-            display: flex; flex-direction: column; padding: 40px 20px; flex-shrink: 0;
+            display: flex; flex-direction: column; padding: 40px 20px; z-index: 100; flex-shrink: 0;
+            box-shadow: 10px 0 30px rgba(0,0,0,0.5);
         }
-        .logo-box { text-align: center; margin-bottom: 40px; }
-        .logo-box img { width: 120px; height: 120px; border-radius: 50%; border: 2px solid var(--p); object-fit: cover; }
-        
+
+        .logo-box { text-align: center; margin-bottom: 50px; }
+        .logo-box img { width: 140px; height: 140px; border-radius: 50%; border: 3px solid var(--p); object-fit: cover; }
+
         .nav-link { 
-            background: transparent; border: none; color: #666; padding: 15px; border-radius: 12px;
-            font-family: 'Orbitron'; font-size: 0.75rem; text-align: left; cursor: pointer;
-            display: flex; align-items: center; gap: 15px; margin-bottom: 8px; transition: 0.3s;
+            background: rgba(255,255,255,0.02); border: 1px solid transparent; 
+            color: #888; padding: 16px 20px; border-radius: 12px;
+            font-family: 'Orbitron'; font-size: 0.8rem; text-align: left; 
+            cursor: pointer; text-transform: uppercase; transition: 0.3s;
+            display: flex; align-items: center; gap: 15px; margin-bottom: 10px;
         }
-        .nav-link:hover { color: #fff; background: rgba(255,255,255,0.05); }
-        .nav-link.active { color: #fff; background: var(--grad); box-shadow: 0 4px 15px rgba(255, 46, 77, 0.3); }
 
-        /* Main Content */
-        main { flex: 1; overflow-y: auto; padding: 60px; position: relative; }
-        .page { display: none; max-width: 1100px; margin: 0 auto; animation: fadeIn 0.4s ease; }
+        .nav-link:hover { color: #fff; background: rgba(255,255,255,0.05); padding-left: 25px; }
+        .nav-link.active { color: #fff; background: var(--grad); border-color: var(--p); box-shadow: 0 10px 20px rgba(255, 46, 77, 0.2); }
+
+        main { flex: 1; overflow-y: auto; background: radial-gradient(circle at top right, #0a0a0a, #000); }
+        .page { display: none; padding: 60px; max-width: 1400px; margin: 0 auto; animation: fadeIn 0.5s ease forwards; }
         .page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        h2 { font-family: 'Orbitron'; font-size: 2rem; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 2px; }
-        h2 span { color: var(--p); }
+        .section-header h2 { font-family: 'Orbitron'; font-size: 2.5rem; text-transform: uppercase; margin-bottom: 20px;}
+        .section-header h2 span { color: var(--p); }
 
-        /* Forms & Cards */
-        .glass-panel { background: var(--s); border: 1px solid var(--b); padding: 35px; border-radius: 20px; margin-bottom: 25px; }
-        input, select, textarea { 
-            width: 100%; background: #000; border: 1px solid #222; color: #fff; 
-            padding: 15px; border-radius: 10px; margin-top: 10px; font-family: 'Inter';
-        }
-        input:focus { border-color: var(--p); }
-        .btn-action { 
-            width: 100%; padding: 18px; background: var(--grad); color: #fff; border: none; 
-            border-radius: 10px; font-family: 'Orbitron'; font-weight: 700; cursor: pointer; 
-            margin-top: 20px; transition: 0.3s;
-        }
-        .btn-action:hover { opacity: 0.9; transform: scale(1.01); }
-
-        /* Tables */
+        .glass-panel { background: #0a0a0a; border: 1px solid #1a1a1a; padding: 40px; border-radius: 24px; margin-bottom: 20px; }
+        input, select, textarea { width: 100%; background: #000; border: 1px solid #222; color: #fff; padding: 15px; border-radius: 10px; margin-top: 5px; }
+        .btn-action { width: 100%; padding: 18px; background: var(--grad); color: #fff; border: none; border-radius: 10px; font-family: 'Orbitron'; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 15px; }
+        
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th { text-align: left; color: var(--p); font-family: 'Orbitron'; font-size: 0.7rem; padding: 12px; border-bottom: 2px solid var(--b); }
-        td { padding: 15px 12px; border-bottom: 1px solid #111; font-size: 0.85rem; }
-
-        .auth-overlay { text-align: center; max-width: 400px; margin: 100px auto; }
+        th { text-align: left; color: var(--p); font-family: 'Orbitron'; padding: 10px; border-bottom: 2px solid var(--b); font-size: 0.7rem; }
+        td { padding: 15px 10px; border-bottom: 1px solid var(--b); font-size: 0.8rem; }
         .hidden { display: none !important; }
+        .auth-overlay { text-align: center; max-width: 400px; margin: 100px auto; }
     </style>
 </head>
 <body>
@@ -79,80 +74,75 @@
         <div class="logo-box"><img src="https://res.cloudinary.com/dtunh07qw/image/upload/v1774726227/prdrllnucdla95lhztwi.png"></div>
         <button class="nav-link active" onclick="navTo('home', this)"><i class="fa-solid fa-house"></i> Home</button>
         <button class="nav-link" onclick="navTo('showroom', this)"><i class="fa-solid fa-car"></i> Showroom</button>
-        <button class="nav-link" onclick="navTo('booking', this)"><i class="fa-solid fa-calendar"></i> Prenotazioni</button>
-        <button class="nav-link" onclick="navTo('sales', this)"><i class="fa-solid fa-file-contract"></i> Vendite</button>
-        <button class="nav-link" onclick="navTo('owners', this)"><i class="fa-solid fa-crown"></i> Gestione</button>
+        <button class="nav-link" onclick="navTo('booking', this)"><i class="fa-solid fa-calendar-check"></i> Prenotazioni</button>
+        <button class="nav-link" onclick="navTo('sales', this)"><i class="fa-solid fa-file-invoice-dollar"></i> Vendite</button>
+        <button class="nav-link" onclick="navTo('owners', this)"><i class="fa-solid fa-user-shield"></i> Owner</button>
     </nav>
 
     <main>
         <section id="home" class="page active">
-            <div style="text-align:center; margin-top:15vh;">
-                <h1 style="font-family:'Orbitron'; font-size:4rem; font-weight:900;">AUTO<span style="color:var(--p)">NATION</span></h1>
-                <p style="letter-spacing:8px; color:#555; font-weight:300;">TEXAS CORPORATE DIVISION</p>
+            <div class="section-header" style="text-align:center; margin-top:100px;">
+                <h1 style="font-family:'Orbitron'; font-size:5rem;">AUTO<span>NATION</span></h1>
+                <p style="letter-spacing:10px; color:#444;">TEXAS OFFICIAL HUB</p>
             </div>
         </section>
 
         <section id="showroom" class="page">
-            <h2>Stock <span>Disponibile</span></h2>
-            <div id="showroom-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:25px;"></div>
+            <div class="section-header"><h2>Showroom <span>Stock</span></h2></div>
+            <div id="showroom-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap:25px;"></div>
         </section>
 
         <section id="booking" class="page">
             <div class="glass-panel" style="max-width: 600px; margin: auto;">
-                <h2>Prenota <span>Appuntamento</span></h2>
-                <input id="b-name" placeholder="Nome Completo IC">
-                <input id="b-discord" placeholder="ID Discord (es: user#0000)">
+                <h2>Richiesta <span>Appuntamento</span></h2>
+                <input id="b-name" placeholder="Nome IC">
+                <input id="b-discord" placeholder="ID Discord">
                 <input type="date" id="b-date">
                 <input type="time" id="b-time">
-                <textarea id="b-notes" placeholder="Motivo della visita o veicolo richiesto..."></textarea>
-                <button class="btn-action" onclick="submitBooking()">Invia Richiesta Staff</button>
+                <textarea id="b-notes" placeholder="Note..."></textarea>
+                <button class="btn-action" onclick="submitBooking()">Invia allo Staff</button>
             </div>
         </section>
 
         <section id="sales" class="page">
             <div id="sales-auth" class="auth-overlay">
-                <i class="fa-solid fa-key" style="font-size:3rem; color:var(--p); margin-bottom:20px;"></i>
                 <input type="password" id="sales-pw" placeholder="PIN AGENTE" style="text-align:center;">
-                <button class="btn-action" onclick="checkAuth('sales')">Sblocca Terminale</button>
+                <button class="btn-action" onclick="checkAuth('sales')">Accedi</button>
             </div>
             <div id="sales-panel" class="hidden">
                 <div class="glass-panel">
-                    <h2>Contratto di <span>Vendita</span></h2>
-                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
-                        <input id="s-client" placeholder="Nome Acquirente">
-                        <input id="s-agent" placeholder="Nome Agente">
-                        <select id="s-car" onchange="autoFillPrice()"></select>
-                        <input id="s-price" placeholder="Prezzo Finale ($)">
-                    </div>
-                    <button class="btn-action" onclick="finalizeSale()"><i class="fa-solid fa-file-pdf"></i> Genera e Registra Vendita</button>
+                    <h2>Registra <span>Vendita</span></h2>
+                    <input id="s-client" placeholder="Nome Cliente">
+                    <select id="s-car" onchange="autoFillPrice()"></select>
+                    <input id="s-price" placeholder="Prezzo $">
+                    <input id="s-agent" placeholder="Nome Agente">
+                    <button class="btn-action" onclick="finalizeSale()">Genera Contratto Premium</button>
                 </div>
             </div>
         </section>
 
         <section id="owners" class="page">
             <div id="owner-auth" class="auth-overlay">
-                <i class="fa-solid fa-shield-halved" style="font-size:3rem; color:var(--p); margin-bottom:20px;"></i>
                 <input type="password" id="owner-pw" placeholder="MASTER KEY" style="text-align:center;">
-                <button class="btn-action" onclick="checkAuth('owner')">Accedi al Database</button>
+                <button class="btn-action" onclick="checkAuth('owner')">Accedi</button>
             </div>
             <div id="owner-panel" class="hidden">
                 <div class="glass-panel">
-                    <h3>Appuntamenti <span>In Attesa</span></h3>
+                    <h3>Appuntamenti In Attesa (Solo Tu Accetti)</h3>
                     <table id="admin-book-list"></table>
                 </div>
                 <div class="glass-panel">
-                    <h3>Gestione <span>Showroom</span></h3>
-                    <input id="add-name" placeholder="Nome Veicolo">
-                    <input id="add-price" type="number" placeholder="Prezzo Stock">
-                    <input type="file" id="add-img" accept="image/*" style="border:none;">
-                    <button class="btn-action" onclick="uploadCar()">Aggiungi al Catalogo</button>
+                    <h3>Aggiungi Auto</h3>
+                    <input id="add-name" placeholder="Modello">
+                    <input id="add-price" placeholder="Prezzo">
+                    <input type="file" id="add-img" accept="image/*">
+                    <button class="btn-action" onclick="uploadCar()">Pubblica</button>
                 </div>
             </div>
         </section>
     </main>
 
     <script>
-        // Configurazione Firebase
         const fbConfig = {
             apiKey: "AIzaSyCUH4SGDnbvh1clXm_R_n3ynmDndhIwsbM",
             authDomain: "autonation-bc786.firebaseapp.com",
@@ -162,9 +152,9 @@
         };
         firebase.initializeApp(fbConfig);
         const db = firebase.database();
-
-        // Webhooks
-        const HOOK_VENDITE = "https://discord.com/api/webhooks/1487566509982355487/dekKyZ-WeiUCUvTpeacX6YSBRssl3e_27xTTgxQwPYdOrUP8bREE1hOIOpsw-_A7rC_W";
+        
+        // IL TUO NUOVO WEBHOOK FATTURE
+        const WEBHOOK_FATTURE = "https://discord.com/api/webhooks/1487566509982355487/dekKyZ-WeiUCUvTpeacX6YSBRssl3e_27xTTgxQwPYdOrUP8bREE1hOIOpsw-_A7rC_W";
         const LOGO_IMG = "https://res.cloudinary.com/dtunh07qw/image/upload/v1774726227/prdrllnucdla95lhztwi.png";
 
         let carsCache = {};
@@ -178,86 +168,61 @@
         }
 
         function checkAuth(type) {
-            if(type === 'sales' && document.getElementById('sales-pw').value === '1234') {
+            if(type==='sales' && document.getElementById('sales-pw').value==='1234') {
                 document.getElementById('sales-auth').classList.add('hidden');
                 document.getElementById('sales-panel').classList.remove('hidden');
-            } else if(type === 'owner' && document.getElementById('owner-pw').value === 'OWNER2026') {
+            } else if(type==='owner' && document.getElementById('owner-pw').value==='OWNER2026') {
                 document.getElementById('owner-auth').classList.add('hidden');
                 document.getElementById('owner-panel').classList.remove('hidden');
-            } else { alert("Accesso Negato!"); }
+            } else { alert("Negato!"); }
         }
 
-        // Caricamento Veicoli
         db.ref('cars').on('value', s => {
             carsCache = s.val() || {};
             const grid = document.getElementById('showroom-grid');
             const select = document.getElementById('s-car');
-            grid.innerHTML = ""; select.innerHTML = "<option>Scegli Veicolo...</option>";
+            grid.innerHTML = ""; select.innerHTML = "<option>Scegli...</option>";
             for(let id in carsCache) {
-                grid.innerHTML += `<div style="background:var(--s); border:1px solid var(--b); border-radius:15px; overflow:hidden;">
-                    <img src="${carsCache[id].img}" style="width:100%; hieght:180px; object-fit:cover;">
-                    <div style="padding:15px;">
-                        <h4 style="font-family:'Orbitron'; font-size:0.9rem;">${carsCache[id].name}</h4>
-                        <p style="color:var(--p); font-weight:700; margin-top:5px;">$ ${parseInt(carsCache[id].price).toLocaleString()}</p>
-                    </div>
+                grid.innerHTML += `<div class="glass-panel" style="padding:0; overflow:hidden;">
+                    <img src="${carsCache[id].img}" style="width:100%; height:180px; object-fit:cover;">
+                    <div style="padding:15px;"><h4>${carsCache[id].name}</h4><p style="color:var(--p)">$ ${carsCache[id].price}</p></div>
                 </div>`;
                 select.innerHTML += `<option value="${carsCache[id].name}">${carsCache[id].name}</option>`;
             }
         });
 
-        // Gestione Prenotazioni (Admin)
         db.ref('appointments').on('value', s => {
             const list = document.getElementById('admin-book-list');
-            list.innerHTML = "<tr><th>CLIENTE</th><th>DATA</th><th>DISCORD</th><th>AZIONE</th></tr>";
+            list.innerHTML = "<tr><th>NOME</th><th>DATA</th><th>AZIONE</th></tr>";
             const data = s.val();
             for(let id in data) {
-                list.innerHTML += `<tr>
-                    <td>${data[id].name}</td>
-                    <td>${data[id].date} @ ${data[id].time}</td>
-                    <td>${data[id].discord}</td>
-                    <td>
-                        <button onclick="handleApp('${id}', 'APPROVATA')" style="color:#2ecc71; background:none; border:none; cursor:pointer; font-weight:bold;">SI</button>
-                        <button onclick="handleApp('${id}', 'RIFIUTATA')" style="color:#e74c3c; background:none; border:none; cursor:pointer; font-weight:bold; margin-left:10px;">NO</button>
-                    </td>
-                </tr>`;
+                list.innerHTML += `<tr><td>${data[id].name}</td><td>${data[id].date}</td><td>
+                    <button onclick="handleApp('${id}', 'APPROVATA')" style="color:lime; background:none; border:none; cursor:pointer;">SI</button> / 
+                    <button onclick="handleApp('${id}', 'RIFIUTATA')" style="color:red; background:none; border:none; cursor:pointer;">NO</button>
+                </td></tr>`;
             }
         });
 
         function submitBooking() {
-            const data = {
-                name: document.getElementById('b-name').value,
-                discord: document.getElementById('b-discord').value,
-                date: document.getElementById('b-date').value,
-                time: document.getElementById('b-time').value,
-                notes: document.getElementById('b-notes').value
-            };
-            if(!data.name || !data.date) return alert("Inserisci i campi obbligatori!");
-            db.ref('appointments').push(data).then(() => {
-                alert("Richiesta inviata con successo!");
-                location.reload();
-            });
+            const name = document.getElementById('b-name').value;
+            const discord = document.getElementById('b-discord').value;
+            const date = document.getElementById('b-date').value;
+            const time = document.getElementById('b-time').value;
+            db.ref('appointments').push({ name, discord, date, time }).then(() => alert("Richiesta Inviata!"));
         }
 
         function handleApp(id, status) {
             db.ref('appointments').child(id).once('value', s => {
                 const a = s.val();
-                fetch(HOOK_VENDITE, { // Usiamo lo stesso per semplicità o creane uno per appuntamenti
+                fetch(WEBHOOK_FATTURE, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        content: `📢 **ESITO PRENOTAZIONE** | <@${a.discord}>`,
-                        embeds: [{
-                            title: `Richiesta di ${a.name}`,
-                            description: `La tua richiesta per il giorno **${a.date}** è stata **${status}** dallo Staff.`,
-                            color: status === 'APPROVATA' ? 3066993 : 15158332
-                        }]
-                    })
+                    body: JSON.stringify({ content: `Appuntamento di ${a.name} è stato ${status}!` })
                 });
                 db.ref('appointments').child(id).remove();
             });
         }
 
-        // Funzioni Veicoli
         document.getElementById('add-img').onchange = e => {
             const r = new FileReader();
             r.onload = () => tempImg = r.result;
@@ -267,11 +232,7 @@
         function uploadCar() {
             const name = document.getElementById('add-name').value;
             const price = document.getElementById('add-price').value;
-            if(!name || !tempImg) return alert("Dati mancanti!");
-            db.ref('cars').push({ name, price, img: tempImg }).then(() => {
-                alert("Veicolo aggiunto!");
-                location.reload();
-            });
+            db.ref('cars').push({ name, price, img: tempImg }).then(() => alert("Auto Aggiunta!"));
         }
 
         function autoFillPrice() {
@@ -279,7 +240,6 @@
             for(let id in carsCache) if(carsCache[id].name === val) document.getElementById('s-price').value = carsCache[id].price;
         }
 
-        // --- IL NUOVO CONTRATTO DI VENDITA PROFESSIONALE ---
         async function finalizeSale() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
@@ -288,104 +248,63 @@
             const price = document.getElementById('s-price').value;
             const agent = document.getElementById('s-agent').value.toUpperCase();
 
-            if(!client || !car || !price) return alert("Compila tutti i campi!");
-
-            // --- DESIGN PDF ---
-            // Sfondo scuro testata
-            doc.setFillColor(15, 15, 15);
-            doc.rect(0, 0, 210, 60, 'F');
+            // CONTRATTO NUOVO (DESIGN SUPERIOR)
+            doc.setFillColor(10, 10, 10);
+            doc.rect(0, 0, 210, 297, 'F');
             
-            // Logo e Titolo
-            doc.setTextColor(255, 46, 77);
-            doc.setFont("helvetica", "bold");
-            doc.setFontSize(28);
-            doc.text("AUTONATION TEXAS", 105, 30, { align: "center" });
-            
-            doc.setTextColor(200, 200, 200);
-            doc.setFontSize(10);
-            doc.setFont("helvetica", "normal");
-            doc.text("OFFICIAL SALES CONTRACT | TEXAS HUB 203", 105, 40, { align: "center" });
-
-            // Linea decorativa
             doc.setDrawColor(255, 46, 77);
-            doc.setLineWidth(1);
-            doc.line(20, 50, 190, 50);
+            doc.setLineWidth(2);
+            doc.rect(10, 10, 190, 277, 'D');
 
-            // Dettagli in stile tabellare/pulito
-            doc.setTextColor(40, 40, 40);
-            doc.setFontSize(12);
-            
-            // Box Grigio Dati
-            doc.setFillColor(245, 245, 245);
-            doc.rect(20, 70, 170, 80, 'F');
-            doc.setDrawColor(230, 230, 230);
-            doc.rect(20, 70, 170, 80, 'D');
-
-            doc.setFont("helvetica", "bold");
-            doc.text("INFORMAZIONI TRANSAZIONE", 25, 80);
-            
-            doc.setFont("helvetica", "normal");
-            doc.setFontSize(11);
-            const startY = 95;
-            const spacing = 12;
-
-            doc.text(`ACQUIRENTE:`, 25, startY);
-            doc.setFont("helvetica", "bold"); doc.text(client, 70, startY); doc.setFont("helvetica", "normal");
-
-            doc.text(`VEICOLO:`, 25, startY + spacing);
-            doc.setFont("helvetica", "bold"); doc.text(car, 70, startY + spacing); doc.setFont("helvetica", "normal");
-
-            doc.text(`IMPORTO:`, 25, startY + (spacing*2));
             doc.setTextColor(255, 46, 77);
-            doc.setFont("helvetica", "bold"); doc.text(`$ ${parseInt(price).toLocaleString()}`, 70, startY + (spacing*2));
-            doc.setTextColor(40, 40, 40); doc.setFont("helvetica", "normal");
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(35);
+            doc.text("AUTONATION TEXAS", 105, 40, { align: "center" });
 
-            doc.text(`DATA:`, 25, startY + (spacing*3));
-            doc.text(new Date().toLocaleDateString(), 70, startY + (spacing*3));
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(10);
+            doc.text("CONTRATTO DI VENDITA UFFICIALE - HUB 203", 105, 50, { align: "center" });
 
-            // Clausole
-            doc.setFontSize(8);
-            doc.setTextColor(100, 100, 100);
-            const terms = "Il presente contratto certifica il passaggio legale di proprieta del veicolo sopra indicato. Il veicolo e stato ispezionato presso AutoNation Texas. La vendita e da considerarsi definitiva.";
-            doc.text(doc.splitTextToSize(terms, 160), 20, 165);
-
-            // Firme
-            doc.setDrawColor(200, 200, 200);
-            doc.line(25, 220, 85, 220); // Firma Cliente
-            doc.line(125, 220, 185, 220); // Firma Agente
+            doc.setFillColor(20, 20, 20);
+            doc.rect(20, 70, 170, 100, 'F');
             
+            doc.setFontSize(14);
+            doc.text(`CLIENTE: ${client}`, 30, 90);
+            doc.text(`MODELLO: ${car}`, 30, 110);
+            doc.text(`PREZZO: $ ${price}`, 30, 130);
+            doc.text(`AGENTE: ${agent}`, 30, 150);
+            doc.text(`DATA: ${new Date().toLocaleDateString()}`, 30, 170);
+
             doc.setFontSize(9);
-            doc.text("FIRMA CLIENTE", 40, 225);
-            doc.text("FIRMA AGENTE ("+agent+")", 135, 225);
+            doc.setTextColor(150, 150, 150);
+            doc.text("Questo documento certifica l'acquisto immediato del veicolo.", 105, 200, { align: "center" });
 
-            // Footer
-            doc.setFontSize(7);
-            doc.text("AUTONATION TEXAS HUB - CIVICO 203 - DOCUMENTO UFFICIALE", 105, 280, { align: "center" });
+            doc.setDrawColor(255, 255, 255);
+            doc.line(30, 250, 90, 250);
+            doc.line(120, 250, 180, 250);
+            doc.text("FIRMA CLIENTE", 45, 260);
+            doc.text("FIRMA AGENTE", 135, 260);
 
-            doc.save(`Contratto_${client}_Texas.pdf`);
+            doc.save(`Fattura_${client}.pdf`);
 
-            // WEBHOOK
-            fetch(HOOK_VENDITE, {
+            fetch(WEBHOOK_FATTURE, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
                     embeds: [{
-                        title: "🔥 NUOVA VENDITA REGISTRATA",
+                        title: "🏎️ NUOVA VENDITA REGISTRATA",
                         color: 16723533,
-                        thumbnail: { url: LOGO_IMG },
                         fields: [
                             { name: "👤 CLIENTE", value: `\`${client}\``, inline: true },
                             { name: "🤵 AGENTE", value: `\`${agent}\``, inline: true },
                             { name: "🚘 VEICOLO", value: `\`${car}\``, inline: false },
-                            { name: "💰 PREZZO", value: `\`$ ${parseInt(price).toLocaleString()}\``, inline: true }
+                            { name: "💰 PREZZO", value: `\`$ ${price}\``, inline: true }
                         ],
-                        footer: { text: "AutoNation Texas | Sales Log" },
-                        timestamp: new Date()
+                        footer: { text: "Management AutoNation Texas" }
                     }]
                 })
             });
-
-            alert("CONTRATTO GENERATO E VENDITA LOGGATA!");
+            alert("VENDITA LOGGATA!");
         }
     </script>
 </body>
