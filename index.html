@@ -35,10 +35,12 @@
         .hero-overlay { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: radial-gradient(circle, transparent, rgba(0,0,0,0.9)); }
         .hero-title { font-family: 'Orbitron'; font-size: 5rem; font-weight: 900; text-shadow: 0 0 30px var(--p); line-height: 1; }
 
-        /* --- SHOWROOM --- */
+        /* --- SHOWROOM FILTERS --- */
         .filter-bar { display: flex; gap: 10px; margin-bottom: 30px; justify-content: center; flex-wrap: wrap; }
         .filter-btn { background: #111; border: 1px solid #333; color: #777; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-family: 'Orbitron'; font-size: 0.7rem; text-transform: uppercase; transition: 0.3s; }
         .filter-btn:hover, .filter-btn.active { border-color: var(--p); color: #fff; background: rgba(255,46,77,0.1); }
+
+        /* --- GRID --- */
         .car-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
         .car-card { background: #0d0d0d; border: 1px solid var(--b); position: relative; border-radius: 10px; overflow: hidden; }
         .car-img { width: 100%; height: 200px; object-fit: cover; }
@@ -53,7 +55,6 @@
         table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.85rem; }
         th { text-align: left; color: var(--p); padding: 10px; border-bottom: 1px solid #222; font-family: 'Orbitron'; font-size: 0.7rem; }
         td { padding: 10px; border-bottom: 1px solid #111; }
-
         .hidden { display: none !important; }
     </style>
 </head>
@@ -128,7 +129,6 @@
                         <tbody id="owner-book-list"></tbody>
                     </table>
                 </div>
-
                 <div class="panel">
                     <div class="panel-title">GESTIONE STOCK AUTO</div>
                     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
@@ -145,8 +145,7 @@
                             <input type="file" id="add-file">
                             <button class="btn-prime" onclick="saveToDB()">CARICA AUTO</button>
                         </div>
-                        <div id="owner-stock-list" style="max-height:400px; overflow-y:auto; background:#000; padding:15px; border-radius:10px;">
-                        </div>
+                        <div id="owner-stock-list" style="max-height:400px; overflow-y:auto; background:#000; padding:15px; border-radius:10px;"></div>
                     </div>
                 </div>
             </div>
@@ -163,7 +162,9 @@
         };
         firebase.initializeApp(config);
         const db = firebase.database();
-        const WEBHOOK = "https://discord.com/api/webhooks/1487566509982355487/dekKyZ-WeiUCUvTpeacX6YSBRssl3e_27xTTgxQwPYdOrUP8bREE1hOIOpsw-_A7rC_W";
+        
+        // IL TUO WEBHOOK AGGIORNATO
+        const WEBHOOK = "https://discord.com/api/webhooks/1487519988712472636/XiAG6FkU6GTuaKmfNmSdcA5PiJ830TJnMGfZkVaF1vWuwGSztTSF_DMogGCTG1IlkS5Q";
 
         let allCars = {}, cacheImg = "", currentFilter = "TUTTO";
 
@@ -181,7 +182,6 @@
             } else { alert("ACCESSO NEGATO"); }
         }
 
-        // ASCOLTO DB
         db.ref('cars').on('value', s => { allCars = s.val() || {}; renderCars(currentFilter); });
         db.ref('appointments').on('value', s => { renderAppointments(s.val()); });
 
@@ -193,24 +193,18 @@
         }
 
         function renderCars(filter = "TUTTO") {
-            const grid = document.getElementById('fleet-grid');
-            const sel = document.getElementById('inv-car');
-            const ownStock = document.getElementById('owner-stock-list');
+            const grid = document.getElementById('fleet-grid'), sel = document.getElementById('inv-car'), ownStock = document.getElementById('owner-stock-list');
             grid.innerHTML = ""; sel.innerHTML = "<option disabled selected>Seleziona Auto...</option>"; ownStock.innerHTML = "<h4>LISTA STOCK</h4>";
-            
             for(let k in allCars) {
                 const c = allCars[k];
-                if(filter === "TUTTO" || c.type === filter) {
-                    grid.innerHTML += `<div class="car-card"><div class="badge">${c.type}</div><img src="${c.img}" class="car-img"><div class="car-info"><h3>${c.name}</h3><div style="color:var(--p); font-weight:900;">$ ${parseInt(c.price).toLocaleString()}</div></div></div>`;
-                }
+                if(filter === "TUTTO" || c.type === filter) grid.innerHTML += `<div class="car-card"><div class="badge">${c.type}</div><img src="${c.img}" class="car-img"><div class="car-info"><h3>${c.name}</h3><div style="color:var(--p); font-weight:900;">$ ${parseInt(c.price).toLocaleString()}</div></div></div>`;
                 sel.innerHTML += `<option value="${c.name}">${c.name}</option>`;
                 ownStock.innerHTML += `<div style="display:flex; justify-content:space-between; padding:8px; border-bottom:1px solid #222;"><span>${c.name}</span><button onclick="deleteCar('${k}')" style="color:red; background:none; border:none; cursor:pointer;">ELIMINA</button></div>`;
             }
         }
 
         function renderAppointments(data) {
-            const list = document.getElementById('owner-book-list');
-            list.innerHTML = "";
+            const list = document.getElementById('owner-book-list'); list.innerHTML = "";
             for(let k in data) {
                 const a = data[k];
                 list.innerHTML += `<tr><td>${a.name}</td><td>${a.discord}</td><td>${a.date}</td><td>${a.time}</td><td><button onclick="deleteApp('${k}')" style="color:var(--p); background:none; border:none; cursor:pointer;">ARCHIVIA</button></td></tr>`;
@@ -219,7 +213,6 @@
 
         function deleteCar(key) { if(confirm("Eliminare auto?")) db.ref('cars').child(key).remove(); }
         function deleteApp(key) { if(confirm("Archiviare appuntamento?")) db.ref('appointments').child(key).remove(); }
-        
         function updatePrice() {
             const n = document.getElementById('inv-car').value;
             for(let k in allCars) if(allCars[k].name === n) document.getElementById('inv-final').value = allCars[k].price;
@@ -234,9 +227,38 @@
             if(n && p && cacheImg) db.ref('cars').push({ name: n, price: p, type: t, img: cacheImg }).then(() => alert("AUTO CARICATA!"));
         }
 
+        // INVIO APPUNTAMENTO CON EMBED DISCORD
         function sendBooking() {
-            const n = document.getElementById('book-name').value;
-            if(n) db.ref('appointments').push({name: n, discord: document.getElementById('book-discord').value, date: document.getElementById('book-date').value, time: document.getElementById('book-time').value}).then(()=> { alert("RICHIESTA INVIATA!"); document.querySelectorAll('#booking input').forEach(i=>i.value=""); });
+            const name = document.getElementById('book-name').value;
+            const discord = document.getElementById('book-discord').value;
+            const date = document.getElementById('book-date').value;
+            const time = document.getElementById('book-time').value;
+
+            if(!name || !date || !time) return alert("Compila tutti i campi!");
+
+            db.ref('appointments').push({name, discord, date, time}).then(()=> {
+                fetch(WEBHOOK, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        content: "<@&1465030207483154554>", // Ping ruolo staff
+                        embeds: [{
+                            title: "📅 NUOVA RICHIESTA APPUNTAMENTO",
+                            color: 16723533,
+                            fields: [
+                                { name: "👤 Cliente", value: name, inline: true },
+                                { name: "🆔 Discord", value: discord || "Non fornito", inline: true },
+                                { name: "📅 Data", value: date, inline: true },
+                                { name: "⏰ Ora", value: time, inline: true }
+                            ],
+                            footer: { text: "Sistema Prenotazioni AutoNation" },
+                            timestamp: new Date()
+                        }]
+                    })
+                });
+                alert("RICHIESTA INVIATA!");
+                document.querySelectorAll('#booking input').forEach(i=>i.value="");
+            });
         }
 
         async function makeInvoice() {
@@ -260,7 +282,16 @@
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
                     content: "<@&1465030207483154554>",
-                    embeds: [{ title: "📈 VENDITA REGISTRATA", color: 16723533, fields: [{ name: "Cliente", value: client, inline: true }, { name: "Auto", value: car, inline: true }, { name: "Prezzo", value: `$ ${price}`, inline: true }, { name: "Agente", value: agent, inline: true }] }]
+                    embeds: [{
+                        title: "📈 VENDITA CONCLUSA",
+                        color: 3066993,
+                        fields: [
+                            { name: "Cliente", value: client, inline: true },
+                            { name: "Auto", value: car, inline: true },
+                            { name: "Prezzo", value: `$ ${price}`, inline: true },
+                            { name: "Agente", value: agent, inline: true }
+                        ]
+                    }]
                 })
             });
             doc.save(`Contratto_${client}.pdf`);
