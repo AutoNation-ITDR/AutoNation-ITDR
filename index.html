@@ -691,7 +691,7 @@
               </div>
               <div class="form-group">
                 <label>Note Contratto</label>
-                <textarea id="s-notes" rows="2"></textarea>
+                <textarea id="s-notes" rows="2" placeholder="Dettagli aggiuntivi, clausole, ecc."></textarea>
               </div>
             </div>
           </div>
@@ -784,7 +784,7 @@
     const db = firebase.database();
 
     // WEBHOOKS
-    const WEBHOOK_BOOKING = "https://discord.com/api/webhooks/1487519988712472636/XiAG6FkU6GTuaKmfNmSdcA5PiJ830TJnMGfZkVaF1vWuwGSztTSF_DMogGCTG1IlkS5Q";
+    const WEBHOOK_APPOINTMENT_ACCEPT = "https://discord.com/api/webhooks/1487519988712472636/XiAG6FkU6GTuaKmfNmSdcA5PiJ830TJnMGfZkVaF1vWuwGSztTSF_DMogGCTG1IlkS5Q";
     const WEBHOOK_SALES = "https://discord.com/api/webhooks/1487566509982355487/dekKyZ-WeiUCUvTpeacX6YSBRssl3e_27xTTgxQwPYdOrUP8bREE1hOIOpsw-_A7rC_W";
     const LOGO_IMG = "https://res.cloudinary.com/dtunh07qw/image/upload/v1774726227/prdrllnucdla95lhztwi.png";
 
@@ -902,15 +902,18 @@
         const a = data[id];
         tbody.innerHTML += `
           <tr>
-            <td><small>${new Date().toLocaleDateString()}</small></td>
+            <td><small>${new Date(a.createdAt || Date.now()).toLocaleDateString()}</small></td>
             <td><strong>${a.name}</strong></td>
             <td>${a.discord}</td>
             <td>${a.date}</td>
             <td>${a.time}</td>
             <td><span class="status-badge status-pending">In Attesa</span></td>
-            <td>
-              <button class="del-btn" style="color:cyan;" onclick="archiveApp('${id}')">
-                <i class="fa-solid fa-check-double"></i>
+            <td style="display:flex; gap:8px;">
+              <button class="del-btn" style="color:lime;" onclick="acceptApp('${id}')">
+                <i class="fa-solid fa-check"></i>
+              </button>
+              <button class="del-btn" onclick="archiveApp('${id}')">
+                <i class="fa-solid fa-xmark"></i>
               </button>
             </td>
           </tr>
@@ -960,12 +963,11 @@
     }
 
     function archiveApp(id) {
+      if (!confirm("Archiviare / cancellare questa richiesta?")) return;
       db.ref('appointments').child(id).remove();
     }
 
-    /* --- WEBHOOKS & PDF --- */
-
-    // PRENOTAZIONE CON PING DISCORD
+    /* --- BOOKING: SOLO LOG IN DB, ACCETTAZIONE DA OWNER --- */
     function submitBooking() {
       const name = document.getElementById('b-name').value;
       const discord = document.getElementById('b-discord').value;
@@ -975,42 +977,65 @@
 
       if (!name || !date || !time) return alert("Dati mancanti!");
 
-      // Ping reale
-      let ping = discord;
-      if (!isNaN(discord) && discord.length > 15) ping = `<@${discord}>`;
-
-      db.ref('appointments').push({ name, discord, date, time });
-
-      fetch(WEBHOOK_BOOKING, {
-        method: 'POST',
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          content: `📅 **NUOVA RICHIESTA APPUNTAMENTO** | ${ping}`,
-          embeds: [{
-            title: "📌 ACCETTAZIONE PRENOTAZIONE - AUTONATION TEXAS",
-            description:
-              `Ciao ${ping}, abbiamo ricevuto la tua richiesta presso **AutoNation Texas**.\n\n` +
-              `📍 **CIVICO:** 203\n` +
-              `⚠️ Presentati puntuale all'orario indicato per non perdere la priorità.`,
-            color: 16711680,
-            thumbnail: { url: LOGO_IMG },
-            fields: [
-              { name: "👤 Cliente", value: name, inline: true },
-              { name: "📆 Data", value: date, inline: true },
-              { name: "⏰ Ora", value: time, inline: true },
-              { name: "📝 Note", value: notes, inline: false }
-            ],
-            footer: { text: "Management AutoNation Texas" },
-            timestamp: new Date()
-          }]
-        })
+      db.ref('appointments').push({
+        name,
+        discord,
+        date,
+        time,
+        notes,
+        createdAt: Date.now()
+      }).then(() => {
+        alert("Richiesta registrata! Un agente la prenderà in carico.");
+        document.getElementById('b-name').value = "";
+        document.getElementById('b-discord').value = "";
+        document.getElementById('b-date').value = "";
+        document.getElementById('b-time').value = "";
+        document.getElementById('b-notes').value = "";
       });
-
-      alert("Richiesta inviata! Controlla Discord.");
-      location.reload();
     }
 
-    // VENDITA + PDF + LOG FATTURA
+    /* --- OWNER: ACCETTAZIONE APPUNTAMENTO + WEBHOOK CON PING --- */
+    function acceptApp(id) {
+      db.ref('appointments').child(id).once('value').then(snap => {
+        const a = snap.val();
+        if (!a) return;
+
+        let ping = a.discord;
+        if (!isNaN(a.discord) && String(a.discord).length > 15) {
+          ping = `<@${a.discord}>`;
+        }
+
+        fetch(WEBHOOK_APPOINTMENT_ACCEPT, {
+          method: 'POST',
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            content: `📅 **PRENOTAZIONE ACCETTATA** | ${ping}`,
+            embeds: [{
+              title: "📌 ACCETTAZIONE PRENOTAZIONE - AUTONATION TEXAS",
+              description:
+                `Ciao ${ping}, la tua richiesta è stata **ACCETTATA** da AutoNation Texas.\n\n` +
+                `📍 **CIVICO:** 203\n` +
+                `⚠️ Presentati puntuale all'orario indicato per non perdere la priorità.`,
+              color: 65280,
+              thumbnail: { url: LOGO_IMG },
+              fields: [
+                { name: "👤 Cliente", value: a.name, inline: true },
+                { name: "📆 Data", value: a.date, inline: true },
+                { name: "⏰ Ora", value: a.time, inline: true },
+                { name: "📝 Note", value: a.notes || "Nessuna nota.", inline: false }
+              ],
+              footer: { text: "Management AutoNation Texas" },
+              timestamp: new Date()
+            }]
+          })
+        });
+
+        db.ref('appointments').child(id).remove();
+        alert("Appuntamento accettato e notificato su Discord.");
+      });
+    }
+
+    /* --- VENDITA + PDF MIGLIORATO + LOG FATTURA --- */
     async function finalizeSale() {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
@@ -1018,37 +1043,81 @@
       const client = document.getElementById('s-client').value;
       const car = document.getElementById('s-car').value;
       const price = document.getElementById('s-price').value;
-      const agent = document.getElementById('s-agent').value;
+      const agent = document.getElementById('s-agent').value || "N/D";
+      const method = document.getElementById('s-method').value;
+      const notes = document.getElementById('s-notes').value || "Nessuna nota.";
 
-      if (!client || !car) return alert("Seleziona veicolo e cliente!");
+      if (!client || !car || !price) return alert("Compila almeno cliente, veicolo e prezzo!");
 
-      // PDF DESIGN
+      // SFONDO
       doc.setFillColor(0, 0, 0);
       doc.rect(0, 0, 210, 297, 'F');
 
+      // HEADER
       doc.setTextColor(255, 46, 77);
-      doc.setFontSize(30);
-      doc.text("AUTONATION TEXAS", 20, 40);
+      doc.setFontSize(26);
+      doc.setFont("helvetica", "bold");
+      doc.text("AUTONATION TEXAS", 20, 30);
 
       doc.setDrawColor(255, 46, 77);
-      doc.line(20, 45, 190, 45);
+      doc.line(20, 34, 190, 34);
 
       doc.setTextColor(255, 255, 255);
-      doc.setFontSize(14);
-      doc.text("CONTRATTO DI VENDITA UFFICIALE", 20, 60);
-
       doc.setFontSize(10);
-      doc.text(`CLIENTE: ${client.toUpperCase()}`, 20, 80);
-      doc.text(`MODELLO: ${car.toUpperCase()}`, 20, 90);
-      doc.text(`PREZZO: $ ${parseInt(price).toLocaleString()}`, 20, 100);
-      doc.text(`AGENTE: ${agent.toUpperCase()}`, 20, 110);
-      doc.text(`DATA: ${new Date().toLocaleDateString()}`, 20, 120);
+      doc.setFont("helvetica", "normal");
+      doc.text("CIVICO 203 - LOS SANTOS | PREMIUM MOTORSPORT EXPERIENCE", 20, 40);
 
-      doc.text("__________________________", 20, 160);
-      doc.text("FIRMA CLIENTE", 20, 165);
+      // TITOLO CONTRATTO
+      doc.setFontSize(14);
+      doc.setFont("helvetica", "bold");
+      doc.text("CONTRATTO DI VENDITA UFFICIALE", 20, 55);
 
-      doc.text("__________________________", 130, 160);
-      doc.text("FIRMA AGENTE", 130, 165);
+      // BOX DETTAGLI
+      doc.setDrawColor(255, 46, 77);
+      doc.setLineWidth(0.4);
+      doc.rect(18, 60, 174, 60);
+
+      doc.setFontSize(11);
+      doc.setFont("helvetica", "normal");
+      let y = 70;
+      doc.text(`CLIENTE: ${client.toUpperCase()}`, 22, y); y += 8;
+      doc.text(`MODELLO: ${car.toUpperCase()}`, 22, y); y += 8;
+      doc.text(`PREZZO FINALE: $ ${parseInt(price).toLocaleString()}`, 22, y); y += 8;
+      doc.text(`METODO DI PAGAMENTO: ${method.toUpperCase()}`, 22, y); y += 8;
+      doc.text(`AGENTE INCARICATO: ${agent.toUpperCase()}`, 22, y); y += 8;
+      doc.text(`DATA CONTRATTO: ${new Date().toLocaleDateString()}`, 22, y); y += 8;
+
+      // NOTE
+      doc.setFont("helvetica", "bold");
+      doc.text("NOTE CONTRATTUALI:", 22, y + 4);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(9);
+      doc.text(doc.splitTextToSize(notes, 168), 22, y + 10);
+
+      // CLAUSOLE (TESTO RUOLOPLAY)
+      let cy = 140;
+      doc.setFontSize(10);
+      doc.setFont("helvetica", "bold");
+      doc.text("CLAUSOLE GENERALI:", 20, cy); cy += 6;
+      doc.setFont("helvetica", "normal");
+      const clausole = [
+        "1. Il veicolo viene ceduto nello stato in cui si trova, salvo diversi accordi scritti.",
+        "2. Il pagamento deve essere completato secondo il metodo concordato con l'agente incaricato.",
+        "3. AutoNation Texas non è responsabile di utilizzi illeciti del mezzo dopo la consegna.",
+        "4. Firmando il presente contratto, il cliente dichiara di aver visionato e accettato tutte le condizioni."
+      ];
+      clausole.forEach(c => {
+        doc.text(doc.splitTextToSize(c, 170), 20, cy);
+        cy += 10;
+      });
+
+      // FIRME
+      doc.setFontSize(10);
+      doc.text("__________________________", 20, 250);
+      doc.text("FIRMA CLIENTE", 20, 255);
+
+      doc.text("__________________________", 130, 250);
+      doc.text("FIRMA AGENTE", 130, 255);
 
       doc.save(`Contratto_Texas_${client}.pdf`);
 
@@ -1064,9 +1133,11 @@
             description: "Una nuova vendita è stata registrata nel sistema AutoNation Texas.",
             fields: [
               { name: "👤 Acquirente", value: client, inline: true },
-              { name: "🧑‍💼 Agente", value: agent || "N/D", inline: true },
+              { name: "🧑‍💼 Agente", value: agent, inline: true },
               { name: "🚗 Veicolo", value: car, inline: false },
-              { name: "💵 Prezzo", value: `$ ${parseInt(price).toLocaleString()}`, inline: true }
+              { name: "💵 Prezzo", value: `$ ${parseInt(price).toLocaleString()}`, inline: true },
+              { name: "💳 Metodo di Pagamento", value: method, inline: true },
+              { name: "📝 Note Contratto", value: notes, inline: false }
             ],
             footer: { text: "Registro Vendite Texas HQ" },
             timestamp: new Date()
@@ -1074,7 +1145,7 @@
         })
       });
 
-      alert("VENDITA COMPLETATA!");
+      alert("VENDITA COMPLETATA! PDF generato e log inviato su Discord.");
     }
   </script>
 </body>
