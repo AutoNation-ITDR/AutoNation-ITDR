@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoNation Austin | Elite Management v3.2</title>
+    <title>AutoNation Austin | Elite Management System</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -43,15 +43,26 @@
         .page.active { display: block; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* UI COMPONENTS */
-        .panel { background: var(--surface); padding: 30px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.05); }
+        /* PANELS */
+        .panel { background: var(--surface); padding: 30px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; }
         .secure-gate { max-width: 400px; margin: 80px auto; text-align: center; background: var(--surface); padding: 50px; border-radius: 35px; border: 1px solid var(--primary); }
+        
         input, select { width: 100%; padding: 12px; border-radius: 10px; background: #000; border: 1px solid #333; color: #fff; margin-bottom: 12px; font-family: 'Outfit'; }
         label { display: block; font-size: 0.75rem; color: var(--primary); margin-bottom: 5px; font-weight: 800; text-transform: uppercase; }
+        
         .btn-prime { background: var(--primary); color: white; border: none; padding: 15px; border-radius: 10px; width: 100%; font-weight: 900; cursor: pointer; text-transform: uppercase; }
         .logout-btn { background: rgba(255,255,255,0.05); color: #ff4444; border: 1px solid #ff4444; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-weight: 800; float: right; font-size: 0.7rem; }
 
+        .scroll-v { max-height: 350px; overflow-y: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+        th { padding: 10px; text-align: left; color: var(--primary); border-bottom: 1px solid #333; }
+        td { padding: 10px; border-bottom: 1px solid #1a1a1a; }
+        
+        .edit-input { background: #1a1a1a; border: 1px solid #333; color: white; padding: 4px; border-radius: 4px; width: 90%; }
         .hidden { display: none !important; }
+        
+        .drop-zone { border: 2px dashed #444; border-radius: 15px; padding: 20px; text-align: center; color: var(--text-dim); cursor: pointer; margin-bottom: 15px; }
+        .preview-thumb { width: 100%; height: 80px; object-fit: cover; border-radius: 8px; margin-top: 10px; display: none; }
     </style>
 </head>
 <body>
@@ -66,45 +77,98 @@
     <main>
         <div id="home" class="page active">
             <div class="panel">
-                <h1>Benvenuti in AutoNation Austin</h1>
-                <p>Gestione Vendite e Contratti Corporate Hub Texas.</p>
+                <h1 style="font-family:'Montserrat'; font-size: 3rem; font-weight: 900;">PRESTIGE &<br><span style="color:var(--primary)">PERFORMANCE.</span></h1>
+                <p style="margin-top:20px; color:var(--text-dim);">Benvenuti nell'hub esclusivo di <strong>AutoNation Austin Luxury Motors</strong>. Gestione ufficiale contratti e stock per la divisione Texas[cite: 3].</p>
+            </div>
+            <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:20px;">
+                <div class="panel" style="text-align:center;"><h2 id="st-cars" style="font-size:2.5rem; color:var(--primary)">0</h2><p>VEICOLI IN STOCK</p></div>
+                <div class="panel" style="text-align:center;"><h2 id="st-sales" style="font-size:2.5rem; color:var(--primary)">0</h2><p>VENDITE TOTALI</p></div>
             </div>
         </div>
 
         <div id="sales" class="page">
             <div id="sales-gate" class="secure-gate">
+                <i class="fa-solid fa-id-card-clip" style="font-size: 3rem; color: var(--primary); margin-bottom: 20px;"></i>
                 <h2>Staff Login</h2>
-                <input type="password" id="pw-sales" placeholder="PIN">
+                <input type="password" id="pw-sales" placeholder="PIN Personale">
                 <button class="btn-prime" onclick="verify('sales')">Sblocca</button>
             </div>
             <div id="sales-content" class="hidden">
-                <button class="logout-btn" onclick="logout('sales')">LOGOUT</button>
-                <div class="panel" style="max-width: 500px; margin: 20px auto;">
+                <button class="logout-btn" onclick="logout('sales')">ESCI</button>
+                <div class="panel" style="max-width: 550px; margin: 20px auto;">
                     <h3>Emetti Sales Contract</h3>
-                    <label>Seleziona Veicolo</label>
+                    <label>Modello Veicolo</label>
                     <select id="inv-car" onchange="autoSetPrice()"></select>
                     <label>Nome Cliente</label>
-                    <input type="text" id="inv-name" placeholder="Es: MARK">
+                    <input type="text" id="inv-name" placeholder="Es: MARK [cite: 4]">
                     <label>Prezzo Finale ($)</label>
                     <input type="number" id="inv-final" readonly style="background: #111; color: #aaa;">
                     <label>Firma Agente</label>
-                    <input type="text" id="inv-sign" placeholder="Il tuo nome">
-                    <button class="btn-prime" onclick="makeInvoice()">Genera Contratto PDF</button>
+                    <input type="text" id="inv-sign" placeholder="Firma Agente [cite: 11]">
+                    <button class="btn-prime" onclick="makeInvoice()">Genera PDF Ufficiale</button>
                 </div>
             </div>
         </div>
 
         <div id="owners" class="page">
             <div id="owners-gate" class="secure-gate">
-                <h2>Owner Master Login</h2>
+                <i class="fa-solid fa-user-shield" style="font-size: 3rem; color: var(--primary); margin-bottom: 20px;"></i>
+                <h2>Owner Master Access</h2>
                 <input type="password" id="pw-owners" placeholder="Master Key">
-                <button class="btn-prime" onclick="verify('owners')">Accedi</button>
+                <button class="btn-prime" onclick="verify('owners')">Entra</button>
             </div>
             <div id="owners-content" class="hidden">
-                <button class="logout-btn" onclick="logout('owners')">ESCI</button>
-                <div class="panel">
-                    <h3>Gestione Stock Veicoli</h3>
-                    <p>Modulo per aggiungere/eliminare veicoli attivo nel sistema.</p>
+                <button class="logout-btn" onclick="logout('owners')">LOCK</button>
+                <div style="display:grid; grid-template-columns: 1fr 1.5fr; gap:20px; margin-top:40px;">
+                    <div class="panel">
+                        <h3>Aggiungi allo Stock</h3>
+                        <label>Nome Modello</label>
+                        <input id="add-n" placeholder="es. Chevlon Captain - 1992 [cite: 6]">
+                        <label>Prezzo ($)</label>
+                        <input id="add-p" type="number">
+                        
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                            <div>
+                                <label>Type</label>
+                                <select id="add-type">
+                                    <option value="Regular">Regular</option>
+                                    <option value="Prestige">Prestige</option>
+                                    <option value="Electric">Electric</option>
+                                    <option value="Classic">Classic</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label>Class</label>
+                                <select id="add-class">
+                                    <option value="Car">Car</option>
+                                    <option value="Truck">Truck</option>
+                                    <option value="SUV">SUV</option>
+                                    <option value="Industrial">Industrial</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="drop-zone" class="drop-zone">Carica Immagine<input type="file" id="add-file" hidden accept="image/*"><img id="preview" class="preview-thumb"></div>
+                        <button class="btn-prime" onclick="saveToDB()">Pubblica Stock</button>
+
+                        <h3 style="margin-top:30px;">Gestione Stock</h3>
+                        <div class="scroll-v" style="max-height: 200px;">
+                            <table>
+                                <thead><tr><th>MODELLO</th><th>AZIONI</th></tr></thead>
+                                <tbody id="stock-tbody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="panel">
+                        <h3>Monitoraggio & Modifica Fatture</h3>
+                        <div class="scroll-v">
+                            <table>
+                                <thead><tr><th>CLIENTE</th><th>AUTO</th><th>PREZZO</th><th>AZIONI</th></tr></thead>
+                                <tbody id="logs-tbody"></tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -120,7 +184,7 @@
         };
         firebase.initializeApp(config);
         const db = firebase.database();
-        let allCars = {};
+        let allCars = {}, cacheImg = "";
         const KEYS = { sales: "1234", owners: "OWNER2026" };
 
         function navTo(id) {
@@ -132,98 +196,136 @@
             if(document.getElementById('pw-' + type).value === KEYS[type]) {
                 document.getElementById(type + '-gate').style.display = 'none';
                 document.getElementById(type + '-content').classList.remove('hidden');
-            } else { alert("PIN Errato"); }
+            } else { alert("Accesso Negato"); }
         }
 
         function logout(type) {
             document.getElementById(type + '-content').classList.add('hidden');
             document.getElementById(type + '-gate').style.display = 'block';
+            document.getElementById('pw-' + type).value = "";
         }
 
-        // CARICAMENTO AUTOMATICO PREZZO
         function autoSetPrice() {
             const name = document.getElementById('inv-car').value;
-            for(let k in allCars) {
-                if(allCars[k].name === name) {
-                    document.getElementById('inv-final').value = allCars[k].price;
-                    break;
-                }
+            for(let k in allCars) if(allCars[k].name === name) document.getElementById('inv-final').value = allCars[k].price;
+        }
+
+        // FILE HANDLING
+        const dz = document.getElementById('drop-zone');
+        const fi = document.getElementById('add-file');
+        dz.onclick = () => fi.click();
+        dz.ondragover = (e) => e.preventDefault();
+        dz.ondrop = (e) => { e.preventDefault(); handleFile(e.dataTransfer.files[0]); };
+        fi.onchange = (e) => handleFile(e.target.files[0]);
+
+        function handleFile(file) {
+            if (file) {
+                const r = new FileReader();
+                r.onload = (e) => { cacheImg = e.target.result; document.getElementById('preview').src = cacheImg; document.getElementById('preview').style.display = 'block'; };
+                r.readAsDataURL(file);
             }
         }
 
+        // SYNC DATABASE
         db.ref('cars').on('value', s => {
-            allCars = s.val() || {};
-            const sel = document.getElementById('inv-car');
-            sel.innerHTML = "<option disabled selected>Scegli auto...</option>";
-            for(let k in allCars) sel.innerHTML += `<option value="${allCars[k].name}">${allCars[k].name}</option>`;
+            allCars = s.val() || {}; 
+            document.getElementById('st-cars').innerText = Object.keys(allCars).length;
+            const sel = document.getElementById('inv-car'); sel.innerHTML = "<option disabled selected>Scegli...</option>";
+            const stb = document.getElementById('stock-tbody'); stb.innerHTML = "";
+            for(let k in allCars) {
+                sel.innerHTML += `<option value="${allCars[k].name}">${allCars[k].name}</option>`;
+                stb.innerHTML += `<tr><td>${allCars[k].name}</td><td><button onclick="delCar('${k}')" style="color:red; background:none; border:none; cursor:pointer;">ELIMINA (X)</button></td></tr>`;
+            }
         });
 
-        // GENERAZIONE PDF UFFICIALE (FEDELE AL TUO MODELLO)
+        db.ref('sales_logs').on('value', s => {
+            const data = s.val() || {};
+            document.getElementById('st-sales').innerText = Object.keys(data).length;
+            const tb = document.getElementById('logs-tbody'); tb.innerHTML = "";
+            for(let k in data) {
+                tb.innerHTML += `<tr>
+                    <td><input type="text" class="edit-input" value="${data[k].client}" id="en-${k}"></td>
+                    <td>${data[k].car}</td>
+                    <td><input type="number" class="edit-input" value="${data[k].price}" id="ep-${k}"></td>
+                    <td>
+                        <button onclick="saveLog('${k}')" style="color:#2ecc71; background:none; border:none; cursor:pointer;"><i class="fa-solid fa-floppy-disk"></i></button>
+                        <button onclick="delLog('${k}')" style="color:#e74c3c; background:none; border:none; cursor:pointer; margin-left:10px;"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                </tr>`;
+            }
+        });
+
+        // ACTIONS
+        function saveToDB() {
+            const n = document.getElementById('add-n').value, p = document.getElementById('add-p').value;
+            const ty = document.getElementById('add-type').value, cl = document.getElementById('add-class').value;
+            if(n && p && cacheImg) {
+                db.ref('cars').push({ name: n, price: parseInt(p), type: ty, class: cl, img: cacheImg }).then(() => { alert("Pubblicato!"); location.reload(); });
+            }
+        }
+
+        function delCar(k) { if(confirm("Eliminare dallo stock?")) db.ref('cars/'+k).remove(); }
+        function saveLog(k) { db.ref('sales_logs/'+k).update({ client: document.getElementById('en-'+k).value, price: document.getElementById('ep-'+k).value }); alert("Log Salvato"); }
+        function delLog(k) { if(confirm("Eliminare log?")) db.ref('sales_logs/'+k).remove(); }
+
+        // PDF GENERATION (PROFESSIONAL LAYOUT) [cite: 1, 2, 3]
         async function makeInvoice() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-            
             const client = document.getElementById('inv-name').value || "CLIENTE";
             const car = document.getElementById('inv-car').value;
             const price = document.getElementById('inv-final').value;
             const agent = document.getElementById('inv-sign').value || "AGENTE";
-            const protocollo = "TEX-" + Math.floor(100 + Math.random() * 900);
+            const protocollo = "TEX-" + Math.floor(100 + Math.random() * 900)[cite: 7];
 
-            // LOGO (Base64 del logo AutoNation Texas)
-            const logoUrl = "https://res.cloudinary.com/dn0k6htsv/image/upload/v1774647697/zcbubagqn4hpxmlzwwan.png";
-            
-            // Header
+            // Header - Auto Nation [cite: 1]
             doc.setFont("helvetica", "bold");
-            doc.setFontSize(22);
-            doc.text("Auto Nation", 105, 40, null, null, "center");
+            doc.setFontSize(24);
+            doc.text("Auto Nation", 105, 40, null, null, "center")[cite: 1];
             
             doc.setFontSize(18);
-            doc.text("SALES CONTRACT", 105, 55, null, null, "center");
+            doc.text("SALES CONTRACT", 105, 55, null, null, "center")[cite: 2];
 
-            // Sezione Concessionario e Cliente
+            // Concessionario [cite: 3]
             doc.setFontSize(10);
-            doc.text("CONCESSIONARIO:", 20, 75);
+            doc.text("CONCESSIONARIO:", 20, 75)[cite: 3];
             doc.setFont("helvetica", "normal");
-            doc.text("AutoNation Austin Luxury Motors", 20, 80);
-            doc.text("Austin, Texas - Corporate Hub", 20, 85);
+            doc.text("AutoNation Austin Luxury Motors", 20, 81)[cite: 3];
+            doc.text("Austin, Texas - Corporate Hub", 20, 87)[cite: 3];
 
+            // Cliente [cite: 4]
             doc.setFont("helvetica", "bold");
-            doc.text("CLIENTE:", 20, 100);
+            doc.text("CLIENTE:", 20, 105)[cite: 4];
             doc.setFont("helvetica", "normal");
-            doc.text(client.toUpperCase(), 20, 105);
+            doc.text(client.toUpperCase(), 20, 111)[cite: 4];
 
-            // Dettagli Veicolo
+            // Dettagli Veicolo [cite: 5]
             doc.setFont("helvetica", "bold");
-            doc.text("DETTAGLI VEICOLO", 20, 120);
+            doc.text("DETTAGLI VEICOLO", 20, 130)[cite: 5];
             doc.setFont("helvetica", "normal");
-            doc.text(`Modello: ${car}`, 20, 128);
-            doc.text(`Protocollo: ${protocollo}`, 20, 134);
-            doc.text(`Data Vendita: ${new Date().toLocaleDateString()}`, 20, 140);
+            doc.text(`Modello: ${car}`, 20, 138)[cite: 6];
+            doc.text(`Protocollo: ${protocollo}`, 20, 144)[cite: 7];
+            doc.text(`Data Vendita: ${new Date().toLocaleDateString()}`, 20, 150)[cite: 8];
 
-            // Totale
+            // Totale [cite: 9]
             doc.setFont("helvetica", "bold");
             doc.setFontSize(14);
-            doc.text(`TOTALE: $ ${parseInt(price).toLocaleString()}`, 20, 155);
+            doc.text(`TOTALE: $ ${parseInt(price).toLocaleString()}`, 20, 165)[cite: 9];
 
-            // Note Legali e Garanzia
+            // Garanzia & Note [cite: 10]
             doc.setFont("helvetica", "normal");
             doc.setFontSize(9);
-            const textMsg = "Il presente documento certifica il passaggio di proprietà. Il veicolo viene venduto con garanzia Austin Elite di 12 mesi sulle componenti meccaniche.";
-            const splitText = doc.splitTextToSize(textMsg, 170);
-            doc.text(splitText, 20, 170);
+            const note = "Il presente documento certifica il passaggio di proprietà. Il veicolo viene venduto con garanzia Austin Elite di 12 mesi sulle componenti meccaniche."[cite: 10];
+            doc.text(doc.splitTextToSize(note, 170), 20, 180)[cite: 10];
 
-            // Firma
+            // Firma Agente [cite: 11]
             doc.setFont("helvetica", "bold");
             doc.setFontSize(10);
-            doc.text("FIRMA AGENTE", 150, 200);
+            doc.text("FIRMA AGENTE", 150, 210)[cite: 11];
             doc.setFont("helvetica", "normal");
-            doc.text(agent.toUpperCase(), 150, 208);
+            doc.text(agent.toUpperCase(), 150, 218)[cite: 12];
 
-            // Footer (Logo Circolare Simulato)
-            doc.setFontSize(8);
-            doc.text("AUTONATION TEXAS VEHICLE DIVISION", 105, 280, null, null, "center");
-
-            // Salvataggio Log e Download
+            // Log & Save
             db.ref('sales_logs').push({ client, car, price, date: new Date().toLocaleString() });
             doc.save(`Fattura_${protocollo}.pdf`);
         }
