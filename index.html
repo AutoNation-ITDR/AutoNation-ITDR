@@ -783,34 +783,44 @@
     firebase.initializeApp(fbConfig);
     const db = firebase.database();
 
-    // WEBHOOKS
-    const WEBHOOK_APPOINTMENT = "https://discord.com/api/webhooks/1487519988712472636/XiAG6FKU6GTuaKmfNmSdcA5PiJ830TJnMGfZkVaF1vWuwGSztTSF_DMogGCTG1IlkS5Q";
+    // WEBHOOKS - AGGIORNA CON I TUOI URL NUOVI
+    const WEBHOOK_APPOINTMENT_ACCEPTED = "https://discord.com/api/webhooks/1487596392368312320/UgTtLAon7TPg-GMQoIyEzO5OLdiPyXYtLZxwMlTPACJAa--tlb3oGeBHtVJDFyWsurMU";
+    const WEBHOOK_APPOINTMENT_REJECTED = "https://discord.com/api/webhooks/1487596622547386539/rgVPeHFc-MxpKTeWE_CNt82APm0frddrlg6KBo7-932YW54xON2vM3OLLD1KKWSKySgu";
     const WEBHOOK_SALES = "https://discord.com/api/webhooks/1487566509982355487/dekKyZ-WeiUCUvTpeacX6YSBRssl3e_27xTTgxQwPYdOrUP8bREE1hOIOpsw-_A7rC_W";
     const LOGO_IMG = "https://res.cloudinary.com/dtunh07qw/image/upload/v1774726227/prdrllnucdla95lhztwi.png";
 
     /* --- WEBHOOK HELPER --- */
     function sendWebhook(url, payload) {
+      console.log('🚀 Sending webhook to:', url);
+      console.log('📦 Payload:', payload);
+      
       return fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       }).then(res => {
-        console.log(`Webhook response: ${res.status}`);
+        console.log(`📡 Webhook response status: ${res.status} ${res.statusText}`);
+        
         if (res.status === 204 || res.status === 200) {
           console.log('✅ Webhook sent successfully');
           return true;
         } else if (res.status === 401 || res.status === 404) {
-          console.error('❌ Webhook invalid or expired. Check URL:', url);
+          console.error('❌ Webhook invalid (401) or not found (404). URL may be expired or wrong.');
+          console.error('URL:', url);
           return false;
         } else if (res.status === 429) {
-          console.warn('⚠️ Rate limited. Wait before next webhook.');
+          console.warn('⚠️ Discord rate limited. Wait a moment before sending again.');
           return false;
         } else {
-          console.error('❌ Webhook error:', res.status, res.statusText);
-          return false;
+          console.error(`❌ Webhook returned error ${res.status}: ${res.statusText}`);
+          return res.text().then(text => {
+            console.error('Response body:', text);
+            return false;
+          });
         }
       }).catch(err => {
-        console.error('❌ Network error sending webhook:', err);
+        console.error('❌ Network/CORS error:', err.message);
+        console.error('Full error:', err);
         return false;
       });
     }
@@ -1028,7 +1038,7 @@
           ping = `<@${a.discord}>`;
         }
 
-        sendWebhook(WEBHOOK_APPOINTMENT, {
+        sendWebhook(WEBHOOK_APPOINTMENT_ACCEPTED, {
           content: `📅 **PRENOTAZIONE ACCETTATA** | ${ping}`,
           embeds: [{
             title: "📌 Appuntamento Confermato",
@@ -1066,7 +1076,7 @@
           ping = `<@${a.discord}>`;
         }
 
-        sendWebhook(WEBHOOK_APPOINTMENT, {
+        sendWebhook(WEBHOOK_APPOINTMENT_REJECTED, {
           content: `❌ **PRENOTAZIONE RIFIUTATA** | ${ping}`,
           embeds: [{
             title: "⛔ Appuntamento Non Accettato",
