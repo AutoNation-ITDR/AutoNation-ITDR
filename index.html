@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoNation Austin | Elite Operations v18.0</title>
+    <title>AutoNation Austin | Elite Operations v19.0</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -17,75 +17,63 @@
             --primary: #ff2e4d;
             --bg: #000000;
             --surface: #0a0a0a;
-            --surface-light: #121212;
             --border: #1a1a1a;
             --text: #ffffff;
             --text-dim: #777;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
         body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; display: flex; height: 100vh; overflow: hidden; }
 
         /* --- SIDEBAR --- */
-        nav { width: 280px; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 40px 20px; z-index: 100; }
+        nav { width: 260px; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 40px 20px; z-index: 100; }
         .logo-container img { width: 100%; margin-bottom: 40px; }
         .nav-link { 
-            display: flex; align-items: center; padding: 16px 20px; color: var(--text-dim); 
+            display: flex; align-items: center; padding: 15px; color: var(--text-dim); 
             text-decoration: none; border-radius: 12px; margin-bottom: 8px; font-weight: 700; 
-            transition: var(--transition); cursor: pointer; border: none; background: none; 
-            width: 100%; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; text-align: left;
+            cursor: pointer; border: none; background: none; width: 100%; font-size: 0.8rem; text-align: left;
         }
-        .nav-link i { margin-right: 15px; font-size: 1.1rem; width: 20px; text-align: center; }
-        .nav-link:hover, .nav-link.active { color: white; background: var(--surface-light); }
-        .nav-link.active { color: var(--primary); border-left: 4px solid var(--primary); border-radius: 0 12px 12px 0; }
+        .nav-link.active { color: var(--primary); background: #111; border-left: 4px solid var(--primary); }
 
         /* --- MAIN --- */
-        main { flex: 1; overflow-y: auto; position: relative; scroll-behavior: smooth; background: #050505; }
-        .page { display: none; animation: fadeIn 0.4s ease; min-height: 100%; }
+        main { flex: 1; overflow-y: auto; background: #050505; }
+        .page { display: none; min-height: 100%; padding: 40px; }
         .page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* --- HOME --- */
-        .hero { height: 70vh; position: relative; display: flex; align-items: center; padding: 60px; overflow: hidden; border-bottom: 1px solid var(--border); }
-        .hero-video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.4; z-index: -1; }
-        .hero-content h1 { font-family: 'Montserrat'; font-size: 5rem; line-height: 0.9; letter-spacing: -3px; margin-bottom: 20px; }
-        
+        /* --- HOME HERO --- */
+        .hero { height: 60vh; position: relative; display: flex; align-items: center; padding: 60px; overflow: hidden; border-radius: 30px; margin: 20px; border: 1px solid var(--border); }
+        .hero-video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.5; z-index: -1; }
+        .hero-content h1 { font-family: 'Montserrat'; font-size: 4.5rem; line-height: 1; margin-bottom: 10px; }
+
         /* --- SHOWROOM --- */
-        .filter-bar { display: flex; gap: 12px; padding: 40px 60px 20px 60px; }
-        .filter-btn { background: var(--surface); color: var(--text-dim); border: 1px solid var(--border); padding: 12px 24px; border-radius: 10px; cursor: pointer; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; transition: var(--transition); }
-        .filter-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
-        .car-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; padding: 0 60px 60px 60px; }
-        .car-card { background: var(--surface); border-radius: 20px; overflow: hidden; border: 1px solid var(--border); transition: var(--transition); position: relative; }
-        .car-card:hover { border-color: var(--primary); transform: translateY(-5px); }
-        .car-img { width: 100%; height: 220px; object-fit: cover; }
-        .car-info { padding: 25px; }
-        .badge { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.8); padding: 6px 12px; border-radius: 8px; color: var(--primary); border: 1px solid var(--primary); font-size: 0.65rem; font-weight: 900; }
+        .car-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; margin-top: 30px; }
+        .car-card { background: var(--surface); border-radius: 20px; overflow: hidden; border: 1px solid var(--border); position: relative; }
+        .car-img { width: 100%; height: 200px; object-fit: cover; }
+        .car-info { padding: 20px; }
+        .badge { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.8); padding: 5px 12px; border-radius: 8px; color: var(--primary); border: 1px solid var(--primary); font-size: 0.6rem; font-weight: 900; }
 
         /* --- PANELS --- */
-        .panel { background: var(--surface); padding: 40px; border-radius: 30px; border: 1px solid var(--border); max-width: 700px; margin: 60px auto; }
-        .btn-prime { background: var(--primary); color: white; border: none; padding: 20px; border-radius: 15px; width: 100%; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 10px; transition: 0.3s; }
-        .btn-prime:hover { filter: brightness(1.2); letter-spacing: 1px; }
-        input, select { width: 100%; padding: 16px; border-radius: 12px; background: #000; border: 1px solid #222; color: #fff; margin-bottom: 18px; font-family: 'Outfit'; }
-        label { color: var(--primary); font-size: 0.75rem; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; display: block; }
+        .panel { background: var(--surface); padding: 40px; border-radius: 25px; border: 1px solid var(--border); max-width: 650px; margin: 0 auto; }
+        .btn-prime { background: var(--primary); color: white; border: none; padding: 18px; border-radius: 12px; width: 100%; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
+        input, select { width: 100%; padding: 15px; border-radius: 10px; background: #000; border: 1px solid #222; color: #fff; margin-bottom: 15px; font-family: 'Outfit'; }
+        label { color: var(--primary); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; margin-bottom: 5px; display: block; }
         
-        table { width: 100%; border-collapse: collapse; }
-        th { text-align: left; padding: 15px; border-bottom: 1px solid var(--border); color: #555; font-size: 0.7rem; }
-        td { padding: 15px; border-bottom: 1px solid #111; font-size: 0.9rem; }
         .hidden { display: none !important; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        td, th { padding: 15px; text-align: left; border-bottom: 1px solid #111; }
     </style>
 </head>
 <body>
 
     <nav>
         <div class="logo-container">
-            <img src="https://res.cloudinary.com/dn0k6htsv/image/upload/v1774647697/zcbubagqn4hpxmlzwwan.png" alt="Logo">
+            <img src="https://res.cloudinary.com/dn0k6htsv/image/upload/v1774647697/zcbubagqn4hpxmlzwwan.png">
         </div>
-        <button class="nav-link active" onclick="navTo('home', this)"><i class="fa-solid fa-house"></i> HOME</button>
-        <button class="nav-link" onclick="navTo('showroom', this)"><i class="fa-solid fa-car"></i> SHOWROOM</button>
-        <button class="nav-link" onclick="navTo('booking', this)"><i class="fa-solid fa-calendar-check"></i> PRENOTAZIONI</button>
-        <button class="nav-link" onclick="navTo('sales', this)"><i class="fa-solid fa-file-signature"></i> VENDITE (PDF)</button>
-        <button class="nav-link" onclick="navTo('owners', this)"><i class="fa-solid fa-user-shield"></i> MANAGEMENT</button>
+        <button class="nav-link active" onclick="navTo('home', this)">HOME</button>
+        <button class="nav-link" onclick="navTo('showroom', this)">SHOWROOM</button>
+        <button class="nav-link" onclick="navTo('booking', this)">BOOKING</button>
+        <button class="nav-link" onclick="navTo('sales', this)">VENDITE (PDF)</button>
+        <button class="nav-link" onclick="navTo('owners', this)">OWNER</button>
     </nav>
 
     <main>
@@ -96,72 +84,53 @@
                 </video>
                 <div class="hero-content">
                     <h1>AUSTIN<br><span style="color:var(--primary)">ELITE.</span></h1>
-                    <p>Sistemi operativi avanzati per la gestione flotta e vendite certificate DocuSign.</p>
+                    <p>Terminali Operativi v19.0 - Management & Sales</p>
                 </div>
             </div>
         </div>
 
         <div id="showroom" class="page">
-            <div class="filter-bar">
-                <button class="filter-btn active" onclick="filterShowroom('All', this)">Tutti</button>
-                <button class="filter-btn" onclick="filterShowroom('Regular', this)">Regular</button>
-                <button class="filter-btn" onclick="filterShowroom('Prestige', this)">Prestige</button>
-            </div>
             <div id="fleet-grid" class="car-grid"></div>
         </div>
 
         <div id="booking" class="page">
             <div class="panel">
-                <h2 style="margin-bottom:30px; text-align:center;">NUOVO APPUNTAMENTO</h2>
-                <label>Nome Cliente</label><input id="book-name" placeholder="Mario Rossi">
-                <label>Discord ID (Per Ping)</label><input id="book-discord" placeholder="ID numerico">
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
-                    <div><label>Data</label><input type="date" id="book-date"></div>
-                    <div><label>Ora</label><input type="time" id="book-time"></div>
-                </div>
-                <label>Tipo Servizio</label>
-                <select id="book-reason">
-                    <option value="Acquisto Veicolo">Acquisto Veicolo</option>
-                    <option value="Test Drive">Test Drive</option>
-                </select>
-                <button class="btn-prime" onclick="sendBooking()">Invia Richiesta</button>
+                <h2 style="margin-bottom:25px;">PRENOTA APPUNTAMENTO</h2>
+                <label>Nome</label><input id="book-name">
+                <label>Discord ID</label><input id="book-discord">
+                <label>Data</label><input type="date" id="book-date">
+                <label>Ora</label><input type="time" id="book-time">
+                <button class="btn-prime" onclick="sendBooking()">INVIA RICHIESTA</button>
             </div>
         </div>
 
         <div id="sales" class="page">
-            <div id="sales-gate" class="panel" style="max-width:400px; text-align:center;">
-                <h3>PIN VENDITORE</h3>
-                <input type="password" id="pw-sales" style="text-align:center; font-size: 1.5rem;">
-                <button class="btn-prime" onclick="verify('sales')">SBLOCCA</button>
+            <div id="sales-gate" class="panel" style="max-width:350px; text-align:center;">
+                <h3>STAFF PIN</h3>
+                <input type="password" id="pw-sales">
+                <button class="btn-prime" onclick="verify('sales')">ACCEDI</button>
             </div>
             <div id="sales-content" class="hidden">
                 <div class="panel">
-                    <h2 style="margin-bottom:20px;">TERMINALE VENDITA</h2>
-                    <label>Seleziona Veicolo</label><select id="inv-car" onchange="updatePrice()"></select>
-                    <label>Nome Acquirente</label><input id="inv-name">
-                    <label>Prezzo Finale ($)</label><input id="inv-final" readonly>
-                    <label>Agente Responsabile</label><input id="inv-sign">
-                    <button class="btn-prime" onclick="makeInvoice()">GENERA CONTRATTO DOCUSIGN</button>
+                    <h2>DOCUSIGN TERMINAL</h2>
+                    <label>VEICOLO</label><select id="inv-car" onchange="updatePrice()"></select>
+                    <label>ACQUIRENTE</label><input id="inv-name">
+                    <label>PREZZO</label><input id="inv-final" readonly>
+                    <label>AGENTE VENDITORE</label><input id="inv-sign">
+                    <button class="btn-prime" onclick="makeInvoice()">GENERA CONTRATTO FIRMABILE</button>
                 </div>
             </div>
         </div>
 
         <div id="owners" class="page">
-            <div id="owners-gate" class="panel" style="max-width:400px; text-align:center;">
-                <h3>MASTER KEY</h3>
-                <input type="password" id="pw-owners" style="text-align:center;">
-                <button class="btn-prime" onclick="verify('owners')">LOGIN</button>
+            <div id="owners-gate" class="panel" style="max-width:350px; text-align:center;">
+                <h3>OWNER KEY</h3>
+                <input type="password" id="pw-owners">
+                <button class="btn-prime" onclick="verify('owners')">ACCEDI</button>
             </div>
             <div id="owners-content" class="hidden">
-                <div class="panel" style="margin-bottom:20px;">
-                    <h3>Gestione Richieste</h3>
-                    <table id="app-table">
-                        <thead><tr><th>CLIENTE</th><th>DATA</th><th>AZIONE</th></tr></thead>
-                        <tbody id="app-tbody"></tbody>
-                    </table>
-                </div>
                 <div class="panel">
-                    <h3>Carica Stock</h3>
+                    <h3>Carica Veicolo</h3>
                     <input id="add-n" placeholder="Modello">
                     <input id="add-p" type="number" placeholder="Prezzo">
                     <select id="add-type"><option value="Regular">Regular</option><option value="Prestige">Prestige</option></select>
@@ -173,7 +142,6 @@
     </main>
 
     <script>
-        // CONFIG
         const config = {
             apiKey: "AIzaSyCUH4SGDnbvh1clXm_R_n3ynmDndhIwsbM",
             authDomain: "autonation-bc786.firebaseapp.com",
@@ -184,135 +152,109 @@
         firebase.initializeApp(config);
         const db = firebase.database();
         const WEBHOOK = "https://discord.com/api/webhooks/1487519988712472636/XiAG6FkU6GTuaKmfNmSdcA5PiJ830TJnMGfZkVaF1vWuwGSztTSF_DMogGCTG1IlkS5Q";
-        
-        let allCars = {}, cacheImg = "", currentFilter = "All";
 
-        // NAV
+        let allCars = {}, cacheImg = "";
+
         function navTo(id, el) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
             document.getElementById(id).classList.add('active'); el.classList.add('active');
         }
 
-        // AUTH
         function verify(type) {
-            const keys = { sales: "1234", owners: "OWNER2026" };
-            if(document.getElementById('pw-'+type).value === keys[type]) {
+            const pin = document.getElementById('pw-'+type).value;
+            if((type === 'sales' && pin === "1234") || (type === 'owners' && pin === "OWNER2026")) {
                 document.getElementById(type+'-gate').classList.add('hidden');
                 document.getElementById(type+'-content').classList.remove('hidden');
-            } else { alert("Accesso Negato"); }
+            }
         }
 
-        // SHOWROOM
-        function filterShowroom(type, btn) {
-            currentFilter = type;
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active'); renderShowroom();
-        }
+        db.ref('cars').on('value', s => { 
+            allCars = s.val() || {}; 
+            renderShowroom(); 
+            const sel = document.getElementById('inv-car'); sel.innerHTML = "<option disabled selected>Scegli...</option>";
+            for(let k in allCars) sel.innerHTML += `<option value="${allCars[k].name}">${allCars[k].name}</option>`;
+        });
 
         function renderShowroom() {
             const grid = document.getElementById('fleet-grid'); grid.innerHTML = "";
             for(let k in allCars) {
                 const c = allCars[k];
-                if(currentFilter === "All" || c.type === currentFilter) {
-                    grid.innerHTML += `<div class="car-card"><div class="badge">${c.type}</div><img src="${c.img}" class="car-img"><div class="car-info"><h3>${c.name}</h3><div style="color:var(--primary); font-weight:900; font-size:1.5rem;">$ ${parseInt(c.price).toLocaleString()}</div></div></div>`;
-                }
-            }
-        }
-
-        db.ref('cars').on('value', s => { 
-            allCars = s.val() || {}; renderShowroom(); 
-            const sel = document.getElementById('inv-car'); sel.innerHTML = "<option disabled selected>Scegli...</option>";
-            for(let k in allCars) sel.innerHTML += `<option value="${allCars[k].name}">${allCars[k].name}</option>`;
-        });
-
-        // BOOKING
-        function sendBooking() {
-            const name = document.getElementById('book-name').value, dID = document.getElementById('book-discord').value, date = document.getElementById('book-date').value, time = document.getElementById('book-time').value, reason = document.getElementById('book-reason').value;
-            if(name && dID && date) db.ref('appointments').push({name, discordID: dID, date, time, reason}).then(()=>alert("Inviato!"));
-        }
-
-        async function acceptApp(key, data) {
-            const embed = { content: `<@${data.discordID}>`, embeds: [{ title: "✅ APPUNTAMENTO CONFERMATO", description: `Ciao ${data.name}, la tua richiesta per ${data.reason} il giorno ${data.date} alle ${data.time} è stata accettata.`, color: 16723533 }] };
-            await fetch(WEBHOOK, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(embed) });
-            db.ref('appointments/'+key).remove();
-        }
-
-        db.ref('appointments').on('value', s => {
-            const data = s.val() || {}, tb = document.getElementById('app-tbody'); tb.innerHTML = "";
-            for(let k in data) {
-                tb.innerHTML += `<tr><td><b>${data[k].name}</b></td><td>${data[k].date}</td><td><button onclick='acceptApp("${k}", ${JSON.stringify(data[k])})' style="color:var(--primary); background:none; border:none; cursor:pointer; font-weight:bold;">APPROVA</button></td></tr>`;
-            }
-        });
-
-        // MANAGEMENT
-        document.getElementById('add-file').onchange = (e) => {
-            const r = new FileReader(); r.onload = (ev) => cacheImg = ev.target.result; r.readAsDataURL(e.target.files[0]);
-        };
-        function saveToDB() {
-            const n = document.getElementById('add-n').value, p = document.getElementById('add-p').value, t = document.getElementById('add-type').value;
-            if(n && p && cacheImg) db.ref('cars').push({ name: n, price: p, type: t, img: cacheImg }).then(() => alert("Stock Aggiornato"));
-        }
-
-        // --- FATTURA PDF (DOCUSIGN) CORRETTA ---
-        async function makeInvoice() {
-            try {
-                const { jsPDF } = window.jspdf; // Sintassi corretta per jspdf 2.5.1
-                const doc = new jsPDF();
-                
-                const client = document.getElementById('inv-name').value.toUpperCase() || "CLIENTE ELITE";
-                const car = document.getElementById('inv-car').value || "VEICOLO";
-                const price = document.getElementById('inv-final').value || "0";
-                const agent = document.getElementById('inv-sign').value || "Agente Austin";
-                const invID = "TEX-" + Math.floor(1000 + Math.random() * 9000);
-                const envID = "DS-" + Math.random().toString(36).substring(2, 12).toUpperCase();
-
-                // Design Header
-                doc.setFillColor(15, 15, 15); doc.rect(0, 0, 210, 50, 'F');
-                doc.setTextColor(255, 46, 77); doc.setFontSize(26); doc.text("AUSTIN ELITE", 20, 30);
-                doc.setTextColor(255, 255, 255); doc.setFontSize(8); doc.text("SECURE DIGITAL CONTRACT | DOCUSIGN VERIFIED", 20, 38);
-                doc.setFontSize(7); doc.text("Envelope ID: " + envID, 150, 15);
-
-                // Body
-                doc.setTextColor(0, 0, 0); doc.setFontSize(10);
-                doc.text("CONTRATTO N: " + invID, 20, 70);
-                doc.text("DATA: " + new Date().toLocaleDateString(), 20, 77);
-                doc.text("VENDITORE: AutoNation Austin Corp.", 20, 95);
-                doc.text("ACQUIRENTE: " + client, 110, 95);
-
-                // Tabella
-                doc.setDrawColor(200, 200, 200); doc.line(20, 110, 190, 110);
-                doc.setFont("helvetica", "bold"); doc.text("DETTAGLIO ORDINE", 25, 118); doc.text("TOTALE", 160, 118);
-                doc.setFont("helvetica", "normal"); doc.line(20, 122, 190, 122);
-                doc.text(car, 25, 135); doc.text("$ " + parseInt(price).toLocaleString(), 160, 135);
-
-                // Firma DocuSign
-                doc.setDrawColor(255, 46, 77); doc.setFillColor(255, 245, 245); doc.rect(20, 180, 170, 55);
-                doc.setFillColor(255, 46, 77); doc.rect(20, 180, 30, 8, 'F');
-                doc.setTextColor(255, 255, 255); doc.setFontSize(7); doc.text("SIGN HERE", 23, 185);
-                
-                doc.setTextColor(0, 0, 0); doc.setFontSize(9);
-                doc.text("Firma dell'Acquirente (Clicca per scrivere):", 25, 195);
-                doc.addField('sig_client', 'Digita il tuo nome...', 25, 200, 65, 10);
-
-                doc.text("Controfirma Agente (Certificata):", 110, 195);
-                doc.setFont("courier", "italic"); doc.setFontSize(15); doc.setTextColor(20, 20, 150);
-                doc.text(agent, 145, 208, { align: "center" });
-
-                // Timbro Digitale
-                doc.setDrawColor(40, 167, 69); doc.setTextColor(40, 167, 69); doc.rect(130, 215, 30, 6);
-                doc.setFontSize(6); doc.setFont("helvetica", "bold"); doc.text("VERIFIED", 145, 219, { align: "center" });
-
-                doc.save(`Contratto_Austin_${invID}.pdf`);
-            } catch (e) {
-                console.error(e);
-                alert("Errore generazione PDF. Controlla la console.");
+                grid.innerHTML += `<div class="car-card"><div class="badge">${c.type}</div><img src="${c.img}" class="car-img"><div class="car-info"><h3>${c.name}</h3><div style="color:var(--primary); font-weight:900;">$ ${parseInt(c.price).toLocaleString()}</div></div></div>`;
             }
         }
 
         function updatePrice() {
             const n = document.getElementById('inv-car').value;
             for(let k in allCars) if(allCars[k].name === n) document.getElementById('inv-final').value = allCars[k].price;
+        }
+
+        function sendBooking() {
+            const name = document.getElementById('book-name').value;
+            const dID = document.getElementById('book-discord').value;
+            if(name && dID) {
+                db.ref('appointments').push({name, dID, date: document.getElementById('book-date').value}).then(()=>alert("Inviato!"));
+            }
+        }
+
+        document.getElementById('add-file').onchange = (e) => {
+            const r = new FileReader(); r.onload = (ev) => cacheImg = ev.target.result; r.readAsDataURL(e.target.files[0]);
+        };
+
+        function saveToDB() {
+            const n = document.getElementById('add-n').value, p = document.getElementById('add-p').value, t = document.getElementById('add-type').value;
+            if(n && p && cacheImg) db.ref('cars').push({ name: n, price: p, type: t, img: cacheImg }).then(() => alert("Caricato!"));
+        }
+
+        // --- FIX FATTURA (CORRETTA PER JSPDF 2.5.1) ---
+        async function makeInvoice() {
+            try {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                const client = document.getElementById('inv-name').value.toUpperCase() || "CLIENTE";
+                const car = document.getElementById('inv-car').value || "VEICOLO";
+                const price = document.getElementById('inv-final').value || "0";
+                const agent = document.getElementById('inv-sign').value || "Agente Austin";
+
+                // Design
+                doc.setFillColor(0, 0, 0); doc.rect(0, 0, 210, 45, 'F');
+                doc.setTextColor(255, 46, 77); doc.setFontSize(24); doc.text("AUSTIN ELITE", 20, 28);
+                doc.setTextColor(255, 255, 255); doc.setFontSize(8); doc.text("OFFICIAL SECURE CONTRACT", 20, 35);
+
+                doc.setTextColor(0,0,0); doc.setFontSize(10);
+                doc.text("CLIENTE: " + client, 20, 60);
+                doc.text("DATA: " + new Date().toLocaleDateString(), 20, 66);
+
+                doc.line(20, 80, 190, 80);
+                doc.text("OGGETTO: Acquisto Veicolo " + car, 25, 90);
+                doc.text("IMPORTO: $ " + parseInt(price).toLocaleString(), 25, 96);
+
+                // --- AREA FIRMA (CORRETTA) ---
+                doc.setDrawColor(255, 46, 77); doc.rect(20, 140, 170, 50);
+                doc.setFillColor(255, 46, 77); doc.rect(20, 140, 30, 8, 'F');
+                doc.setTextColor(255, 255, 255); doc.setFontSize(7); doc.text("SIGN HERE", 23, 145);
+
+                doc.setTextColor(0, 0, 0); doc.setFontSize(9);
+                doc.text("Firma Acquirente:", 25, 155);
+                
+                // Creazione campo TextField corretta
+                const TextField = window.jspdf.AcroFormTextField;
+                const sigField = new TextField();
+                sigField.fieldName = "sig_client";
+                sigField.value = "Clicca per firmare...";
+                sigField.Rect = [25, 160, 60, 10]; // Coordinate: x, y, larghezza, altezza
+                doc.addField(sigField);
+
+                doc.text("Firma Agente:", 110, 155);
+                doc.setFont("courier", "italic"); doc.setFontSize(14); doc.setTextColor(20, 20, 150);
+                doc.text(agent, 110, 168);
+
+                doc.save(`Contratto_${client}.pdf`);
+            } catch (e) {
+                console.error("Errore PDF:", e);
+                alert("Errore nella generazione del PDF. Controlla la console.");
+            }
         }
     </script>
 </body>
