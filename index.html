@@ -183,7 +183,6 @@
       padding: 0;
       max-width: none;
       width: 100%;
-      height: 100%;
       position: relative;
       overflow: hidden;
     }
@@ -202,13 +201,175 @@
     .hero-overlay {
       position: relative;
       z-index: 2;
-      height: 100%;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
       background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.8) 100%);
+      padding-bottom: 100px;
+    }
+
+    /* --- RACING SECTION --- */
+    .racing-section {
+      background: linear-gradient(180deg, #000 0%, #0a0a0a 100%);
+      padding: 80px 60px;
+      position: relative;
+    }
+
+    .racing-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .racing-header h3 {
+      font-family: 'Orbitron';
+      font-size: 2.5rem;
+      color: var(--p);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 10px;
+      text-shadow: 0 0 30px rgba(var(--p-rgb), 0.5);
+    }
+
+    .racing-header p {
+      color: #888;
+      font-size: 1rem;
+    }
+
+    .race-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      gap: 30px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .race-card {
+      background: #0d0d0d;
+      border: 2px solid #1a1a1a;
+      border-radius: 15px;
+      overflow: hidden;
+      position: relative;
+      transition: 0.4s ease;
+      animation: slideIn 0.6s ease forwards;
+    }
+
+    .race-card:nth-child(1) { animation-delay: 0.1s; }
+    .race-card:nth-child(2) { animation-delay: 0.3s; }
+    .race-card:nth-child(3) { animation-delay: 0.5s; }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .race-card:hover {
+      border-color: var(--p);
+      box-shadow: 0 0 30px rgba(var(--p-rgb), 0.3), inset 0 0 20px rgba(var(--p-rgb), 0.1);
+      transform: translateY(-5px);
+    }
+
+    .race-img-container {
+      position: relative;
+      height: 250px;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .race-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: 0.6s;
+    }
+
+    .race-card:hover .race-img {
+      transform: scale(1.1);
+    }
+
+    .race-position {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: var(--p);
+      color: #000;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Orbitron';
+      font-size: 1.5rem;
+      font-weight: 900;
+      box-shadow: 0 0 20px rgba(var(--p-rgb), 0.6);
+    }
+
+    .race-status {
+      position: absolute;
+      bottom: 15px;
+      left: 15px;
+      background: rgba(0, 255, 0, 0.2);
+      border: 1px solid #00ff00;
+      color: #00ff00;
+      padding: 8px 15px;
+      border-radius: 5px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-family: 'Orbitron';
+      animation: pulse-race 1.5s infinite;
+    }
+
+    @keyframes pulse-race {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    .race-content {
+      padding: 25px;
+    }
+
+    .race-name {
+      font-family: 'Orbitron';
+      font-size: 1.3rem;
+      color: #fff;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .race-desc {
+      color: #999;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 15px;
+      min-height: 60px;
+    }
+
+    .race-specs-mini {
+      display: flex;
+      gap: 20px;
+      padding-top: 15px;
+      border-top: 1px solid #222;
+      color: #666;
+      font-size: 0.8rem;
+    }
+
+    .race-price-tag {
+      color: var(--p);
+      font-size: 1.3rem;
+      font-weight: 900;
+      font-family: 'Fira Code';
+      margin-top: 10px;
     }
 
     .hero-title {
@@ -585,6 +746,15 @@
           Esplora Showroom
         </button>
       </div>
+
+      <!-- RACING SECTION -->
+      <div class="racing-section">
+        <div class="racing-header">
+          <h3>🏁 Macchine In Gara</h3>
+          <p>I migliori veicoli della stagione attualmente in competizione</p>
+        </div>
+        <div id="race-grid" class="race-grid"></div>
+      </div>
     </div>
 
     <!-- SHOWROOM -->
@@ -866,6 +1036,7 @@
       renderShowroom();
       updateOwnerStock();
       populateSalesSelect();
+      renderRacingSection();
       document.getElementById('count-cars').innerText = Object.keys(carsCache).length;
     });
 
@@ -957,6 +1128,47 @@
           </tr>
         `;
       }
+    }
+
+    /* --- RENDER RACING SECTION --- */
+    function renderRacingSection() {
+      const grid = document.getElementById('race-grid');
+      if (!grid) return;
+      
+      grid.innerHTML = "";
+      const cars = Object.entries(carsCache).slice(0, 3);
+      
+      cars.forEach((entry, index) => {
+        const [id, car] = entry;
+        const position = index + 1;
+        const descriptions = {
+          'Regular': 'Prestazioni solide e affidabili per ogni situazione',
+          'Prestige': 'Lusso e velocità unite in perfetta armonia',
+          'Electric': 'Tecnologia futuristica con accelerazione devastante',
+          'Classic': 'Stile senza tempo e handling leggendario'
+        };
+        
+        const desc = descriptions[car.type] || 'Veicolo esclusivo della collezione AutoNation';
+        
+        grid.innerHTML += `
+          <div class="race-card">
+            <div class="race-img-container">
+              <img src="${car.img}" class="race-img" onerror="this.src='https://via.placeholder.com/400x250?text=${car.name}'">
+              <div class="race-position">🏁 ${position}</div>
+              <div class="race-status">⚡ In Gara</div>
+            </div>
+            <div class="race-content">
+              <div class="race-name">${car.name}</div>
+              <div class="race-desc">${desc}</div>
+              <div style="display: flex; gap: 15px; font-size: 0.8rem; color: #666;">
+                <span><i class="fa-solid fa-flag"></i> ${car.type}</span>
+                <span><i class="fa-solid fa-bolt"></i> Premium</span>
+              </div>
+              <div class="race-price-tag">$ ${parseInt(car.price).toLocaleString()}</div>
+            </div>
+          </div>
+        `;
+      });
     }
 
     /* --- LOGIC ACTIONS --- */
