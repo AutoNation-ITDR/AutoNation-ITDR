@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoNation Texas | Elite Operations v25.0</title>
+    <title>AutoNation Texas | Elite Operations v26.0</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -14,63 +14,56 @@
 
     <style>
         :root { 
-            --primary: #ff2e4d; 
-            --bg: #000000; 
-            --surface: #0a0a0a; 
-            --border: #1a1a1a; 
-            --text: #ffffff; 
-            --text-dim: #777;
-            /* Colori Categorie */
-            --cat-regular: #777;
-            --cat-prestige: #d4af37;
-            --cat-electric: #00d4ff;
-            --cat-classic: #2ecc71;
+            --primary: #ff2e4d; --bg: #000000; --surface: #0a0a0a; --border: #1a1a1a; --text: #ffffff; --text-dim: #777;
+            --cat-regular: #777; --cat-prestige: #d4af37; --cat-electric: #00d4ff; --cat-classic: #2ecc71;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
         body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; display: flex; height: 100vh; overflow: hidden; }
 
         /* --- SIDEBAR --- */
-        nav { width: 260px; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 40px 20px; z-index: 100; }
-        .logo-container img { width: 140px; height: 140px; margin: 0 auto 40px auto; border-radius: 50%; border: 2px solid var(--primary); object-fit: cover; }
-        .nav-link { display: flex; align-items: center; padding: 15px; color: var(--text-dim); text-decoration: none; border-radius: 12px; margin-bottom: 8px; font-weight: 700; cursor: pointer; border: none; background: none; width: 100%; font-size: 0.8rem; text-align: left; }
+        nav { width: 260px; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 40px 20px; z-index: 100; flex-shrink: 0; }
+        .logo-container img { width: 140px; height: 140px; margin: 0 auto 40px auto; border-radius: 50%; border: 2px solid var(--primary); object-fit: cover; display: block; }
+        .nav-link { display: flex; align-items: center; padding: 15px; color: var(--text-dim); text-decoration: none; border-radius: 12px; margin-bottom: 8px; font-weight: 700; cursor: pointer; border: none; background: none; width: 100%; font-size: 0.8rem; text-align: left; transition: 0.3s; }
         .nav-link.active { color: var(--primary); background: #111; border-left: 4px solid var(--primary); }
 
-        /* --- MAIN CONTENT --- */
-        main { flex: 1; overflow-y: auto; background: #050505; }
-        .page { display: none; min-height: 100%; padding: 40px; }
+        /* --- MAIN --- */
+        main { flex: 1; overflow-y: auto; background: #050505; position: relative; }
+        .page { display: none; min-height: 100%; padding: 40px; width: 100%; }
         .page.active { display: block; }
 
-        /* --- SHOWROOM FILTERS --- */
-        .filter-header { text-align: center; margin-bottom: 40px; }
-        .filter-header h2 { font-family: 'Montserrat'; font-size: 2rem; margin-bottom: 20px; letter-spacing: 2px; }
-        .filter-bar { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-        .filter-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text-dim); padding: 12px 24px; border-radius: 50px; cursor: pointer; font-weight: 800; transition: 0.3s; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; }
-        .filter-btn:hover { border-color: var(--primary); color: white; }
-        .filter-btn.active { background: var(--primary); border-color: var(--primary); color: white; box-shadow: 0 0 20px rgba(255, 46, 77, 0.3); }
+        /* --- HOME FIX --- */
+        .hero { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+        }
+        .hero-video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.4; z-index: 0; }
+        .hero-content { z-index: 1; pointer-events: none; }
+        .hero-content h1 { font-family: 'Montserrat'; font-size: 6rem; line-height: 0.9; margin-bottom: 10px; font-weight: 900; }
+        .hero-content p { font-size: 1.2rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 8px; }
 
-        /* --- SHOWROOM GRID --- */
-        .car-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
-        .car-card { background: var(--surface); border-radius: 24px; overflow: hidden; border: 1px solid var(--border); position: relative; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .car-card:hover { transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .car-img { width: 100%; height: 220px; object-fit: cover; border-bottom: 1px solid var(--border); }
-        
-        .car-info { padding: 25px; position: relative; }
-        .car-info h3 { font-family: 'Montserrat'; font-size: 1.2rem; margin-bottom: 8px; text-transform: uppercase; }
-        .car-price { color: var(--primary); font-size: 1.4rem; font-weight: 900; font-family: 'Outfit'; }
+        /* --- SHOWROOM --- */
+        .filter-bar { display: flex; gap: 10px; justify-content: center; margin-bottom: 40px; flex-wrap: wrap; }
+        .filter-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text-dim); padding: 10px 20px; border-radius: 50px; cursor: pointer; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; }
+        .filter-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-        /* BADGES COLORATI PER CATEGORIA */
-        .badge { position: absolute; top: 15px; right: 15px; padding: 6px 14px; border-radius: 10px; font-size: 0.65rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; z-index: 5; box-shadow: 0 4px 10px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); }
-        .badge-regular { background: #333; color: #fff; }
-        .badge-prestige { background: var(--cat-prestige); color: #000; }
-        .badge-electric { background: var(--cat-electric); color: #000; }
-        .badge-classic { background: var(--cat-classic); color: #000; }
+        .car-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
+        .car-card { background: var(--surface); border-radius: 20px; overflow: hidden; border: 1px solid var(--border); position: relative; }
+        .car-img { width: 100%; height: 200px; object-fit: cover; }
+        .car-info { padding: 20px; }
+        .badge { position: absolute; top: 15px; right: 15px; padding: 5px 12px; border-radius: 8px; font-size: 0.6rem; font-weight: 900; text-transform: uppercase; }
+        .badge-regular { background: #555; }
+        .badge-prestige { background: var(--cat-prestige); color: black; }
+        .badge-electric { background: var(--cat-electric); color: black; }
+        .badge-classic { background: var(--cat-classic); color: black; }
 
-        /* --- PANELS & FORMS --- */
-        .panel { background: var(--surface); padding: 40px; border-radius: 25px; border: 1px solid var(--border); max-width: 650px; margin: 0 auto; }
-        .btn-prime { background: var(--primary); color: white; border: none; padding: 18px; border-radius: 12px; width: 100%; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
-        input, select { width: 100%; padding: 15px; border-radius: 10px; background: #000; border: 1px solid #222; color: #fff; margin-bottom: 15px; font-family: 'Outfit'; }
+        /* --- FORMS --- */
+        .panel { background: var(--surface); padding: 40px; border-radius: 25px; border: 1px solid var(--border); max-width: 600px; margin: 0 auto; }
         label { color: var(--primary); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; margin-bottom: 5px; display: block; }
+        input, select { width: 100%; padding: 15px; border-radius: 10px; background: #000; border: 1px solid #222; color: #fff; margin-bottom: 15px; font-family: 'Outfit'; }
+        .btn-prime { background: var(--primary); color: white; border: none; padding: 18px; border-radius: 12px; width: 100%; font-weight: 900; cursor: pointer; text-transform: uppercase; transition: 0.3s; }
+        .btn-prime:hover { filter: brightness(1.2); transform: scale(1.02); }
+
         .hidden { display: none !important; }
     </style>
 </head>
@@ -78,7 +71,7 @@
 
     <nav>
         <div class="logo-container">
-            <img src="https://res.cloudinary.com/dtunh07qw/image/upload/v1774726227/prdrllnucdla95lhztwi.png" alt="AutoNation Logo">
+            <img src="https://res.cloudinary.com/dtunh07qw/image/upload/v1774726227/prdrllnucdla95lhztwi.png" alt="Logo">
         </div>
         <button class="nav-link active" onclick="navTo('home', this)">HOME</button>
         <button class="nav-link" onclick="navTo('showroom', this)">SHOWROOM</button>
@@ -94,29 +87,26 @@
                     <source src="https://assets.mixkit.co/videos/preview/mixkit-fast-driving-in-a-city-at-night-12344-large.mp4" type="video/mp4">
                 </video>
                 <div class="hero-content">
-                    <h1 style="font-family:'Montserrat'; font-size:5rem;">AUTONATION<br><span style="color:var(--primary)">TEXAS.</span></h1>
-                    <p style="letter-spacing:5px; color:var(--text-dim);">ELITE VEHICLE DIVISION</p>
+                    <h1>AUTONATION<br><span style="color:var(--primary)">TEXAS.</span></h1>
+                    <p>Vehicle Division Elite</p>
                 </div>
             </div>
         </div>
 
         <div id="showroom" class="page">
-            <div class="filter-header">
-                <h2>CURRENT FLEET</h2>
-                <div class="filter-bar">
-                    <button class="filter-btn active" onclick="filterShowroom('TUTTO', this)">TUTTO</button>
-                    <button class="filter-btn" onclick="filterShowroom('Regular', this)">REGULAR</button>
-                    <button class="filter-btn" onclick="filterShowroom('Prestige', this)">PRESTIGE</button>
-                    <button class="filter-btn" onclick="filterShowroom('Electric', this)">ELECTRIC</button>
-                    <button class="filter-btn" onclick="filterShowroom('Classic', this)">CLASSIC</button>
-                </div>
+            <div class="filter-bar">
+                <button class="filter-btn active" onclick="filterShowroom('TUTTO', this)">TUTTO</button>
+                <button class="filter-btn" onclick="filterShowroom('Regular', this)">REGULAR</button>
+                <button class="filter-btn" onclick="filterShowroom('Prestige', this)">PRESTIGE</button>
+                <button class="filter-btn" onclick="filterShowroom('Electric', this)">ELECTRIC</button>
+                <button class="filter-btn" onclick="filterShowroom('Classic', this)">CLASSIC</button>
             </div>
             <div id="fleet-grid" class="car-grid"></div>
         </div>
 
         <div id="booking" class="page">
             <div class="panel">
-                <h2>PRENOTA APPUNTAMENTO</h2>
+                <h2 style="margin-bottom:20px;">PRENOTA APPUNTAMENTO</h2>
                 <label>Nome</label><input id="book-name">
                 <label>Discord ID</label><input id="book-discord">
                 <label>Data</label><input type="date" id="book-date">
@@ -133,12 +123,12 @@
             </div>
             <div id="sales-content" class="hidden">
                 <div class="panel">
-                    <h2>DOCUSIGN TERMINAL</h2>
+                    <h2>CONTRATTO DI VENDITA</h2>
                     <label>VEICOLO</label><select id="inv-car" onchange="updatePrice()"></select>
-                    <label>ACQUIRENTE</label><input id="inv-name">
-                    <label>PREZZO FINALIZZATO ($)</label><input id="inv-final" readonly>
-                    <label>AGENTE RESPONSABILE</label><input id="inv-sign">
-                    <button class="btn-prime" onclick="makeInvoice()">GENERA CONTRATTO PDF</button>
+                    <label>ACQUIRENTE</label><input id="inv-name" placeholder="Nome Cognome">
+                    <label>PREZZO ($)</label><input id="inv-final" readonly>
+                    <label>AGENTE VENDITORE</label><input id="inv-sign">
+                    <button class="btn-prime" onclick="makeInvoice()">GENERA E LOGGA FATTURA</button>
                 </div>
             </div>
         </div>
@@ -152,8 +142,8 @@
             <div id="owners-content" class="hidden">
                 <div class="panel">
                     <h3>GESTIONE STOCK</h3>
-                    <input id="add-n" placeholder="Modello Veicolo">
-                    <input id="add-p" type="number" placeholder="Prezzo Listino">
+                    <input id="add-n" placeholder="Modello">
+                    <input id="add-p" type="number" placeholder="Prezzo">
                     <select id="add-type">
                         <option value="Regular">Regular</option>
                         <option value="Prestige">Prestige</option>
@@ -161,7 +151,7 @@
                         <option value="Classic">Classic</option>
                     </select>
                     <input type="file" id="add-file">
-                    <button class="btn-prime" onclick="saveToDB()">PUBBLICA VEICOLO</button>
+                    <button class="btn-prime" onclick="saveToDB()">CARICA AUTO</button>
                 </div>
             </div>
         </div>
@@ -177,6 +167,7 @@
         };
         firebase.initializeApp(config);
         const db = firebase.database();
+        const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1487566509982355487/dekKyZ-WeiUCUvTpeacX6YSBRssl3e_27xTTgxQwPYdOrUP8bREE1hOIOpsw-_A7rC_W";
 
         let allCars = {}, cacheImg = "", currentFilter = "TUTTO";
 
@@ -197,7 +188,7 @@
         db.ref('cars').on('value', s => { 
             allCars = s.val() || {}; 
             renderShowroom(currentFilter); 
-            const sel = document.getElementById('inv-car'); sel.innerHTML = "<option disabled selected>Scegli auto...</option>";
+            const sel = document.getElementById('inv-car'); sel.innerHTML = "<option disabled selected>Seleziona veicolo...</option>";
             for(let k in allCars) sel.innerHTML += `<option value="${allCars[k].name}">${allCars[k].name}</option>`;
         });
 
@@ -208,19 +199,18 @@
             renderShowroom(cat);
         }
 
-        function renderShowroom(filter = "TUTTO") {
+        function renderShowroom(f = "TUTTO") {
             const grid = document.getElementById('fleet-grid'); grid.innerHTML = "";
             for(let k in allCars) {
                 const c = allCars[k];
-                if(filter === "TUTTO" || c.type === filter) {
-                    const badgeClass = `badge-${c.type.toLowerCase()}`;
+                if(f === "TUTTO" || c.type === f) {
                     grid.innerHTML += `
                         <div class="car-card">
-                            <div class="badge ${badgeClass}">${c.type}</div>
+                            <div class="badge badge-${c.type.toLowerCase()}">${c.type}</div>
                             <img src="${c.img}" class="car-img">
                             <div class="car-info">
                                 <h3>${c.name}</h3>
-                                <div class="car-price">$ ${parseInt(c.price).toLocaleString()}</div>
+                                <div style="color:var(--primary); font-weight:900;">$ ${parseInt(c.price).toLocaleString()}</div>
                             </div>
                         </div>`;
                 }
@@ -232,63 +222,75 @@
             for(let k in allCars) if(allCars[k].name === n) document.getElementById('inv-final').value = allCars[k].price;
         }
 
-        function sendBooking() {
-            const name = document.getElementById('book-name').value;
-            const dID = document.getElementById('book-discord').value;
-            if(name && dID) {
-                db.ref('appointments').push({name, dID, date: document.getElementById('book-date').value, time: document.getElementById('book-time').value}).then(()=>alert("Richiesta Inviata!"));
-            }
-        }
-
-        document.getElementById('add-file').onchange = (e) => {
-            const r = new FileReader(); r.onload = (ev) => cacheImg = ev.target.result; r.readAsDataURL(e.target.files[0]);
-        };
-
-        function saveToDB() {
-            const n = document.getElementById('add-n').value, p = document.getElementById('add-p').value, t = document.getElementById('add-type').value;
-            if(n && p && cacheImg) db.ref('cars').push({ name: n, price: p, type: t, img: cacheImg }).then(() => alert("Veicolo Pubblicato!"));
+        async function logToDiscord(client, car, price, agent) {
+            const embed = {
+                username: "Texas Hub Logger",
+                content: "<@&1465030207483154554>", // Menzione Ruolo Capi
+                embeds: [{
+                    title: "📄 NUOVO CONTRATTO GENERATO",
+                    color: 16723533, // Rosso Texas
+                    fields: [
+                        { name: "👤 Cliente", value: client, inline: true },
+                        { name: "🚔 Veicolo", value: car, inline: true },
+                        { name: "💰 Prezzo", value: `$ ${parseInt(price).toLocaleString()}`, inline: true },
+                        { name: "👔 Agente", value: agent, inline: true },
+                        { name: "📅 Data", value: new Date().toLocaleString(), inline: false }
+                    ],
+                    footer: { text: "AutoNation Texas Elite Operations" },
+                    thumbnail: { url: "https://res.cloudinary.com/dtunh07qw/image/upload/v1774726227/prdrllnucdla95lhztwi.png" }
+                }]
+            };
+            await fetch(DISCORD_WEBHOOK, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(embed) });
         }
 
         async function makeInvoice() {
-            try {
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF();
-                const client = document.getElementById('inv-name').value.toUpperCase() || "CLIENTE";
-                const car = document.getElementById('inv-car').value || "VEICOLO";
-                const price = document.getElementById('inv-final').value || "0";
-                const agent = document.getElementById('inv-sign').value || "Agente Texas";
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const client = document.getElementById('inv-name').value || "CLIENTE";
+            const car = document.getElementById('inv-car').value || "AUTO";
+            const price = document.getElementById('inv-final').value || "0";
+            const agent = document.getElementById('inv-sign').value || "Agente";
 
-                doc.setFillColor(15, 15, 15); doc.rect(0, 0, 210, 50, 'F');
-                doc.addImage("https://res.cloudinary.com/dtunh07qw/image/upload/v1774726227/prdrllnucdla95lhztwi.png", 'PNG', 160, 5, 40, 40);
-                doc.setTextColor(255, 46, 77); doc.setFontSize(26); doc.text("AUTONATION TEXAS", 20, 30);
-                doc.setTextColor(255, 255, 255); doc.setFontSize(8); doc.text("OFFICIAL SALES CONTRACT - ELITE DIVISION", 20, 38);
+            // Design PDF
+            doc.setFillColor(15, 15, 15); doc.rect(0, 0, 210, 50, 'F');
+            doc.addImage("https://res.cloudinary.com/dtunh07qw/image/upload/v1774726227/prdrllnucdla95lhztwi.png", 'PNG', 165, 5, 40, 40);
+            doc.setTextColor(255, 46, 77); doc.setFontSize(26); doc.text("AUTONATION TEXAS", 20, 30);
+            
+            doc.setTextColor(0,0,0); doc.setFontSize(12);
+            doc.text(`CONTRATTO DI VENDITA PER: ${client.toUpperCase()}`, 20, 70);
+            doc.text(`VEICOLO: ${car}`, 20, 80);
+            doc.text(`PREZZO: $ ${parseInt(price).toLocaleString()}`, 20, 90);
 
-                doc.setTextColor(0,0,0); doc.setFontSize(10);
-                doc.text("ACQUIRENTE: " + client, 20, 65);
-                doc.text("DATA: " + new Date().toLocaleDateString(), 20, 71);
+            // AREA FIRMA NUOVA (Senza trattini)
+            doc.setDrawColor(255, 46, 77); doc.rect(20, 140, 170, 40);
+            doc.setFontSize(10); doc.text("FIRMA ACQUIRENTE:", 25, 150);
+            
+            // Campo interattivo pulito
+            const TextField = window.jspdf.AcroFormTextField;
+            const sigField = new TextField();
+            sigField.fieldName = "signature";
+            sigField.Rect = [25, 155, 100, 15];
+            doc.addField(sigField);
 
-                doc.line(20, 85, 190, 85);
-                doc.setFont("helvetica", "bold"); doc.text("DETTAGLIO ACQUISTO", 25, 95); doc.text("IMPORTO", 160, 95);
-                doc.setFont("helvetica", "normal");
-                doc.line(20, 100, 190, 100);
-                doc.text(car, 25, 110); doc.text("$ " + parseInt(price).toLocaleString(), 160, 110);
+            doc.text("FIRMA AGENTE:", 135, 150);
+            doc.setFont("times", "italic"); doc.setTextColor(20, 50, 180); doc.setFontSize(16);
+            doc.text(agent, 135, 165);
 
-                doc.setDrawColor(255, 46, 77); doc.rect(20, 150, 170, 50);
-                doc.setTextColor(0,0,0); doc.text("Firma Cliente:", 25, 160);
-                
-                const TextField = window.jspdf.AcroFormTextField;
-                const sigField = new TextField();
-                sigField.fieldName = "sig_client";
-                sigField.value = "________________";
-                sigField.Rect = [25, 165, 70, 10];
-                doc.addField(sigField);
+            await logToDiscord(client, car, price, agent);
+            doc.save(`Contratto_${client}.pdf`);
+        }
 
-                doc.text("Validazione Agente:", 110, 160);
-                doc.setFont("times", "italic"); doc.setFontSize(18); doc.setTextColor(20, 50, 180);
-                doc.text(agent, 110, 175);
-
-                doc.save(`Contratto_Texas_${client}.pdf`);
-            } catch (e) { alert("Errore generazione PDF"); }
+        // Funzioni DB Caricamento
+        document.getElementById('add-file').onchange = (e) => {
+            const r = new FileReader(); r.onload = (ev) => cacheImg = ev.target.result; r.readAsDataURL(e.target.files[0]);
+        };
+        function saveToDB() {
+            const n = document.getElementById('add-n').value, p = document.getElementById('add-p').value, t = document.getElementById('add-type').value;
+            if(n && p && cacheImg) db.ref('cars').push({ name: n, price: p, type: t, img: cacheImg }).then(() => alert("Veicolo Caricato!"));
+        }
+        function sendBooking() {
+            const n = document.getElementById('book-name').value;
+            if(n) db.ref('appointments').push({name: n, discord: document.getElementById('book-discord').value, date: document.getElementById('book-date').value, time: document.getElementById('book-time').value}).then(()=>alert("Inviato!"));
         }
     </script>
 </body>
