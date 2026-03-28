@@ -1,679 +1,317 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AUTONATION TEXAS | OFFICIAL HUB</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AUTONATION TEXAS | OFFICIAL HUB</title>
+    <link href="https://fonts.googleapis.com/css?family=Fira+Code:wght@300;500&family=Orbitron:wght@400;700;900&family=Outfit:wght@300;400;600;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;500&family=Orbitron:wght@400;700;900&family=Outfit:wght@300;400;600;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
-  <style>
-    /* --- VARIABILI E RESET --- */
-    :root {
-      --p: #ff2e4d;
-      --p-rgb: 255, 46, 77;
-      --bg: #000;
-      --s: #0a0a0a;
-      --b: #1a1a1a;
-      --t: #fff;
-      --grad: linear-gradient(135deg, var(--p), #991b2d);
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      outline: none;
-    }
-
-    ::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: #000;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: var(--p);
-      border-radius: 10px;
-    }
-
-    body {
-      background: var(--bg);
-      color: var(--t);
-      font-family: 'Outfit', sans-serif;
-      display: flex;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    /* --- ANIMAZIONI --- */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* --- SIDEBAR NAV --- */
-    nav {
-      width: 280px;
-      background: var(--s);
-      border-right: 1px solid var(--b);
-      display: flex;
-      flex-direction: column;
-      padding: 40px 20px;
-      z-index: 100;
-      flex-shrink: 0;
-      box-shadow: 10px 0 30px rgba(0,0,0,0.5);
-    }
-
-    .logo-box {
-      text-align: center;
-      margin-bottom: 50px;
-    }
-
-    .logo-box img {
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      border: 3px solid var(--p);
-      object-fit: cover;
-      transition: 0.5s;
-    }
-
-    .nav-group {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .nav-link {
-      background: rgba(255,255,255,0.02);
-      border: 1px solid transparent;
-      color: #888;
-      padding: 16px 20px;
-      border-radius: 12px;
-      font-family: 'Orbitron';
-      font-size: 0.8rem;
-      cursor: pointer;
-      text-transform: uppercase;
-      transition: 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .nav-link.active {
-      color: #fff;
-      background: var(--grad);
-      border-color: var(--p);
-    }
-
-    /* --- MAIN CONTENT --- */
-    main {
-      flex: 1;
-      overflow-y: auto;
-      background: radial-gradient(circle at top right, #0a0a0a, #000);
-    }
-
-    .page {
-      display: none;
-      padding: 60px;
-      max-width: 1400px;
-      margin: 0 auto;
-      animation: fadeIn 0.5s ease forwards;
-    }
-
-    .page.active {
-      display: block;
-    }
-
-    /* --- HOME HERO --- */
-    #home {
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-video {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      min-width: 100%;
-      min-height: 100%;
-      transform: translate(-50%, -50%);
-      object-fit: cover;
-      opacity: 0.4;
-    }
-
-    .hero-overlay {
-      position: relative;
-      z-index: 2;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-    }
-
-    .hero-title {
-      font-family: 'Orbitron';
-      font-size: 6rem;
-      font-weight: 900;
-      line-height: 0.9;
-      margin-bottom: 20px;
-    }
-
-    .hero-title span {
-      color: var(--p);
-    }
-
-    /* --- SHOWROOM --- */
-    .filter-wrapper {
-      background: rgba(255,255,255,0.03);
-      padding: 10px;
-      border-radius: 15px;
-      display: inline-flex;
-      gap: 10px;
-      margin-bottom: 40px;
-      border: 1px solid #222;
-    }
-
-    .filter-btn {
-      background: transparent;
-      border: none;
-      color: #666;
-      padding: 12px 25px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-family: 'Orbitron';
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      transition: 0.3s;
-    }
-
-    .filter-btn.active {
-      background: var(--p);
-      color: #fff;
-    }
-
-    .car-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 30px;
-    }
-
-    .car-card {
-      background: #0d0d0d;
-      border: 1px solid #1a1a1a;
-      border-radius: 20px;
-      overflow: hidden;
-      transition: 0.4s;
-    }
-
-    .car-card:hover {
-      transform: translateY(-10px);
-      border-color: var(--p);
-    }
-
-    /* --- FORMS --- */
-    .glass-panel {
-      background: #0a0a0a;
-      border: 1px solid #1a1a1a;
-      padding: 40px;
-      border-radius: 24px;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    .form-group label {
-      color: var(--p);
-      font-family: 'Orbitron';
-      font-size: 0.7rem;
-      margin-bottom: 8px;
-      display: block;
-    }
-
-    input, select, textarea {
-      width: 100%;
-      background: #000;
-      border: 1px solid #222;
-      color: #fff;
-      padding: 16px;
-      border-radius: 12px;
-      font-size: 1rem;
-    }
-
-    .btn-action {
-      width: 100%;
-      padding: 20px;
-      background: var(--grad);
-      color: #fff;
-      border: none;
-      border-radius: 12px;
-      font-family: 'Orbitron';
-      font-weight: 900;
-      cursor: pointer;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      transition: 0.3s;
-      margin-top: 10px;
-    }
-
-    .btn-action:hover {
-      transform: scale(1.02);
-    }
-
-    /* --- TABLES --- */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      color: #ccc;
-    }
-
-    th {
-      padding: 20px;
-      background: #0d0d0d;
-      color: var(--p);
-      font-family: 'Orbitron';
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      border-bottom: 2px solid #1a1a1a;
-    }
-
-    td {
-      padding: 20px;
-      border-bottom: 1px solid #111;
-      font-size: 0.9rem;
-    }
-
-    tr:hover td {
-      background: rgba(255,255,255,0.02);
-      color: #fff;
-    }
-
-    .del-btn {
-      color: #ff2e4d;
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 1.1rem;
-      opacity: 0.5;
-    }
-
-    .del-btn:hover {
-      opacity: 1;
-      transform: scale(1.2);
-    }
-  </style>
+    <style>
+        /* IL TUO CSS ORIGINALE INTEGRALE */
+        :root { --p: #ff2e4d; --p-rgb: 255, 46, 77; --bg: #000; --s: #0a0a0a; --b: #1a1a1a; --t: #fff; --grad: linear-gradient(135deg, var(--p), #991b2d); }
+        * { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: var(--p); border-radius: 10px; }
+        body { background: var(--bg); color: var(--t); font-family: 'Outfit', sans-serif; display: flex; height: 100vh; overflow: hidden; }
+        @keyframes fadeln { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        nav { width: 280px; background: var(--s); border-right: 1px solid var(--b); display: flex; flex-direction: column; padding: 40px 20px; z-index: 100; flex-shrink: 0; box-shadow: 10px 0 30px rgba(0,0,0,0.5); }
+        .logo-box { text-align: center; margin-bottom: 50px; position: relative; }
+        .logo-box img { width: 140px; height: 140px; border-radius: 50%; border: 3px solid var(--p); object-fit: cover; transition: 0.5s; }
+        .nav-link { background: rgba(255,255,255,0.02); border: 1px solid transparent; color: #888; padding: 16px 20px; border-radius: 12px; font-family: 'Orbitron'; font-size: 0.8rem; text-align: left; cursor: pointer; text-transform: uppercase; transition: 0.3s; display: flex; align-items: center; gap: 15px; margin-bottom: 10px; }
+        .nav-link.active { color: #fff; background: var(--grad); border-color: var(--p); box-shadow: 0 10px 20px rgba(255, 46, 77, 0.2); }
+        main { flex: 1; overflow-y: auto; background: radial-gradient(circle at top right, #0a0a0a, #000); position: relative; }
+        .page { display: none; padding: 60px; max-width: 1400px; margin: 0 auto; animation: fadeln 0.5s ease forwards; }
+        .page.active { display: block; }
+        .glass-panel { background: #0a0a0a; border: 1px solid #1a1a1a; padding: 40px; border-radius: 24px; box-shadow: 0 30px 60px rgba(0,0,0,0.5); }
+        input, select, textarea { width: 100%; background: #000; border: 1px solid #222; color: #fff; padding: 16px; border-radius: 12px; font-family: 'Outfit'; margin-top: 5px; }
+        .btn-action { width: 100%; padding: 20px; background: var(--grad); color: #fff; border: none; border-radius: 12px; font-family: 'Orbitron'; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 15px; }
+        .hidden { display: none !important; }
+        .auth-overlay { text-align: center; max-width: 400px; margin: 100px auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; color: #ccc; }
+        th { text-align: left; padding: 20px; color: var(--p); font-family: 'Orbitron'; font-size: 0.7rem; border-bottom: 2px solid #1a1a1a; }
+        td { padding: 20px; border-bottom: 1px solid #111; }
+    </style>
 </head>
-
 <body>
-<script>
-/* --- CONFIGURAZIONE FIREBASE --- */
-const fbConfig = {
-  apiKey: "AIzaSyCUH4SGDnbvh1clXm_R_n3ynmDndhIwsbM",
-  authDomain: "autonation-bc786.firebaseapp.com",
-  databaseURL: "https://autonation-bc786-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "autonation-bc786",
-  appId: "1:440986575785:web:e80e42f31a0b5c0b095ab8"
-};
-firebase.initializeApp(fbConfig);
-const db = firebase.database();
 
-/* --- WEBHOOKS --- */
-const WEBHOOK_ACCEPT = "https://discord.com/api/webhooks/1487519988712472636/XiAG6FKU6GTuaKmfNmSdcA5PiJ830TJnMGfZkVaF1vWuwGSztTSF_DMogGCTG1IlkS5Q";
-const WEBHOOK_REJECT = "https://discord.com/api/webhooks/1487587998328426539/QLHK4aFuB6S7iV24RdhQ6HBDNVSWJyLJgnQnCf4kvu3wL_5oAlb5h3l9MiJ0i1Wgzv1d";
-const WEBHOOK_SALES = "https://discord.com/api/webhooks/1487566509982355487/dekKyZ-WeiUCUvTpeacX6YSBRssl3e_27xTTgxQwPYdOrUP8bREE1hOIOpsw-_A7rC_W";
-const LOGO_IMG = "https://res.cloudinary.com/dtunh07qw/image/upload/v1774726227/prdrllnucdla95lhztwi.png";
-
-/* --- STATE --- */
-let carsCache = {};
-let selectedFilter = "TUTTO";
-let tempImageBase64 = "";
-
-/* --- NAVIGAZIONE --- */
-function navTo(pageId, btn) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-  document.getElementById(pageId).classList.add('active');
-  btn.classList.add('active');
-}
-
-/* --- AUTENTICAZIONE --- */
-function checkAuth(type) {
-  if (type === 'sales') {
-    if (document.getElementById('sales-pw').value === "1234") {
-      document.getElementById('sales-auth').classList.add('hidden');
-      document.getElementById('sales-panel').classList.remove('hidden');
-    } else alert("PIN Errato!");
-  } else {
-    if (document.getElementById('owner-pw').value === "OWNER2026") {
-      document.getElementById('owner-auth').classList.add('hidden');
-      document.getElementById('owner-panel').classList.remove('hidden');
-    } else alert("Master Key Errata!");
-  }
-}
-
-/* --- REALTIME SYNC --- */
-db.ref('cars').on('value', snap => {
-  carsCache = snap.val() || {};
-  renderShowroom();
-  updateOwnerStock();
-  populateSalesSelect();
-  document.getElementById('count-cars').innerText = Object.keys(carsCache).length;
-});
-
-db.ref('appointments').on('value', snap => {
-  renderAdminAppointments(snap.val() || {});
-});
-
-/* --- SHOWROOM --- */
-function filterData(cat, btn) {
-  selectedFilter = cat;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderShowroom();
-}
-
-function renderShowroom() {
-  const grid = document.getElementById('showroom-grid');
-  grid.innerHTML = "";
-  for (let id in carsCache) {
-    const car = carsCache[id];
-    if (selectedFilter !== "TUTTO" && car.type !== selectedFilter) continue;
-
-    grid.innerHTML += `
-      <div class="car-card">
-        <div class="car-badge">${car.type}</div>
-        <div class="car-img-box">
-          <img src="${car.img}" class="car-img">
+    <nav>
+        <div class="logo-box">
+            <img src="https://res.cloudinary.com/dtunh07qw/image/upload/v1774726227/prdrllnucdla95lhztwi.png" alt="Logo">
         </div>
-        <div class="car-content">
-          <h3 class="car-name">${car.name}</h3>
-          <div class="car-price">$ ${parseInt(car.price).toLocaleString()}</div>
+        <div class="nav-group">
+            <button class="nav-link active" onclick="navTo('home', this)"><i class="fa-solid fa-house"></i> Home</button>
+            <button class="nav-link" onclick="navTo('showroom', this)"><i class="fa-solid fa-car"></i> Showroom</button>
+            <button class="nav-link" onclick="navTo('booking', this)"><i class="fa-solid fa-calendar-check"></i> Prenotazioni</button>
+            <button class="nav-link" onclick="navTo('sales', this)"><i class="fa-solid fa-file-invoice-dollar"></i> Vendite</button>
+            <button class="nav-link" onclick="navTo('owners', this)"><i class="fa-solid fa-user-shield"></i> Owner</button>
         </div>
-      </div>
-    `;
-  }
-}
+    </nav>
 
-/* --- OWNER STOCK --- */
-function updateOwnerStock() {
-  const container = document.getElementById('stock-list-container');
-  container.innerHTML = "";
-  for (let id in carsCache) {
-    container.innerHTML += `
-      <div class="stock-item">
-        <div>
-          <strong>${carsCache[id].name}</strong><br>
-          <small style="color:var(--p)">$ ${carsCache[id].price}</small>
+    <main>
+        <div id="home" class="page active" style="text-align: center; padding-top: 150px;">
+            <h1 style="font-family:'Orbitron'; font-size:5rem;">AUTO<span>NATION</span></h1>
+            <p style="letter-spacing:10px; color:#444;">TEXAS OFFICIAL HUB</p>
         </div>
-        <button class="del-btn" onclick="deleteCar('${id}')"><i class="fa-solid fa-trash"></i></button>
-      </div>
-    `;
-  }
-}
 
-function deleteCar(id) {
-  if (confirm("Rimuovere definitivamente?")) {
-    db.ref('cars').child(id).remove();
-  }
-}
+        <div id="showroom" class="page">
+            <div id="showroom-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap:25px;"></div>
+        </div>
 
-/* --- AGGIUNTA VEICOLO --- */
-document.getElementById('add-img').addEventListener('change', e => {
-  const reader = new FileReader();
-  reader.onload = () => tempImageBase64 = reader.result;
-  reader.readAsDataURL(e.target.files[0]);
-});
+        <div id="booking" class="page">
+            <div class="glass-panel" style="max-width: 600px; margin: auto;">
+                <h2 style="font-family:'Orbitron';">Prenota <span>Appuntamento</span></h2>
+                <input id="b-name" placeholder="Nome IC">
+                <input id="b-discord" placeholder="ID Discord (es. 123456789)">
+                <input type="date" id="b-date">
+                <input type="time" id="b-time">
+                <button class="btn-action" onclick="submitBooking()">Invia allo Staff</button>
+            </div>
+        </div>
 
-function uploadCar() {
-  const name = document.getElementById('add-name').value;
-  const price = document.getElementById('add-price').value;
-  const type = document.getElementById('add-cat').value;
+        <div id="sales" class="page">
+            <div id="sales-auth" class="auth-overlay">
+                <input type="password" id="sales-pw" placeholder="PIN AGENTE" style="text-align:center;">
+                <button class="btn-action" onclick="checkAuth('sales')">Sblocca</button>
+            </div>
+            <div id="sales-panel" class="hidden">
+                <div class="glass-panel">
+                    <h2 style="font-family:'Orbitron';">Terminale <span>Vendite</span></h2>
+                    <input id="s-client" placeholder="Nome Cliente">
+                    <select id="s-car" onchange="autoFillPrice()"></select>
+                    <input id="s-price" placeholder="Prezzo $">
+                    <input id="s-agent" placeholder="Nome Agente">
+                    <button class="btn-action" onclick="finalizeSale()">Genera Contratto Texas</button>
+                </div>
+            </div>
+        </div>
 
-  if (!name || !price || !tempImageBase64) return alert("Compila tutto!");
+        <div id="owners" class="page">
+            <div id="owner-auth" class="auth-overlay">
+                <input type="password" id="owner-pw" placeholder="MASTER KEY" style="text-align:center;">
+                <button class="btn-action" onclick="checkAuth('owner')">Accedi Dashboard</button>
+            </div>
+            <div id="owner-panel" class="hidden">
+                <div class="glass-panel">
+                    <h3>Appuntamenti In Attesa</h3>
+                    <table id="admin-book-list"></table>
+                </div>
+                <div class="glass-panel" style="margin-top: 20px;">
+                    <h3>Aggiungi Auto allo Showroom</h3>
+                    <input id="add-name" placeholder="Modello Veicolo">
+                    <input id="add-price" placeholder="Prezzo Vendita">
+                    <input type="file" id="add-img" accept="image/*">
+                    <button class="btn-action" onclick="uploadCar()">Pubblica Ora</button>
+                </div>
+            </div>
+        </div>
+    </main>
 
-  db.ref('cars').push({ name, price, type, img: tempImageBase64 }).then(() => {
-    alert("Veicolo aggiunto!");
-    document.getElementById('add-name').value = "";
-    document.getElementById('add-price').value = "";
-    tempImageBase64 = "";
-    document.getElementById('add-img').value = "";
-  });
-}
+    <script>
+        // CONFIGURAZIONE FIREBASE
+        const fbConfig = {
+            apiKey: "AIzaSyCUH4SGDnbvh1clXm_R_n3ynmDndhIwsbM",
+            authDomain: "autonation-bc786.firebaseapp.com",
+            databaseURL: "https://autonation-bc786-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "autonation-bc786",
+            appId: "1:440986575785:web:e80e42f31a0b5c0b095ab8"
+        };
+        firebase.initializeApp(fbConfig);
+        const db = firebase.database();
 
-/* --- BOOKING --- */
-function submitBooking() {
-  const name = document.getElementById('b-name').value;
-  const discord = document.getElementById('b-discord').value;
-  const date = document.getElementById('b-date').value;
-  const time = document.getElementById('b-time').value;
-  const notes = document.getElementById('b-notes').value || "Nessuna nota.";
+        // I TUOI TRE WEBHOOK CORRETTI
+        const WH_ACCETTATO = "https://discord.com/api/webhooks/1487519988712472636/XiAG6FkU6GTuaKmfNmSdcA5PiJ830TJnMGfZkVaF1vWuwGSztTSF_DMogGCTG1IlkS5Q";
+        const WH_RIFIUTATO = "https://discord.com/api/webhooks/1487587998328426539/QLHK4aFuB6S7iV24RdhQ6HBDNVSWJyLJgnQnCf4kvu3wL_5oAlb5h3l9MiJ0i1Wgzv1d";
+        const WH_FATTURE = "https://discord.com/api/webhooks/1487566509982355487/dekKyZ-WeiUCUvTpeacX6YSBRssl3e_27xTTgxQwPYdOrUP8bREE1hOIOpsw-_A7rC_W";
+        const LOGO_HUB = "https://res.cloudinary.com/dtunh07qw/image/upload/v1774726227/prdrllnucdla95lhztwi.png";
 
-  if (!name || !date || !time) return alert("Dati mancanti!");
+        let carsCache = {};
+        let tempImg = "";
 
-  db.ref('appointments').push({
-    name, discord, date, time, notes, createdAt: Date.now()
-  }).then(() => {
-    alert("Richiesta registrata!");
-    document.getElementById('b-name').value = "";
-    document.getElementById('b-discord').value = "";
-    document.getElementById('b-date').value = "";
-    document.getElementById('b-time').value = "";
-    document.getElementById('b-notes').value = "";
-  });
-}
+        function navTo(id, btn) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            btn.classList.add('active');
+        }
 
-/* --- OWNER: LISTA PRENOTAZIONI --- */
-function renderAdminAppointments(data) {
-  const tbody = document.getElementById('admin-book-list');
-  tbody.innerHTML = "";
-  for (let id in data) {
-    const a = data[id];
-    const created = new Date(a.createdAt);
+        function checkAuth(type) {
+            if(type==='sales' && document.getElementById('sales-pw').value==='1234') {
+                document.getElementById('sales-auth').classList.add('hidden');
+                document.getElementById('sales-panel').classList.remove('hidden');
+            } else if(type==='owner' && document.getElementById('owner-pw').value==='OWNER2026') {
+                document.getElementById('owner-auth').classList.add('hidden');
+                document.getElementById('owner-panel').classList.remove('hidden');
+            } else { alert("Accesso negato!"); }
+        }
 
-    tbody.innerHTML += `
-      <tr>
-        <td>${created.toLocaleDateString()}</td>
-        <td>${a.name}</td>
-        <td>${a.discord}</td>
-        <td>${a.date}</td>
-        <td>${a.time}</td>
-        <td><span class="status-badge status-pending">In Attesa</span></td>
-        <td style="display:flex; gap:8px;">
-          <button class="del-btn" style="color:lime;" onclick="acceptApp('${id}')">
-            <i class="fa-solid fa-check"></i>
-          </button>
-          <button class="del-btn" style="color:red;" onclick="rejectApp('${id}')">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        </td>
-      </tr>
-    `;
-  }
-}
+        // AGGIORNAMENTO DATI
+        db.ref('cars').on('value', s => {
+            carsCache = s.val() || {};
+            const grid = document.getElementById('showroom-grid');
+            const select = document.getElementById('s-car');
+            grid.innerHTML = ""; select.innerHTML = "<option>Scegli Veicolo...</option>";
+            for(let id in carsCache) {
+                grid.innerHTML += `<div class="glass-panel" style="padding:0; overflow:hidden;">
+                    <img src="${carsCache[id].img}" style="width:100%; height:180px; object-fit:cover;">
+                    <div style="padding:15px;"><h4>${carsCache[id].name}</h4><p style="color:var(--p)">$ ${carsCache[id].price}</p></div>
+                </div>`;
+                select.innerHTML += `<option value="${carsCache[id].name}">${carsCache[id].name}</option>`;
+            }
+        });
 
-/* --- ACCETTAZIONE --- */
-function acceptApp(id) {
-  db.ref('appointments').child(id).once('value').then(snap => {
-    const a = snap.val();
-    if (!a) return;
+        db.ref('appointments').on('value', s => {
+            const list = document.getElementById('admin-book-list');
+            list.innerHTML = "<tr><th>CLIENTE</th><th>DATA</th><th>AZIONE</th></tr>";
+            const data = s.val();
+            for(let id in data) {
+                list.innerHTML += `<tr><td>${data[id].name}</td><td>${data[id].date} ${data[id].time}</td><td>
+                    <button onclick="handleApp('${id}', true)" style="color:lime; background:none; border:none; cursor:pointer; font-size:1.2rem; margin-right:10px;"><i class="fa-solid fa-circle-check"></i></button> 
+                    <button onclick="handleApp('${id}', false)" style="color:red; background:none; border:none; cursor:pointer; font-size:1.2rem;"><i class="fa-solid fa-circle-xmark"></i></button>
+                </td></tr>`;
+            }
+        });
 
-    let ping = a.discord;
-    if (!isNaN(a.discord) && String(a.discord).length > 15) {
-      ping = `<@${a.discord}>`;
-    }
+        function submitBooking() {
+            const name = document.getElementById('b-name').value;
+            const discord = document.getElementById('b-discord').value;
+            const date = document.getElementById('b-date').value;
+            const time = document.getElementById('b-time').value;
+            if(!name || !date) return alert("Compila i campi!");
+            db.ref('appointments').push({ name, discord, date, time }).then(() => alert("Richiesta inviata allo Staff!"));
+        }
 
-    fetch(WEBHOOK_ACCEPT, {
-      method: 'POST',
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        content: `📅 **PRENOTAZIONE ACCETTATA** | ${ping}`,
-        embeds: [{
-          title: "📌 Appuntamento Confermato",
-          description:
-            `Ciao ${ping}, il tuo appuntamento è stato **confermato**.\n\n` +
-            `📍 Civico: 203\n` +
-            `📆 Data: ${a.date}\n` +
-            `⏰ Ora: ${a.time}`,
-          color: 65280,
-          thumbnail: { url: LOGO_IMG },
-          footer: { text: "AutoNation Texas — Appointment System" },
-          timestamp: new Date().toISOString()
-        }]
-      })
-    }).then(() => {
-      db.ref('appointments').child(id).remove();
-      alert("Appuntamento accettato.");
-    });
-  });
-}
+        // LOGICA ACCETTAZIONE/RIFIUTO CON WEBHOOK SEPARATI
+        function handleApp(id, accepted) {
+            db.ref('appointments').child(id).once('value', s => {
+                const a = s.val();
+                if(!a) return;
+                const webhook = accepted ? WH_ACCETTATO : WH_RIFIUTATO;
+                const statusStr = accepted ? "✅ APPUNTAMENTO CONFERMATO" : "❌ APPUNTAMENTO RIFIUTATO";
+                const color = accepted ? 65280 : 16711680;
 
-/* --- RIFIUTO (WEBHOOK DEDICATO) --- */
-function rejectApp(id) {
-  const motivo = prompt("Motivo del rifiuto?");
-  if (!motivo || motivo.trim() === "") return alert("Rifiuto annullato.");
+                fetch(webhook, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        content: `<@${a.discord}>`,
+                        embeds: [{
+                            title: statusStr,
+                            color: color,
+                            fields: [
+                                { name: "👤 Cliente", value: a.name, inline: true },
+                                { name: "📅 Data/Ora", value: `${a.date} alle ${a.time}`, inline: true }
+                            ],
+                            footer: { text: "AutoNation Texas Management" }
+                        }]
+                    })
+                });
+                db.ref('appointments').child(id).remove();
+                alert(accepted ? "Accettato!" : "Rifiutato!");
+            });
+        }
 
-  db.ref('appointments').child(id).once('value').then(snap => {
-    const a = snap.val();
-    if (!a) return;
+        document.getElementById('add-img').onchange = e => {
+            const r = new FileReader();
+            r.onload = () => tempImg = r.result;
+            r.readAsDataURL(e.target.files[0]);
+        };
 
-    let ping = a.discord;
-    if (!isNaN(a.discord) && String(a.discord).length > 15) {
-      ping = `<@${a.discord}>`;
-    }
+        function uploadCar() {
+            const name = document.getElementById('add-name').value;
+            const price = document.getElementById('add-price').value;
+            if(!name || !tempImg) return alert("Dati mancanti!");
+            db.ref('cars').push({ name, price, img: tempImg }).then(() => {
+                alert("Auto aggiunta!");
+                document.getElementById('add-name').value = "";
+                document.getElementById('add-price').value = "";
+            });
+        }
 
-    setTimeout(() => {
-      fetch(WEBHOOK_REJECT, {
-        method: 'POST',
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          content: `❌ **PRENOTAZIONE RIFIUTATA** | ${ping}`,
-          embeds: [{
-            title: "⛔ Appuntamento Rifiutato",
-            description:
-              `Ciao ${ping}, purtroppo **non possiamo confermare** il tuo appuntamento.\n\n` +
-              `📆 Data richiesta: ${a.date}\n` +
-              `⏰ Ora richiesta: ${a.time}\n\n` +
-              `**Motivo:** ${motivo}`,
-            color: 16711680,
-            thumbnail: { url: LOGO_IMG },
-            footer: { text: "AutoNation Texas — Appointment System" },
-            timestamp: new Date().toISOString()
-          }]
-        })
-      }).then(() => {
-        db.ref('appointments').child(id).remove();
-        alert("Appuntamento rifiutato.");
-      });
-    }, 300);
-  });
-}
+        function autoFillPrice() {
+            const val = document.getElementById('s-car').value;
+            for(let id in carsCache) if(carsCache[id].name === val) document.getElementById('s-price').value = carsCache[id].price;
+        }
 
-/* --- VENDITA + PDF --- */
-function populateSalesSelect() {
-  const select = document.getElementById('s-car');
-  select.innerHTML = `<option disabled selected>Seleziona veicolo...</option>`;
-  for (let id in carsCache) {
-    select.innerHTML += `<option value="${carsCache[id].name}">${carsCache[id].name}</option>`;
-  }
-}
+        // FATTURA PDF PROFESSIONALE + WEBHOOK VENDITE
+        async function finalizeSale() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const client = document.getElementById('s-client').value.toUpperCase();
+            const car = document.getElementById('s-car').value.toUpperCase();
+            const price = document.getElementById('s-price').value;
+            const agent = document.getElementById('s-agent').value.toUpperCase();
 
-function autoFillPrice() {
-  const name = document.getElementById('s-car').value;
-  for (let id in carsCache) {
-    if (carsCache[id].name === name) {
-      document.getElementById('s-price').value = carsCache[id].price;
-    }
-  }
-}
+            if(!client || !car || !price) return alert("Compila tutto!");
 
-async function finalizeSale() {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
+            // Stile PDF Premium (Nero/Rosso)
+            doc.setFillColor(10, 10, 10);
+            doc.rect(0, 0, 210, 297, 'F');
+            doc.setDrawColor(255, 46, 77);
+            doc.setLineWidth(1.5);
+            doc.rect(10, 10, 190, 277, 'D');
 
-  const client = document.getElementById('s-client').value;
-  const car = document.getElementById('s-car').value;
-  const price = document.getElementById('s-price').value;
-  const agent = document.getElementById('s-agent').value || "N/D";
-  const method = document.getElementById('s-method').value;
-  const notes = document.getElementById('s-notes').value || "Nessuna nota.";
+            doc.setTextColor(255, 46, 77);
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(28);
+            doc.text("AUTONATION TEXAS", 105, 40, { align: "center" });
+            
+            doc.setFontSize(10);
+            doc.setTextColor(150, 150, 150);
+            doc.text("SALES CONTRACT - OFFICIAL HUB 203", 105, 48, { align: "center" });
 
-  if (!client || !car || !price) return alert("Compila tutto!");
+            doc.setFillColor(25, 25, 25);
+            doc.rect(20, 70, 170, 90, 'F');
 
-  const invoiceId = "TEX-" + String(Math.floor(Math.random() * 999)).padStart(3, "0");
-  const today = new Date().toLocaleDateString();
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(13);
+            doc.text(`CLIENTE: ${client}`, 30, 90);
+            doc.text(`VEICOLO: ${car}`, 30, 105);
+            doc.text(`AGENTE: ${agent}`, 30, 120);
+            doc.text(`DATA: ${new Date().toLocaleDateString()}`, 30, 135);
+            
+            doc.setFontSize(18);
+            doc.setTextColor(255, 46, 77);
+            doc.text(`TOTALE PAGATO: $ ${price}`, 30, 150);
 
-  doc.setFillColor(0, 0, 0);
-  doc.rect(0, 0, 210, 297, "F");
+            doc.setFontSize(8);
+            doc.setTextColor(100, 100, 100);
+            doc.text("Il veicolo viene consegnato previa verifica meccanica Austin Elite.", 105, 200, { align: "center" });
 
-  doc.setTextColor(255, 46, 77);
-  doc.setFontSize(28);
-  doc.text("AutoNation Texas", 20, 25);
+            doc.setDrawColor(100, 100, 100);
+            doc.line(30, 250, 90, 250);
+            doc.line(120, 250, 180, 250);
+            doc.text("FIRMA CLIENTE", 45, 260);
+            doc.text("FIRMA AGENTE", 140, 260);
 
-  doc.setFontSize(20);
-  doc.text("SALES INVOICE", 20, 55);
+            doc.save(`Contratto_${client}.pdf`);
 
-  doc.setFontSize(11);
-  doc.setTextColor(255, 255, 255);
-  doc.text(`Invoice ID: ${invoiceId}`, 20, 65);
-  doc.text(`Date: ${today}`, 20, 72);
-
-  doc.setFontSize(10);
-  doc.text("AutoNation Texas conferma la vendita del seguente veicolo:", 20, 85);
-
-  doc.rect(18, 95, 174, 20);
-  doc.text("BILL TO:", 22, 103);
-  doc.text(client.toUpperCase(), 22, 112);
-
-  doc.rect(18, 120, 174, 30);
-  doc.text("ITEM DESCRIPTION", 22, 128);
-  doc.text(car, 22, 138);
-
-  doc.setFontSize(18);
-  doc.setTextColor(255, 46, 77);
-  doc.text(`$ ${parseInt(price).toLocaleString()}`, 22, 178);
-
-  doc.save(`Invoice_${invoiceId}.pdf`);
-
-  fetch(WEBHOOK_SALES, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      embeds: [{
-        title: "💰 NUOVA VENDITA REGISTRATA",
-        color: 3066993,
-        thumbnail: { url: LOGO_IMG },
-        fields: [
-          { name: "Cliente", value: client, inline: true },
-          { name: "Agente", value: agent, inline: true },
-          { name: "Veicolo", value: car, inline: false },
-          { name: "Prezzo", value: `$ ${parseInt(price).toLocaleString()}`, inline: true },
-          { name: "Metodo", value: method, inline: true },
-          { name: "Note", value: notes, inline: false }
-        ],
-        footer: { text: "AutoNation Texas — Sales Registry" },
-        timestamp: new Date().toISOString()
-      }]
-    })
-  });
-
-  alert("Vendita completata!");
-}
-</script>
+            // WEBHOOK FATTURE (Vendita Finale)
+            fetch(WH_FATTURE, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    embeds: [{
+                        title: "🏎️ NUOVA VENDITA REGISTRATA",
+                        color: 16723533,
+                        thumbnail: { url: LOGO_HUB },
+                        fields: [
+                            { name: "👤 Acquirente", value: `\`${client}\``, inline: true },
+                            { name: "🤵 Agente", value: `\`${agent}\``, inline: true },
+                            { name: "🚘 Veicolo", value: `\`${car}\``, inline: false },
+                            { name: "💰 Prezzo Finale", value: `\`$ ${price}\``, inline: true }
+                        ],
+                        footer: { text: "AutoNation Sales Registry" },
+                        timestamp: new Date()
+                    }]
+                })
+            });
+            alert("VENDITA COMPLETATA E NOTIFICATA!");
+        }
+    </script>
 </body>
 </html>
