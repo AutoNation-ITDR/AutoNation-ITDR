@@ -40,13 +40,11 @@
         .filter-btn { background: #111; border: 1px solid #333; color: #777; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-family: 'Orbitron'; font-size: 0.7rem; text-transform: uppercase; transition: 0.3s; }
         .filter-btn:hover, .filter-btn.active { border-color: var(--p); color: #fff; background: rgba(255,46,77,0.1); }
 
-        /* --- GRID --- */
+        /* --- GRID & PANELS --- */
         .car-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
         .car-card { background: #0d0d0d; border: 1px solid var(--b); position: relative; border-radius: 10px; overflow: hidden; }
         .car-img { width: 100%; height: 200px; object-fit: cover; }
         .badge { position: absolute; top: 15px; right: 15px; padding: 5px 12px; font-size: 0.6rem; font-weight: 900; background: var(--p); color: white; border-radius: 4px; text-transform: uppercase; }
-
-        /* --- PANELS --- */
         .panel { background: #0a0a0a; border: 1px solid var(--b); padding: 35px; border-radius: 15px; max-width: 900px; margin: 0 auto; }
         .panel-title { font-family: 'Orbitron'; color: var(--p); margin-bottom: 25px; font-size: 1.2rem; text-align: center; }
         input, select { width: 100%; background: #000; border: 1px solid #333; color: #fff; padding: 15px; margin-bottom: 15px; border-radius: 8px; font-family: 'Outfit'; }
@@ -89,7 +87,7 @@
         <div id="booking" class="page">
             <div class="panel" style="max-width:550px;">
                 <div class="panel-title">PRENOTA UN APPUNTAMENTO</div>
-                <input id="book-name" placeholder="Tuo Nome">
+                <input id="book-name" placeholder="Nome Completo">
                 <input id="book-discord" placeholder="Discord ID">
                 <input type="date" id="book-date">
                 <input type="time" id="book-time">
@@ -134,14 +132,9 @@
                     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
                         <div>
                             <h4>AGGIUNGI AUTO</h4>
-                            <input id="add-n" placeholder="Nome Modello">
+                            <input id="add-n" placeholder="Modello">
                             <input id="add-p" type="number" placeholder="Prezzo">
-                            <select id="add-type">
-                                <option value="Regular">Regular</option>
-                                <option value="Prestige">Prestige</option>
-                                <option value="Electric">Electric</option>
-                                <option value="Classic">Classic</option>
-                            </select>
+                            <select id="add-type"><option value="Regular">Regular</option><option value="Prestige">Prestige</option><option value="Electric">Electric</option><option value="Classic">Classic</option></select>
                             <input type="file" id="add-file">
                             <button class="btn-prime" onclick="saveToDB()">CARICA AUTO</button>
                         </div>
@@ -162,9 +155,8 @@
         };
         firebase.initializeApp(config);
         const db = firebase.database();
-        
-        // IL TUO WEBHOOK AGGIORNATO
         const WEBHOOK = "https://discord.com/api/webhooks/1487519988712472636/XiAG6FkU6GTuaKmfNmSdcA5PiJ830TJnMGfZkVaF1vWuwGSztTSF_DMogGCTG1IlkS5Q";
+        const LOGO_URL = "https://res.cloudinary.com/dtunh07qw/image/upload/v1774726227/prdrllnucdla95lhztwi.png";
 
         let allCars = {}, cacheImg = "", currentFilter = "TUTTO";
 
@@ -227,74 +219,79 @@
             if(n && p && cacheImg) db.ref('cars').push({ name: n, price: p, type: t, img: cacheImg }).then(() => alert("AUTO CARICATA!"));
         }
 
-        // INVIO APPUNTAMENTO CON EMBED DISCORD
+        // EMBED DETTAGLIATO PRENOTAZIONI
         function sendBooking() {
             const name = document.getElementById('book-name').value;
-            const discord = document.getElementById('book-discord').value;
+            const discord = document.getElementById('book-discord').value || "Non fornito";
             const date = document.getElementById('book-date').value;
             const time = document.getElementById('book-time').value;
 
-            if(!name || !date || !time) return alert("Compila tutti i campi!");
+            if(!name || !date || !time) return alert("Inserisci tutti i dati!");
 
             db.ref('appointments').push({name, discord, date, time}).then(()=> {
                 fetch(WEBHOOK, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({
-                        content: "<@&1465030207483154554>", // Ping ruolo staff
                         embeds: [{
-                            title: "📅 NUOVA RICHIESTA APPUNTAMENTO",
+                            title: "📅 RICHIESTA APPUNTAMENTO RICEVUTA",
                             color: 16723533,
+                            thumbnail: { url: LOGO_URL },
                             fields: [
-                                { name: "👤 Cliente", value: name, inline: true },
-                                { name: "🆔 Discord", value: discord || "Non fornito", inline: true },
-                                { name: "📅 Data", value: date, inline: true },
-                                { name: "⏰ Ora", value: time, inline: true }
+                                { name: "👤 CLIENTE", value: `\`${name}\``, inline: true },
+                                { name: "🆔 DISCORD", value: `\`${discord}\``, inline: true },
+                                { name: "🗓️ DATA", value: `\`${date}\``, inline: true },
+                                { name: "🕒 ORA", value: `\`${time}\``, inline: true }
                             ],
-                            footer: { text: "Sistema Prenotazioni AutoNation" },
+                            footer: { text: "Texas AutoNation HQ • Gestione Flotta" },
                             timestamp: new Date()
                         }]
                     })
                 });
-                alert("RICHIESTA INVIATA!");
+                alert("PRENOTAZIONE INVIATA!");
                 document.querySelectorAll('#booking input').forEach(i=>i.value="");
             });
         }
 
+        // EMBED DETTAGLIATO VENDITE
         async function makeInvoice() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-            const client = document.getElementById('inv-name').value || "CLIENTE";
+            const client = document.getElementById('inv-name').value;
             const car = document.getElementById('inv-car').value;
             const price = document.getElementById('inv-final').value;
-            const agent = document.getElementById('inv-sign').value || "Agente";
+            const agent = document.getElementById('inv-sign').value || "Agente Texas";
 
-            doc.setFillColor(0,0,0); doc.rect(0,0,210,297,'F');
-            doc.setTextColor(255, 46, 77); doc.setFontSize(30); doc.text("AUTONATION TEXAS", 20, 30);
-            doc.setTextColor(255, 255, 255); doc.setFontSize(12);
-            doc.text(`CONTRATTO DI VENDITA`, 20, 60);
-            doc.text(`CLIENTE: ${client.toUpperCase()}`, 20, 75);
-            doc.text(`VEICOLO: ${car}`, 20, 85);
-            doc.text(`PREZZO: $ ${parseInt(price).toLocaleString()}`, 20, 95);
-            
+            if(!client || !car) return alert("Dati vendita incompleti!");
+
             fetch(WEBHOOK, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
-                    content: "<@&1465030207483154554>",
                     embeds: [{
-                        title: "📈 VENDITA CONCLUSA",
+                        title: "📈 NUOVA VENDITA CONCLUSA",
                         color: 3066993,
+                        thumbnail: { url: LOGO_URL },
                         fields: [
-                            { name: "Cliente", value: client, inline: true },
-                            { name: "Auto", value: car, inline: true },
-                            { name: "Prezzo", value: `$ ${price}`, inline: true },
-                            { name: "Agente", value: agent, inline: true }
-                        ]
+                            { name: "👤 ACQUIRENTE", value: `\`${client}\``, inline: true },
+                            { name: "👔 VENDITORE", value: `\`${agent}\``, inline: true },
+                            { name: "🚘 VEICOLO", value: `\`${car}\``, inline: false },
+                            { name: "💰 PREZZO FINALE", value: `\`$ ${parseInt(price).toLocaleString()}\``, inline: false }
+                        ],
+                        footer: { text: "Texas AutoNation HQ • Registro Vendite" },
+                        timestamp: new Date()
                     }]
                 })
             });
+
+            doc.setFillColor(0,0,0); doc.rect(0,0,210,297,'F');
+            doc.setTextColor(255, 46, 77); doc.setFontSize(30); doc.text("AUTONATION TEXAS", 20, 30);
+            doc.setTextColor(255, 255, 255); doc.setFontSize(12);
+            doc.text(`CLIENTE: ${client.toUpperCase()}`, 20, 75);
+            doc.text(`VEICOLO: ${car}`, 20, 85);
+            doc.text(`PREZZO: $ ${parseInt(price).toLocaleString()}`, 20, 95);
             doc.save(`Contratto_${client}.pdf`);
+            alert("VENDITA REGISTRATA!");
         }
     </script>
 </body>
