@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoNation Austin | Typography Smoke Luxury</title>
+    <title>AutoNation Austin | Corporate Elite System</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Montserrat:wght@700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
@@ -16,430 +16,306 @@
         :root {
             --primary: #ff2e4d;
             --bg-dark: #0a0b0e;
-            --surface: rgba(18, 20, 28, 0.9);
-            --text-main: #ffffff;
+            --surface: rgba(18, 20, 28, 0.95);
+            --text: #ffffff;
             --text-dim: #94a3b8;
-            --radius-lg: 30px;
-            --radius-md: 15px;
-            --shadow: 0 20px 40px rgba(0,0,0,0.5);
-            --glass: blur(10px) saturate(180%);
+            --radius: 20px;
+            --glass: blur(15px) saturate(180%);
         }
 
-        /* --- TYPOGRAPHY SMOKE CANVAS CSS --- */
+        /* --- SMOKE ENGINE CSS --- */
         #smoke-canvas {
             position: fixed;
             top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            pointer-events: none; /* Non blocca i clic */
-            z-index: 9999; /* Sopra a tutto */
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translateZ(0); /* Ottimizzazione GPU */
         }
 
-        /* Nascondiamo il cursore di sistema */
-        * { cursor: none !important; }
-
-        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
-        body { margin: 0; background: var(--bg-dark); color: var(--text-main); font-family: 'Outfit', sans-serif; display: flex; height: 100vh; overflow: hidden; }
-
-        /* SIDEBAR GLASS */
-        nav { 
-            width: 300px; background: var(--surface); border-right: 1px solid rgba(255,255,255,0.03); 
-            display: flex; flex-direction: column; padding: 50px 30px; z-index: 100;
-            backdrop-filter: var(--glass);
-        }
-        .logo-area { text-align: center; margin-bottom: 60px; }
-        .logo-img { width: 100%; filter: drop-shadow(0 0 10px rgba(255,46,77,0.2)); }
+        * { cursor: none !important; box-sizing: border-box; outline: none; }
         
-        .nav-link { 
-            display: flex; align-items: center; padding: 18px 25px; color: var(--text-dim); 
-            text-decoration: none; border-radius: var(--radius-md); margin-bottom: 12px; 
-            font-weight: 600; cursor: pointer; transition: 0.3s;
+        body { 
+            margin: 0; 
+            background: var(--bg-dark); 
+            color: var(--text); 
+            font-family: 'Outfit', sans-serif; 
+            display: flex; 
+            height: 100vh; 
+            overflow: hidden; 
         }
-        .nav-link i { margin-right: 18px; font-size: 1.2rem; }
-        .nav-link.active { background: var(--primary); color: white; box-shadow: 0 10px 25px rgba(255,46,77,0.3); }
+
+        /* SIDEBAR */
+        nav { 
+            width: 280px; 
+            background: var(--surface); 
+            backdrop-filter: var(--glass);
+            border-right: 1px solid rgba(255,255,255,0.05); 
+            display: flex; 
+            flex-direction: column; 
+            padding: 40px 20px; 
+            z-index: 100; 
+        }
+
+        .logo-box { margin-bottom: 50px; text-align: center; }
+        .logo-box img { width: 100%; filter: drop-shadow(0 0 15px rgba(255,46,77,0.3)); }
+
+        .nav-link { 
+            display: flex; 
+            align-items: center; 
+            padding: 15px 20px; 
+            color: var(--text-dim); 
+            text-decoration: none; 
+            border-radius: 15px; 
+            margin-bottom: 8px; 
+            font-weight: 600; 
+            transition: all 0.2s ease;
+        }
+
+        .nav-link i { margin-right: 15px; width: 20px; text-align: center; }
+        .nav-link:hover { background: rgba(255,255,255,0.05); color: white; }
+        .nav-link.active { background: var(--primary); color: white; box-shadow: 0 10px 20px rgba(255,46,77,0.3); }
 
         /* MAIN CONTENT */
-        main { flex: 1; overflow-y: auto; background: radial-gradient(circle at top right, #1a1c26, #0a0b0e); }
-        .page { display: none; padding: 60px; max-width: 1400px; margin: 0 auto; opacity: 0; transform: translateY(15px); transition: 0.5s ease; }
-        .page.active { display: block; opacity: 1; transform: translateY(0); }
+        main { flex: 1; overflow-y: auto; background: radial-gradient(circle at top right, #161822, #0a0b0e); position: relative; }
+        .page { display: none; padding: 60px; max-width: 1200px; margin: 0 auto; animation: fadeIn 0.4s ease; }
+        .page.active { display: block; }
 
-        /* HOME HERO */
-        .hero-section { position: relative; height: 500px; border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 60px; box-shadow: var(--shadow); border: 1px solid rgba(255,255,255,0.03); }
-        .slide { position: absolute; inset: 0; opacity: 0; transition: 1.5s; background-size: cover; background-position: center; display: flex; align-items: center; padding: 80px; }
-        .slide.active { opacity: 1; transform: scale(1.05); }
-        .slide::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,0.85) 0%, transparent 70%); }
-        .slide-content h1 { font-family: 'Montserrat'; font-size: 4rem; margin: 0; font-weight: 900; line-height: 1; }
-        .slide-content p { color: var(--primary); font-size: 1.1rem; letter-spacing: 5px; font-weight: 800; text-transform: uppercase; margin-bottom: 20px; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .stat-card { background: var(--surface); padding: 30px; border-radius: var(--radius-md); text-align: center; border: 1px solid rgba(255,255,255,0.03); backdrop-filter: var(--glass); }
-        .stat-card h2 { color: var(--primary); font-family: 'Montserrat'; font-size: 2.5rem; margin: 0; }
+        /* DASHBOARD CARDS */
+        .hero { background: linear-gradient(45deg, #12141c, #1a1c26); padding: 50px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 40px; }
+        .hero h1 { font-family: 'Montserrat'; font-size: 3.5rem; margin: 0; font-weight: 900; }
+        .hero p { color: var(--primary); letter-spacing: 4px; font-weight: 700; text-transform: uppercase; }
 
         /* SHOWROOM */
-        .showroom-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 35px; }
-        .car-card { background: var(--surface); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid rgba(255,255,255,0.05); transition: 0.4s ease; backdrop-filter: var(--glass); }
-        .car-card:hover { transform: translateY(-12px); border-color: var(--primary); box-shadow: var(--shadow); }
-        .car-img-box { height: 220px; overflow: hidden; }
-        .car-img-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.8s; }
-        .car-body { padding: 25px; }
-        .car-title { font-size: 1.5rem; font-weight: 800; margin: 8px 0; }
-        .car-price { font-family: 'JetBrains Mono'; color: var(--primary); font-size: 1.7rem; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
+        .card { background: var(--surface); border-radius: var(--radius); overflow: hidden; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
+        .card:hover { transform: translateY(-10px); border-color: var(--primary); }
+        .card-img { width: 100%; height: 200px; object-fit: cover; }
+        .card-content { padding: 20px; }
+        .price { font-size: 1.5rem; color: var(--primary); font-weight: 800; font-family: 'Montserrat'; }
 
-        /* TAGS */
-        .tag { font-size: 0.6rem; font-weight: 900; text-transform: uppercase; padding: 5px 12px; border-radius: 5px; margin-right: 5px; }
-        .tag-Prestige { background: #ffd700; color: #000; }
-        .tag-Regular { background: var(--primary); color: #fff; }
-        .tag-Electric { background: #00ff88; color: #000; }
-        .tag-Classic { background: #9d50bb; color: #fff; }
-
-        /* PANEL */
-        .panel-card { background: var(--surface); border-radius: var(--radius-lg); padding: 45px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 30px; backdrop-filter: var(--glass); }
-        input, select { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); padding: 15px; border-radius: var(--radius-md); color: white; font-family: 'Outfit'; }
-        .btn-main { background: var(--primary); color: white; border: none; padding: 18px; border-radius: var(--radius-md); font-weight: 900; width: 100%; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
-        .btn-main:hover { transform: scale(1.02); box-shadow: 0 0 30px rgba(255,46,77,0.4); }
-        .btn-secondary { background: transparent; color: var(--text-dim); border: 1px solid rgba(255,255,255,0.1); padding: 15px; border-radius: var(--radius-md); font-weight: 700; cursor: pointer; text-transform: uppercase; width: 100%; margin-top: 15px; }
-
-        /* TABLES */
-        table { width: 100%; border-collapse: separate; border-spacing: 0 8px; }
-        td { background: rgba(255,255,255,0.02); padding: 15px 20px; font-size: 0.9rem; }
-        .btn-del { background: rgba(255,0,0,0.1); color: #ff4444; border: 1px solid #ff4444; padding: 6px 12px; border-radius: 8px; font-size: 0.65rem; font-weight: 800; }
+        /* FORMS */
+        .form-panel { background: var(--surface); padding: 40px; border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.05); }
+        input, select { 
+            width: 100%; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); 
+            padding: 15px; border-radius: 12px; color: white; margin-bottom: 20px; font-family: 'Outfit';
+        }
+        .btn { 
+            background: var(--primary); color: white; border: none; padding: 18px; 
+            border-radius: 12px; font-weight: 800; width: 100%; text-transform: uppercase; 
+            letter-spacing: 1px; transition: 0.3s; 
+        }
+        .btn:hover { transform: scale(1.02); filter: brightness(1.1); }
 
         .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-<canvas id="smoke-canvas"></canvas>
+    <canvas id="smoke-canvas"></canvas>
 
-<nav>
-    <div class="logo-area">
-        <img src="https://res.cloudinary.com/dn0k6htsv/image/upload/v1774647697/zcbubagqn4hpxmlzwwan.png" class="logo-img">
-    </div>
-    <div class="nav-link active" onclick="navTo('home')" id="n-home"><i class="fa-solid fa-house"></i> Home</div>
-    <div class="nav-link" onclick="navTo('showroom')" id="n-showroom"><i class="fa-solid fa-car"></i> Showroom</div>
-    <div class="nav-link" onclick="navTo('staff')" id="n-staff"><i class="fa-solid fa-file-invoice-dollar"></i> Vendite</div>
-    <div class="nav-link" onclick="navTo('admin')" id="n-admin"><i class="fa-solid fa-user-gear"></i> Owner Area</div>
-</nav>
+    <nav>
+        <div class="logo-box">
+            <img src="https://res.cloudinary.com/dn0k6htsv/image/upload/v1774647697/zcbubagqn4hpxmlzwwan.png" alt="Logo">
+        </div>
+        <a href="#" class="nav-link active" onclick="navTo('home')"><i class="fa-solid fa-gauge"></i> Dashboard</a>
+        <a href="#" class="nav-link" onclick="navTo('showroom')"><i class="fa-solid fa-car"></i> Showroom</a>
+        <a href="#" class="nav-link" onclick="navTo('sales')"><i class="fa-solid fa-file-invoice"></i> Vendite</a>
+        <a href="#" class="nav-link" onclick="navTo('admin')"><i class="fa-solid fa-shield-halved"></i> Admin</a>
+    </nav>
 
-<main>
-    <div id="home" class="page active">
-        <div class="hero-section">
-            <div class="slide active" style="background-image:url('https://images.unsplash.com/photo-1562141961-b5d1972b73c6?q=80&w=2070');">
-                <div class="slide-content">
-                    <p>Exclusive Dealer Austin</p>
-                    <h1>DRIVE THE EXCELLENCE.</h1>
-                </div>
+    <main>
+        <div id="home" class="page active">
+            <div class="hero">
+                <p>Austin, Texas - Elite Dealer</p>
+                <h1>WELCOME TO THE<br><span style="color:var(--primary)">FUTURE.</span></h1>
             </div>
-            <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?q=80&w=2064');">
-                <div class="slide-content">
-                    <p>Electric & Classic</p>
-                    <h1>NEXT GEN LUXURY.</h1>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+                <div class="form-panel" style="text-align:center;">
+                    <h2 id="total-cars">--</h2>
+                    <p>Veicoli Disponibili</p>
                 </div>
-            </div>
-        </div>
-
-        <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap: 25px; margin-bottom:60px;">
-            <div class="stat-card"><h2>+500</h2><p>Auto Vendute</p></div>
-            <div class="stat-card"><h2>24h</h2><p>Supporto Elite</p></div>
-            <div class="stat-card"><h2>100%</h2><p>Certificato</p></div>
-            <div class="stat-card"><h2>TEX</h2><p>Austin Pride</p></div>
-        </div>
-    </div>
-
-    <div id="showroom" class="page">
-        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:50px; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:30px;">
-            <h1 style="font-family:'Montserrat'; font-size:2.5rem; margin:0;">SHOWROOM</h1>
-            <input type="text" id="car-search" style="width:350px;" placeholder="Cerca veicolo..." onkeyup="applyF()">
-        </div>
-        <div id="fleet-grid" class="showroom-grid"></div>
-    </div>
-
-    <div id="staff" class="page">
-        <div id="s-auth" class="panel-card" style="max-width:450px; margin:auto; text-align:center;">
-            <h2>Accesso Vendite</h2>
-            <input id="s-pass" type="password" placeholder="PIN Operatore">
-            <button class="btn-main" onclick="authS()" style="margin-top:20px;">Accedi</button>
-        </div>
-        <div id="s-main" class="hidden panel-card">
-            <h2>Emissione Fattura</h2>
-            <div id="next-p" style="color:var(--primary); font-family:'JetBrains Mono'; margin-bottom:20px;">TEX-000</div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:30px;">
-                <select id="v-sel" onchange="syncP()"></select>
-                <input id="v-buyer" placeholder="Nome Cliente">
-                <input id="v-price" type="number" placeholder="Prezzo Concordato">
-                <input id="v-sign" placeholder="Firma Agente">
-            </div>
-            <button class="btn-main" style="margin-top:30px;" onclick="doSale()">Stampa PDF</button>
-        </div>
-    </div>
-
-    <div id="admin" class="page">
-        <div id="a-auth" class="panel-card" style="max-width:450px; margin:auto; text-align:center;">
-            <h2>Owner Area</h2>
-            <input id="a-key" type="password" placeholder="Master Key">
-            <button class="btn-main" onclick="authA()" style="margin-top:20px;">Accedi</button>
-        </div>
-        <div id="a-main" class="hidden">
-            <div style="display:grid; grid-template-columns: 1fr 1.5fr; gap:40px;">
-                <div class="panel-card">
-                    <h3>Carica Asset</h3>
-                    <input id="n-name" placeholder="Modello">
-                    <input id="n-price" type="number" placeholder="Prezzo">
-                    <select id="n-type">
-                        <option value="Regular">Regular</option><option value="Prestige">Prestige</option>
-                        <option value="Electric">Electric</option><option value="Classic">Classic</option>
-                    </select>
-                    <select id="n-class">
-                        <option value="Car">Car</option><option value="Truck">Truck</option>
-                        <option value="SUV">SUV</option><option value="Industrial">Industrial</option>
-                    </select>
-                    <input type="file" id="n-img">
-                    <button class="btn-main" onclick="addCar()">Aggiungi</button>
-                    <button class="btn-secondary" onclick="resetPlates()">Resetta Targhe</button>
-                </div>
-                <div class="panel-card">
-                    <h3>Gestione Showroom</h3>
-                    <table id="inventory-table">
-                        <thead><tr><th>Auto</th><th>Classe</th><th>Azioni</th></tr></thead>
-                        <tbody id="inventory-body"></tbody>
-                    </table>
+                <div class="form-panel" style="text-align:center;">
+                    <h2 id="total-sales">--</h2>
+                    <p>Contratti Chiusi</p>
                 </div>
             </div>
         </div>
-    </div>
-</main>
 
-<script>
-// CONFIG FIREBASE
-const config = {
-    apiKey: "AIzaSyCUH4SGDnbvh1clXm_R_n3ynmDndhIwsbM",
-    authDomain: "autonation-bc786.firebaseapp.com",
-    databaseURL: "https://autonation-bc786-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "autonation-bc786",
-    storageBucket: "autonation-bc786.firebasestorage.app",
-    appId: "1:440986575785:web:e80e42f31a0b5c0b095ab8"
-};
-firebase.initializeApp(config);
-const db = firebase.database();
-let carStorage = {}, cachedImg = null;
+        <div id="showroom" class="page">
+            <h1 style="font-family: 'Montserrat'; margin-bottom:40px;">FLEET INVENTORY</h1>
+            <div id="fleet-grid" class="grid"></div>
+        </div>
 
-// --- LOGICA TYPOGRAPHY SMOKE ---
-const canvas = document.getElementById('smoke-canvas');
-const ctx = canvas.getContext('2d');
+        <div id="sales" class="page">
+            <div class="form-panel" style="max-width: 600px; margin: 0 auto;">
+                <h2>Nuova Vendita</h2>
+                <select id="sale-car"></select>
+                <input type="text" id="sale-client" placeholder="Nome Completo Cliente">
+                <input type="number" id="sale-price" placeholder="Prezzo Finale ($)">
+                <input type="text" id="sale-staff" placeholder="Firma Agente">
+                <button class="btn" onclick="processSale()">Genera Contratto PDF</button>
+            </div>
+        </div>
 
-let particles = [];
-const mouse = { x: undefined, y: undefined };
-const textToCompose = "AUTONATION"; // Testo da comporre
+        <div id="admin" class="page">
+            <div id="admin-login" class="form-panel" style="max-width: 400px; margin: 0 auto;">
+                <h2>Area Riservata</h2>
+                <input type="password" id="admin-pass" placeholder="Master Password">
+                <button class="btn" onclick="checkAdmin()">Accedi</button>
+            </div>
+            <div id="admin-panel" class="hidden">
+                <div class="form-panel">
+                    <h2>Aggiungi Veicolo</h2>
+                    <input type="text" id="car-name" placeholder="Modello Auto">
+                    <input type="number" id="car-price" placeholder="Prezzo Listino ($)">
+                    <input type="file" id="car-file" accept="image/*">
+                    <button class="btn" onclick="uploadCar()">Salva nel Database</button>
+                </div>
+            </div>
+        </div>
+    </main>
 
-// Ridimensiona canvas
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
+    <script>
+        // --- CONFIGURAZIONE FIREBASE ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyCUH4SGDnbvh1clXm_R_n3ynmDndhIwsbM",
+            authDomain: "autonation-bc786.firebaseapp.com",
+            databaseURL: "https://autonation-bc786-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "autonation-bc786",
+            appId: "1:440986575785:web:e80e42f31a0b5c0b095ab8"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
 
-// Traccia mouse
-window.addEventListener('mousemove', (e) => {
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
-});
+        // --- SMOKE ENGINE (OTTIMIZZATO) ---
+        const canvas = document.getElementById('smoke-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let hue = 0;
+        const mouse = { x: -100, y: -100 };
 
-// Classe Particella (Punto tipografico)
-class Particle {
-    constructor(x, y, color) {
-        this.baseX = x; // Posizione target per comporre il testo
-        this.baseY = y;
-        this.x = mouse.x; // Parte dalla posizione attuale del mouse
-        this.y = mouse.y;
-        this.size = Math.random() * 2 + 0.5; // Dimensione punto luminosa
-        this.color = color;
-        
-        // Movimento (effetto fumo che si allontana e dissolve)
-        this.vx = Math.random() * 3 - 1.5; 
-        this.vy = Math.random() * -2 - 0.5; 
-        
-        // Dissolvenza
-        this.opacity = 1;
-        this.dissolveSpeed = Math.random() * 0.02 + 0.01;
-        
-        // Temporizzatore per iniziare a dissolversi
-        this.lifeSpan = 15; 
-    }
+        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
 
-    update() {
-        // Se la particella ha finito la sua vita "target", inizia a "fumare"
-        if (this.lifeSpan > 0) {
-            // Effetto "magnetico" per comporre il testo temporaneamente
-            const dx = this.baseX - this.x;
-            const dy = this.baseY - this.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            const force = (50 - distance) / 100; // Forza di attrazione
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX; mouse.y = e.clientY;
+            for(let i=0; i<3; i++) particles.push(new Particle());
+        });
 
-            if (distance > 2) {
-                this.x += dx * force;
-                this.y += dy * force;
+        class Particle {
+            constructor() {
+                this.x = mouse.x; this.y = mouse.y;
+                this.size = Math.random() * 6 + 2;
+                this.speedX = Math.random() * 2 - 1;
+                this.speedY = Math.random() * -1.5 - 0.5;
+                this.color = `hsla(${hue}, 100%, 50%, 0.8)`;
+                this.opacity = 1;
             }
-            this.lifeSpan--;
-        } else {
-            // Effetto fumo (si muove casualmente e sale)
-            this.x += this.vx;
-            this.y += this.vy;
-            this.opacity -= this.dissolveSpeed;
-        }
-    }
-
-    draw() {
-        ctx.fillStyle = this.color;
-        ctx.shadowBlur = 10; // Effetto bagliore
-        ctx.shadowColor = this.color;
-        ctx.globalAlpha = this.opacity;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.globalAlpha = 1; // Reset
-        ctx.shadowBlur = 0;
-    }
-}
-
-// Funzione per convertire il testo in coordinate di particelle
-function getTextParticles(text) {
-    // Canvas temporaneo invisibile per analizzare il testo
-    const textCanvas = document.createElement('canvas');
-    const tCtx = textCanvas.getContext('2d');
-    textCanvas.width = 300; // Spazio per il testo
-    textCanvas.height = 100;
-
-    tCtx.fillStyle = 'white';
-    tCtx.font = 'bold 30px Montserrat'; // Stile del logo
-    tCtx.textBaseline = 'middle';
-    tCtx.fillText(text, 10, 50);
-
-    const data = tCtx.getImageData(0, 0, textCanvas.width, textCanvas.height).data;
-    const newParticles = [];
-
-    for (let y = 0; y < textCanvas.height; y += 2) { // Campionamento
-        for (let x = 0; x < textCanvas.width; x += 2) {
-            // Se il pixel è bianco (fa parte del testo)
-            if (data[(y * textCanvas.width + x) * 4] > 128) {
-                // Coordinate relative al mouse (fluttuano accanto)
-                const posX = x + mouse.x + 20; 
-                const posY = y + mouse.y - 40; 
-                
-                // Colore alternato arcobaleno (richiamo logo)
-                const hue = (particles.length * 3) % 360;
-                const color = `hsla(${hue}, 100%, 60%, 1)`;
-
-                newParticles.push(new Particle(posX, posY, color));
+            update() {
+                this.x += this.speedX; this.y += this.speedY;
+                this.opacity -= 0.02;
+                if(this.size > 0.1) this.size += 0.05;
+            }
+            draw() {
+                ctx.globalAlpha = this.opacity;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
             }
         }
-    }
-    return newParticles;
-}
 
-// Ciclo principale
-function animateSmoke() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height); // Pulisce
-    
-    // Se il mouse si muove, genera il testo
-    if (mouse.x && Math.random() < 0.2) { // Generazione non troppo frenetica
-        const tParticles = getTextParticles(textToCompose);
-        particles.push(...tParticles);
-    }
-
-    // Gestione particelle
-    for (let i = 0; i < particles.length; i++) {
-        particles[i].update();
-        particles[i].draw();
-        
-        // Rimuove particelle dissolte
-        if (particles[i].opacity <= 0) {
-            particles.splice(i, 1);
-            i--;
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                if (particles[i].opacity <= 0) { particles.splice(i, 1); i--; }
+            }
+            hue += 2;
+            requestAnimationFrame(animate);
         }
-    }
-    requestAnimationFrame(animateSmoke);
-}
-animateSmoke(); // Avvia
+        animate();
 
-// --- LOGICA SITO ---
-const LOGO_URL = "https://res.cloudinary.com/dn0k6htsv/image/upload/v1774647697/zcbubagqn4hpxmlzwwan.png";
-const TIMBRO_URL = "https://res.cloudinary.com/dn0k6htsv/image/upload/v1774648015/ay8vqwcnfa2sgnfywv26.png";
+        // --- LOGICA APPLICATIVA ---
+        let carData = {};
 
-function navTo(id) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    document.getElementById('n-'+id).classList.add('active');
-}
+        function navTo(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
 
-function authS() { if(document.getElementById('s-pass').value === "1234") { document.getElementById('s-auth').classList.add('hidden'); document.getElementById('s-main').classList.remove('hidden'); refreshP(); } }
-function authA() { if(document.getElementById('a-key').value === "OWNER123") { document.getElementById('a-auth').classList.add('hidden'); document.getElementById('a-main').classList.remove('hidden'); } }
+        function checkAdmin() {
+            if(document.getElementById('admin-pass').value === "OWNER123") {
+                document.getElementById('admin-login').classList.add('hidden');
+                document.getElementById('admin-panel').classList.remove('hidden');
+            }
+        }
 
-db.ref('cars').on('value', s => {
-    carStorage = s.val() || {};
-    applyF();
-    renderInventory();
-});
+        // Caricamento Immagine
+        let tempImg = null;
+        document.getElementById('car-file').onchange = (e) => {
+            const reader = new FileReader();
+            reader.onload = (ev) => tempImg = ev.target.result;
+            reader.readAsDataURL(e.target.files[0]);
+        };
 
-function applyF() {
-    const g = document.getElementById('fleet-grid'), sel = document.getElementById('v-sel');
-    g.innerHTML = ""; sel.innerHTML = "<option>Scegli...</option>";
-    for(let k in carStorage) {
-        const c = carStorage[k];
-        g.innerHTML += `<div class="car-card"><div class="car-img-box"><img src="${c.image}"></div><div class="car-body"><span class="tag tag-${c.type}">${c.type}</span><div class="car-title">${c.name}</div><div class="car-price">$ ${c.price.toLocaleString()}</div></div></div>`;
-        sel.innerHTML += `<option value="${c.name}" data-p="${c.price}">${c.name}</option>`;
-    }
-}
+        function uploadCar() {
+            const name = document.getElementById('car-name').value;
+            const price = document.getElementById('car-price').value;
+            if(name && price && tempImg) {
+                db.ref('cars').push({ name, price, img: tempImg }).then(() => location.reload());
+            }
+        }
 
-function renderInventory() {
-    const ib = document.getElementById('inventory-body'); ib.innerHTML = "";
-    for(let k in carStorage) { ib.innerHTML += `<tr><td>${carStorage[k].name}</td><td>${carStorage[k].class}</td><td><button class="btn-del" onclick="deleteCar('${k}')">RIMUOVI</button></td></tr>`; }
-}
-function deleteCar(key) { if(confirm("Rimuovere?")) db.ref('cars/' + key).remove(); }
-function resetPlates() { if(confirm("Reset targhe?")) db.ref('sales_logs').remove().then(()=>location.reload()); }
+        // Sync Database
+        db.ref('cars').on('value', snap => {
+            carData = snap.val() || {};
+            const grid = document.getElementById('fleet-grid');
+            const select = document.getElementById('sale-car');
+            grid.innerHTML = ""; select.innerHTML = "<option>Seleziona Auto...</option>";
+            
+            let count = 0;
+            for(let key in carData) {
+                const c = carData[key];
+                grid.innerHTML += `<div class="card"><img src="${c.img}" class="card-img"><div class="card-content"><h3>${c.name}</h3><div class="price">$ ${parseInt(c.price).toLocaleString()}</div></div></div>`;
+                select.innerHTML += `<option value="${c.name}">${c.name}</option>`;
+                count++;
+            }
+            document.getElementById('total-cars').innerText = count;
+        });
 
-async function generatePDF(data) {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-    try { doc.addImage(LOGO_URL, 'PNG', 15, 12, 50, 20); } catch(e){}
-    doc.setFontSize(26); doc.setTextColor(255, 46, 77); doc.text("SALES CONTRACT", 110, 25);
-    doc.setFontSize(10); doc.setTextColor(0);
-    doc.text(`CLIENTE: ${data.cliente.toUpperCase()}`, 15, 60);
-    doc.text(`VEICOLO: ${data.veicolo}`, 15, 70);
-    doc.text(`TARGA: ${data.targa}`, 15, 80);
-    doc.text(`PREZZO: $ ${parseInt(data.prezzo).toLocaleString()}`, 15, 90);
-    doc.text(`FIRMA AGENTE: ${data.staff}`, 15, 150);
-    try { doc.addImage(TIMBRO_URL, 'PNG', 130, 130, 45, 45); } catch(e){}
-    doc.save(`Fattura_${data.targa}.pdf`);
-}
+        db.ref('sales_logs').on('value', snap => {
+            document.getElementById('total-sales').innerText = snap.numChildren();
+        });
 
-function doSale() {
-    const b = document.getElementById('v-buyer').value, v = document.getElementById('v-sel').value, p = document.getElementById('v-price').value, s = document.getElementById('v-sign').value, t = document.getElementById('next-p').innerText.split(': ')[1];
-    if(!b || v.includes("Scegli")) return alert("Mancano dati!");
-    const saleData = { data: new Date().toLocaleDateString(), cliente: b, veicolo: v, targa: t, prezzo: p, staff: s };
-    db.ref('sales_logs').push(saleData).then(() => { generatePDF(saleData); refreshP(); });
-}
+        async function processSale() {
+            const client = document.getElementById('sale-client').value;
+            const car = document.getElementById('sale-car').value;
+            const price = document.getElementById('sale-price').value;
+            const staff = document.getElementById('sale-staff').value;
 
-document.getElementById('n-img').onchange = e => { const r = new FileReader(); r.onload = ev => cachedImg = ev.target.result; r.readAsDataURL(e.target.files[0]); };
-function addCar() {
-    const n = document.getElementById('n-name').value, p = document.getElementById('n-price').value, t = document.getElementById('n-type').value, cl = document.getElementById('n-class').value;
-    if(n && p && cachedImg) db.ref('cars').push({ name:n, price:parseInt(p), type:t, class:cl, image:cachedImg }).then(() => location.reload());
-}
-async function refreshP() {
-    const s = await db.ref('sales_logs').limitToLast(1).once('value');
-    const logs = s.val();
-    const last = logs ? Object.values(logs)[Object.values(logs).length - 1].targa : "TEX-000";
-    document.getElementById('next-p').innerText = "TARGA: TEX-" + (parseInt(last.split('-')[1]) + 1).toString().padStart(3, '0');
-}
-function syncP() { const s = document.getElementById('v-sel'); document.getElementById('v-price').value = s.options[s.selectedIndex].dataset.p || ""; }
+            if(!client || !car || !price) return alert("Dati mancanti!");
 
-setInterval(() => {
-    const slides = document.querySelectorAll('.slide');
-    if(slides.length){
-        slides.forEach(s => s.classList.remove('active'));
-        let activeIdx = Array.from(slides).findIndex(s => s.classList.contains('active'));
-        slides[(activeIdx + 1) % slides.length].classList.add('active');
-    }
-}, 5000);
-</script>
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            doc.setFontSize(22); doc.text("AUTONATION AUSTIN", 20, 20);
+            doc.setFontSize(14); doc.text("CONTRATTO DI VENDITA", 20, 40);
+            doc.setFontSize(12);
+            doc.text(`Cliente: ${client}`, 20, 60);
+            doc.text(`Veicolo: ${car}`, 20, 70);
+            doc.text(`Prezzo: $ ${parseInt(price).toLocaleString()}`, 20, 80);
+            doc.text(`Agente: ${staff}`, 20, 150);
+            
+            db.ref('sales_logs').push({ client, car, price, staff, date: new Date().toISOString() });
+            doc.save(`Contratto_${client}.pdf`);
+            alert("Contratto Generato!");
+        }
+    </script>
 </body>
 </html>
