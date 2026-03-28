@@ -187,15 +187,18 @@
       overflow: hidden;
     }
 
-    .hero-video {
+    .hero-carousel {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      min-width: 100%;
-      min-height: 100%;
-      transform: translate(-50%, -50%);
-      object-fit: cover;
-      opacity: 0.4;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      transition: background-image 0.8s ease-in-out;
+      opacity: 0.5;
+      z-index: 1;
     }
 
     .hero-overlay {
@@ -719,9 +722,7 @@
   <main>
     <!-- HOME -->
     <div id="home" class="page active">
-      <video class="hero-video" autoplay muted loop playsinline>
-        <source src="https://assets.mixkit.co/videos/preview/mixkit-fast-driving-in-a-city-at-night-12344-large.mp4" type="video/mp4">
-      </video>
+      <div class="hero-carousel"></div>
       <div class="hero-overlay">
         <h1 class="hero-title">AUTO<span>NATION</span><br>TEXAS</h1>
         <p style="font-family: 'Orbitron'; letter-spacing: 5px; color: #888;">PREMIUM MOTORSPORT EXPERIENCE</p>
@@ -999,6 +1000,33 @@
     let carsCache = {};
     let selectedFilter = "TUTTO";
     let tempImageBase64 = "";
+    let carouselIndex = 0;
+
+    // AUTO REALI PER CAROUSEL
+    const heroCarImages = [
+      'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=1200&h=600&fit=crop', // Ferrari
+      'https://images.unsplash.com/photo-1579274455190-fad5a82f06d4?w=1200&h=600&fit=crop', // Lamborghini
+      'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=1200&h=600&fit=crop', // McLaren
+      'https://images.unsplash.com/photo-1605559424843-9e4c3febea6d?w=1200&h=600&fit=crop', // Porsche
+      'https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=1200&h=600&fit=crop', // Mercedes
+      'https://images.unsplash.com/photo-1527524330037-7ee0dd65d618?w=1200&h=600&fit=crop', // BMW
+      'https://images.unsplash.com/photo-1617654112368-307921291f54?w=1200&h=600&fit=crop', // Aston Martin
+      'https://images.unsplash.com/photo-1533473359331-35acde7260c0?w=1200&h=600&fit=crop'  // Bugatti
+    ];
+
+    /* --- CAROUSEL HERO --- */
+    function startHeroCarousel() {
+      const carousel = document.querySelector('.hero-carousel');
+      if (!carousel) return;
+      
+      setInterval(() => {
+        carousel.style.backgroundImage = `url('${heroCarImages[carouselIndex]}')`;
+        carouselIndex = (carouselIndex + 1) % heroCarImages.length;
+      }, 4000);
+      
+      // Imposta la prima immagine subito
+      carousel.style.backgroundImage = `url('${heroCarImages[0]}')`;
+    }
 
     /* --- NAVIGAZIONE --- */
     function navTo(pageId, btn) {
@@ -1043,6 +1071,9 @@
     db.ref('appointments').on('value', snapshot => {
       renderAdminAppointments(snapshot.val() || {});
     });
+
+    // Avvia carousel hero
+    startHeroCarousel();
 
     /* --- RENDER FUNCTIONS --- */
     function filterData(cat, btn) {
