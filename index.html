@@ -788,6 +788,33 @@
     const WEBHOOK_SALES = "https://discord.com/api/webhooks/1487566509982355487/dekKyZ-WeiUCUvTpeacX6YSBRssl3e_27xTTgxQwPYdOrUP8bREE1hOIOpsw-_A7rC_W";
     const LOGO_IMG = "https://res.cloudinary.com/dtunh07qw/image/upload/v1774726227/prdrllnucdla95lhztwi.png";
 
+    /* --- WEBHOOK HELPER --- */
+    function sendWebhook(url, payload) {
+      return fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).then(res => {
+        console.log(`Webhook response: ${res.status}`);
+        if (res.status === 204 || res.status === 200) {
+          console.log('✅ Webhook sent successfully');
+          return true;
+        } else if (res.status === 401 || res.status === 404) {
+          console.error('❌ Webhook invalid or expired. Check URL:', url);
+          return false;
+        } else if (res.status === 429) {
+          console.warn('⚠️ Rate limited. Wait before next webhook.');
+          return false;
+        } else {
+          console.error('❌ Webhook error:', res.status, res.statusText);
+          return false;
+        }
+      }).catch(err => {
+        console.error('❌ Network error sending webhook:', err);
+        return false;
+      });
+    }
+
     /* --- STATE MANAGEMENT --- */
     let carsCache = {};
     let selectedFilter = "TUTTO";
@@ -1001,25 +1028,23 @@
           ping = `<@${a.discord}>`;
         }
 
-        fetch(WEBHOOK_APPOINTMENT, {
-          method: 'POST',
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            content: `📅 **PRENOTAZIONE ACCETTATA** | ${ping}`,
-            embeds: [{
-              title: "📌 Appuntamento Confermato",
-              description:
-                `Ciao ${ping}, il tuo appuntamento è stato **confermato**.\n\n` +
-                `📍 **Civico:** 203\n` +
-                `📆 **Data:** ${a.date}\n` +
-                `⏰ **Ora:** ${a.time}\n\n` +
-                `Ti aspettiamo!`,
-              color: 65280,
-              thumbnail: { url: LOGO_IMG },
-              footer: { text: "AutoNation Texas — Appointment System" },
-              timestamp: new Date()
-            }]
-          })
+        sendWebhook(WEBHOOK_APPOINTMENT, {
+          content: `📅 **PRENOTAZIONE ACCETTATA** | ${ping}`,
+          embeds: [{
+            title: "📌 Appuntamento Confermato",
+            description:
+              `Ciao ${ping}, il tuo appuntamento è stato **confermato**.\n\n` +
+              `📍 **Civico:** 203\n` +
+              `📆 **Data:** ${a.date}\n` +
+              `⏰ **Ora:** ${a.time}\n\n` +
+              `Ti aspettiamo!`,
+            color: 65280,
+            thumbnail: { url: LOGO_IMG },
+            footer: { text: "AutoNation Texas — Appointment System" },
+            timestamp: new Date().toISOString()
+          }]
+        }).then(success => {
+          if (!success) alert("⚠️ Webhook non inviato - Controlla la console per dettagli");
         });
 
         db.ref('appointments').child(id).remove();
@@ -1041,25 +1066,23 @@
           ping = `<@${a.discord}>`;
         }
 
-        fetch(WEBHOOK_APPOINTMENT, {
-          method: 'POST',
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            content: `❌ **PRENOTAZIONE RIFIUTATA** | ${ping}`,
-            embeds: [{
-              title: "⛔ Appuntamento Non Accettato",
-              description:
-                `Ciao ${ping}, purtroppo **non possiamo confermare** il tuo appuntamento.\n\n` +
-                `📆 **Data richiesta:** ${a.date}\n` +
-                `⏰ **Ora richiesta:** ${a.time}\n\n` +
-                `**Motivo:** ${motivo}\n\n` +
-                `Puoi riprovare con un altro orario.`,
-              color: 16711680,
-              thumbnail: { url: LOGO_IMG },
-              footer: { text: "AutoNation Texas — Appointment System" },
-              timestamp: new Date()
-            }]
-          })
+        sendWebhook(WEBHOOK_APPOINTMENT, {
+          content: `❌ **PRENOTAZIONE RIFIUTATA** | ${ping}`,
+          embeds: [{
+            title: "⛔ Appuntamento Non Accettato",
+            description:
+              `Ciao ${ping}, purtroppo **non possiamo confermare** il tuo appuntamento.\n\n` +
+              `📆 **Data richiesta:** ${a.date}\n` +
+              `⏰ **Ora richiesta:** ${a.time}\n\n` +
+              `**Motivo:** ${motivo}\n\n` +
+              `Puoi riprovare con un altro orario.`,
+            color: 16711680,
+            thumbnail: { url: LOGO_IMG },
+            footer: { text: "AutoNation Texas — Appointment System" },
+            timestamp: new Date().toISOString()
+          }]
+        }).then(success => {
+          if (!success) alert("⚠️ Webhook non inviato - Controlla la console per dettagli");
         });
 
         db.ref('appointments').child(id).remove();
@@ -1159,26 +1182,24 @@
       doc.save(`Invoice_${invoiceId}.pdf`);
 
       // WEBHOOK LOG
-      fetch(WEBHOOK_SALES, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          embeds: [{
-            title: "💰 NUOVA VENDITA REGISTRATA",
-            color: 3066993,
-            thumbnail: { url: LOGO_IMG },
-            fields: [
-              { name: "Cliente", value: client, inline: true },
-              { name: "Agente", value: agent, inline: true },
-              { name: "Veicolo", value: car, inline: false },
-              { name: "Prezzo", value: `$ ${parseInt(price).toLocaleString()}`, inline: true },
-              { name: "Metodo", value: method, inline: true },
-              { name: "Note", value: notes, inline: false }
-            ],
-            footer: { text: "AutoNation Texas — Sales Registry" },
-            timestamp: new Date()
-          }]
-        })
+      sendWebhook(WEBHOOK_SALES, {
+        embeds: [{
+          title: "💰 NUOVA VENDITA REGISTRATA",
+          color: 3066993,
+          thumbnail: { url: LOGO_IMG },
+          fields: [
+            { name: "Cliente", value: client, inline: true },
+            { name: "Agente", value: agent, inline: true },
+            { name: "Veicolo", value: car, inline: false },
+            { name: "Prezzo", value: `$ ${parseInt(price).toLocaleString()}`, inline: true },
+            { name: "Metodo", value: method, inline: true },
+            { name: "Note", value: notes || "N/A", inline: false }
+          ],
+          footer: { text: "AutoNation Texas — Sales Registry" },
+          timestamp: new Date().toISOString()
+        }]
+      }).then(success => {
+        if (!success) console.warn("Sales webhook may have failed");
       });
 
       alert("Vendita completata! PDF generato e log inviato.");
@@ -1186,5 +1207,3 @@
   </script>
 </body>
 </html>
-
-
