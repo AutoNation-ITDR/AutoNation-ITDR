@@ -1138,22 +1138,47 @@
       grid.innerHTML = "";
       const cars = Object.entries(carsCache).slice(0, 3);
       
+      const carDescriptions = {
+        'Ferrari 488': 'Cavallo rampante in pista - 661 CV di pura adrenalina',
+        'Ferrari 458': 'Capolavoro italiano con V12 aspirato da 570 CV',
+        'Lamborghini Huracán': 'Aggressivo e velocissimo - 640 CV di pura potenza',
+        'Lamborghini Aventador': 'Futuristico e dominante in ogni curva',
+        'McLaren 720S': 'Precisione inglese con accelerazione devastante',
+        'McLaren F1': 'Il mito delle miti - 240 km/h di velocità massima',
+        'Porsche 911 GT3': 'Icona del motorsport - affidabilità e velocità',
+        'Porsche 911 Turbo': 'Tuning tedesco con twin-turbo da 580 CV',
+        'BMW M4': 'Berlinetta tedesca con prestazioni da supercar',
+        'Mercedes-AMG GT': 'Eleganza e potenza a 585 CV',
+        'Aston Martin DBR1': 'Bellezza britannica con 300 CV di leggenda',
+        'Aston Martin Vantage': 'Design sofisticato e prestazioni di classe',
+        'Lotus Emira': 'Leggera e agile come poche altre auto',
+        'Pagani Zonda': 'Capolavoro aerodinamico argentino',
+        'Bugatti Chiron': 'Mostro ipercar con 1500 CV',
+        'Koenigsegg Regera': 'Svedese futuristica con 1160 CV',
+        'Ford Mustang': 'Muscolosa americana con V8 da 467 CV',
+        'Dodge Viper': 'Serpente americano da 645 CV di pura follia',
+        'Nissan Z': 'Leggenda nipponica rinata con stile moderno',
+        'Toyota Supra': 'Icona tuning con prestazioni sconfinante',
+        'Honda NSX': 'Ibrida giapponese da 600 CV'
+      };
+      
       cars.forEach((entry, index) => {
         const [id, car] = entry;
         const position = index + 1;
-        const descriptions = {
-          'Regular': 'Prestazioni solide e affidabili per ogni situazione',
-          'Prestige': 'Lusso e velocità unite in perfetta armonia',
-          'Electric': 'Tecnologia futuristica con accelerazione devastante',
-          'Classic': 'Stile senza tempo e handling leggendario'
-        };
         
-        const desc = descriptions[car.type] || 'Veicolo esclusivo della collezione AutoNation';
+        // Cerca descrizione per nome auto
+        let desc = 'Veicolo esclusivo della collezione AutoNation';
+        for (const [carName, description] of Object.entries(carDescriptions)) {
+          if (car.name.includes(carName)) {
+            desc = description;
+            break;
+          }
+        }
         
         grid.innerHTML += `
           <div class="race-card">
             <div class="race-img-container">
-              <img src="${car.img}" class="race-img" onerror="this.src='https://via.placeholder.com/400x250?text=${car.name}'">
+              <img src="${car.img}" class="race-img" onerror="this.src='https://via.placeholder.com/400x250?text=${encodeURIComponent(car.name)}'">
               <div class="race-position">🏁 ${position}</div>
               <div class="race-status">⚡ In Gara</div>
             </div>
@@ -1162,7 +1187,7 @@
               <div class="race-desc">${desc}</div>
               <div style="display: flex; gap: 15px; font-size: 0.8rem; color: #666;">
                 <span><i class="fa-solid fa-flag"></i> ${car.type}</span>
-                <span><i class="fa-solid fa-bolt"></i> Premium</span>
+                <span><i class="fa-solid fa-bolt"></i> Racing</span>
               </div>
               <div class="race-price-tag">$ ${parseInt(car.price).toLocaleString()}</div>
             </div>
