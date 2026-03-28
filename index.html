@@ -187,20 +187,6 @@
       overflow: hidden;
     }
 
-    .hero-carousel {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      transition: background-image 0.8s ease-in-out;
-      opacity: 0.5;
-      z-index: 1;
-    }
-
     .hero-overlay {
       position: relative;
       z-index: 2;
@@ -210,170 +196,11 @@
       justify-content: center;
       align-items: center;
       text-align: center;
-      background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.8) 100%);
+      background: radial-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(15,15,15,0.95) 50%, rgba(0,0,0,0.9) 100%);
       padding-bottom: 100px;
     }
 
-    /* --- RACING SECTION --- */
-    .racing-section {
-      background: linear-gradient(180deg, #000 0%, #0a0a0a 100%);
-      padding: 80px 60px;
-      position: relative;
-    }
 
-    .racing-header {
-      text-align: center;
-      margin-bottom: 50px;
-    }
-
-    .racing-header h3 {
-      font-family: 'Orbitron';
-      font-size: 2.5rem;
-      color: var(--p);
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      margin-bottom: 10px;
-      text-shadow: 0 0 30px rgba(var(--p-rgb), 0.5);
-    }
-
-    .racing-header p {
-      color: #888;
-      font-size: 1rem;
-    }
-
-    .race-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-      gap: 30px;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    .race-card {
-      background: #0d0d0d;
-      border: 2px solid #1a1a1a;
-      border-radius: 15px;
-      overflow: hidden;
-      position: relative;
-      transition: 0.4s ease;
-      animation: slideIn 0.6s ease forwards;
-    }
-
-    .race-card:nth-child(1) { animation-delay: 0.1s; }
-    .race-card:nth-child(2) { animation-delay: 0.3s; }
-    .race-card:nth-child(3) { animation-delay: 0.5s; }
-
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateX(-30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-
-    .race-card:hover {
-      border-color: var(--p);
-      box-shadow: 0 0 30px rgba(var(--p-rgb), 0.3), inset 0 0 20px rgba(var(--p-rgb), 0.1);
-      transform: translateY(-5px);
-    }
-
-    .race-img-container {
-      position: relative;
-      height: 250px;
-      overflow: hidden;
-      background: #000;
-    }
-
-    .race-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: 0.6s;
-    }
-
-    .race-card:hover .race-img {
-      transform: scale(1.1);
-    }
-
-    .race-position {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      background: var(--p);
-      color: #000;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Orbitron';
-      font-size: 1.5rem;
-      font-weight: 900;
-      box-shadow: 0 0 20px rgba(var(--p-rgb), 0.6);
-    }
-
-    .race-status {
-      position: absolute;
-      bottom: 15px;
-      left: 15px;
-      background: rgba(0, 255, 0, 0.2);
-      border: 1px solid #00ff00;
-      color: #00ff00;
-      padding: 8px 15px;
-      border-radius: 5px;
-      font-size: 0.7rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      font-family: 'Orbitron';
-      animation: pulse-race 1.5s infinite;
-    }
-
-    @keyframes pulse-race {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.6; }
-    }
-
-    .race-content {
-      padding: 25px;
-    }
-
-    .race-name {
-      font-family: 'Orbitron';
-      font-size: 1.3rem;
-      color: #fff;
-      margin-bottom: 10px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .race-desc {
-      color: #999;
-      font-size: 0.95rem;
-      line-height: 1.6;
-      margin-bottom: 15px;
-      min-height: 60px;
-    }
-
-    .race-specs-mini {
-      display: flex;
-      gap: 20px;
-      padding-top: 15px;
-      border-top: 1px solid #222;
-      color: #666;
-      font-size: 0.8rem;
-    }
-
-    .race-price-tag {
-      color: var(--p);
-      font-size: 1.3rem;
-      font-weight: 900;
-      font-family: 'Fira Code';
-      margin-top: 10px;
-    }
 
     .hero-title {
       font-family: 'Orbitron';
@@ -722,7 +549,6 @@
   <main>
     <!-- HOME -->
     <div id="home" class="page active">
-      <div class="hero-carousel"></div>
       <div class="hero-overlay">
         <h1 class="hero-title">AUTO<span>NATION</span><br>TEXAS</h1>
         <p style="font-family: 'Orbitron'; letter-spacing: 5px; color: #888;">PREMIUM MOTORSPORT EXPERIENCE</p>
@@ -746,15 +572,6 @@
           onclick="navTo('showroom', document.querySelectorAll('.nav-link')[1])">
           Esplora Showroom
         </button>
-      </div>
-
-      <!-- RACING SECTION -->
-      <div class="racing-section">
-        <div class="racing-header">
-          <h3>🏁 Macchine In Gara</h3>
-          <p>I migliori veicoli della stagione attualmente in competizione</p>
-        </div>
-        <div id="race-grid" class="race-grid"></div>
       </div>
     </div>
 
@@ -1000,33 +817,6 @@
     let carsCache = {};
     let selectedFilter = "TUTTO";
     let tempImageBase64 = "";
-    let carouselIndex = 0;
-
-    // AUTO REALI PER CAROUSEL
-    const heroCarImages = [
-      'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=1200&h=600&fit=crop', // Ferrari
-      'https://images.unsplash.com/photo-1579274455190-fad5a82f06d4?w=1200&h=600&fit=crop', // Lamborghini
-      'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=1200&h=600&fit=crop', // McLaren
-      'https://images.unsplash.com/photo-1605559424843-9e4c3febea6d?w=1200&h=600&fit=crop', // Porsche
-      'https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=1200&h=600&fit=crop', // Mercedes
-      'https://images.unsplash.com/photo-1527524330037-7ee0dd65d618?w=1200&h=600&fit=crop', // BMW
-      'https://images.unsplash.com/photo-1617654112368-307921291f54?w=1200&h=600&fit=crop', // Aston Martin
-      'https://images.unsplash.com/photo-1533473359331-35acde7260c0?w=1200&h=600&fit=crop'  // Bugatti
-    ];
-
-    /* --- CAROUSEL HERO --- */
-    function startHeroCarousel() {
-      const carousel = document.querySelector('.hero-carousel');
-      if (!carousel) return;
-      
-      setInterval(() => {
-        carousel.style.backgroundImage = `url('${heroCarImages[carouselIndex]}')`;
-        carouselIndex = (carouselIndex + 1) % heroCarImages.length;
-      }, 4000);
-      
-      // Imposta la prima immagine subito
-      carousel.style.backgroundImage = `url('${heroCarImages[0]}')`;
-    }
 
     /* --- NAVIGAZIONE --- */
     function navTo(pageId, btn) {
@@ -1064,16 +854,12 @@
       renderShowroom();
       updateOwnerStock();
       populateSalesSelect();
-      renderRacingSection();
       document.getElementById('count-cars').innerText = Object.keys(carsCache).length;
     });
 
     db.ref('appointments').on('value', snapshot => {
       renderAdminAppointments(snapshot.val() || {});
     });
-
-    // Avvia carousel hero
-    startHeroCarousel();
 
     /* --- RENDER FUNCTIONS --- */
     function filterData(cat, btn) {
@@ -1161,71 +947,7 @@
       }
     }
 
-    /* --- RENDER RACING SECTION --- */
-    function renderRacingSection() {
-      const grid = document.getElementById('race-grid');
-      if (!grid) return;
-      
-      grid.innerHTML = "";
-      const cars = Object.entries(carsCache).slice(0, 3);
-      
-      const carDescriptions = {
-        'Ferrari 488': 'Cavallo rampante in pista - 661 CV di pura adrenalina',
-        'Ferrari 458': 'Capolavoro italiano con V12 aspirato da 570 CV',
-        'Lamborghini Huracán': 'Aggressivo e velocissimo - 640 CV di pura potenza',
-        'Lamborghini Aventador': 'Futuristico e dominante in ogni curva',
-        'McLaren 720S': 'Precisione inglese con accelerazione devastante',
-        'McLaren F1': 'Il mito delle miti - 240 km/h di velocità massima',
-        'Porsche 911 GT3': 'Icona del motorsport - affidabilità e velocità',
-        'Porsche 911 Turbo': 'Tuning tedesco con twin-turbo da 580 CV',
-        'BMW M4': 'Berlinetta tedesca con prestazioni da supercar',
-        'Mercedes-AMG GT': 'Eleganza e potenza a 585 CV',
-        'Aston Martin DBR1': 'Bellezza britannica con 300 CV di leggenda',
-        'Aston Martin Vantage': 'Design sofisticato e prestazioni di classe',
-        'Lotus Emira': 'Leggera e agile come poche altre auto',
-        'Pagani Zonda': 'Capolavoro aerodinamico argentino',
-        'Bugatti Chiron': 'Mostro ipercar con 1500 CV',
-        'Koenigsegg Regera': 'Svedese futuristica con 1160 CV',
-        'Ford Mustang': 'Muscolosa americana con V8 da 467 CV',
-        'Dodge Viper': 'Serpente americano da 645 CV di pura follia',
-        'Nissan Z': 'Leggenda nipponica rinata con stile moderno',
-        'Toyota Supra': 'Icona tuning con prestazioni sconfinante',
-        'Honda NSX': 'Ibrida giapponese da 600 CV'
-      };
-      
-      cars.forEach((entry, index) => {
-        const [id, car] = entry;
-        const position = index + 1;
-        
-        // Cerca descrizione per nome auto
-        let desc = 'Veicolo esclusivo della collezione AutoNation';
-        for (const [carName, description] of Object.entries(carDescriptions)) {
-          if (car.name.includes(carName)) {
-            desc = description;
-            break;
-          }
-        }
-        
-        grid.innerHTML += `
-          <div class="race-card">
-            <div class="race-img-container">
-              <img src="${car.img}" class="race-img" onerror="this.src='https://via.placeholder.com/400x250?text=${encodeURIComponent(car.name)}'">
-              <div class="race-position">🏁 ${position}</div>
-              <div class="race-status">⚡ In Gara</div>
-            </div>
-            <div class="race-content">
-              <div class="race-name">${car.name}</div>
-              <div class="race-desc">${desc}</div>
-              <div style="display: flex; gap: 15px; font-size: 0.8rem; color: #666;">
-                <span><i class="fa-solid fa-flag"></i> ${car.type}</span>
-                <span><i class="fa-solid fa-bolt"></i> Racing</span>
-              </div>
-              <div class="race-price-tag">$ ${parseInt(car.price).toLocaleString()}</div>
-            </div>
-          </div>
-        `;
-      });
-    }
+
 
     /* --- LOGIC ACTIONS --- */
     function autoFillPrice() {
