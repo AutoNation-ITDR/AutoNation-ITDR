@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AUTONATION TEXAS | CYBER HUB v31.0</title>
+    <title>AUTONATION TEXAS | OFFICIAL HUB</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;500&family=Orbitron:wght@400;900&family=Outfit:wght@300;600;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -13,72 +13,48 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <style>
-        :root { 
-            --p: #ff2e4d; --bg: #000; --s: #080808; --b: #151515; --t: #fff;
-            --glitch: #00f2ff;
-        }
-
+        :root { --p: #ff2e4d; --bg: #000; --s: #0a0a0a; --b: #1a1a1a; --t: #fff; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background: var(--bg); color: var(--t); font-family: 'Outfit', sans-serif; display: flex; height: 100vh; overflow: hidden; }
 
         /* --- SIDEBAR --- */
-        nav { width: 280px; background: #000; border-right: 2px solid var(--p); display: flex; flex-direction: column; padding: 30px; z-index: 100; box-shadow: 10px 0 30px rgba(255,46,77,0.1); flex-shrink: 0; }
+        nav { width: 260px; background: var(--s); border-right: 2px solid var(--p); display: flex; flex-direction: column; padding: 30px; z-index: 100; flex-shrink: 0; }
         .logo-box { text-align: center; margin-bottom: 40px; }
-        .logo-box img { width: 130px; height: 130px; border-radius: 50%; border: 3px solid var(--p); filter: drop-shadow(0 0 15px var(--p)); object-fit: cover; }
-        
-        .nav-link { 
-            background: none; border: 1px solid transparent; color: #666; padding: 15px; margin-bottom: 8px;
-            font-family: 'Orbitron'; font-size: 0.8rem; text-align: left; cursor: pointer; transition: 0.3s;
-            text-transform: uppercase; letter-spacing: 1px;
-        }
-        .nav-link:hover, .nav-link.active { color: var(--p); border-left: 5px solid var(--p); background: rgba(255,46,77,0.05); padding-left: 20px; }
+        .logo-box img { width: 130px; height: 130px; border-radius: 50%; border: 2px solid var(--p); object-fit: cover; }
+        .nav-link { background: none; border: none; color: #777; padding: 15px; margin-bottom: 5px; font-family: 'Orbitron'; font-size: 0.75rem; text-align: left; cursor: pointer; text-transform: uppercase; transition: 0.3s; }
+        .nav-link.active { color: var(--p); border-left: 4px solid var(--p); background: rgba(255,46,77,0.05); padding-left: 20px; }
 
-        /* --- MAIN CONTENT --- */
+        /* --- MAIN --- */
         main { flex: 1; overflow-y: auto; background: #050505; position: relative; }
         .page { display: none; min-height: 100%; padding: 40px; }
         .page.active { display: block; }
 
-        /* --- HOME FIX (FULLSCREEN VIDEO) --- */
+        /* --- HOME --- */
         #home { padding: 0; position: relative; width: 100%; height: 100%; overflow: hidden; }
-        .hero-video { position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; transform: translate(-50%, -50%); object-fit: cover; opacity: 0.5; z-index: 1; }
-        .hero-overlay { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: radial-gradient(circle, transparent 10%, rgba(0,0,0,0.8) 90%); }
-        .hero-title { font-family: 'Orbitron'; font-size: 6rem; font-weight: 900; letter-spacing: -2px; text-shadow: 0 0 40px var(--p); line-height: 1; }
-        .hero-tag { font-family: 'Fira Code'; color: var(--p); font-size: 1.2rem; letter-spacing: 12px; margin-top: 10px; text-transform: uppercase; }
+        .hero-video { position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; transform: translate(-50%, -50%); object-fit: cover; opacity: 0.5; }
+        .hero-overlay { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: radial-gradient(circle, transparent, rgba(0,0,0,0.9)); }
+        .hero-title { font-family: 'Orbitron'; font-size: 5rem; font-weight: 900; text-shadow: 0 0 30px var(--p); line-height: 1; }
 
-        /* --- OWNER DASHBOARD --- */
-        .dash-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 25px; }
-        .cyber-panel { background: #0a0a0a; border: 1px solid #1a1a1a; padding: 30px; border-radius: 4px; position: relative; }
-        .cyber-panel::before { content: ""; position: absolute; top: 0; left: 0; width: 30px; height: 2px; background: var(--p); }
-        .panel-title { font-family: 'Fira Code'; color: var(--p); font-size: 0.7rem; margin-bottom: 25px; border-bottom: 1px solid #222; padding-bottom: 10px; text-transform: uppercase; }
-
-        /* Lista Auto per Owner */
-        .stock-table { width: 100%; border-collapse: collapse; font-family: 'Fira Code'; font-size: 0.8rem; }
-        .stock-table th { color: #444; text-align: left; padding: 10px; border-bottom: 1px solid #222; }
-        .stock-table td { padding: 12px 10px; border-bottom: 1px solid #111; }
-        .btn-del { background: none; border: 1px solid var(--p); color: var(--p); padding: 4px 8px; cursor: pointer; font-size: 0.7rem; }
-        .btn-del:hover { background: var(--p); color: white; }
-
-        /* Showroom Cards */
+        /* --- SHOWROOM (RIPRISTINATO) --- */
         .car-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
-        .car-card { background: #0d0d0d; border: 1px solid #1a1a1a; position: relative; transition: 0.3s; }
-        .car-card:hover { border-color: var(--p); transform: translateY(-5px); }
-        .car-img { width: 100%; height: 200px; object-fit: cover; filter: grayscale(30%); }
-        .badge { position: absolute; top: 15px; right: 15px; padding: 4px 10px; font-size: 0.6rem; border: 1px solid var(--p); color: var(--p); background: black; font-family: 'Fira Code'; }
+        .car-card { background: #0d0d0d; border: 1px solid var(--b); position: relative; border-radius: 10px; overflow: hidden; }
+        .car-img { width: 100%; height: 200px; object-fit: cover; }
+        .badge { position: absolute; top: 15px; right: 15px; padding: 5px 12px; font-size: 0.6rem; font-weight: 900; background: var(--p); color: white; border-radius: 4px; text-transform: uppercase; }
+        .car-info { padding: 20px; }
 
-        /* Input Styles */
-        input, select { width: 100%; background: #000; border: 1px solid #222; color: #fff; padding: 15px; margin-bottom: 15px; font-family: 'Outfit'; }
-        .btn-cyber { width: 100%; padding: 18px; background: var(--p); color: #fff; border: none; font-family: 'Orbitron'; font-weight: 900; cursor: pointer; text-transform: uppercase; transition: 0.3s; }
-        .btn-cyber:hover { letter-spacing: 3px; box-shadow: 0 0 20px rgba(255,46,77,0.4); }
-
+        /* --- PANELS & FORMS --- */
+        .panel { background: #0a0a0a; border: 1px solid var(--b); padding: 35px; border-radius: 15px; max-width: 550px; margin: 0 auto; }
+        .panel-title { font-family: 'Orbitron'; color: var(--p); margin-bottom: 25px; font-size: 1.2rem; text-align: center; }
+        input, select { width: 100%; background: #000; border: 1px solid #333; color: #fff; padding: 15px; margin-bottom: 15px; border-radius: 8px; font-family: 'Outfit'; }
+        .btn-prime { width: 100%; padding: 18px; background: var(--p); color: #fff; border: none; font-family: 'Orbitron'; font-weight: 900; cursor: pointer; border-radius: 8px; text-transform: uppercase; }
+        
         .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="logo-box">
-            <img src="https://res.cloudinary.com/dtunh07qw/image/upload/v1774726227/prdrllnucdla95lhztwi.png" alt="Texas Logo">
-        </div>
+        <div class="logo-box"><img src="https://res.cloudinary.com/dtunh07qw/image/upload/v1774726227/prdrllnucdla95lhztwi.png"></div>
         <button class="nav-link active" onclick="navTo('home', this)">Home</button>
         <button class="nav-link" onclick="navTo('showroom', this)">Showroom</button>
         <button class="nav-link" onclick="navTo('booking', this)">Prenotazioni</button>
@@ -88,75 +64,75 @@
 
     <main>
         <div id="home" class="page active">
-            <video class="hero-video" autoplay muted loop playsinline>
-                <source src="https://assets.mixkit.co/videos/preview/mixkit-fast-driving-in-a-city-at-night-12344-large.mp4" type="video/mp4">
-            </video>
+            <video class="hero-video" autoplay muted loop playsinline><source src="https://assets.mixkit.co/videos/preview/mixkit-fast-driving-in-a-city-at-night-12344-large.mp4"></video>
             <div class="hero-overlay">
                 <h1 class="hero-title">AUTONATION<br><span style="color:var(--p)">TEXAS</span></h1>
-                <div class="hero-tag">Elite Vehicle Division</div>
             </div>
         </div>
 
         <div id="showroom" class="page">
-            <h2 style="font-family:'Orbitron'; color:var(--p); margin-bottom:30px;">DATABASE VEICOLI</h2>
+            <h2 style="font-family:'Orbitron'; margin-bottom:30px;">STOCK DISPONIBILE</h2>
             <div id="fleet-grid" class="car-grid"></div>
         </div>
 
         <div id="booking" class="page">
-            <div class="cyber-panel" style="max-width:550px; margin: 0 auto;">
-                <div class="panel-title">Richiesta Appuntamento</div>
-                <input id="book-name" placeholder="Nome Completo">
+            <div class="panel">
+                <div class="panel-title">PRENOTA APPUNTAMENTO</div>
+                <input id="book-name" placeholder="Nome">
                 <input id="book-discord" placeholder="Discord ID">
                 <input type="date" id="book-date">
                 <input type="time" id="book-time">
-                <button class="btn-cyber" onclick="sendBooking()">Invia ai Sistemi</button>
+                <button class="btn-prime" onclick="sendBooking()">INVIA RICHIESTA</button>
             </div>
         </div>
 
         <div id="sales" class="page">
-            <div class="cyber-panel" style="max-width:550px; margin: 0 auto;">
-                <div class="panel-title">Terminale Vendite (PDF)</div>
-                <label style="font-size:0.6rem; color:#444;">ACQUIRENTE</label>
-                <input id="inv-name" placeholder="Nome Cliente">
-                <label style="font-size:0.6rem; color:#444;">VEICOLO</label>
-                <select id="inv-car" onchange="updatePrice()"></select>
-                <label style="font-size:0.6rem; color:#444;">PREZZO FINALIZZATO ($)</label>
-                <input id="inv-final" readonly>
-                <label style="font-size:0.6rem; color:#444;">AGENTE RESPONSABILE</label>
-                <input id="inv-sign" placeholder="Firma Agente">
-                <button class="btn-cyber" onclick="makeInvoice()">Genera e Logga Contratto</button>
+            <div id="sales-gate" class="panel" style="max-width:350px; text-align:center;">
+                <div class="panel-title">AREA STAFF</div>
+                <input type="password" id="pw-sales" placeholder="INSERIRE PIN">
+                <button class="btn-prime" onclick="verify('sales')">ACCEDI</button>
+            </div>
+            <div id="sales-content" class="hidden">
+                <div class="panel">
+                    <div class="panel-title">TERMINALE VENDITE</div>
+                    <label style="font-size:0.7rem; color:var(--p);">ACQUIRENTE</label>
+                    <input id="inv-name">
+                    <label style="font-size:0.7rem; color:var(--p);">VEICOLO</label>
+                    <select id="inv-car" onchange="updatePrice()"></select>
+                    <label style="font-size:0.7rem; color:var(--p);">PREZZO FINALIZZATO ($)</label>
+                    <input id="inv-final" readonly>
+                    <label style="font-size:0.7rem; color:var(--p);">AGENTE</label>
+                    <input id="inv-sign">
+                    <button class="btn-prime" onclick="makeInvoice()">GENERA E LOGGA</button>
+                </div>
             </div>
         </div>
 
         <div id="owners" class="page">
-            <div id="owners-gate" class="cyber-panel" style="max-width:400px; margin: 0 auto; text-align:center;">
-                <div class="panel-title">ACCESSO RISERVATO OWNER</div>
-                <input type="password" id="pw-owners" placeholder="PASSWORD DI SISTEMA">
-                <button class="btn-cyber" onclick="verify()">ACCEDI AL CORE</button>
+            <div id="owners-gate" class="panel" style="max-width:350px; text-align:center;">
+                <div class="panel-title">OWNER ACCESS</div>
+                <input type="password" id="pw-owners" placeholder="OWNER KEY">
+                <button class="btn-prime" onclick="verify('owners')">SBLOCCA</button>
             </div>
-
             <div id="owners-content" class="hidden">
-                <h2 style="font-family:'Orbitron'; color:var(--p); margin-bottom:30px;">DASHBOARD GESTIONALE</h2>
-                <div class="dash-grid">
-                    <div class="cyber-panel">
-                        <div class="panel-title">Lista Veicoli in Vendita</div>
-                        <table class="stock-table">
-                            <thead><tr><th>Nome</th><th>Prezzo</th><th>Tipo</th><th>Azione</th></tr></thead>
-                            <tbody id="stock-list"></tbody>
-                        </table>
-                    </div>
-                    <div class="cyber-panel">
-                        <div class="panel-title">Carica Nuovo Veicolo</div>
-                        <input id="add-n" placeholder="Nome Modello">
-                        <input id="add-p" type="number" placeholder="Prezzo">
-                        <select id="add-type">
-                            <option value="Regular">Regular</option>
-                            <option value="Prestige">Prestige</option>
-                            <option value="Electric">Electric</option>
-                            <option value="Classic">Classic</option>
-                        </select>
-                        <input type="file" id="add-file">
-                        <button class="btn-cyber" onclick="saveToDB()">Pubblica Stock</button>
+                <div class="panel" style="max-width:800px;">
+                    <div class="panel-title">DASHBOARD OWNER</div>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+                        <div>
+                            <h4>NUOVO VEICOLO</h4>
+                            <input id="add-n" placeholder="Modello">
+                            <input id="add-p" type="number" placeholder="Prezzo">
+                            <select id="add-type">
+                                <option value="Regular">Regular</option>
+                                <option value="Prestige">Prestige</option>
+                                <option value="Electric">Electric</option>
+                                <option value="Classic">Classic</option>
+                            </select>
+                            <input type="file" id="add-file">
+                            <button class="btn-prime" onclick="saveToDB()">CARICA</button>
+                        </div>
+                        <div id="owner-stock-list" style="max-height:400px; overflow-y:auto; background:#000; padding:10px;">
+                            </div>
                     </div>
                 </div>
             </div>
@@ -173,7 +149,7 @@
         };
         firebase.initializeApp(config);
         const db = firebase.database();
-        const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1487566509982355487/dekKyZ-WeiUCUvTpeacX6YSBRssl3e_27xTTgxQwPYdOrUP8bREE1hOIOpsw-_A7rC_W";
+        const WEBHOOK = "https://discord.com/api/webhooks/1487566509982355487/dekKyZ-WeiUCUvTpeacX6YSBRssl3e_27xTTgxQwPYdOrUP8bREE1hOIOpsw-_A7rC_W";
 
         let allCars = {}, cacheImg = "";
 
@@ -183,47 +159,34 @@
             document.getElementById(id).classList.add('active'); el.classList.add('active');
         }
 
-        function verify() {
-            if(document.getElementById('pw-owners').value === "OWNER2026") {
-                document.getElementById('owners-gate').classList.add('hidden');
-                document.getElementById('owners-content').classList.remove('hidden');
+        function verify(type) {
+            const val = document.getElementById('pw-'+type).value;
+            if((type==='sales' && val==='1234') || (type==='owners' && val==='OWNER2026')) {
+                document.getElementById(type+'-gate').classList.add('hidden');
+                document.getElementById(type+'-content').classList.remove('hidden');
             } else { alert("ACCESSO NEGATO"); }
         }
 
         db.ref('cars').on('value', s => { 
             allCars = s.val() || {}; 
-            updateUI();
+            renderUI();
         });
 
-        function updateUI() {
+        function renderUI() {
             const grid = document.getElementById('fleet-grid');
-            const stockList = document.getElementById('stock-list');
             const sel = document.getElementById('inv-car');
-            grid.innerHTML = ""; stockList.innerHTML = ""; sel.innerHTML = "";
+            const ownList = document.getElementById('owner-stock-list');
+            grid.innerHTML = ""; sel.innerHTML = "<option disabled selected>Scegli...</option>"; ownList.innerHTML = "<h4>STOCK ATTUALE</h4>";
             
             for(let k in allCars) {
                 const c = allCars[k];
-                grid.innerHTML += `
-                    <div class="car-card">
-                        <div class="badge">${c.type}</div>
-                        <img src="${c.img}" class="car-img">
-                        <div style="padding:15px;">
-                            <h3 style="font-size:1rem; text-transform:uppercase;">${c.name}</h3>
-                            <div style="color:var(--p); font-weight:900;">$ ${parseInt(c.price).toLocaleString()}</div>
-                        </div>
-                    </div>`;
-                stockList.innerHTML += `
-                    <tr>
-                        <td>${c.name}</td>
-                        <td style="color:var(--p)">$ ${parseInt(c.price).toLocaleString()}</td>
-                        <td>${c.type}</td>
-                        <td><button class="btn-del" onclick="deleteCar('${k}')">ELIMINA</button></td>
-                    </tr>`;
+                grid.innerHTML += `<div class="car-card"><div class="badge">${c.type}</div><img src="${c.img}" class="car-img"><div class="car-info"><h3>${c.name}</h3><div style="color:var(--p); font-weight:900;">$ ${parseInt(c.price).toLocaleString()}</div></div></div>`;
                 sel.innerHTML += `<option value="${c.name}">${c.name}</option>`;
+                ownList.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:5px; padding:5px; border-bottom:1px solid #222;"><span>${c.name}</span><button onclick="deleteCar('${k}')" style="color:red; background:none; border:none; cursor:pointer;">ELIMINA</button></div>`;
             }
         }
 
-        function deleteCar(key) { if(confirm("Rimuovere definitivamente?")) db.ref('cars').child(key).remove(); }
+        function deleteCar(key) { if(confirm("Eliminare?")) db.ref('cars').child(key).remove(); }
         function updatePrice() {
             const n = document.getElementById('inv-car').value;
             for(let k in allCars) if(allCars[k].name === n) document.getElementById('inv-final').value = allCars[k].price;
@@ -235,7 +198,7 @@
 
         function saveToDB() {
             const n = document.getElementById('add-n').value, p = document.getElementById('add-p').value, t = document.getElementById('add-type').value;
-            if(n && p && cacheImg) db.ref('cars').push({ name: n, price: p, type: t, img: cacheImg }).then(() => alert("Veicolo Pubblicato!"));
+            if(n && p && cacheImg) db.ref('cars').push({ name: n, price: p, type: t, img: cacheImg }).then(() => alert("CARICATO!"));
         }
 
         async function makeInvoice() {
@@ -248,45 +211,34 @@
 
             doc.setFillColor(0,0,0); doc.rect(0,0,210,297,'F');
             doc.setTextColor(255, 46, 77); doc.setFontSize(30); doc.text("AUTONATION TEXAS", 20, 30);
-            doc.addImage("https://res.cloudinary.com/dtunh07qw/image/upload/v1774726227/prdrllnucdla95lhztwi.png", 'PNG', 165, 5, 40, 40);
-            
             doc.setTextColor(255, 255, 255); doc.setFontSize(12);
-            doc.text(`CONTRATTO DI ACQUISTO`, 20, 60);
+            doc.text(`CONTRATTO DI VENDITA`, 20, 60);
             doc.text(`CLIENTE: ${client.toUpperCase()}`, 20, 75);
             doc.text(`VEICOLO: ${car}`, 20, 85);
-            doc.text(`IMPORTO: $ ${parseInt(price).toLocaleString()}`, 20, 95);
-            
-            doc.setDrawColor(255, 46, 77); doc.rect(20, 130, 170, 40);
-            doc.text("FIRMA CLIENTE:", 25, 140);
-            doc.text("FIRMA AGENTE:", 120, 140);
-            doc.setTextColor(0, 242, 255); doc.setFontSize(16); doc.text(agent, 120, 155);
+            doc.text(`PREZZO: $ ${parseInt(price).toLocaleString()}`, 20, 95);
+            doc.save(`Contratto_${client}.pdf`);
 
-            // Webhook Discord
-            fetch(DISCORD_WEBHOOK, {
+            fetch(WEBHOOK, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
                     content: "<@&1465030207483154554>",
                     embeds: [{
-                        title: "📈 NUOVA VENDITA REGISTRATA",
+                        title: "📈 VENDITA REGISTRATA",
                         color: 16723533,
                         fields: [
-                            { name: "👤 Cliente", value: client, inline: true },
-                            { name: "🚘 Auto", value: car, inline: true },
-                            { name: "💰 Prezzo", value: `$ ${parseInt(price).toLocaleString()}`, inline: true },
-                            { name: "👔 Agente", value: agent, inline: true }
-                        ],
-                        footer: { text: "Texas Ops v31.0" }
+                            { name: "Cliente", value: client, inline: true },
+                            { name: "Auto", value: car, inline: true },
+                            { name: "Prezzo", value: `$ ${parseInt(price).toLocaleString()}`, inline: true },
+                            { name: "Agente", value: agent, inline: true }
+                        ]
                     }]
                 })
             });
-
-            doc.save(`Contratto_Texas_${client}.pdf`);
         }
-
         function sendBooking() {
             const n = document.getElementById('book-name').value;
-            if(n) db.ref('appointments').push({name: n, discord: document.getElementById('book-discord').value, date: document.getElementById('book-date').value, time: document.getElementById('book-time').value}).then(()=>alert("Prenotazione Inviata!"));
+            if(n) db.ref('appointments').push({name: n, discord: document.getElementById('book-discord').value, date: document.getElementById('book-date').value, time: document.getElementById('book-time').value}).then(()=>alert("PRENOTATO!"));
         }
     </script>
 </body>
