@@ -1608,17 +1608,12 @@
         });
       } catch (e) { console.warn("Timbro non caricato"); }
 
-      // === SFONDO NERO SCURO ===
-      doc.setFillColor(10, 14, 39);
+      // === SFONDO BIANCO STANDARD ===
+      doc.setFillColor(255, 255, 255);
       doc.rect(0, 0, 210, 297, "F");
 
-      // === BORDO PRINCIPALE NEON CIANO ===
-      doc.setDrawColor(212, 175, 55);
-      doc.setLineWidth(0.8);
-      doc.rect(8, 8, 194, 281);
-
       // === LINEA DECORATIVA SUPERIORE ===
-      doc.setDrawColor(255, 255, 255);
+      doc.setDrawColor(212, 175, 55);
       doc.setLineWidth(0.3);
       doc.line(10, 16, 200, 16);
 
@@ -1634,12 +1629,12 @@
       doc.text('AUTONATION', 40, 30);
       
       doc.setFontSize(14);
-      doc.setTextColor(255, 255, 255);
+      doc.setTextColor(212, 175, 55);
       doc.text('TEXAS', 110, 35);
 
       // === SOTTOTITOLO ===
       doc.setFontSize(8);
-      doc.setTextColor(150, 150, 150);
+      doc.setTextColor(100, 100, 100);
       doc.setFont('helvetica', 'normal');
       doc.text('OFFICIAL VEHICLE SALES CONTRACT & INVOICE', 20, 42);
 
@@ -1653,7 +1648,7 @@
       doc.setTextColor(212, 175, 55);
       doc.setFont('helvetica', 'bold');
       doc.text('CONTRACT NUMBER:', 15, 56);
-      doc.setTextColor(255, 255, 255);
+      doc.setTextColor(0, 0, 0);
       doc.setFont('courier', 'bold');
       doc.setFontSize(11);
       doc.text(invoiceId, 15, 62);
@@ -1663,7 +1658,7 @@
       doc.setTextColor(212, 175, 55);
       doc.setFont('helvetica', 'bold');
       doc.text('ISSUE DATE:', 130, 56);
-      doc.setTextColor(200, 200, 200);
+      doc.setTextColor(50, 50, 50);
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(10);
       doc.text(today, 130, 62);
@@ -1674,24 +1669,24 @@
       doc.text('DOC ID: ' + docId, 15, 70);
 
       // === BOX CLIENTE ===
-      doc.setDrawColor(255, 255, 255);
+      doc.setDrawColor(200, 200, 200);
       doc.setLineWidth(0.4);
       doc.rect(15, 76, 85, 22);
       
       doc.setFontSize(8);
-      doc.setTextColor(255, 255, 255);
+      doc.setTextColor(0, 0, 0);
       doc.setFont('helvetica', 'bold');
       doc.text('BUYER INFORMATION', 17, 82);
       
       doc.setFontSize(10);
-      doc.setTextColor(255, 255, 255);
+      doc.setTextColor(0, 0, 0);
       doc.setFont('helvetica', 'bold');
       doc.text(client.toUpperCase(), 17, 90);
       
       doc.setFontSize(8);
-      doc.setTextColor(150, 150, 150);
+      doc.setTextColor(100, 100, 100);
       doc.setFont('helvetica', 'normal');
-      doc.text('Civico 203, Los Santos, Texas', 17, 96);
+      doc.text('Civico 203, Austin, Texas', 17, 96);
 
       // === BOX VEICOLO ===
       doc.setDrawColor(212, 175, 55);
@@ -1704,12 +1699,12 @@
       doc.text('VEHICLE DETAILS', 107, 82);
       
       doc.setFontSize(10);
-      doc.setTextColor(255, 255, 255);
+      doc.setTextColor(0, 0, 0);
       doc.setFont('helvetica', 'bold');
       doc.text(car.toUpperCase(), 107, 90);
       
       doc.setFontSize(8);
-      doc.setTextColor(150, 150, 150);
+      doc.setTextColor(100, 100, 100);
       doc.setFont('helvetica', 'normal');
       doc.text('NOVO | 0 KM | CERTIFICATO', 107, 96);
 
@@ -1728,15 +1723,15 @@
 
       // Riga 1
       const y2 = y1 + 12;
-      doc.setDrawColor(100, 100, 100);
+      doc.setDrawColor(180, 180, 180);
       doc.line(15, y2, 190, y2);
       
       doc.setFontSize(9);
-      doc.setTextColor(200, 200, 200);
+      doc.setTextColor(50, 50, 50);
       doc.setFont('helvetica', 'normal');
       doc.text('PAYMENT METHOD:', 17, y2 + 5);
       
-      doc.setTextColor(255, 255, 255);
+      doc.setTextColor(0, 0, 0);
       doc.setFont('helvetica', 'bold');
       doc.text(method.toUpperCase(), 90, y2 + 5);
 
@@ -1745,7 +1740,7 @@
       doc.line(15, y3, 190, y3);
       
       doc.setFontSize(9);
-      doc.setTextColor(200, 200, 200);
+      doc.setTextColor(50, 50, 50);
       doc.setFont('helvetica', 'normal');
       doc.text('AUTHORIZED AGENT:', 17, y3 + 5);
       
@@ -1755,7 +1750,7 @@
 
       // === SEZIONE PREZZO (GRANDE) ===
       const yPrice = y3 + 12;
-      doc.setFillColor(15, 20, 41);
+      doc.setFillColor(240, 240, 240);
       doc.rect(15, yPrice, 175, 20, "F");
       
       doc.setDrawColor(212, 175, 55);
@@ -1768,19 +1763,19 @@
       doc.text('TOTAL AMOUNT DUE', 17, yPrice + 7);
 
       doc.setFontSize(20);
-      doc.setTextColor(255, 255, 255);
+      doc.setTextColor(212, 175, 55);
       doc.setFont('courier', 'bold');
       doc.text('$ ' + parseInt(price).toLocaleString('en-US'), 17, yPrice + 18);
 
       // === NOTE CONTRATTUALI ===
       const yNotes = yPrice + 25;
       doc.setFontSize(8);
-      doc.setTextColor(255, 255, 255);
+      doc.setTextColor(0, 0, 0);
       doc.setFont('helvetica', 'bold');
       doc.text('CONTRACT NOTES:', 15, yNotes);
 
       doc.setFontSize(7);
-      doc.setTextColor(150, 150, 150);
+      doc.setTextColor(80, 80, 80);
       doc.setFont('helvetica', 'normal');
       const wrappedNotes = doc.splitTextToSize(notes, 175);
       doc.text(wrappedNotes, 15, yNotes + 5);
@@ -1794,7 +1789,7 @@
       doc.line(15, ySignatures, 60, ySignatures);
       
       doc.setFontSize(7);
-      doc.setTextColor(150, 150, 150);
+      doc.setTextColor(100, 100, 100);
       doc.setFont('helvetica', 'normal');
       doc.text('BUYER SIGNATURE', 17, ySignatures + 4);
       
@@ -1810,7 +1805,7 @@
       doc.line(130, ySignatures, 190, ySignatures);
       
       doc.setFontSize(7);
-      doc.setTextColor(150, 150, 150);
+      doc.setTextColor(100, 100, 100);
       doc.setFont('helvetica', 'normal');
       doc.text('AUTHORIZED REP. SIGNATURE', 132, ySignatures + 4);
       
@@ -1823,7 +1818,7 @@
       // === TERMINE E CONDIZIONI ===
       const yTerms = ySignatures + 10;
       doc.setFontSize(7);
-      doc.setTextColor(100, 100, 100);
+      doc.setTextColor(120, 120, 120);
       doc.setFont('helvetica', 'normal');
       doc.text('[ BINDING & LEGAL DOCUMENT ]', 20, yTerms);
       doc.text('Payment due within 48 hours | No refunds after delivery', 20, yTerms + 4);
@@ -1831,8 +1826,8 @@
       // === FOOTER FINALE ===
       const yFooter = 288;
       doc.setFontSize(6);
-      doc.setTextColor(80, 80, 80);
-      doc.text('AutoNation Texas © 2026 | Civico 203, Los Santos | Design by PAVEL', 20, yFooter);
+      doc.setTextColor(150, 150, 150);
+      doc.text('AutoNation Texas © 2026 | Civico 203, Austin | Design by PAVEL', 20, yFooter);
 
       // === TIMBRO NEL PDF ===
       if (timbroData) {
