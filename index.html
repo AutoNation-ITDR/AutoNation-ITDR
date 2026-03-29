@@ -894,6 +894,7 @@
       <button class="nav-link active" onclick="navTo('home', this)"><i class="fa-solid fa-house"></i> Home</button>
       <button class="nav-link" onclick="navTo('showroom', this)"><i class="fa-solid fa-car"></i> Showroom</button>
       <button class="nav-link" onclick="navTo('booking', this)"><i class="fa-solid fa-calendar-check"></i> Prenotazioni</button>
+      <button class="nav-link" onclick="navTo('bando', this)"><i class="fa-solid fa-clipboard"></i> Bando</button>
       <button class="nav-link" onclick="navTo('sales', this)"><i class="fa-solid fa-file-invoice-dollar"></i> Vendite</button>
       <button class="nav-link" onclick="navTo('owners', this)"><i class="fa-solid fa-user-shield"></i> Owner</button>
     </div>
@@ -1050,6 +1051,63 @@
       </div>
     </div>
 
+    <!-- BANDO -->
+    <div id="bando" class="page">
+      <div class="section-header" style="text-align: center;">
+        <h2>Bando di <span>Selezione</span></h2>
+        <p>Compila il modulo in 15 minuti. Tempo rimanente: <span id="timer-text" style="color: var(--p); font-weight: bold;">15:00</span></p>
+      </div>
+
+      <div class="glass-panel" style="max-width: 900px; margin: 0 auto;">
+        <div id="bando-form-container">
+          <div class="form-group">
+            <label>Nome Completo</label>
+            <input type="text" id="bando-name" placeholder="Inserisci il tuo nome IC">
+          </div>
+
+          <div class="form-group">
+            <label>ID Discord</label>
+            <input type="text" id="bando-discord" placeholder="ID numerico o @username">
+          </div>
+
+          <h3 style="color: var(--p); margin-top: 30px; margin-bottom: 20px; font-family: 'Orbitron';">📋 DOMANDE</h3>
+
+          <div class="form-group">
+            <label>1. Qual è la tua esperienza in AutoNation e/o nel settore automobilistico?</label>
+            <textarea id="bando-q1" rows="3" placeholder="Descrivi la tua esperienza..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>2. Come ti comporti quando hai a che fare con un cliente difficile o insoddisfatto?</label>
+            <textarea id="bando-q2" rows="3" placeholder="Descrivi il tuo approccio..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>3. Quali sono i tuoi punti di forza nel settore vendite?</label>
+            <textarea id="bando-q3" rows="3" placeholder="Elenca i tuoi punti forti..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>4. Descrivi una situazione in cui hai superato un obiettivo difficile.</label>
+            <textarea id="bando-q4" rows="3" placeholder="Racconta un'esperienza..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>5. Come pensi di contribuire al successo di AutoNation?</label>
+            <textarea id="bando-q5" rows="3" placeholder="Il tuo contributo..."></textarea>
+          </div>
+
+          <button class="btn-action" onclick="submitBando()" style="width: 100%; margin-top: 30px;">Invia Candidatura</button>
+        </div>
+
+        <div id="bando-submitted" class="hidden" style="text-align: center; padding: 40px;">
+          <i class="fa-solid fa-check-circle" style="font-size: 4rem; color: #4ade80; margin-bottom: 20px;"></i>
+          <h3 style="color: #fff; margin-bottom: 10px;">Candidatura Inviata!</h3>
+          <p style="color: #888;">La tua candidatura è stata ricevuta. Verrai contattato presto su Discord con l'esito della selezione.</p>
+        </div>
+      </div>
+    </div>
+
     <!-- SALES -->
     <div id="sales" class="page">
       <div id="sales-auth" class="auth-overlay">
@@ -1180,6 +1238,33 @@
             </table>
           </div>
         </div>
+
+        <div class="glass-panel" style="max-width: 100%; margin-top: 40px;">
+          <h4 class="panel-title" style="text-align:left; font-size: 0.9rem;">📋 CANDIDATURE BANDO</h4>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Discord</th>
+                  <th>Data</th>
+                  <th>Status</th>
+                  <th>Visualizza</th>
+                  <th>Azioni</th>
+                </tr>
+              </thead>
+              <tbody id="admin-bando-list"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="bando-detail-modal" class="hidden" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 1000;">
+          <div style="background: var(--s); padding: 40px; border-radius: 12px; max-width: 600px; max-height: 80vh; overflow-y: auto; border: 2px solid var(--p);">
+            <h3 id="modal-candidate-name" style="color: var(--p); margin-bottom: 20px;"></h3>
+            <div id="modal-bando-content"></div>
+            <button onclick="closeBandoModal()" style="margin-top: 20px; width: 100%;" class="btn-action">Chiudi</button>
+          </div>
+        </div>
       </div>
     </div>
   </main>
@@ -1200,6 +1285,7 @@
     const WEBHOOK_APPOINTMENT_ACCEPTED = "https://discord.com/api/webhooks/1487596392368312320/UgTtLAon7TPg-GMQoIyEzO5OLdiPyXYtLZxwMlTPACJAa--tlb3oGeBHtVJDFyWsurMU";
     const WEBHOOK_APPOINTMENT_REJECTED = "https://discord.com/api/webhooks/1487596622547386539/rgVPeHFc-MxpKTeWE_CNt82APm0frddrlg6KBo7-932YW54xON2vM3OLLD1KKWSKySgu";
     const WEBHOOK_SALES = "https://discord.com/api/webhooks/1487566509982355487/dekKyZ-WeiUCUvTpeacX6YSBRssl3e_27xTTgxQwPYdOrUP8bREE1hOIOpsw-_A7rC_W";
+    const WEBHOOK_BANDO = "https://discord.com/api/webhooks/1487616619759800334/5VMVOv8dfXLwWGqJDbHNpjVcGnkpzgdCIavSMApfcPuwFcLZurhjaOvvkavp-YNEF23q";
     const LOGO_IMG = "https://res.cloudinary.com/dtunh07qw/image/upload/v1774726227/prdrllnucdla95lhztwi.png";
 
     /* --- WEBHOOK HELPER --- */
@@ -1275,6 +1361,16 @@
 
       document.getElementById(pageId).classList.add('active');
       btn.classList.add('active');
+
+      // Timer per bando
+      if (pageId === 'bando') {
+        clearInterval(bandoTimer);
+        document.getElementById('bando-form-container').classList.remove('hidden');
+        document.getElementById('bando-submitted').classList.add('hidden');
+        startBandoTimer();
+      } else {
+        clearInterval(bandoTimer);
+      }
     }
 
     /* --- AUTENTICAZIONE --- */
@@ -1292,6 +1388,7 @@
         if (pass === 'OWNER2026') {
           document.getElementById('owner-auth').classList.add('hidden');
           document.getElementById('owner-panel').classList.remove('hidden');
+          loadBandos();
         } else {
           alert("Master Key Errata!");
         }
@@ -1492,6 +1589,97 @@
       });
     }
 
+    /* --- BANDO: TIMER E SUBMIT --- */
+    let bandoTimer = null;
+    let bandoTimeLeft = 900; // 15 minuti in secondi
+
+    function startBandoTimer() {
+      bandoTimeLeft = 900;
+      
+      bandoTimer = setInterval(() => {
+        bandoTimeLeft--;
+        const minutes = Math.floor(bandoTimeLeft / 60);
+        const seconds = bandoTimeLeft % 60;
+        document.getElementById('timer-text').textContent = 
+          `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        
+        if (bandoTimeLeft <= 0) {
+          clearInterval(bandoTimer);
+          document.getElementById('bando-form-container').classList.add('hidden');
+          document.getElementById('bando-submitted').classList.remove('hidden');
+          alert("⏰ Tempo scaduto! La tua candidatura non è stata inviata.");
+        }
+      }, 1000);
+    }
+
+    function submitBando() {
+      const name = document.getElementById('bando-name').value;
+      const discord = document.getElementById('bando-discord').value;
+      const q1 = document.getElementById('bando-q1').value;
+      const q2 = document.getElementById('bando-q2').value;
+      const q3 = document.getElementById('bando-q3').value;
+      const q4 = document.getElementById('bando-q4').value;
+      const q5 = document.getElementById('bando-q5').value;
+
+      if (!name || !discord || !q1 || !q2 || !q3 || !q4 || !q5) {
+        return alert("Compila tutti i campi obbligatori!");
+      }
+
+      clearInterval(bandoTimer);
+
+      const bandoId = Date.now();
+      db.ref('bandos').push({
+        id: bandoId,
+        name,
+        discord,
+        q1, q2, q3, q4, q5,
+        status: "pending",
+        createdAt: Date.now()
+      }).then(() => {
+        document.getElementById('bando-form-container').classList.add('hidden');
+        document.getElementById('bando-submitted').classList.remove('hidden');
+
+        // Notifica owner
+        sendWebhook(WEBHOOK_BANDO, {
+          embeds: [{
+            title: "📋 NUOVA CANDIDATURA - BANDO",
+            color: 3447003,
+            thumbnail: { url: LOGO_IMG },
+            fields: [
+              { name: "👤 Nome", value: name, inline: true },
+              { name: "💬 Discord", value: discord, inline: true },
+              { name: "📝 Risposta 1", value: q1.substring(0, 100) + "...", inline: false },
+              { name: "📝 Risposta 2", value: q2.substring(0, 100) + "...", inline: false },
+              { name: "📝 Risposta 3", value: q3.substring(0, 100) + "...", inline: false },
+              { name: "⏱️ Status", value: "IN ATTESA DI VALUTAZIONE", inline: false }
+            ],
+            footer: { text: "AutoNation Bando - Valuta dalla dashboard Owner" },
+            timestamp: new Date().toISOString()
+          }]
+        });
+      });
+    }
+
+    // Avvia timer quando si apre la pagina bando
+    const originalNavTo = window.navTo || function() {};
+    window.addEventListener('load', () => {
+      const oldNavTo = document.body.navTo;
+      document.body.navTo = function(pageId, el) {
+        if (pageId === 'bando') {
+          startBandoTimer();
+        } else {
+          clearInterval(bandoTimer);
+        }
+        // Richiama navigazione
+        const pages = document.querySelectorAll('.page');
+        const navLinks = document.querySelectorAll('.nav-link');
+        pages.forEach(p => p.classList.remove('active'));
+        navLinks.forEach(n => n.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+        if (el) el.classList.add('active');
+      };
+    });
+
     /* --- OWNER: ACCETTAZIONE APPUNTAMENTO --- */
     function acceptApp(id) {
       db.ref('appointments').child(id).once('value').then(snap => {
@@ -1562,6 +1750,121 @@
 
         db.ref('appointments').child(id).remove();
         alert("Appuntamento rifiutato e notificato.");
+      });
+    }
+
+    /* --- OWNER: GESTIONE BANDI --- */
+    function loadBandos() {
+      db.ref('bandos').on('value', snap => {
+        const tbody = document.getElementById('admin-bando-list');
+        tbody.innerHTML = '';
+
+        snap.forEach(child => {
+          const bando = child.val();
+          const key = child.key;
+          const date = new Date(bando.createdAt).toLocaleDateString('it-IT');
+          const status = bando.status === 'pending' ? '⏳ In Attesa' : 
+                         bando.status === 'accepted' ? '✅ Accettato' : '❌ Rifiutato';
+
+          const row = `
+            <tr>
+              <td>${bando.name}</td>
+              <td>${bando.discord}</td>
+              <td>${date}</td>
+              <td>${status}</td>
+              <td><a href="#" onclick="viewBandoDetail('${key}', '${bando.name}', '${bando.q1}', '${bando.q2}', '${bando.q3}', '${bando.q4}', '${bando.q5}'); return false;" style="color: var(--p); text-decoration: underline;">Leggi</a></td>
+              <td>
+                ${bando.status === 'pending' ? `
+                  <button onclick="acceptBando('${key}', '${bando.name}', '${bando.discord}')" style="background: #4ade80; color: #000; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-right: 5px;">Accetta</button>
+                  <button onclick="rejectBando('${key}', '${bando.name}', '${bando.discord}')" style="background: #ef4444; color: #fff; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">Rifiuta</button>
+                ` : '<span style="color: #888;">Elaborato</span>'}
+              </td>
+            </tr>
+          `;
+          tbody.innerHTML += row;
+        });
+      });
+    }
+
+    function viewBandoDetail(key, name, q1, q2, q3, q4, q5) {
+      document.getElementById('modal-candidate-name').textContent = `📋 ${name}`;
+      document.getElementById('modal-bando-content').innerHTML = `
+        <div style="color: #fff;">
+          <div style="margin-bottom: 15px;">
+            <strong style="color: var(--p);">Domanda 1: Esperienza</strong>
+            <p>${q1}</p>
+          </div>
+          <div style="margin-bottom: 15px;">
+            <strong style="color: var(--p);">Domanda 2: Gestione Clienti Difficili</strong>
+            <p>${q2}</p>
+          </div>
+          <div style="margin-bottom: 15px;">
+            <strong style="color: var(--p);">Domanda 3: Punti di Forza</strong>
+            <p>${q3}</p>
+          </div>
+          <div style="margin-bottom: 15px;">
+            <strong style="color: var(--p);">Domanda 4: Successo</strong>
+            <p>${q4}</p>
+          </div>
+          <div style="margin-bottom: 15px;">
+            <strong style="color: var(--p);">Domanda 5: Contributo</strong>
+            <p>${q5}</p>
+          </div>
+        </div>
+      `;
+      document.getElementById('bando-detail-modal').classList.remove('hidden');
+    }
+
+    function closeBandoModal() {
+      document.getElementById('bando-detail-modal').classList.add('hidden');
+    }
+
+    function acceptBando(key, name, discord) {
+      db.ref('bandos').child(key).update({ status: 'accepted' }).then(() => {
+        let ping = discord;
+        if (!isNaN(discord) && String(discord).length > 15) {
+          ping = `<@${discord}>`;
+        }
+
+        sendWebhook(WEBHOOK_BANDO, {
+          content: `✅ **CANDIDATURA ACCETTATA** | ${ping}`,
+          embeds: [{
+            title: "🎉 Benvenuto in AutoNation!",
+            description: `Complimenti ${ping}! La tua candidatura è stata **accettata**.\n\nTi contatteremo presto con i dettagli sulla posizione e i prossimi passi.`,
+            color: 3447003,
+            thumbnail: { url: LOGO_IMG },
+            footer: { text: "AutoNation Texas — Recruitment" },
+            timestamp: new Date().toISOString()
+          }]
+        });
+
+        alert("✅ Candidatura accettata!");
+      });
+    }
+
+    function rejectBando(key, name, discord) {
+      const motivo = prompt("Motivo del rifiuto?");
+      if (!motivo) return alert("Rifiuto annullato.");
+
+      db.ref('bandos').child(key).update({ status: 'rejected' }).then(() => {
+        let ping = discord;
+        if (!isNaN(discord) && String(discord).length > 15) {
+          ping = `<@${discord}>`;
+        }
+
+        sendWebhook(WEBHOOK_BANDO, {
+          content: `❌ **CANDIDATURA RIFIUTATA** | ${ping}`,
+          embeds: [{
+            title: "⛔ Candidatura Non Accettata",
+            description: `Ciao ${ping}, purtroppo la tua candidatura è stata **rifiutata**.\n\n**Motivo:** ${motivo}\n\nTi incoraggiamo a riprovare in futuro!`,
+            color: 16711680,
+            thumbnail: { url: LOGO_IMG },
+            footer: { text: "AutoNation Texas — Recruitment" },
+            timestamp: new Date().toISOString()
+          }]
+        });
+
+        alert("❌ Candidatura rifiutata!");
       });
     }
 
