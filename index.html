@@ -502,14 +502,18 @@
     }
 
     .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 20px;
+      overflow-x: auto;
+      padding-bottom: 10px;
       position: relative;
       z-index: 2;
     }
 
     .service-card {
+      min-width: 270px;
+      flex: 0 0 auto;
       background: rgba(0, 0, 0, 0.3);
       border-left: 4px solid var(--p);
       padding: 30px 20px;
@@ -1169,7 +1173,12 @@
       </div>
 
       <div class="glass-panel" style="max-width: 900px; margin: 0 auto;">
-        <div id="bando-form-container">
+        <div id="bando-intro">
+          <p style="color: #ccc; margin-bottom: 20px;">Premi il pulsante per aprire il bando e avviare il conto alla rovescia (15 minuti). Se il tempo scade, il form si chiude.</p>
+          <button class="btn-action" onclick="startBandoProcess()" style="width: 100%;">Inizia Bando</button>
+        </div>
+
+        <div id="bando-form-container" class="hidden">
           <div class="form-group">
             <label>Nome Completo</label>
             <input type="text" id="bando-name" placeholder="Inserisci il tuo nome IC">
@@ -1758,7 +1767,8 @@
 
     function startBandoTimer() {
       bandoTimeLeft = 900;
-      
+      document.getElementById('timer-text').textContent = '15:00';
+
       bandoTimer = setInterval(() => {
         bandoTimeLeft--;
         const minutes = Math.floor(bandoTimeLeft / 60);
@@ -1773,6 +1783,14 @@
           alert("⏰ Tempo scaduto! La tua candidatura non è stata inviata.");
         }
       }, 1000);
+    }
+
+    function startBandoProcess() {
+      clearInterval(bandoTimer);
+      document.getElementById('bando-intro').classList.add('hidden');
+      document.getElementById('bando-form-container').classList.remove('hidden');
+      document.getElementById('bando-submitted').classList.add('hidden');
+      startBandoTimer();
     }
 
     function submitBando() {
@@ -1825,17 +1843,22 @@
       });
     }
 
-    // Avvia timer quando si apre la pagina bando
+    // Gestione navigazione, timer bando attivabile manualmente
     const originalNavTo = window.navTo || function() {};
     window.addEventListener('load', () => {
       const oldNavTo = document.body.navTo;
       document.body.navTo = function(pageId, el) {
-        if (pageId === 'bando') {
-          startBandoTimer();
-        } else {
+        if (pageId !== 'bando') {
           clearInterval(bandoTimer);
+        } else {
+          // reset visibilità pagina bando senza avviare timer
+          document.getElementById('bando-intro').classList.remove('hidden');
+          document.getElementById('bando-form-container').classList.add('hidden');
+          document.getElementById('bando-submitted').classList.add('hidden');
+          document.getElementById('timer-text').textContent = '15:00';
+          bandoTimeLeft = 900;
         }
-        // Richiama navigazione
+
         const pages = document.querySelectorAll('.page');
         const navLinks = document.querySelectorAll('.nav-link');
         pages.forEach(p => p.classList.remove('active'));
