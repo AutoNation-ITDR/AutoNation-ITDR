@@ -839,6 +839,10 @@
               </select>
             </div>
             <div class="form-group">
+              <label>Descrizione (da ERLC)</label>
+              <textarea id="add-desc" rows="2" placeholder="Es. Muscle car iconico con potenza bruta..."></textarea>
+            </div>
+            <div class="form-group">
               <label>Immagine Veicolo</label>
               <input type="file" id="add-img" accept="image/*">
             </div>
@@ -933,6 +937,31 @@
     let selectedFilter = "TUTTO";
     let tempImageBase64 = "";
 
+    // Descrizioni auto da ERLC (EmergencyRP)
+    const carDescriptions = {
+      "Dodge Charger": "Muscle car iconico con potenza bruta e design retrò. Perfetto per chi vuole stile e prestazioni esplosive.",
+      "Ford Police Interceptor": "Berlina sportiva performante con tecnologia avanzata. Ideale per chi ricerca affidabilità e velocità.",
+      "Chevrolet Caprice": "Ammiraglia classica con spazio generoso e comfort premium. Una leggenda sulle strade.",
+      "Nissan Altima": "Berlina elegante e affidabile con consumi ridotti. Scelta intelligente per la guida quotidiana.",
+      "Honda Civic": "Compatta agile e robusta, amata dai veri appassionati. Economia e divertimento in una sola auto.",
+      "Toyota Corolla": "Berlina universale sinonimo di affidabilità. La scelta più saggio per chi vuole semplicità e durata.",
+      "Dodge Challenger": "Monster truck da strada con presence massiccia. Ruggisce come una leone su asfalto.",
+      "Chevrolet Corvette": "Supercar americana pura con prestazioni estreme. Solo per veri piloti senza compromessi.",
+      "Ferrari 488": "Cavallo rampante leggendario. Lusso e velocità fusi in una meraviglia italiana.",
+      "Lamborghini Huracán": "Toro pazzo con design aggressivo e potenza sconfinata. Capolavoro di engineering italiano.",
+      "BMW M340i": "Berlina sportiva tedesca con dinamica impeccabile. Eleganza e potenza coniugate perfettamente.",
+      "Audi RS3": "Quattro sportivo teutone con tecnologia d'avanguardia. Performance e lusso senza compromessi.",
+      "Mercedes-Benz AMG": "Ammiraglia germanica con DNA sportivo. Potenza, lusso e tecnologia suprema.",
+      "Porsche 911": "Icona senza tempo. La vera macchina sportiva per chi non sceglie mai il secondo posto.",
+      "Tesla Model S": "Bolide elettrico futuristico all'avanguardia. Il domani della mobilità oggi.",
+      "Jeep Wrangler": "Fuoristrada leggendario indistruttibile e versatile. Libertà assoluta su qualsiasi terreno.",
+      "Chevrolet Silverado": "Pickup mastodontico americano con potenza indomabile. Domina ogni carico e ogni strada.",
+      "Volkswagen Golf": "Icona tedesca maneggevole e versatile. Compatta perfetta in ogni situazione.",
+      "Subaru WRX": "Sportiva giapponese con trazione integrale brutale. Agilità e potenza condensate in una bomba.",
+      "Nissan Skyline GT-R": "Leggenda nipponica veloce come il lampo. Un'auto che fa sognare i veri appassionati.",
+      "Mazda RX-7": "Coupé sportiva giapponese con anima di pista. Eleganza e prestazioni in perfetto equilibrio."
+    };
+
     /* --- NAVIGAZIONE --- */
     function navTo(pageId, btn) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -991,6 +1020,9 @@
         const car = carsCache[id];
         if (selectedFilter !== "TUTTO" && car.type !== selectedFilter) continue;
 
+        // Prendi descrizione da Firebase, dalla mappatura o genera una default
+        let desc = car.description || carDescriptions[car.name] || "Veicolo esclusivo AutoNation Texas. Qualità certificata e prestazioni garantite.";
+
         grid.innerHTML += `
           <div class="car-card">
             <div class="car-badge">${car.type}</div>
@@ -1000,6 +1032,7 @@
             </div>
             <div class="car-content">
               <h3 class="car-name">${car.name}</h3>
+              <p style="color: rgba(0, 212, 255, 0.7); font-size: 0.85rem; line-height: 1.4; margin-bottom: 12px; min-height: 40px;">${desc}</p>
               <div class="car-price">$ ${parseInt(car.price).toLocaleString()}</div>
               <div class="car-specs">
                 <span><i class="fa-solid fa-gauge"></i> 0 KM</span>
@@ -1086,14 +1119,16 @@
       const name = document.getElementById('add-name').value;
       const price = document.getElementById('add-price').value;
       const type = document.getElementById('add-cat').value;
+      const desc = document.getElementById('add-desc').value;
       if (!name || !price || !tempImageBase64) return alert("Compila tutto!");
 
       db.ref('cars').push({
-        name, price, type, img: tempImageBase64
+        name, price, type, img: tempImageBase64, description: desc
       }).then(() => {
         alert("Veicolo aggiunto!");
         document.getElementById('add-name').value = "";
         document.getElementById('add-price').value = "";
+        document.getElementById('add-desc').value = "";
         tempImageBase64 = "";
         document.getElementById('add-img').value = "";
       });
