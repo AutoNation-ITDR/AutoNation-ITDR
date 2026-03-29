@@ -1216,11 +1216,6 @@
             <textarea id="bando-q5" rows="3" placeholder="Il tuo contributo..."></textarea>
           </div>
 
-          <div class="form-group">
-            <label>6. Link al tuo profilo o portfolio (es. Discord/Resume)</label>
-            <input type="text" id="bando-q6" placeholder="https://...">
-          </div>
-
           <button class="btn-action" onclick="submitBando()" style="width: 100%; margin-top: 30px;">Invia Candidatura</button>
         </div>
 
@@ -1801,10 +1796,9 @@
       const q3 = document.getElementById('bando-q3').value;
       const q4 = document.getElementById('bando-q4').value;
       const q5 = document.getElementById('bando-q5').value;
-      const q6 = document.getElementById('bando-q6').value;
 
-      if (!name || !discord || !q1 || !q2 || !q3 || !q4 || !q5 || !q6) {
-        return alert("Compila tutti i campi obbligatori (incluso link portfolio)!");
+      if (!name || !discord || !q1 || !q2 || !q3 || !q4 || !q5) {
+        return alert("Compila tutti i campi obbligatori!");
       }
 
       clearInterval(bandoTimer);
@@ -1814,7 +1808,7 @@
         id: bandoId,
         name,
         discord,
-        q1, q2, q3, q4, q5, q6,
+        q1, q2, q3, q4, q5,
         status: "pending",
         createdAt: Date.now()
       }).then(() => {
@@ -1833,7 +1827,6 @@
               { name: "📝 Risposta 1", value: q1.substring(0, 100) + "...", inline: false },
               { name: "📝 Risposta 2", value: q2.substring(0, 100) + "...", inline: false },
               { name: "📝 Risposta 3", value: q3.substring(0, 100) + "...", inline: false },
-              { name: "🔗 Portfolio", value: q6 || "Non fornito", inline: false },
               { name: "⏱️ Status", value: "IN ATTESA DI VALUTAZIONE", inline: false }
             ],
             footer: { text: "AutoNation Bando - Valuta dalla dashboard Owner" },
@@ -1964,7 +1957,7 @@
               <td>${bando.discord}</td>
               <td>${date}</td>
               <td>${status}</td>
-              <td><a href="#" onclick="viewBandoDetail('${key}', '${bando.name}', '${bando.q1}', '${bando.q2}', '${bando.q3}', '${bando.q4}', '${bando.q5}', '${bando.q6 || ''}'); return false;" style="color: var(--p); text-decoration: underline;">Leggi</a></td>
+              <td><a href="#" onclick="viewBandoDetail('${key}', '${bando.name}', '${bando.q1}', '${bando.q2}', '${bando.q3}', '${bando.q4}', '${bando.q5}'); return false;" style="color: var(--p); text-decoration: underline;">Leggi</a></td>
               <td>
                 ${bando.status === 'pending' ? `
                   <button onclick="acceptBando('${key}', '${bando.name}', '${bando.discord}')" style="background: #4ade80; color: #000; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-right: 5px;">Accetta</button>
@@ -2035,7 +2028,7 @@
       }).catch(() => alert('Errore durante l’invio. Riprova.'));
     }
 
-    function viewBandoDetail(key, name, q1, q2, q3, q4, q5, q6) {
+    function viewBandoDetail(key, name, q1, q2, q3, q4, q5) {
       document.getElementById('modal-candidate-name').textContent = `📋 ${name}`;
       document.getElementById('modal-bando-content').innerHTML = `
         <div style="color: #fff;">
@@ -2058,10 +2051,6 @@
           <div style="margin-bottom: 15px;">
             <strong style="color: var(--p);">Domanda 5: Contributo</strong>
             <p>${q5}</p>
-          </div>
-          <div style="margin-bottom: 15px;">
-            <strong style="color: var(--p);">Domanda 6: Portfolio</strong>
-            <p>${q6 || 'Nessun link fornito'}</p>
           </div>
         </div>
       `;
