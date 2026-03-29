@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AUTONATION TEXAS | OFFICIAL HUB</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;500&family=Orbitron:wght@400;700;900&family=Outfit:wght@300;400;600;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;500&family=Orbitron:wght@400;700;900&family=Outfit:wght@300;400;600;900&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
@@ -969,6 +969,10 @@
                 <label>Note Contratto</label>
                 <textarea id="s-notes" rows="2" placeholder="Dettagli aggiuntivi, clausole, ecc."></textarea>
               </div>
+              <div class="form-group">
+                <label>Firma Cliente (Digita Nome)</label>
+                <input id="s-signature" type="text" placeholder="Es. Mario Rossi" style="font-family: 'Caveat', cursive; font-size: 2rem;">
+              </div>
             </div>
           </div>
           <button class="btn-action" onclick="finalizeSale()">Finalizza e Genera PDF</button>
@@ -1443,6 +1447,7 @@
       const agent = document.getElementById('s-agent').value || "UNKNOWN AGENT";
       const method = document.getElementById('s-method').value;
       const notes = document.getElementById('s-notes').value || "NESSUNA NOTA";
+      const clientSignature = document.getElementById('s-signature').value || "___________";
 
       if (!client || !car || !price) return alert("Compila tutti i campi obbligatori!");
 
@@ -1622,26 +1627,48 @@
       const wrappedNotes = doc.splitTextToSize(notes, 175);
       doc.text(wrappedNotes, 15, yNotes + 5);
 
-      // === TERMINI E CONDIZIONI ===
-      const yTerms = yNotes + 25;
+      // === SEZIONE FIRME ===
+      const ySignatures = yNotes + 22;
+      
+      // LINEA FIRMA CLIENTE
+      doc.setDrawColor(212, 175, 55);
+      doc.lineWidth(0.2);
+      doc.line(15, ySignatures, 60, ySignatures);
+      
+      doc.setFontSize(7);
+      doc.setTextColor(150, 150, 150);
+      doc.setFont('helvetica', 'normal');
+      doc.text('BUYER SIGNATURE', 17, ySignatures + 4);
+      
+      // FIRMA CLIENTE CON FONT HANDWRITING
+      doc.setFontSize(12);
+      doc.setTextColor(212, 175, 55);
+      doc.setFont('courier', 'italic');
+      doc.text(clientSignature, 17, ySignatures - 3);
+
+      // LINEA FIRMA AGENTE
+      doc.setDrawColor(212, 175, 55);
+      doc.lineWidth(0.2);
+      doc.line(130, ySignatures, 190, ySignatures);
+      
+      doc.setFontSize(7);
+      doc.setTextColor(150, 150, 150);
+      doc.setFont('helvetica', 'normal');
+      doc.text('AUTHORIZED REP. SIGNATURE', 132, ySignatures + 4);
+      
+      // FIRMA AGENTE
+      doc.setFontSize(12);
+      doc.setTextColor(212, 175, 55);
+      doc.setFont('courier', 'italic');
+      doc.text(agent.substring(0, 15), 132, ySignatures - 3);
+
+      // === TERMINE E CONDIZIONI ===
+      const yTerms = ySignatures + 10;
       doc.setFontSize(7);
       doc.setTextColor(100, 100, 100);
       doc.setFont('helvetica', 'normal');
-      doc.text('[ QUESTO CONTRATTO È VINCOLANTE E COMPLETAMENTE LEGALE ]', 105, yTerms, { align: 'center' });
-      doc.text('Il pagamento deve essere effettuato entro 48 ore | Nessun rimborso dopo consegna', 105, yTerms + 4, { align: 'center' });
-
-      // === FOOTER FIRMA ===
-      const yFooter = 280;
-      doc.setDrawColor(212, 175, 55);
-      doc.lineWidth(0.2);
-      doc.line(15, yFooter - 10, 50, yFooter - 10);
-      doc.line(130, yFooter - 10, 190, yFooter - 10);
-
-      doc.setFontSize(8);
-      doc.setTextColor(150, 150, 150);
-      doc.setFont('helvetica', 'normal');
-      doc.text('BUYER SIGNATURE', 20, yFooter);
-      doc.text('AUTHORIZED REPRESENTATIVE', 135, yFooter);
+      doc.text('[ BINDING & LEGAL DOCUMENT ]', 105, yTerms, { align: 'center' });
+      doc.text('Payment due within 48 hours | No refunds after delivery', 105, yTerms + 4, { align: 'center' });
 
       // === FOOTER FINALE ===
       doc.setFontSize(7);
@@ -1673,6 +1700,15 @@
       });
 
       alert("✅ Contratto Generato!\n\n" + invoiceId + "\n\nPDF scaricato e log inviato a Discord.");
+      
+      // Pulisci form
+      document.getElementById('s-client').value = "";
+      document.getElementById('s-car').value = "";
+      document.getElementById('s-price').value = "";
+      document.getElementById('s-agent').value = "";
+      document.getElementById('s-method').value = "Contanti";
+      document.getElementById('s-notes').value = "";
+      document.getElementById('s-signature').value = "";
     }
   </script>
 </body>
