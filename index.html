@@ -1625,7 +1625,7 @@
       // === HEADER PRINCIPALE ===
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(32);
-      doc.setTextColor(212, 175, 55);
+      doc.setTextColor(0, 0, 0);
       doc.text('AUTONATION', 40, 30);
       
       doc.setFontSize(14);
@@ -1639,13 +1639,13 @@
       doc.text('OFFICIAL VEHICLE SALES CONTRACT & INVOICE', 20, 42);
 
       // === LINEA DIVISORIA ===
-      doc.setDrawColor(212, 175, 55);
+      doc.setDrawColor(0, 0, 0);
       doc.setLineWidth(0.2);
       doc.line(10, 46, 200, 46);
 
       // === SEZIONE SINISTRA: DATI CONTRATTO ===
       doc.setFontSize(9);
-      doc.setTextColor(212, 175, 55);
+      doc.setTextColor(0, 0, 0);
       doc.setFont('helvetica', 'bold');
       doc.text('CONTRACT NUMBER:', 15, 56);
       doc.setTextColor(0, 0, 0);
@@ -1655,7 +1655,7 @@
 
       // === SEZIONE DESTRA: DATA ===
       doc.setFontSize(9);
-      doc.setTextColor(212, 175, 55);
+      doc.setTextColor(0, 0, 0);
       doc.setFont('helvetica', 'bold');
       doc.text('ISSUE DATE:', 130, 56);
       doc.setTextColor(50, 50, 50);
@@ -1689,12 +1689,12 @@
       doc.text('Civico 203, Austin, Texas', 17, 96);
 
       // === BOX VEICOLO ===
-      doc.setDrawColor(212, 175, 55);
+      doc.setDrawColor(0, 0, 0);
       doc.setLineWidth(0.4);
       doc.rect(105, 76, 85, 22);
       
       doc.setFontSize(8);
-      doc.setTextColor(212, 175, 55);
+      doc.setTextColor(0, 0, 0);
       doc.setFont('helvetica', 'bold');
       doc.text('VEHICLE DETAILS', 107, 82);
       
@@ -1709,7 +1709,7 @@
       doc.text('NOVO | 0 KM | CERTIFICATO', 107, 96);
 
       // === TABELLA TERMINI ===
-      doc.setDrawColor(212, 175, 55);
+      doc.setDrawColor(0, 0, 0);
       doc.setLineWidth(0.3);
       
       // Intestazioni tabella
@@ -1717,7 +1717,7 @@
       doc.rect(15, y1, 175, 8);
       
       doc.setFontSize(8);
-      doc.setTextColor(212, 175, 55);
+      doc.setTextColor(0, 0, 0);
       doc.setFont('helvetica', 'bold');
       doc.text('TRANSACTION DETAILS', 17, y1 + 6);
 
@@ -1740,11 +1740,11 @@
       doc.line(15, y3, 190, y3);
       
       doc.setFontSize(9);
-      doc.setTextColor(50, 50, 50);
-      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(0, 0, 0);
+      doc.setFont('helvetica', 'bold');
       doc.text('AUTHORIZED AGENT:', 17, y3 + 5);
       
-      doc.setTextColor(212, 175, 55);
+      doc.setTextColor(0, 0, 0);
       doc.setFont('helvetica', 'bold');
       doc.text(agent.toUpperCase(), 90, y3 + 5);
 
@@ -1753,17 +1753,17 @@
       doc.setFillColor(240, 240, 240);
       doc.rect(15, yPrice, 175, 20, "F");
       
-      doc.setDrawColor(212, 175, 55);
+      doc.setDrawColor(0, 0, 0);
       doc.setLineWidth(0.5);
       doc.rect(15, yPrice, 175, 20);
 
       doc.setFontSize(11);
-      doc.setTextColor(212, 175, 55);
+      doc.setTextColor(0, 0, 0);
       doc.setFont('helvetica', 'bold');
       doc.text('TOTAL AMOUNT DUE', 17, yPrice + 7);
 
       doc.setFontSize(20);
-      doc.setTextColor(212, 175, 55);
+      doc.setTextColor(0, 0, 0);
       doc.setFont('courier', 'bold');
       doc.text('$ ' + parseInt(price).toLocaleString('en-US'), 17, yPrice + 18);
 
@@ -1784,7 +1784,7 @@
       const ySignatures = yNotes + 22;
       
       // LINEA FIRMA CLIENTE
-      doc.setDrawColor(212, 175, 55);
+      doc.setDrawColor(0, 0, 0);
       doc.setLineWidth(0.2);
       doc.line(15, ySignatures, 60, ySignatures);
       
@@ -1795,12 +1795,12 @@
       
       // FIRMA CLIENTE CON FONT HANDWRITING
       doc.setFontSize(12);
-      doc.setTextColor(212, 175, 55);
+      doc.setTextColor(0, 0, 0);
       doc.setFont('courier', 'italic');
       doc.text(clientSignature, 17, ySignatures - 3);
 
       // LINEA FIRMA AGENTE
-      doc.setDrawColor(212, 175, 55);
+      doc.setDrawColor(0, 0, 0);
       doc.setLineWidth(0.2);
       doc.line(130, ySignatures, 190, ySignatures);
       
@@ -1811,7 +1811,7 @@
       
       // FIRMA AGENTE
       doc.setFontSize(12);
-      doc.setTextColor(212, 175, 55);
+      doc.setTextColor(0, 0, 0);
       doc.setFont('courier', 'italic');
       doc.text(agent.substring(0, 15), 132, ySignatures - 3);
 
