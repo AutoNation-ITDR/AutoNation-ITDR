@@ -546,64 +546,6 @@
       line-height: 1.6;
     }
 
-    .testimonials-section {
-      background: rgba(255, 255, 255, 0.03);
-      border: 2px solid rgba(212, 175, 55, 0.2);
-      border-radius: 16px;
-      padding: 60px 50px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .testimonials-section::before {
-      content: '';
-      position: absolute;
-      bottom: -50%;
-      left: -50%;
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
-      border-radius: 50%;
-      pointer-events: none;
-    }
-
-    .testimonials-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 30px;
-      position: relative;
-      z-index: 2;
-    }
-
-    .testimonial-card {
-      background: rgba(0, 0, 0, 0.3);
-      border: 2px solid rgba(212, 175, 55, 0.3);
-      padding: 30px;
-      border-radius: 12px;
-      text-align: center;
-      transition: 0.4s ease;
-    }
-
-    .testimonial-card:hover {
-      border-color: var(--p);
-      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
-      transform: translateY(-5px);
-    }
-
-    .testimonial-card p {
-      color: rgba(255, 255, 255, 0.9);
-      font-style: italic;
-      font-size: 1rem;
-      line-height: 1.6;
-      margin-bottom: 15px;
-    }
-
-    .testimonial-card cite {
-      color: var(--p);
-      font-weight: bold;
-      font-size: 0.9rem;
-    }
-
     /* --- SHOWROOM FILTERS --- */
     .filter-wrapper {
       background: rgba(212, 175, 55, 0.05);
@@ -1094,24 +1036,6 @@
           </div>
         </div>
 
-        <div class="testimonials-section" style="margin-top: 60px;">
-          <h2 class="section-title">💬 Cosa Dicono i Nostri Clienti</h2>
-          <div class="testimonials-grid">
-            <div class="testimonial-card">
-              <p>"Servizio eccellente e prezzi trasparenti. Ho trovato l'auto dei miei sogni senza stress!"</p>
-              <cite>- Mario Rossi</cite>
-            </div>
-            <div class="testimonial-card">
-              <p>"L'officina interna è fantastica. Hanno risolto un problema complesso in poche ore."</p>
-              <cite>- Laura Bianchi</cite>
-            </div>
-            <div class="testimonial-card">
-              <p>"Personale cordiale e professionale. Mi hanno guidato nella scelta perfetta."</p>
-              <cite>- Giovanni Verdi</cite>
-            </div>
-          </div>
-        </div>
-
         <div class="about-section" style="margin-top: 40px;">
           <div class="about-content">
             <h2 class="about-title">✦ Chi Siamo ✦</h2>
@@ -1132,11 +1056,6 @@
                 <div class="strength-icon">✓</div>
                 <div class="strength-title">Affidabilità Certificata</div>
                 <div class="strength-desc">Ogni veicolo viene sottoposto a controlli approfonditi per garantire sicurezza e prestazioni.</div>
-              </div>
-              <div class="strength-item">
-                <div class="strength-icon">👥</div>
-                <div class="strength-title">Servizio Clienti Impeccabile</div>
-                <div class="strength-desc">Personale preparato, cordiale e sempre disponibile a guidare il cliente nella scelta giusta.</div>
               </div>
               <div class="strength-item">
                 <div class="strength-icon">⚙️</div>
@@ -1462,7 +1381,7 @@
           <p>© 2026 AutoNation Texas. Tutti i diritti riservati.<br>Design by <span style="color: var(--p); font-weight: bold;">PAVEL</span></p>
         </div>
         <div>
-          <p>Seguici su Discord<br><i class="fa-brands fa-discord" style="color: var(--p); font-size: 1.5rem;"></i></p>
+          <p>Seguici su Discord<br><a href="https://discord.gg/8uyNTqs2Tu" target="_blank"><i class="fa-brands fa-discord" style="color: var(--p); font-size: 1.5rem;"></i></a></p>
         </div>
       </div>
     </div>
