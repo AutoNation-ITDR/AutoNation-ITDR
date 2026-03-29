@@ -930,34 +930,7 @@
           Esplora Showroom
         </button>
 
-        <div class="hero-images">
-          <div class="hero-card">
-            <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=400&h=300&fit=crop" alt="Lamborghini">
-            <div class="hero-card-overlay">LAMBORGHINI SUPERCARS</div>
-          </div>
-          <div class="hero-card">
-            <img src="https://images.unsplash.com/photo-1552820728-8ac41f1ce891?w=400&h=300&fit=crop" alt="Ferrari">
-            <div class="hero-card-overlay">FERRARI COLLECTION</div>
-          </div>
-          <div class="hero-card">
-            <img src="https://images.unsplash.com/photo-1552728237-720ebb61ae84?w=400&h=300&fit=crop" alt="Porsche">
-            <div class="hero-card-overlay">PORSCHE EXCLUSIVE</div>
-          </div>
-          <div class="hero-card">
-            <img src="https://images.unsplash.com/photo-1497584871519-bf496b9cd50a?w=400&h=300&fit=crop" alt="Tesla">
-            <div class="hero-card-overlay">ELECTRIC FUTURE</div>
-          </div>
-          <div class="hero-card">
-            <img src="https://images.unsplash.com/photo-1464207687429-7505649dae38?w=400&h=300&fit=crop" alt="Muscle Cars">
-            <div class="hero-card-overlay">MUSCLE CARS</div>
-          </div>
-          <div class="hero-card">
-            <img src="https://images.unsplash.com/photo-1609708536965-59dd2f0ce24d?w=400&h=300&fit=crop" alt="Luxury">
-            <div class="hero-card-overlay">LUXURY SEDANS</div>
-          </div>
-        </div>
-
-        <div class="about-section">
+        <div class="about-section" style="margin-top: 40px;">
           <div class="about-content">
             <h2 class="about-title">✦ Chi Siamo ✦</h2>
             <p class="about-intro">AutoNation è considerato uno dei concessionari più affidabili e rispettati di Austin. La sua reputazione nasce da anni di professionalità, trasparenza e un approccio al cliente che mette al centro fiducia e qualità. Chi entra da AutoNation sa di trovare un ambiente serio, organizzato e orientato a offrire solo il meglio.</p>
@@ -1823,14 +1796,14 @@
       doc.setFontSize(7);
       doc.setTextColor(100, 100, 100);
       doc.setFont('helvetica', 'normal');
-      doc.text('[ BINDING & LEGAL DOCUMENT ]', 105, yTerms, { align: 'center' });
-      doc.text('Payment due within 48 hours | No refunds after delivery', 105, yTerms + 4, { align: 'center' });
+      doc.text('[ BINDING & LEGAL DOCUMENT ]', 20, yTerms);
+      doc.text('Payment due within 48 hours | No refunds after delivery', 20, yTerms + 4);
 
       // === FOOTER FINALE ===
       const yFooter = 288;
-      doc.setFontSize(7);
-      doc.setTextColor(100, 100, 100);
-      doc.text('AutoNation Texas © 2026 | Civico 203, Los Santos | Design by PAVEL', 105, yFooter, { align: 'center' });
+      doc.setFontSize(6);
+      doc.setTextColor(80, 80, 80);
+      doc.text('AutoNation Texas © 2026 | Civico 203, Los Santos | Design by PAVEL', 20, yFooter);
 
       doc.save(`AutoNation_${invoiceId}.pdf`);
 
