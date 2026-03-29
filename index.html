@@ -973,6 +973,7 @@
       <button class="nav-link" onclick="navTo('showroom', this)"><i class="fa-solid fa-car"></i> Showroom</button>
       <button class="nav-link" onclick="navTo('booking', this)"><i class="fa-solid fa-calendar-check"></i> Prenotazioni</button>
       <button class="nav-link" onclick="navTo('bando', this)"><i class="fa-solid fa-clipboard"></i> Bando</button>
+      <button class="nav-link" onclick="navTo('recensioni', this)"><i class="fa-solid fa-star"></i> Recensioni</button>
       <button class="nav-link" onclick="navTo('sales', this)"><i class="fa-solid fa-file-invoice-dollar"></i> Vendite</button>
       <button class="nav-link" onclick="navTo('owners', this)"><i class="fa-solid fa-user-shield"></i> Owner</button>
     </div>
@@ -1075,6 +1076,14 @@
             </div>
           </div>
         </div>
+
+        <!-- RECENSIONI IN HOME -->
+        <div id="reviews-section" class="services-section" style="margin-top: 40px;">
+          <h2 class="section-title">🌟 Recensioni Utenti</h2>
+          <div id="reviews-list" class="services-grid" style="grid-template-columns: 1fr; gap: 15px;">
+            <div class="service-card" style="background: rgba(0, 0, 0, 0.4); color: #fff;">Nessuna recensione ancora, sii il primo a lasciare un feedback!</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1156,6 +1165,7 @@
       <div class="section-header" style="text-align: center;">
         <h2>Bando di <span>Selezione</span></h2>
         <p>Compila il modulo in 15 minuti. Tempo rimanente: <span id="timer-text" style="color: var(--p); font-weight: bold;">15:00</span></p>
+        <p style="color: #bbb; margin-top: 10px;">Suggerimento: risposte chiare e link portfolio aumentano le chance di approvazione. Sii conciso e concreto.</p>
       </div>
 
       <div class="glass-panel" style="max-width: 900px; margin: 0 auto;">
@@ -1197,6 +1207,11 @@
             <textarea id="bando-q5" rows="3" placeholder="Il tuo contributo..."></textarea>
           </div>
 
+          <div class="form-group">
+            <label>6. Link al tuo profilo o portfolio (es. Discord/Resume)</label>
+            <input type="text" id="bando-q6" placeholder="https://...">
+          </div>
+
           <button class="btn-action" onclick="submitBando()" style="width: 100%; margin-top: 30px;">Invia Candidatura</button>
         </div>
 
@@ -1205,6 +1220,36 @@
           <h3 style="color: #fff; margin-bottom: 10px;">Candidatura Inviata!</h3>
           <p style="color: #888;">La tua candidatura è stata ricevuta. Verrai contattato presto su Discord con l'esito della selezione.</p>
         </div>
+      </div>
+    </div>
+
+    <!-- RECENSIONI -->
+    <div id="recensioni" class="page">
+      <div class="section-header" style="text-align: center;">
+        <h2>Recensioni <span>Clienti</span></h2>
+        <p>Raccogli feedback che appaiono automaticamente in fondo alla home.</p>
+      </div>
+
+      <div class="glass-panel" style="max-width: 900px; margin: 0 auto;">
+        <div class="form-group">
+          <label>Nome</label>
+          <input type="text" id="review-name" placeholder="Il tuo nome">
+        </div>
+        <div class="form-group">
+          <label>Recensione</label>
+          <textarea id="review-text" rows="3" placeholder="Scrivi qui la tua esperienza"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Valutazione</label>
+          <select id="review-rating">
+            <option value="5">⭐⭐⭐⭐⭐</option>
+            <option value="4">⭐⭐⭐⭐</option>
+            <option value="3">⭐⭐⭐</option>
+            <option value="2">⭐⭐</option>
+            <option value="1">⭐</option>
+          </select>
+        </div>
+        <button class="btn-action" onclick="submitReview()" style="width: 100%; margin-top: 20px;">Invia Recensione</button>
       </div>
     </div>
 
@@ -1738,9 +1783,10 @@
       const q3 = document.getElementById('bando-q3').value;
       const q4 = document.getElementById('bando-q4').value;
       const q5 = document.getElementById('bando-q5').value;
+      const q6 = document.getElementById('bando-q6').value;
 
-      if (!name || !discord || !q1 || !q2 || !q3 || !q4 || !q5) {
-        return alert("Compila tutti i campi obbligatori!");
+      if (!name || !discord || !q1 || !q2 || !q3 || !q4 || !q5 || !q6) {
+        return alert("Compila tutti i campi obbligatori (incluso link portfolio)!");
       }
 
       clearInterval(bandoTimer);
@@ -1750,7 +1796,7 @@
         id: bandoId,
         name,
         discord,
-        q1, q2, q3, q4, q5,
+        q1, q2, q3, q4, q5, q6,
         status: "pending",
         createdAt: Date.now()
       }).then(() => {
@@ -1769,6 +1815,7 @@
               { name: "📝 Risposta 1", value: q1.substring(0, 100) + "...", inline: false },
               { name: "📝 Risposta 2", value: q2.substring(0, 100) + "...", inline: false },
               { name: "📝 Risposta 3", value: q3.substring(0, 100) + "...", inline: false },
+              { name: "🔗 Portfolio", value: q6 || "Non fornito", inline: false },
               { name: "⏱️ Status", value: "IN ATTESA DI VALUTAZIONE", inline: false }
             ],
             footer: { text: "AutoNation Bando - Valuta dalla dashboard Owner" },
@@ -1796,6 +1843,10 @@
         document.getElementById(pageId).classList.add('active');
         if (el) el.classList.add('active');
       };
+
+      // Caricamenti iniziali
+      loadBandos();
+      loadReviews();
     });
 
     /* --- OWNER: ACCETTAZIONE APPUNTAMENTO --- */
@@ -1890,7 +1941,7 @@
               <td>${bando.discord}</td>
               <td>${date}</td>
               <td>${status}</td>
-              <td><a href="#" onclick="viewBandoDetail('${key}', '${bando.name}', '${bando.q1}', '${bando.q2}', '${bando.q3}', '${bando.q4}', '${bando.q5}'); return false;" style="color: var(--p); text-decoration: underline;">Leggi</a></td>
+              <td><a href="#" onclick="viewBandoDetail('${key}', '${bando.name}', '${bando.q1}', '${bando.q2}', '${bando.q3}', '${bando.q4}', '${bando.q5}', '${bando.q6 || ''}'); return false;" style="color: var(--p); text-decoration: underline;">Leggi</a></td>
               <td>
                 ${bando.status === 'pending' ? `
                   <button onclick="acceptBando('${key}', '${bando.name}', '${bando.discord}')" style="background: #4ade80; color: #000; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-right: 5px;">Accetta</button>
@@ -1904,7 +1955,64 @@
       });
     }
 
-    function viewBandoDetail(key, name, q1, q2, q3, q4, q5) {
+    /* --- RECENSIONI --- */
+    function renderReviews(reviews) {
+      const container = document.getElementById('reviews-list');
+      container.innerHTML = '';
+
+      if (!reviews || Object.keys(reviews).length === 0) {
+        container.innerHTML = '<div class="service-card" style="background: rgba(0,0,0,0.4); color: #fff;">Nessuna recensione ancora, sii il primo a lasciare un feedback!</div>';
+        return;
+      }
+
+      Object.values(reviews).sort((a, b) => b.createdAt - a.createdAt).forEach(r => {
+        const stars = '★'.repeat(r.rating || 5) + '☆'.repeat(5 - (r.rating || 5));
+        const item = document.createElement('div');
+        item.className = 'service-card';
+        item.style.background = 'rgba(0, 0, 0, 0.45)';
+        item.style.color = '#fff';
+        item.innerHTML = `
+          <h3 style="font-size: 1.1rem; margin-bottom: 8px; color: var(--p);">${r.name || 'Anonimo'}</h3>
+          <p style="margin-bottom: 8px;">${r.text}</p>
+          <p style="color: #D4AF37; margin-bottom: 0;">${stars}</p>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function loadReviews() {
+      db.ref('recensioni').on('value', snap => {
+        const data = snap.val();
+        renderReviews(data);
+      });
+    }
+
+    function submitReview() {
+      const name = document.getElementById('review-name').value.trim();
+      const text = document.getElementById('review-text').value.trim();
+      const rating = Number(document.getElementById('review-rating').value);
+
+      if (!name || !text) {
+        return alert('Nome e testo obbligatori per la recensione.');
+      }
+
+      db.ref('recensioni').push({
+        name,
+        text,
+        rating,
+        createdAt: Date.now()
+      }).then(() => {
+        alert('Recensione inviata con successo!');
+        document.getElementById('review-name').value = '';
+        document.getElementById('review-text').value = '';
+        document.getElementById('review-rating').value = '5';
+        // Aggiorna in home
+        loadReviews();
+        navTo('home', document.querySelector('.nav-link'));
+      }).catch(() => alert('Errore durante l’invio. Riprova.'));
+    }
+
+    function viewBandoDetail(key, name, q1, q2, q3, q4, q5, q6) {
       document.getElementById('modal-candidate-name').textContent = `📋 ${name}`;
       document.getElementById('modal-bando-content').innerHTML = `
         <div style="color: #fff;">
@@ -1927,6 +2035,10 @@
           <div style="margin-bottom: 15px;">
             <strong style="color: var(--p);">Domanda 5: Contributo</strong>
             <p>${q5}</p>
+          </div>
+          <div style="margin-bottom: 15px;">
+            <strong style="color: var(--p);">Domanda 6: Portfolio</strong>
+            <p>${q6 || 'Nessun link fornito'}</p>
           </div>
         </div>
       `;
