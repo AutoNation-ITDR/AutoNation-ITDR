@@ -1584,6 +1584,30 @@
       const today = new Date().toLocaleDateString('it-IT');
       const docId = "AUTONATION-TX-" + Date.now();
 
+      // === CARICA LOGO E TIMBRO ===
+      let logoData = null;
+      let timbroData = null;
+      
+      try {
+        const logoResp = await fetch('https://res.cloudinary.com/dtunh07qw/image/upload/v1774745139/uruwiqyjjmrvzrwyrztq.png');
+        const logoBlob = await logoResp.blob();
+        logoData = await new Promise(resolve => {
+          const reader = new FileReader();
+          reader.onload = e => resolve(e.target.result);
+          reader.readAsDataURL(logoBlob);
+        });
+      } catch (e) { console.warn("Logo non caricato"); }
+      
+      try {
+        const timbroResp = await fetch('https://res.cloudinary.com/dtunh07qw/image/upload/v1774745095/ido8vk1vb7vqgvbaqt7t.png');
+        const timbroBlob = await timbroResp.blob();
+        timbroData = await new Promise(resolve => {
+          const reader = new FileReader();
+          reader.onload = e => resolve(e.target.result);
+          reader.readAsDataURL(timbroBlob);
+        });
+      } catch (e) { console.warn("Timbro non caricato"); }
+
       // === SFONDO NERO SCURO ===
       doc.setFillColor(10, 14, 39);
       doc.rect(0, 0, 210, 297, "F");
@@ -1598,11 +1622,16 @@
       doc.setLineWidth(0.3);
       doc.line(10, 16, 200, 16);
 
+      // === LOGO NEL PDF ===
+      if (logoData) {
+        doc.addImage(logoData, 'PNG', 15, 18, 20, 20);
+      }
+
       // === HEADER PRINCIPALE ===
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(32);
       doc.setTextColor(212, 175, 55);
-      doc.text('AUTONATION', 20, 30);
+      doc.text('AUTONATION', 40, 30);
       
       doc.setFontSize(14);
       doc.setTextColor(255, 255, 255);
@@ -1804,6 +1833,11 @@
       doc.setFontSize(6);
       doc.setTextColor(80, 80, 80);
       doc.text('AutoNation Texas © 2026 | Civico 203, Los Santos | Design by PAVEL', 20, yFooter);
+
+      // === TIMBRO NEL PDF ===
+      if (timbroData) {
+        doc.addImage(timbroData, 'PNG', 165, 250, 30, 30);
+      }
 
       doc.save(`AutoNation_${invoiceId}.pdf`);
 
