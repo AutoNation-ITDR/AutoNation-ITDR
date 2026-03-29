@@ -314,6 +314,117 @@
       font-weight: 700;
     }
 
+    /* --- ABOUT SECTION --- */
+    .about-section {
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.08), rgba(255, 255, 255, 0.03));
+      border: 2px solid rgba(212, 175, 55, 0.2);
+      border-radius: 16px;
+      padding: 60px 50px;
+      margin-top: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-section::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .about-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .about-title {
+      font-family: 'Orbitron';
+      font-size: 2.2rem;
+      color: var(--p);
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+    }
+
+    .about-intro {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin-bottom: 50px;
+      max-width: 900px;
+    }
+
+    .about-strengths {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin-bottom: 50px;
+    }
+
+    .strength-item {
+      background: rgba(0, 0, 0, 0.3);
+      border-left: 4px solid var(--p);
+      padding: 20px;
+      border-radius: 8px;
+      transition: 0.4s ease;
+    }
+
+    .strength-item:hover {
+      background: rgba(212, 175, 55, 0.08);
+      transform: translateX(10px);
+    }
+
+    .strength-icon {
+      font-size: 1.8rem;
+      color: var(--p);
+      margin-bottom: 10px;
+    }
+
+    .strength-title {
+      font-family: 'Orbitron';
+      color: var(--p);
+      font-weight: 700;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .strength-desc {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .about-location {
+      background: rgba(212, 175, 55, 0.05);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      padding: 30px;
+      border-radius: 12px;
+      margin-top: 40px;
+    }
+
+    .location-title {
+      font-family: 'Orbitron';
+      color: var(--p);
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .location-desc {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+
 
 
     .hero-title {
@@ -843,6 +954,51 @@
           <div class="hero-card">
             <img src="https://images.unsplash.com/photo-1609708536965-59dd2f0ce24d?w=400&h=300&fit=crop" alt="Luxury">
             <div class="hero-card-overlay">LUXURY SEDANS</div>
+          </div>
+        </div>
+
+        <div class="about-section">
+          <div class="about-content">
+            <h2 class="about-title">✦ Chi Siamo ✦</h2>
+            <p class="about-intro">AutoNation è considerato uno dei concessionari più affidabili e rispettati di Austin. La sua reputazione nasce da anni di professionalità, trasparenza e un approccio al cliente che mette al centro fiducia e qualità. Chi entra da AutoNation sa di trovare un ambiente serio, organizzato e orientato a offrire solo il meglio.</p>
+
+            <div class="about-strengths">
+              <div class="strength-item">
+                <div class="strength-icon">🚗</div>
+                <div class="strength-title">Inventario Vasto e Curato</div>
+                <div class="strength-desc">Auto usate selezionate, controllate e pronte alla consegna, dai modelli economici ai SUV di fascia alta.</div>
+              </div>
+              <div class="strength-item">
+                <div class="strength-icon">🔒</div>
+                <div class="strength-title">Trasparenza Totale</div>
+                <div class="strength-desc">Nessuna trattativa stressante, nessun costo nascosto. Il prezzo esposto è quello reale.</div>
+              </div>
+              <div class="strength-item">
+                <div class="strength-icon">✓</div>
+                <div class="strength-title">Affidabilità Certificata</div>
+                <div class="strength-desc">Ogni veicolo viene sottoposto a controlli approfonditi per garantire sicurezza e prestazioni.</div>
+              </div>
+              <div class="strength-item">
+                <div class="strength-icon">👥</div>
+                <div class="strength-title">Servizio Clienti Impeccabile</div>
+                <div class="strength-desc">Personale preparato, cordiale e sempre disponibile a guidare il cliente nella scelta giusta.</div>
+              </div>
+              <div class="strength-item">
+                <div class="strength-icon">⚙️</div>
+                <div class="strength-title">Assistenza Professionale</div>
+                <div class="strength-desc">Officina interna con tecnici qualificati per manutenzione, riparazioni e diagnosi.</div>
+              </div>
+              <div class="strength-item">
+                <div class="strength-icon">🏙️</div>
+                <div class="strength-title">Posizione Strategica</div>
+                <div class="strength-desc">Zona nord di Austin, facilmente raggiungibile con ampi spazi per esposizione e accoglienza.</div>
+              </div>
+            </div>
+
+            <div class="about-location">
+              <div class="location-title">🌟 Atmosfera e Ambiente</div>
+              <div class="location-desc">Situato nella zona nord di Austin, AutoNation è facilmente raggiungibile e dispone di ampi spazi, sia per l'esposizione dei veicoli sia per l'accoglienza dei clienti. L'ambiente è moderno, ordinato e trasmette immediatamente serietà e competenza.</div>
+            </div>
           </div>
         </div>
       </div>
@@ -1671,9 +1827,10 @@
       doc.text('Payment due within 48 hours | No refunds after delivery', 105, yTerms + 4, { align: 'center' });
 
       // === FOOTER FINALE ===
+      const yFooter = 288;
       doc.setFontSize(7);
       doc.setTextColor(100, 100, 100);
-      doc.text('AutoNation Texas © 2026 | Civico 203, Los Santos | Design by PAVEL', 105, yFooter + 8, { align: 'center' });
+      doc.text('AutoNation Texas © 2026 | Civico 203, Los Santos | Design by PAVEL', 105, yFooter, { align: 'center' });
 
       doc.save(`AutoNation_${invoiceId}.pdf`);
 
