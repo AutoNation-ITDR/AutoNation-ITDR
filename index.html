@@ -1590,12 +1590,12 @@
 
       // === BORDO PRINCIPALE NEON CIANO ===
       doc.setDrawColor(212, 175, 55);
-      doc.lineWidth(0.8);
+      doc.setLineWidth(0.8);
       doc.rect(8, 8, 194, 281);
 
       // === LINEA DECORATIVA SUPERIORE ===
       doc.setDrawColor(255, 255, 255);
-      doc.lineWidth(0.3);
+      doc.setLineWidth(0.3);
       doc.line(10, 16, 200, 16);
 
       // === HEADER PRINCIPALE ===
@@ -1616,7 +1616,7 @@
 
       // === LINEA DIVISORIA ===
       doc.setDrawColor(212, 175, 55);
-      doc.lineWidth(0.2);
+      doc.setLineWidth(0.2);
       doc.line(10, 46, 200, 46);
 
       // === SEZIONE SINISTRA: DATI CONTRATTO ===
@@ -1646,7 +1646,7 @@
 
       // === BOX CLIENTE ===
       doc.setDrawColor(255, 255, 255);
-      doc.lineWidth(0.4);
+      doc.setLineWidth(0.4);
       doc.rect(15, 76, 85, 22);
       
       doc.setFontSize(8);
@@ -1666,7 +1666,7 @@
 
       // === BOX VEICOLO ===
       doc.setDrawColor(212, 175, 55);
-      doc.lineWidth(0.4);
+      doc.setLineWidth(0.4);
       doc.rect(105, 76, 85, 22);
       
       doc.setFontSize(8);
@@ -1686,7 +1686,7 @@
 
       // === TABELLA TERMINI ===
       doc.setDrawColor(212, 175, 55);
-      doc.lineWidth(0.3);
+      doc.setLineWidth(0.3);
       
       // Intestazioni tabella
       const y1 = 105;
@@ -1730,7 +1730,7 @@
       doc.rect(15, yPrice, 175, 20, "F");
       
       doc.setDrawColor(212, 175, 55);
-      doc.lineWidth(0.5);
+      doc.setLineWidth(0.5);
       doc.rect(15, yPrice, 175, 20);
 
       doc.setFontSize(11);
@@ -1761,7 +1761,7 @@
       
       // LINEA FIRMA CLIENTE
       doc.setDrawColor(212, 175, 55);
-      doc.lineWidth(0.2);
+      doc.setLineWidth(0.2);
       doc.line(15, ySignatures, 60, ySignatures);
       
       doc.setFontSize(7);
@@ -1777,7 +1777,7 @@
 
       // LINEA FIRMA AGENTE
       doc.setDrawColor(212, 175, 55);
-      doc.lineWidth(0.2);
+      doc.setLineWidth(0.2);
       doc.line(130, ySignatures, 190, ySignatures);
       
       doc.setFontSize(7);
