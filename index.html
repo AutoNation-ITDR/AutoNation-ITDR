@@ -658,6 +658,7 @@
     <div style="margin-top: auto; padding: 20px; font-size: 0.6rem; color: #444; border-top: 1px solid #111;">
       <p>AUTONATION TEXAS &copy; 2026</p>
       <p>CIVICO 203, LOS SANTOS</p>
+      <p style="margin-top: 15px; color: #555;">Design &amp; Development by<br><span style="color: #00d4ff; font-weight: bold;">PAVEL</span></p>
     </div>
   </nav>
 
@@ -1454,7 +1455,7 @@
       // === FOOTER FINALE ===
       doc.setFontSize(7);
       doc.setTextColor(100, 100, 100);
-      doc.text('AutoNation Texas © 2026 | Civico 203, Los Santos | Generated: ' + new Date().toLocaleString('it-IT'), 105, yFooter + 8, { align: 'center' });
+      doc.text('AutoNation Texas © 2026 | Civico 203, Los Santos | Design by PAVEL', 105, yFooter + 8, { align: 'center' });
 
       doc.save(`AutoNation_${invoiceId}.pdf`);
 
