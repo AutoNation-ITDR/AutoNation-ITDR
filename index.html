@@ -13,15 +13,20 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <style>
-    /* --- VARIABILI E RESET --- */
+    /* --- VARIABILI E RESET FiveM STYLE --- */
     :root {
-      --p: #ff2e4d;
-      --p-rgb: 255, 46, 77;
-      --bg: #000;
-      --s: #0a0a0a;
-      --b: #1a1a1a;
-      --t: #fff;
-      --grad: linear-gradient(135deg, var(--p), #991b2d);
+      --p: #00d4ff;
+      --p-rgb: 0, 212, 255;
+      --accent: #ff2e4d;
+      --accent-rgb: 255, 46, 77;
+      --neon-green: #39ff14;
+      --neon-red: #ff0055;
+      --bg: #0a0e27;
+      --s: #0f1429;
+      --b: #1a2847;
+      --t: #e0f7ff;
+      --grad: linear-gradient(135deg, var(--p), var(--neon-red));
+      --glow: 0 0 10px var(--p), 0 0 20px rgba(0, 212, 255, 0.3);
     }
 
     * {
@@ -51,6 +56,25 @@
       display: flex;
       height: 100vh;
       overflow: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 212, 255, 0.02) 0px,
+        rgba(0, 212, 255, 0.02) 2px,
+        transparent 2px,
+        transparent 4px
+      );
+      pointer-events: none;
+      z-index: 1;
     }
 
     /* --- ANIMAZIONI --- */
@@ -69,13 +93,13 @@
     nav {
       width: 280px;
       background: var(--s);
-      border-right: 1px solid var(--b);
+      border-right: 3px solid var(--p);
       display: flex;
       flex-direction: column;
       padding: 40px 20px;
       z-index: 100;
       flex-shrink: 0;
-      box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+      box-shadow: inset -10px 0 30px rgba(0, 212, 255, 0.1), -20px 0 60px rgba(0, 212, 255, 0.15);
     }
 
     .logo-box {
@@ -91,11 +115,12 @@
       border: 3px solid var(--p);
       object-fit: cover;
       transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: var(--glow), inset 0 0 20px rgba(0, 212, 255, 0.2);
     }
 
     .logo-box img:hover {
-      transform: scale(1.1) rotate(5deg);
-      box-shadow: 0 0 30px var(--p);
+      transform: scale(1.15) rotate(-5deg);
+      box-shadow: 0 0 50px var(--p), 0 0 100px rgba(0, 212, 255, 0.4), inset 0 0 20px rgba(0, 212, 255, 0.2);
     }
 
     .nav-group {
@@ -105,11 +130,11 @@
     }
 
     .nav-link {
-      background: rgba(255,255,255,0.02);
-      border: 1px solid transparent;
-      color: #888;
+      background: rgba(0, 212, 255, 0.03);
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      color: #7dd3fc;
       padding: 16px 20px;
-      border-radius: 12px;
+      border-radius: 8px;
       font-family: 'Orbitron';
       font-size: 0.8rem;
       text-align: left;
@@ -119,6 +144,23 @@
       display: flex;
       align-items: center;
       gap: 15px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav-link::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+      transition: 0.5s;
+    }
+
+    .nav-link:hover::before {
+      left: 100%;
     }
 
     .nav-link i {
@@ -128,25 +170,27 @@
     }
 
     .nav-link:hover {
-      color: #fff;
-      background: rgba(255,255,255,0.05);
-      border-color: #333;
+      color: var(--p);
+      background: rgba(0, 212, 255, 0.08);
+      border-color: var(--p);
       padding-left: 25px;
+      box-shadow: inset 0 0 15px rgba(0, 212, 255, 0.1);
     }
 
     .nav-link.active {
       color: #fff;
-      background: var(--grad);
+      background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(255, 46, 77, 0.1));
       border-color: var(--p);
-      box-shadow: 0 10px 20px rgba(255, 46, 77, 0.2);
+      box-shadow: 0 0 20px rgba(0, 212, 255, 0.3), inset 0 0 15px rgba(0, 212, 255, 0.1);
     }
 
     /* --- MAIN CONTENT --- */
     main {
       flex: 1;
       overflow-y: auto;
-      background: radial-gradient(circle at top right, #0a0a0a, #000);
+      background: radial-gradient(circle at top right, #0a1128, #050814);
       position: relative;
+      z-index: 2;
     }
 
     .page {
@@ -163,6 +207,18 @@
 
     .section-header {
       margin-bottom: 40px;
+      position: relative;
+      padding-bottom: 20px;
+    }
+
+    .section-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--p), var(--neon-red), transparent);
     }
 
     .section-header h2 {
@@ -170,10 +226,15 @@
       font-size: 2.5rem;
       text-transform: uppercase;
       letter-spacing: 2px;
+      text-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+    }
+
+    .section-header span {
+      color: var(--neon-red);
     }
 
     .section-header p {
-      color: #666;
+      color: rgba(0, 212, 255, 0.6);
       margin-top: 10px;
       font-size: 1.1rem;
     }
@@ -196,7 +257,7 @@
       justify-content: center;
       align-items: center;
       text-align: center;
-      background: radial-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(15,15,15,0.95) 50%, rgba(0,0,0,0.9) 100%);
+      background: radial-gradient(135deg, rgba(5, 8, 20, 0.95) 0%, rgba(0, 0, 0, 0.98) 50%, rgba(10, 14, 39, 0.95) 100%);
       padding-bottom: 100px;
     }
 
@@ -208,11 +269,13 @@
       font-weight: 900;
       line-height: 0.9;
       margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 3px;
     }
 
     .hero-title span {
       color: var(--p);
-      text-shadow: 0 0 50px rgba(var(--p-rgb), 0.6);
+      text-shadow: 0 0 20px var(--p), 0 0 40px rgba(0, 212, 255, 0.5), 0 0 60px rgba(0, 212, 255, 0.3);
     }
 
     .hero-stats {
@@ -229,12 +292,13 @@
       display: block;
       font-family: 'Orbitron';
       font-size: 2rem;
-      color: #fff;
+      color: var(--p);
       font-weight: 900;
+      text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
     }
 
     .stat-lab {
-      color: var(--p);
+      color: rgba(0, 212, 255, 0.7);
       text-transform: uppercase;
       font-size: 0.7rem;
       letter-spacing: 2px;
@@ -242,36 +306,40 @@
 
     /* --- SHOWROOM FILTERS --- */
     .filter-wrapper {
-      background: rgba(255,255,255,0.03);
+      background: rgba(0, 212, 255, 0.05);
       padding: 10px;
-      border-radius: 15px;
+      border-radius: 8px;
       display: inline-flex;
       gap: 10px;
       margin-bottom: 40px;
-      border: 1px solid #222;
+      border: 2px solid rgba(0, 212, 255, 0.3);
     }
 
     .filter-btn {
-      background: transparent;
-      border: none;
-      color: #666;
+      background: rgba(0, 212, 255, 0.05);
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      color: rgba(0, 212, 255, 0.6);
       padding: 12px 25px;
-      border-radius: 10px;
+      border-radius: 6px;
       cursor: pointer;
       font-family: 'Orbitron';
       font-size: 0.7rem;
       text-transform: uppercase;
       transition: 0.3s;
+      position: relative;
     }
 
     .filter-btn:hover {
-      color: #fff;
+      color: var(--p);
+      border-color: var(--p);
+      box-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
     }
 
     .filter-btn.active {
-      background: var(--p);
-      color: #fff;
-      box-shadow: 0 5px 15px rgba(var(--p-rgb), 0.3);
+      background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(57, 255, 20, 0.1));
+      color: var(--p);
+      border-color: var(--neon-green);
+      box-shadow: 0 0 20px rgba(57, 255, 20, 0.3), inset 0 0 10px rgba(57, 255, 20, 0.1);
     }
 
     /* --- CAR GRID --- */
@@ -282,9 +350,9 @@
     }
 
     .car-card {
-      background: #0d0d0d;
-      border: 1px solid #1a1a1a;
-      border-radius: 20px;
+      background: rgba(15, 20, 41, 0.6);
+      border: 2px solid rgba(0, 212, 255, 0.3);
+      border-radius: 12px;
       overflow: hidden;
       transition: 0.4s ease;
       position: relative;
@@ -293,7 +361,7 @@
     .car-card:hover {
       transform: translateY(-10px);
       border-color: var(--p);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      box-shadow: 0 20px 40px rgba(0, 212, 255, 0.3), 0 0 30px rgba(0, 212, 255, 0.2);
     }
 
     .car-img-box {
@@ -356,13 +424,33 @@
 
     /* --- FORMS & PANELS --- */
     .glass-panel {
-      background: #0a0a0a;
-      border: 1px solid #1a1a1a;
+      background: rgba(15, 20, 41, 0.7);
+      border: 2px solid var(--p);
       padding: 40px;
-      border-radius: 24px;
-      box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+      border-radius: 12px;
+      box-shadow: inset 0 0 30px rgba(0, 212, 255, 0.1), 0 0 30px rgba(0, 212, 255, 0.2);
       max-width: 600px;
       margin: 0 auto;
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .glass-panel::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+      animation: glow-move 15s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes glow-move {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(50px, 50px); }
     }
 
     .form-group {
@@ -380,28 +468,31 @@
 
     input, select, textarea {
       width: 100%;
-      background: #000;
-      border: 1px solid #222;
-      color: #fff;
+      background: rgba(5, 8, 20, 0.8);
+      border: 1px solid rgba(0, 212, 255, 0.3);
+      color: var(--t);
       padding: 16px;
-      border-radius: 12px;
+      border-radius: 8px;
       font-family: 'Outfit';
       font-size: 1rem;
       transition: 0.3s;
+      box-shadow: inset 0 0 10px rgba(0, 212, 255, 0.05);
     }
 
     input:focus, select:focus, textarea:focus {
       border-color: var(--p);
-      background: #050505;
+      background: rgba(5, 8, 20, 0.95);
+      box-shadow: inset 0 0 15px rgba(0, 212, 255, 0.1), 0 0 15px rgba(0, 212, 255, 0.2);
+      outline: none;
     }
 
     .btn-action {
       width: 100%;
       padding: 20px;
-      background: var(--grad);
-      color: #fff;
-      border: none;
-      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(255, 46, 77, 0.15));
+      color: var(--t);
+      border: 2px solid var(--p);
+      border-radius: 8px;
       font-family: 'Orbitron';
       font-weight: 900;
       cursor: pointer;
@@ -409,45 +500,68 @@
       letter-spacing: 2px;
       transition: 0.3s;
       margin-top: 10px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 15px rgba(0, 212, 255, 0.2), inset 0 0 15px rgba(0, 212, 255, 0.05);
+    }
+
+    .btn-action::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.3), transparent);
+      transition: 0.5s;
     }
 
     .btn-action:hover {
-      transform: scale(1.02);
-      box-shadow: 0 10px 30px rgba(var(--p-rgb), 0.4);
+      border-color: var(--neon-green);
+      box-shadow: 0 0 30px rgba(0, 212, 255, 0.5), 0 0 50px rgba(57, 255, 20, 0.3), inset 0 0 20px rgba(0, 212, 255, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .btn-action:hover::before {
+      left: 100%;
     }
 
     /* --- TABLES --- */
     .table-container {
       overflow-x: auto;
       margin-top: 20px;
+      border-radius: 8px;
+      border: 2px solid var(--p);
+      box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      color: #ccc;
+      color: #b0d4ff;
     }
 
     th {
       text-align: left;
       padding: 20px;
-      background: #0d0d0d;
+      background: rgba(0, 212, 255, 0.1);
       color: var(--p);
       font-family: 'Orbitron';
       font-size: 0.7rem;
       text-transform: uppercase;
-      border-bottom: 2px solid #1a1a1a;
+      border-bottom: 2px solid var(--p);
+      letter-spacing: 1px;
     }
 
     td {
       padding: 20px;
-      border-bottom: 1px solid #111;
+      border-bottom: 1px solid rgba(0, 212, 255, 0.1);
       font-size: 0.9rem;
     }
 
     tr:hover td {
-      background: rgba(255,255,255,0.02);
-      color: #fff;
+      background: rgba(0, 212, 255, 0.05);
+      color: var(--t);
     }
 
     .status-badge {
@@ -518,12 +632,13 @@
 
     /* --- FOOTER INFO --- */
     .civico-box {
-      background: rgba(var(--p-rgb), 0.1);
-      border: 1px dashed var(--p);
+      background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(255, 46, 77, 0.05));
+      border: 2px solid var(--p);
       padding: 20px;
-      border-radius: 12px;
+      border-radius: 8px;
       margin-top: 30px;
       text-align: center;
+      box-shadow: inset 0 0 15px rgba(0, 212, 255, 0.05);
     }
   </style>
 </head>
@@ -1090,7 +1205,7 @@
       });
     }
 
-    /* --- VENDITA + PDF STILE TEX-005 --- */
+    /* --- VENDITA + PDF STILE FiveM CYBERPUNK --- */
     async function finalizeSale() {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
@@ -1098,111 +1213,239 @@
       const client = document.getElementById('s-client').value;
       const car = document.getElementById('s-car').value;
       const price = document.getElementById('s-price').value;
-      const agent = document.getElementById('s-agent').value || "N/D";
+      const agent = document.getElementById('s-agent').value || "UNKNOWN AGENT";
       const method = document.getElementById('s-method').value;
-      const notes = document.getElementById('s-notes').value || "Nessuna nota.";
+      const notes = document.getElementById('s-notes').value || "NESSUNA NOTA";
 
       if (!client || !car || !price) return alert("Compila tutti i campi obbligatori!");
 
       const invoiceId = "TEX-" + String(Math.floor(Math.random() * 999)).padStart(3, "0");
-      const today = new Date().toLocaleDateString();
+      const today = new Date().toLocaleDateString('it-IT');
+      const docId = "AUTONATION-TX-" + Date.now();
 
-      // SFONDO
-      doc.setFillColor(0, 0, 0);
+      // === SFONDO NERO SCURO ===
+      doc.setFillColor(10, 14, 39);
       doc.rect(0, 0, 210, 297, "F");
 
-      // HEADER
-      doc.setTextColor(255, 46, 77);
-      doc.setFontSize(28);
-      doc.setFont("helvetica", "bold");
-      doc.text("AutoNation Texas", 20, 25);
+      // === BORDO PRINCIPALE NEON CIANO ===
+      doc.setDrawColor(0, 212, 255);
+      doc.lineWidth(0.8);
+      doc.rect(8, 8, 194, 281);
 
+      // === LINEA DECORATIVA SUPERIORE ===
       doc.setDrawColor(255, 46, 77);
-      doc.line(20, 30, 190, 30);
+      doc.lineWidth(0.3);
+      doc.line(10, 16, 200, 16);
 
-      doc.setFontSize(12);
-      doc.setTextColor(255, 255, 255);
-      doc.setFont("helvetica", "normal");
-      doc.text("VEHICLE SALES DIVISION", 20, 38);
-
-      // TITOLO
-      doc.setFontSize(20);
-      doc.setFont("helvetica", "bold");
-      doc.text("SALES INVOICE", 20, 55);
-
-      // INFO FATTURA
-      doc.setFontSize(11);
-      doc.setFont("helvetica", "normal");
-      doc.text(`Invoice ID: ${invoiceId}`, 20, 65);
-      doc.text(`Date of Issue: ${today}`, 20, 72);
-
-      // DESCRIZIONE
-      doc.setFontSize(10);
-      doc.text(
-        "AutoNation Texas conferma la vendita del seguente veicolo. Tutti i dati riportati sono accurati e verificati.",
-        20, 85, { maxWidth: 170 }
-      );
-
-      // BOX CLIENTE
-      doc.setDrawColor(255, 46, 77);
-      doc.rect(18, 95, 174, 20);
-
-      doc.setFont("helvetica", "bold");
-      doc.text("BILL TO:", 22, 103);
-      doc.setFont("helvetica", "normal");
-      doc.text(client.toUpperCase(), 22, 112);
-
-      // BOX VEICOLO
-      doc.rect(18, 120, 174, 30);
-      doc.setFont("helvetica", "bold");
-      doc.text("ITEM DESCRIPTION", 22, 128);
-      doc.setFont("helvetica", "normal");
-      doc.text(car, 22, 138);
-
-      // PREZZO
-      doc.setFont("helvetica", "bold");
+      // === HEADER PRINCIPALE ===
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(32);
+      doc.setTextColor(0, 212, 255);
+      doc.text('AUTONATION', 20, 30);
+      
       doc.setFontSize(14);
-      doc.text("TOTAL PAID", 22, 165);
-      doc.setFontSize(18);
       doc.setTextColor(255, 46, 77);
-      doc.text(`$ ${parseInt(price).toLocaleString()}`, 22, 178);
+      doc.text('TEXAS', 110, 35);
 
-      // AGENTE
-      doc.setTextColor(255, 255, 255);
-      doc.setFontSize(12);
-      doc.text("AUTHORIZED AGENT:", 22, 200);
-      doc.setFont("helvetica", "bold");
-      doc.text(agent.toUpperCase(), 22, 210);
+      // === SOTTOTITOLO ===
+      doc.setFontSize(8);
+      doc.setTextColor(150, 150, 150);
+      doc.setFont('helvetica', 'normal');
+      doc.text('OFFICIAL VEHICLE SALES CONTRACT & INVOICE', 20, 42);
 
-      // FOOTER
+      // === LINEA DIVISORIA ===
+      doc.setDrawColor(0, 212, 255);
+      doc.lineWidth(0.2);
+      doc.line(10, 46, 200, 46);
+
+      // === SEZIONE SINISTRA: DATI CONTRATTO ===
       doc.setFontSize(9);
-      doc.setFont("helvetica", "normal");
-      doc.text("AutoNation Texas - Verified Digital Copy", 20, 290);
+      doc.setTextColor(0, 212, 255);
+      doc.setFont('helvetica', 'bold');
+      doc.text('CONTRACT NUMBER:', 15, 56);
+      doc.setTextColor(57, 255, 20);
+      doc.setFont('courier', 'bold');
+      doc.setFontSize(11);
+      doc.text(invoiceId, 15, 62);
 
-      doc.save(`Invoice_${invoiceId}.pdf`);
+      // === SEZIONE DESTRA: DATA ===
+      doc.setFontSize(9);
+      doc.setTextColor(0, 212, 255);
+      doc.setFont('helvetica', 'bold');
+      doc.text('ISSUE DATE:', 130, 56);
+      doc.setTextColor(200, 200, 200);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10);
+      doc.text(today, 130, 62);
 
-      // WEBHOOK LOG
+      // === DOCUMENT ID ===
+      doc.setFontSize(7);
+      doc.setTextColor(100, 100, 100);
+      doc.text('DOC ID: ' + docId, 15, 70);
+
+      // === BOX CLIENTE ===
+      doc.setDrawColor(255, 46, 77);
+      doc.lineWidth(0.4);
+      doc.rect(15, 76, 85, 22);
+      
+      doc.setFontSize(8);
+      doc.setTextColor(255, 46, 77);
+      doc.setFont('helvetica', 'bold');
+      doc.text('BUYER INFORMATION', 17, 82);
+      
+      doc.setFontSize(10);
+      doc.setTextColor(255, 255, 255);
+      doc.setFont('helvetica', 'bold');
+      doc.text(client.toUpperCase(), 17, 90);
+      
+      doc.setFontSize(8);
+      doc.setTextColor(150, 150, 150);
+      doc.setFont('helvetica', 'normal');
+      doc.text('Civico 203, Los Santos, Texas', 17, 96);
+
+      // === BOX VEICOLO ===
+      doc.setDrawColor(0, 212, 255);
+      doc.lineWidth(0.4);
+      doc.rect(105, 76, 85, 22);
+      
+      doc.setFontSize(8);
+      doc.setTextColor(0, 212, 255);
+      doc.setFont('helvetica', 'bold');
+      doc.text('VEHICLE DETAILS', 107, 82);
+      
+      doc.setFontSize(10);
+      doc.setTextColor(255, 255, 255);
+      doc.setFont('helvetica', 'bold');
+      doc.text(car.toUpperCase(), 107, 90);
+      
+      doc.setFontSize(8);
+      doc.setTextColor(150, 150, 150);
+      doc.setFont('helvetica', 'normal');
+      doc.text('NOVO | 0 KM | CERTIFICATO', 107, 96);
+
+      // === TABELLA TERMINI ===
+      doc.setDrawColor(0, 212, 255);
+      doc.lineWidth(0.3);
+      
+      // Intestazioni tabella
+      const y1 = 105;
+      doc.rect(15, y1, 175, 8);
+      
+      doc.setFontSize(8);
+      doc.setTextColor(0, 212, 255);
+      doc.setFont('helvetica', 'bold');
+      doc.text('TRANSACTION DETAILS', 17, y1 + 6);
+
+      // Riga 1
+      const y2 = y1 + 12;
+      doc.setDrawColor(100, 100, 100);
+      doc.line(15, y2, 190, y2);
+      
+      doc.setFontSize(9);
+      doc.setTextColor(200, 200, 200);
+      doc.setFont('helvetica', 'normal');
+      doc.text('PAYMENT METHOD:', 17, y2 + 5);
+      
+      doc.setTextColor(57, 255, 20);
+      doc.setFont('helvetica', 'bold');
+      doc.text(method.toUpperCase(), 90, y2 + 5);
+
+      // Riga 2
+      const y3 = y2 + 8;
+      doc.line(15, y3, 190, y3);
+      
+      doc.setFontSize(9);
+      doc.setTextColor(200, 200, 200);
+      doc.setFont('helvetica', 'normal');
+      doc.text('AUTHORIZED AGENT:', 17, y3 + 5);
+      
+      doc.setTextColor(0, 212, 255);
+      doc.setFont('helvetica', 'bold');
+      doc.text(agent.toUpperCase(), 90, y3 + 5);
+
+      // === SEZIONE PREZZO (GRANDE) ===
+      const yPrice = y3 + 12;
+      doc.setFillColor(15, 20, 41);
+      doc.rect(15, yPrice, 175, 20, "F");
+      
+      doc.setDrawColor(0, 212, 255);
+      doc.lineWidth(0.5);
+      doc.rect(15, yPrice, 175, 20);
+
+      doc.setFontSize(11);
+      doc.setTextColor(0, 212, 255);
+      doc.setFont('helvetica', 'bold');
+      doc.text('TOTAL AMOUNT DUE', 17, yPrice + 7);
+
+      doc.setFontSize(20);
+      doc.setTextColor(57, 255, 20);
+      doc.setFont('courier', 'bold');
+      doc.text('$ ' + parseInt(price).toLocaleString('en-US'), 17, yPrice + 18);
+
+      // === NOTE CONTRATTUALI ===
+      const yNotes = yPrice + 25;
+      doc.setFontSize(8);
+      doc.setTextColor(255, 46, 77);
+      doc.setFont('helvetica', 'bold');
+      doc.text('CONTRACT NOTES:', 15, yNotes);
+
+      doc.setFontSize(7);
+      doc.setTextColor(150, 150, 150);
+      doc.setFont('helvetica', 'normal');
+      const wrappedNotes = doc.splitTextToSize(notes, 175);
+      doc.text(wrappedNotes, 15, yNotes + 5);
+
+      // === TERMINI E CONDIZIONI ===
+      const yTerms = yNotes + 25;
+      doc.setFontSize(7);
+      doc.setTextColor(100, 100, 100);
+      doc.setFont('helvetica', 'normal');
+      doc.text('[ QUESTO CONTRATTO È VINCOLANTE E COMPLETAMENTE LEGALE ]', 105, yTerms, { align: 'center' });
+      doc.text('Il pagamento deve essere effettuato entro 48 ore | Nessun rimborso dopo consegna', 105, yTerms + 4, { align: 'center' });
+
+      // === FOOTER FIRMA ===
+      const yFooter = 280;
+      doc.setDrawColor(0, 212, 255);
+      doc.lineWidth(0.2);
+      doc.line(15, yFooter - 10, 50, yFooter - 10);
+      doc.line(130, yFooter - 10, 190, yFooter - 10);
+
+      doc.setFontSize(8);
+      doc.setTextColor(150, 150, 150);
+      doc.setFont('helvetica', 'normal');
+      doc.text('BUYER SIGNATURE', 20, yFooter);
+      doc.text('AUTHORIZED REPRESENTATIVE', 135, yFooter);
+
+      // === FOOTER FINALE ===
+      doc.setFontSize(7);
+      doc.setTextColor(100, 100, 100);
+      doc.text('AutoNation Texas © 2026 | Civico 203, Los Santos | Generated: ' + new Date().toLocaleString('it-IT'), 105, yFooter + 8, { align: 'center' });
+
+      doc.save(`AutoNation_${invoiceId}.pdf`);
+
+      // === WEBHOOK LOG ===
       sendWebhook(WEBHOOK_SALES, {
         embeds: [{
           title: "💰 NUOVA VENDITA REGISTRATA",
-          color: 3066993,
+          color: 0x00d4ff,
           thumbnail: { url: LOGO_IMG },
           fields: [
-            { name: "Cliente", value: client, inline: true },
-            { name: "Agente", value: agent, inline: true },
-            { name: "Veicolo", value: car, inline: false },
-            { name: "Prezzo", value: `$ ${parseInt(price).toLocaleString()}`, inline: true },
-            { name: "Metodo", value: method, inline: true },
-            { name: "Note", value: notes || "N/A", inline: false }
+            { name: "🧑 CLIENTE", value: client.toUpperCase(), inline: true },
+            { name: "👤 AGENTE", value: agent.toUpperCase(), inline: true },
+            { name: "📋 CONTRACT", value: invoiceId, inline: false },
+            { name: "🚗 VEICOLO", value: car.toUpperCase(), inline: false },
+            { name: "💵 PREZZO TOTALE", value: '```\n' + '$ ' + parseInt(price).toLocaleString('en-US') + '\n```', inline: true },
+            { name: "💳 METODO", value: method.toUpperCase(), inline: true },
+            { name: "📝 NOTE", value: notes.substring(0, 100) || "N/A", inline: false }
           ],
-          footer: { text: "AutoNation Texas — Sales Registry" },
+          footer: { text: "AutoNation Texas — Official Sales Registry" },
           timestamp: new Date().toISOString()
         }]
       }).then(success => {
-        if (!success) console.warn("Sales webhook may have failed");
+        if (!success) console.warn("⚠️ Sales webhook may have failed - check console");
       });
 
-      alert("Vendita completata! PDF generato e log inviato.");
+      alert("✅ Contratto Generato!\n\n" + invoiceId + "\n\nPDF scaricato e log inviato a Discord.");
     }
   </script>
 </body>
