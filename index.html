@@ -468,6 +468,142 @@
       letter-spacing: 2px;
     }
 
+    /* --- NUOVE SEZIONI HOME --- */
+    .section-title {
+      font-family: 'Orbitron';
+      font-size: 2.2rem;
+      color: var(--p);
+      text-align: center;
+      margin-bottom: 40px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+    }
+
+    .services-section {
+      background: rgba(212, 175, 55, 0.05);
+      border: 2px solid rgba(212, 175, 55, 0.2);
+      border-radius: 16px;
+      padding: 60px 50px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .services-section::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .service-card {
+      background: rgba(0, 0, 0, 0.3);
+      border-left: 4px solid var(--p);
+      padding: 30px 20px;
+      border-radius: 12px;
+      text-align: center;
+      transition: 0.4s ease;
+    }
+
+    .service-card:hover {
+      background: rgba(212, 175, 55, 0.08);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+    }
+
+    .service-card i {
+      font-size: 3rem;
+      color: var(--p);
+      margin-bottom: 15px;
+    }
+
+    .service-card h3 {
+      font-family: 'Orbitron';
+      color: var(--p);
+      font-weight: 700;
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .service-card p {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .testimonials-section {
+      background: rgba(255, 255, 255, 0.03);
+      border: 2px solid rgba(212, 175, 55, 0.2);
+      border-radius: 16px;
+      padding: 60px 50px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .testimonials-section::before {
+      content: '';
+      position: absolute;
+      bottom: -50%;
+      left: -50%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .testimonial-card {
+      background: rgba(0, 0, 0, 0.3);
+      border: 2px solid rgba(212, 175, 55, 0.3);
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+      transition: 0.4s ease;
+    }
+
+    .testimonial-card:hover {
+      border-color: var(--p);
+      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+      transform: translateY(-5px);
+    }
+
+    .testimonial-card p {
+      color: rgba(255, 255, 255, 0.9);
+      font-style: italic;
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .testimonial-card cite {
+      color: var(--p);
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+
     /* --- SHOWROOM FILTERS --- */
     .filter-wrapper {
       background: rgba(212, 175, 55, 0.05);
@@ -931,6 +1067,51 @@
           Esplora Showroom
         </button>
 
+        <!-- Nuove sezioni per migliorare la home -->
+        <div class="services-section" style="margin-top: 60px;">
+          <h2 class="section-title">🚗 I Nostri Servizi</h2>
+          <div class="services-grid">
+            <div class="service-card">
+              <i class="fa-solid fa-car-side"></i>
+              <h3>Vendita Auto</h3>
+              <p>Selezione esclusiva di veicoli nuovi e usati, certificati e garantiti.</p>
+            </div>
+            <div class="service-card">
+              <i class="fa-solid fa-tools"></i>
+              <h3>Officina Interna</h3>
+              <p>Manutenzione, riparazioni e controlli tecnici effettuati da esperti qualificati.</p>
+            </div>
+            <div class="service-card">
+              <i class="fa-solid fa-handshake"></i>
+              <h3>Consulenza Personalizzata</h3>
+              <p>Assistenza dedicata per trovare il veicolo perfetto per le tue esigenze.</p>
+            </div>
+            <div class="service-card">
+              <i class="fa-solid fa-clock"></i>
+              <h3>Supporto 24/7</h3>
+              <p>Agenti sempre disponibili per rispondere alle tue domande e prenotazioni.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonials-section" style="margin-top: 60px;">
+          <h2 class="section-title">💬 Cosa Dicono i Nostri Clienti</h2>
+          <div class="testimonials-grid">
+            <div class="testimonial-card">
+              <p>"Servizio eccellente e prezzi trasparenti. Ho trovato l'auto dei miei sogni senza stress!"</p>
+              <cite>- Mario Rossi</cite>
+            </div>
+            <div class="testimonial-card">
+              <p>"L'officina interna è fantastica. Hanno risolto un problema complesso in poche ore."</p>
+              <cite>- Laura Bianchi</cite>
+            </div>
+            <div class="testimonial-card">
+              <p>"Personale cordiale e professionale. Mi hanno guidato nella scelta perfetta."</p>
+              <cite>- Giovanni Verdi</cite>
+            </div>
+          </div>
+        </div>
+
         <div class="about-section" style="margin-top: 40px;">
           <div class="about-content">
             <h2 class="about-title">✦ Chi Siamo ✦</h2>
@@ -1268,6 +1449,24 @@
       </div>
     </div>
   </main>
+
+  <!-- Footer -->
+  <footer style="background: var(--s); border-top: 3px solid var(--p); padding: 40px 40px; text-align: center; color: rgba(255, 255, 255, 0.7); font-size: 0.9rem;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+        <div>
+          <h3 style="color: var(--p); font-family: 'Orbitron'; margin-bottom: 10px;">AUTONATION TEXAS</h3>
+          <p>Civico 203, Austin, Texas<br>Supporto 24/7 | Qualità Garantita</p>
+        </div>
+        <div>
+          <p>© 2026 AutoNation Texas. Tutti i diritti riservati.<br>Design by <span style="color: var(--p); font-weight: bold;">PAVEL</span></p>
+        </div>
+        <div>
+          <p>Seguici su Discord<br><i class="fa-brands fa-discord" style="color: var(--p); font-size: 1.5rem;"></i></p>
+        </div>
+      </div>
+    </div>
+  </footer>
 
   <script>
     /* --- CONFIGURAZIONE FIREBASE --- */
