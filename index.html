@@ -1448,7 +1448,7 @@
     firebase.initializeApp(fbConfig);
     const db = firebase.database();
 
-    // WEBHOOKS - AGGIORNA CON I TUOI URL NUOVI
+    // WEBHOOKS
     const WEBHOOK_APPOINTMENT_ACCEPTED = "https://discord.com/api/webhooks/1487596392368312320/UgTtLAon7TPg-GMQoIyEzO5OLdiPyXYtLZxwMlTPACJAa--tlb3oGeBHtVJDFyWsurMU";
     const WEBHOOK_APPOINTMENT_REJECTED = "https://discord.com/api/webhooks/1487596622547386539/rgVPeHFc-MxpKTeWE_CNt82APm0frddrlg6KBo7-932YW54xON2vM3OLLD1KKWSKySgu";
     const WEBHOOK_SALES = "https://discord.com/api/webhooks/1487566509982355487/dekKyZ-WeiUCUvTpeacX6YSBRssl3e_27xTTgxQwPYdOrUP8bREE1hOIOpsw-_A7rC_W";
@@ -1496,7 +1496,7 @@
     let selectedFilter = "TUTTO";
     let tempImageBase64 = "";
 
-    // Descrizioni auto da ERLC (EmergencyRP)
+    // Descrizioni auto da ERLC
     const carDescriptions = {
       "Dodge Charger": "Muscle car iconico con potenza bruta e design retrò. Perfetto per chi vuole stile e prestazioni esplosive.",
       "Ford Police Interceptor": "Berlina sportiva performante con tecnologia avanzata. Ideale per chi ricerca affidabilità e velocità.",
@@ -1529,12 +1529,14 @@
       document.getElementById(pageId).classList.add('active');
       btn.classList.add('active');
 
-      // Timer per bando
+      // Gestione bando: mostra solo l'intro, non avviare timer
       if (pageId === 'bando') {
         clearInterval(bandoTimer);
-        document.getElementById('bando-form-container').classList.remove('hidden');
+        document.getElementById('bando-intro').classList.remove('hidden');
+        document.getElementById('bando-form-container').classList.add('hidden');
         document.getElementById('bando-submitted').classList.add('hidden');
-        startBandoTimer();
+        document.getElementById('timer-text').textContent = '15:00';
+        bandoTimeLeft = 900;
       } else {
         clearInterval(bandoTimer);
       }
@@ -1598,14 +1600,11 @@
         const car = carsCache[id];
         if (selectedFilter !== "TUTTO" && car.type !== selectedFilter) continue;
 
-        // Filtra per nome auto
         if (searchTerm && !car.name.toLowerCase().includes(searchTerm)) continue;
 
-        // Filtra per budget
         const price = parseInt(car.price);
         if (price < minBudget || price > maxBudget) continue;
 
-        // Prendi descrizione da Firebase, dalla mappatura o genera una default
         let desc = car.description || carDescriptions[car.name] || "Veicolo esclusivo AutoNation Texas. Qualità certificata e prestazioni garantite.";
 
         grid.innerHTML += `
@@ -1684,8 +1683,6 @@
       }
     }
 
-
-
     /* --- LOGIC ACTIONS --- */
     function autoFillPrice() {
       const name = document.getElementById('s-car').value;
@@ -1729,7 +1726,7 @@
       }
     }
 
-    /* --- BOOKING: SOLO LOG IN DB --- */
+    /* --- BOOKING --- */
     function submitBooking() {
       const name = document.getElementById('b-name').value;
       const discord = document.getElementById('b-discord').value;
@@ -1758,7 +1755,7 @@
 
     /* --- BANDO: TIMER E SUBMIT --- */
     let bandoTimer = null;
-    let bandoTimeLeft = 900; // 15 minuti in secondi
+    let bandoTimeLeft = 900;
 
     function startBandoTimer() {
       bandoTimeLeft = 900;
@@ -1815,7 +1812,6 @@
         document.getElementById('bando-form-container').classList.add('hidden');
         document.getElementById('bando-submitted').classList.remove('hidden');
 
-        // Notifica owner
         sendWebhook(WEBHOOK_BANDO, {
           embeds: [{
             title: "📋 NUOVA CANDIDATURA - BANDO",
@@ -1836,31 +1832,7 @@
       });
     }
 
-    // Gestione navigazione, timer bando attivabile manualmente
-    const originalNavTo = window.navTo || function() {};
     window.addEventListener('load', () => {
-      const oldNavTo = document.body.navTo;
-      document.body.navTo = function(pageId, el) {
-        if (pageId !== 'bando') {
-          clearInterval(bandoTimer);
-        } else {
-          // reset visibilità pagina bando senza avviare timer
-          document.getElementById('bando-intro').classList.remove('hidden');
-          document.getElementById('bando-form-container').classList.add('hidden');
-          document.getElementById('bando-submitted').classList.add('hidden');
-          document.getElementById('timer-text').textContent = '15:00';
-          bandoTimeLeft = 900;
-        }
-
-        const pages = document.querySelectorAll('.page');
-        const navLinks = document.querySelectorAll('.nav-link');
-        pages.forEach(p => p.classList.remove('active'));
-        navLinks.forEach(n => n.classList.remove('active'));
-        document.getElementById(pageId).classList.add('active');
-        if (el) el.classList.add('active');
-      };
-
-      // Caricamenti iniziali
       loadBandos();
       loadReviews();
     });
@@ -2022,10 +1994,9 @@
         document.getElementById('review-name').value = '';
         document.getElementById('review-text').value = '';
         document.getElementById('review-rating').value = '5';
-        // Aggiorna in home
         loadReviews();
         navTo('home', document.querySelector('.nav-link'));
-      }).catch(() => alert('Errore durante l’invio. Riprova.'));
+      }).catch(() => alert('Errore durante l\'invio. Riprova.'));
     }
 
     function viewBandoDetail(key, name, q1, q2, q3, q4, q5) {
@@ -2110,7 +2081,7 @@
       });
     }
 
-    /* --- VENDITA + PDF STILE FiveM CYBERPUNK --- */
+    /* --- VENDITA + PDF --- */
     async function finalizeSale() {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
@@ -2129,7 +2100,6 @@
       const today = new Date().toLocaleDateString('it-IT');
       const docId = "AUTONATION-TX-" + Date.now();
 
-      // === CARICA LOGO E TIMBRO ===
       let logoData = null;
       let timbroData = null;
       
@@ -2153,21 +2123,17 @@
         });
       } catch (e) { console.warn("Timbro non caricato"); }
 
-      // === SFONDO BIANCO STANDARD ===
       doc.setFillColor(255, 255, 255);
       doc.rect(0, 0, 210, 297, "F");
 
-      // === LINEA DECORATIVA SUPERIORE ===
       doc.setDrawColor(212, 175, 55);
       doc.setLineWidth(0.3);
       doc.line(10, 16, 200, 16);
 
-      // === LOGO NEL PDF ===
       if (logoData) {
         doc.addImage(logoData, 'PNG', 15, 18, 20, 20);
       }
 
-      // === HEADER PRINCIPALE ===
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(32);
       doc.setTextColor(0, 0, 0);
@@ -2177,18 +2143,15 @@
       doc.setTextColor(212, 175, 55);
       doc.text('TEXAS', 110, 35);
 
-      // === SOTTOTITOLO ===
       doc.setFontSize(8);
       doc.setTextColor(100, 100, 100);
       doc.setFont('helvetica', 'normal');
       doc.text('OFFICIAL VEHICLE SALES CONTRACT & INVOICE', 20, 42);
 
-      // === LINEA DIVISORIA ===
       doc.setDrawColor(0, 0, 0);
       doc.setLineWidth(0.2);
       doc.line(10, 46, 200, 46);
 
-      // === SEZIONE SINISTRA: DATI CONTRATTO ===
       doc.setFontSize(9);
       doc.setTextColor(0, 0, 0);
       doc.setFont('helvetica', 'bold');
@@ -2198,7 +2161,6 @@
       doc.setFontSize(11);
       doc.text(invoiceId, 15, 62);
 
-      // === SEZIONE DESTRA: DATA ===
       doc.setFontSize(9);
       doc.setTextColor(0, 0, 0);
       doc.setFont('helvetica', 'bold');
@@ -2208,12 +2170,10 @@
       doc.setFontSize(10);
       doc.text(today, 130, 62);
 
-      // === DOCUMENT ID ===
       doc.setFontSize(7);
       doc.setTextColor(100, 100, 100);
       doc.text('DOC ID: ' + docId, 15, 70);
 
-      // === BOX CLIENTE ===
       doc.setDrawColor(200, 200, 200);
       doc.setLineWidth(0.4);
       doc.rect(15, 76, 85, 22);
@@ -2233,7 +2193,6 @@
       doc.setFont('helvetica', 'normal');
       doc.text('Civico 203, Austin, Texas', 17, 96);
 
-      // === BOX VEICOLO ===
       doc.setDrawColor(0, 0, 0);
       doc.setLineWidth(0.4);
       doc.rect(105, 76, 85, 22);
@@ -2253,11 +2212,9 @@
       doc.setFont('helvetica', 'normal');
       doc.text('NOVO | 0 KM | CERTIFICATO', 107, 96);
 
-      // === TABELLA TERMINI ===
       doc.setDrawColor(0, 0, 0);
       doc.setLineWidth(0.3);
       
-      // Intestazioni tabella
       const y1 = 105;
       doc.rect(15, y1, 175, 8);
       
@@ -2266,7 +2223,6 @@
       doc.setFont('helvetica', 'bold');
       doc.text('TRANSACTION DETAILS', 17, y1 + 6);
 
-      // Riga 1
       const y2 = y1 + 12;
       doc.setDrawColor(180, 180, 180);
       doc.line(15, y2, 190, y2);
@@ -2280,7 +2236,6 @@
       doc.setFont('helvetica', 'bold');
       doc.text(method.toUpperCase(), 90, y2 + 5);
 
-      // Riga 2
       const y3 = y2 + 8;
       doc.line(15, y3, 190, y3);
       
@@ -2293,7 +2248,6 @@
       doc.setFont('helvetica', 'bold');
       doc.text(agent.toUpperCase(), 90, y3 + 5);
 
-      // === SEZIONE PREZZO (GRANDE) ===
       const yPrice = y3 + 12;
       doc.setFillColor(240, 240, 240);
       doc.rect(15, yPrice, 175, 20, "F");
@@ -2312,7 +2266,6 @@
       doc.setFont('courier', 'bold');
       doc.text('$ ' + parseInt(price).toLocaleString('en-US'), 17, yPrice + 18);
 
-      // === NOTE CONTRATTUALI ===
       const yNotes = yPrice + 25;
       doc.setFontSize(8);
       doc.setTextColor(0, 0, 0);
@@ -2325,10 +2278,8 @@
       const wrappedNotes = doc.splitTextToSize(notes, 175);
       doc.text(wrappedNotes, 15, yNotes + 5);
 
-      // === SEZIONE FIRME ===
       const ySignatures = yNotes + 22;
       
-      // LINEA FIRMA CLIENTE
       doc.setDrawColor(0, 0, 0);
       doc.setLineWidth(0.2);
       doc.line(15, ySignatures, 60, ySignatures);
@@ -2338,13 +2289,11 @@
       doc.setFont('helvetica', 'normal');
       doc.text('BUYER SIGNATURE', 17, ySignatures + 4);
       
-      // FIRMA CLIENTE CON FONT HANDWRITING
       doc.setFontSize(12);
       doc.setTextColor(0, 0, 0);
       doc.setFont('courier', 'italic');
       doc.text(clientSignature, 17, ySignatures - 3);
 
-      // LINEA FIRMA AGENTE
       doc.setDrawColor(0, 0, 0);
       doc.setLineWidth(0.2);
       doc.line(130, ySignatures, 190, ySignatures);
@@ -2354,13 +2303,11 @@
       doc.setFont('helvetica', 'normal');
       doc.text('AUTHORIZED REP. SIGNATURE', 132, ySignatures + 4);
       
-      // FIRMA AGENTE
       doc.setFontSize(12);
       doc.setTextColor(0, 0, 0);
       doc.setFont('courier', 'italic');
       doc.text(agent.substring(0, 15), 132, ySignatures - 3);
 
-      // === TERMINE E CONDIZIONI ===
       const yTerms = ySignatures + 10;
       doc.setFontSize(7);
       doc.setTextColor(120, 120, 120);
@@ -2368,20 +2315,17 @@
       doc.text('[ BINDING & LEGAL DOCUMENT ]', 20, yTerms);
       doc.text('Payment due within 48 hours | No refunds after delivery', 20, yTerms + 4);
 
-      // === FOOTER FINALE ===
       const yFooter = 288;
       doc.setFontSize(6);
       doc.setTextColor(150, 150, 150);
       doc.text('AutoNation Texas © 2026 | Civico 203, Austin | Design by PAVEL', 20, yFooter);
 
-      // === TIMBRO NEL PDF ===
       if (timbroData) {
         doc.addImage(timbroData, 'PNG', 165, 250, 30, 30);
       }
 
       doc.save(`AutoNation_${invoiceId}.pdf`);
 
-      // === WEBHOOK LOG ===
       sendWebhook(WEBHOOK_SALES, {
         embeds: [{
           title: "💰 NUOVA VENDITA REGISTRATA",
@@ -2405,7 +2349,6 @@
 
       alert("✅ Contratto Generato!\n\n" + invoiceId + "\n\nPDF scaricato e log inviato a Discord.");
       
-      // Pulisci form
       document.getElementById('s-client').value = "";
       document.getElementById('s-car').value = "";
       document.getElementById('s-price').value = "";
