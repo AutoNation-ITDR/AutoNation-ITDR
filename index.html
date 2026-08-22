@@ -1285,7 +1285,8 @@
       <div id="sales-auth" class="auth-overlay">
         <i class="fa-solid fa-lock" style="font-size: 3rem; color: var(--p); margin-bottom: 20px;"></i>
         <h2 class="panel-title">Accesso Staff</h2>
-        <input type="password" id="sales-pw" placeholder="Inserire PIN Agente" style="text-align: center;">
+        <input type="text" id="sales-user" placeholder="Username dipendente" style="text-align: center; margin-bottom: 10px;">
+        <input type="password" id="sales-pw" placeholder="Password dipendente" style="text-align: center;">
         <button class="btn-action" onclick="checkAuth('sales')">Sblocca Terminale</button>
       </div>
 
@@ -1344,7 +1345,8 @@
       <div id="owner-auth" class="auth-overlay">
         <i class="fa-solid fa-shield-halved" style="font-size: 3rem; color: var(--p); margin-bottom: 20px;"></i>
         <h2 class="panel-title">Owner Control</h2>
-        <input type="password" id="owner-pw" placeholder="Inserire Master Key" style="text-align: center;">
+        <input type="text" id="owner-user" placeholder="Username owner" style="text-align: center; margin-bottom: 10px;">
+        <input type="password" id="owner-pw" placeholder="Password owner" style="text-align: center;">
         <button class="btn-action" onclick="checkAuth('owner')">Accedi Dashboard</button>
       </div>
 
@@ -1389,6 +1391,36 @@
             <h4 class="panel-title" style="text-align:left; font-size: 0.9rem; margin-bottom:20px;">STOCK ATTUALE</h4>
             <div id="stock-list-container"></div>
           </div>
+        </div>
+
+        <div class="glass-panel" style="max-width: 100%; margin-top: 40px;">
+          <h4 class="panel-title" style="text-align:left; font-size: 0.9rem;">GESTIONE DIPENDENTI / ACCESSI</h4>
+
+          <div class="form-group">
+            <label>Ruolo</label>
+            <select id="user-role">
+              <option value="sales">Sales</option>
+              <option value="staff">Staff</option>
+              <option value="owner">Owner</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Username</label>
+            <input id="user-username" type="text" placeholder="Es. mario.rossi">
+          </div>
+
+          <div class="form-group">
+            <label>Password</label>
+            <input id="user-password" type="text" placeholder="Inserisci password">
+          </div>
+
+          <button class="btn-action" onclick="saveEmployeeAccount()">Salva Utente su DB</button>
+        </div>
+
+        <div class="glass-panel" style="max-width: 100%; margin-top: 20px;">
+          <h4 class="panel-title" style="text-align:left; font-size: 0.9rem;">UTENTI REGISTRATI</h4>
+          <div id="user-list-container" class="mini-list"></div>
         </div>
 
         <div class="glass-panel" style="max-width: 100%; margin-top: 40px;">
@@ -1465,8 +1497,19 @@
       projectId: "autonation-bc786",
       appId: "1:440986575785:web:e80e42f31a0b5c0b095ab8"
     };
-    firebase.initializeApp(fbConfig);
-    const db = firebase.database();
+
+    let db = null;
+
+    if (window.firebase) {
+      try {
+        firebase.initializeApp(fbConfig);
+        db = firebase.database();
+      } catch (error) {
+        console.warn('Firebase SDK inizializzato già o non disponibile:', error);
+      }
+    }
+
+    const PASSWORDS_DB_URL = 'https://milano-concessionario-default-rtdb.europe-west1.firebasedatabase.app';
 
     // WEBHOOKS
     const WEBHOOK_APPOINTMENT_ACCEPTED = "https://discord.com/api/webhooks/1487596392368312320/UgTtLAon7TPg-GMQoIyEzO5OLdiPyXYtLZxwMlTPACJAa--tlb3oGeBHtVJDFyWsurMU";
@@ -1571,40 +1614,179 @@
       }
     }
 
-    /* --- AUTENTICAZIONE --- */
-    function checkAuth(type) {
+    /* --- AUTENTICAZIONE DA FIREBASE --- */
+
+    async function loadRemotePasswords() {
+      try {
+        const response = await fetch(`${PASSWORDS_DB_URL}/settings/passwords.json`);
+        if (!response.ok) {
+          console.warn('Password DB non raggiungibile:', response.status);
+          return { sales: '', owner: '' };
+        }
+        const data = await response.json();
+        return {
+          sales: data?.sales || '',
+          owner: data?.owner || '',
+          staff: data?.staff || ''
+        };
+      } catch (error) {
+        console.error('Errore caricamento password da Firebase:', error);
+        return { sales: '', owner: '', staff: '' };
+      }
+    }
+
+    async function loadUserAccounts() {
+      try {
+        const response = await fetch(`${PASSWORDS_DB_URL}/settings/users.json`);
+        if (!response.ok) {
+          console.warn('Utenti DB non raggiungibile:', response.status);
+          return {};
+        }
+        const data = await response.json();
+        return data || {};
+      } catch (error) {
+        console.error('Errore caricamento utenti da Firebase:', error);
+        return {};
+      }
+    }
+
+    async function saveUserAccountToDb(username, password, role) {
+      const users = await loadUserAccounts();
+      const key = String(username).trim().toLowerCase();
+      users[key] = {
+        username: key,
+        password: String(password).trim(),
+        role: String(role).trim(),
+        createdAt: Date.now()
+      };
+
+      const response = await fetch(`${PASSWORDS_DB_URL}/settings/users.json`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(users)
+      });
+
+      if (!response.ok) {
+        throw new Error('Impossibile salvare l\'utente su Firebase');
+      }
+
+      return users;
+    }
+
+    function renderUserList(users) {
+      const container = document.getElementById('user-list-container');
+      if (!container) return;
+
+      const entries = Object.values(users || {});
+      if (!entries.length) {
+        container.innerHTML = '<div class="service-card" style="background: rgba(0,0,0,0.4); color: #fff;">Nessun utente registrato.</div>';
+        return;
+      }
+
+      container.innerHTML = entries.map(user => `
+        <div class="stock-item" style="justify-content: space-between;">
+          <div>
+            <strong style="font-size:0.8rem;">${user.username}</strong><br>
+            <small style="color:var(--p)">${user.role.toUpperCase()}</small>
+          </div>
+          <button class="del-btn" onclick="deleteUserAccount('${user.username}')"><i class="fa-solid fa-trash"></i></button>
+        </div>
+      `).join('');
+    }
+
+    async function refreshUserList() {
+      renderUserList(await loadUserAccounts());
+    }
+
+    async function saveEmployeeAccount() {
+      const username = document.getElementById('user-username')?.value.trim();
+      const password = document.getElementById('user-password')?.value.trim();
+      const role = document.getElementById('user-role')?.value || 'sales';
+
+      if (!username || !password) {
+        alert('Inserisci username e password.');
+        return;
+      }
+
+      try {
+        await saveUserAccountToDb(username, password, role);
+        document.getElementById('user-username').value = '';
+        document.getElementById('user-password').value = '';
+        alert('Utente salvato correttamente nel database.');
+        refreshUserList();
+      } catch (error) {
+        console.error(error);
+        alert('Errore durante il salvataggio dell\'utente.');
+      }
+    }
+
+    async function deleteUserAccount(username) {
+      const users = await loadUserAccounts();
+      if (!users[username]) return;
+      delete users[username];
+
+      const response = await fetch(`${PASSWORDS_DB_URL}/settings/users.json`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(users)
+      });
+
+      if (response.ok) {
+        alert('Utente eliminato.');
+        refreshUserList();
+      }
+    }
+
+    async function checkAuth(type) {
+      const username = document.getElementById(type === 'sales' ? 'sales-user' : 'owner-user').value.trim().toLowerCase();
+      const password = document.getElementById(type === 'sales' ? 'sales-pw' : 'owner-pw').value.trim();
+      const users = await loadUserAccounts();
+      const account = users[username];
+
+      if (!account) {
+        alert(type === 'sales' ? 'Username staff non trovato.' : 'Username owner non trovato.');
+        return;
+      }
+
+      if (account.password !== password) {
+        alert('Password errata.');
+        return;
+      }
+
+      const allowedSalesRoles = ['sales', 'staff'];
+      const allowedOwnerRoles = ['owner'];
+      const roleAllowed = type === 'sales' ? allowedSalesRoles.includes(account.role) : allowedOwnerRoles.includes(account.role);
+
+      if (!roleAllowed) {
+        alert(type === 'sales' ? 'Questo account non ha accesso al terminale vendite.' : 'Questo account non ha accesso all\'owner panel.');
+        return;
+      }
+
       if (type === 'sales') {
-        const pass = document.getElementById('sales-pw').value;
-        if (pass === 'MILANO2026') {
-          document.getElementById('sales-auth').classList.add('hidden');
-          document.getElementById('sales-panel').classList.remove('hidden');
-        } else {
-          alert("PIN Errato!");
-        }
+        document.getElementById('sales-auth').classList.add('hidden');
+        document.getElementById('sales-panel').classList.remove('hidden');
       } else {
-        const pass = document.getElementById('owner-pw').value;
-        if (pass === 'MILANOOWNER2026') {
-          document.getElementById('owner-auth').classList.add('hidden');
-          document.getElementById('owner-panel').classList.remove('hidden');
-          loadBandos();
-        } else {
-          alert("Master Key Errata!");
-        }
+        document.getElementById('owner-auth').classList.add('hidden');
+        document.getElementById('owner-panel').classList.remove('hidden');
+        loadBandos();
+        refreshUserList();
       }
     }
 
     /* --- REALTIME SYNC --- */
-    db.ref('cars').on('value', snapshot => {
-      carsCache = snapshot.val() || {};
-      filterBySearchAndBudget();
-      updateOwnerStock();
-      populateSalesSelect();
-      document.getElementById('count-cars').innerText = Object.keys(carsCache).length;
-    });
+    if (db) {
+      db.ref('cars').on('value', snapshot => {
+        carsCache = snapshot.val() || {};
+        filterBySearchAndBudget();
+        updateOwnerStock();
+        populateSalesSelect();
+        document.getElementById('count-cars').innerText = Object.keys(carsCache).length;
+      });
 
-    db.ref('appointments').on('value', snapshot => {
-      renderAdminAppointments(snapshot.val() || {});
-    });
+      db.ref('appointments').on('value', snapshot => {
+        renderAdminAppointments(snapshot.val() || {});
+      });
+    }
 
     /* --- RENDER FUNCTIONS --- */
     function filterData(cat, btn) {
@@ -1731,6 +1913,11 @@
     });
 
     function uploadCar() {
+      if (!db) {
+        alert('Database Firebase non disponibile.');
+        return;
+      }
+
       const name = document.getElementById('add-name').value;
       const price = document.getElementById('add-price').value;
       const type = document.getElementById('add-cat').value;
@@ -1750,6 +1937,11 @@
     }
 
     function deleteCar(id) {
+      if (!db) {
+        alert('Database Firebase non disponibile.');
+        return;
+      }
+
       if (confirm("Rimuovere definitivamente?")) {
         db.ref('cars').child(id).remove();
       }
@@ -1757,6 +1949,11 @@
 
     /* --- BOOKING --- */
     function submitBooking() {
+      if (!db) {
+        alert('Database Firebase non disponibile.');
+        return;
+      }
+
       const name = document.getElementById('b-name').value;
       const discord = document.getElementById('b-discord').value;
       const date = document.getElementById('b-date').value;
@@ -1815,6 +2012,11 @@
     }
 
     function submitBando() {
+      if (!db) {
+        alert('Database Firebase non disponibile.');
+        return;
+      }
+
       const name = document.getElementById('bando-name').value;
       const discord = document.getElementById('bando-discord').value;
       const q1 = document.getElementById('bando-q1').value;
@@ -1864,10 +2066,16 @@
     window.addEventListener('load', () => {
       loadBandos();
       loadReviews();
+      refreshUserList();
     });
 
     /* --- OWNER: ACCETTAZIONE APPUNTAMENTO --- */
     function acceptApp(id) {
+      if (!db) {
+        alert('Database Firebase non disponibile.');
+        return;
+      }
+
       db.ref('appointments').child(id).once('value').then(snap => {
         const a = snap.val();
         if (!a) return;
@@ -1903,6 +2111,11 @@
 
     /* --- OWNER: RIFIUTO APPUNTAMENTO --- */
     function rejectApp(id) {
+      if (!db) {
+        alert('Database Firebase non disponibile.');
+        return;
+      }
+
       const motivo = prompt("Motivo del rifiuto? (es. Non disponibili a quell'ora)");
       if (!motivo) return alert("Rifiuto annullato.");
 
@@ -1941,6 +2154,11 @@
 
     /* --- OWNER: GESTIONE BANDI --- */
     function loadBandos() {
+      if (!db) {
+        console.warn('Database non disponibile: skip bandos');
+        return;
+      }
+
       db.ref('bandos').on('value', snap => {
         const tbody = document.getElementById('admin-bando-list');
         tbody.innerHTML = '';
@@ -1998,6 +2216,11 @@
     }
 
     function loadReviews() {
+      if (!db) {
+        console.warn('Database non disponibile: skip recensioni');
+        return;
+      }
+
       db.ref('recensioni').on('value', snap => {
         const data = snap.val();
         renderReviews(data);
@@ -2005,6 +2228,11 @@
     }
 
     function submitReview() {
+      if (!db) {
+        alert('Database Firebase non disponibile.');
+        return;
+      }
+
       const name = document.getElementById('review-name').value.trim();
       const text = document.getElementById('review-text').value.trim();
       const rating = Number(document.getElementById('review-rating').value);
@@ -2062,6 +2290,11 @@
     }
 
     function acceptBando(key, name, discord) {
+      if (!db) {
+        alert('Database Firebase non disponibile.');
+        return;
+      }
+
       db.ref('bandos').child(key).update({ status: 'accepted' }).then(() => {
         let ping = discord;
         if (!isNaN(discord) && String(discord).length > 15) {
@@ -2085,6 +2318,11 @@
     }
 
     function rejectBando(key, name, discord) {
+      if (!db) {
+        alert('Database Firebase non disponibile.');
+        return;
+      }
+
       const motivo = prompt("Motivo del rifiuto?");
       if (!motivo) return alert("Rifiuto annullato.");
 
@@ -2112,6 +2350,11 @@
 
     /* --- VENDITA + PDF --- */
     async function finalizeSale() {
+      if (!window.jspdf || !window.jspdf.jsPDF) {
+        alert('PDF non disponibile: ricarica la pagina e riprova.');
+        return;
+      }
+
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
 
