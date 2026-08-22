@@ -2416,177 +2416,190 @@
       const docId = "MILANO-EVO-" + Date.now();
       const total = Number(price) || 0;
 
-      const invoiceHtml = `
-        <html lang="it">
-          <head>
-            <meta charset="UTF-8">
-            <style>
-              :root{ --black:#111110; --black-2:#1a1a18; --gold:#F2B90C; --gold-deep:#C9910A; --cream:#FBF7EE; --paper:#FFFDF8; --ink:#211E17; --ink-soft:#6b6455; --line:#E4DCC8; }
-              *{ box-sizing:border-box; margin:0; padding:0; }
-              body{ background:#DCD5C4; font-family:Arial, sans-serif; color:var(--ink); padding:40px 16px; display:flex; justify-content:center; }
-              .sheet{ width:100%; max-width:840px; background:var(--paper); box-shadow:0 30px 60px -20px rgba(0,0,0,.45); position:relative; overflow:hidden; }
-              .header{ background:radial-gradient(1100px 200px at 15% -60%, rgba(242,185,12,.10), transparent 60%), var(--black); color:var(--cream); padding:44px 48px 38px; display:flex; align-items:center; justify-content:space-between; gap:28px; border-bottom:5px solid var(--gold); }
-              .brand{ display:flex; align-items:center; gap:22px; }
-              .badge{ width:96px; height:96px; border-radius:50%; object-fit:cover; filter:drop-shadow(0 6px 14px rgba(0,0,0,.5)); background:#111110; }
-              .eyebrow{ font-size:11px; letter-spacing:.32em; color:var(--gold); text-transform:uppercase; margin-bottom:6px; font-weight:500; }
-              .brand-text h1{ font-size:38px; letter-spacing:.03em; line-height:1; color:var(--cream); }
-              .tagline{ margin-top:6px; font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#B8B2A2; }
-              .doc-meta{ text-align:right; }
-              .doc-type{ font-size:12px; letter-spacing:.3em; text-transform:uppercase; color:var(--gold); margin-bottom:8px; }
-              .doc-num{ font-size:30px; color:var(--cream); letter-spacing:.02em; }
-              .doc-date{ margin-top:6px; font-size:13px; color:#B8B2A2; }
-              .ribbon{ background:linear-gradient(90deg,var(--gold-deep),var(--gold) 45%,var(--gold-deep)); color:var(--black); font-weight:600; font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; padding:9px 48px; display:flex; justify-content:space-between; }
-              .body{ padding:44px 48px 20px; }
-              .grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:32px; margin-bottom:38px; }
-              .block-label{ font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--gold-deep); margin-bottom:10px; display:flex; align-items:center; gap:8px; }
-              .block-label::after{ content:""; flex:1; height:1px; background:var(--line); }
-              .kv{ font-size:14.5px; line-height:1.9; }
-              .kv .name{ font-size:19px; color:var(--ink); margin-bottom:2px; }
-              .kv .muted{ color:var(--ink-soft); }
-              .vehicle-card{ background:var(--black); color:var(--cream); border-radius:2px; padding:28px 30px; display:flex; justify-content:space-between; align-items:center; margin-bottom:34px; position:relative; overflow:hidden; }
-              .vehicle-card::before{ content:""; position:absolute; inset:0; background:radial-gradient(500px 160px at 100% 0%, rgba(242,185,12,.14), transparent 65%); }
-              .vehicle-info{ position:relative; }
-              .vlabel{ font-size:10.5px; letter-spacing:.26em; text-transform:uppercase; color:var(--gold); margin-bottom:8px; }
-              .vehicle-info h2{ font-size:34px; letter-spacing:.01em; }
-              .vsub{ margin-top:4px; font-size:13px; color:#C7C1B2; letter-spacing:.02em; }
-              .tag-row{ display:flex; gap:8px; margin-top:14px; }
-              .tag{ border:1px solid rgba(242,185,12,.55); color:var(--gold); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; padding:5px 11px; border-radius:999px; }
-              .stamp{ width:96px; height:96px; border:2px solid var(--gold); border-radius:50%; display:flex; align-items:center; justify-content:center; text-align:center; transform:rotate(-8deg); position:relative; }
-              .stamp span{ font-size:11px; font-weight:700; letter-spacing:.1em; color:var(--gold); text-transform:uppercase; line-height:1.3; }
-              table.trans{ width:100%; border-collapse:collapse; margin-bottom:8px; }
-              table.trans td{ padding:14px 0; border-bottom:1px solid var(--line); font-size:14.5px; }
-              table.trans td.label{ color:var(--ink-soft); width:55%; }
-              table.trans td.value{ text-align:right; font-weight:600; }
-              .total-row{ display:flex; justify-content:space-between; align-items:center; margin-top:26px; padding:24px 28px; background:var(--cream); border:1.5px solid var(--gold); }
-              .total-row .tl{ font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:var(--ink-soft); }
-              .total-row .tv{ font-size:42px; color:var(--black); }
-              .total-row .tv span{ color:var(--gold-deep); }
-              .notes{ margin:34px 0 8px; padding:18px 22px; border-left:3px solid var(--gold); background:#FAF5E6; font-size:13.5px; color:var(--ink-soft); line-height:1.7; font-style:italic; }
-              .sign-row{ display:grid; grid-template-columns:1fr 1fr; gap:32px; margin:44px 0 10px; }
-              .sign-box{ border-top:1px solid var(--ink); padding-top:10px; }
-              .sign-name{ font-size:20px; margin-bottom:4px; }
-              .sign-role{ font-size:10.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-soft); }
-              .footer{ background:var(--black); color:#8f8a7c; padding:22px 48px; display:flex; justify-content:space-between; align-items:center; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; border-top:3px solid var(--gold); margin-top:20px; }
-              .footer .legal{ color:var(--gold); font-weight:600; }
-            </style>
-          </head>
-          <body>
-            <div class="sheet">
-              <div class="header">
-                <div class="brand">
-                  <img class="badge" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='98' fill='%23111110'/%3E%3Cg fill='%23F2B90C'%3E%3Ccircle cx='100' cy='100' r='70'/%3E%3Cpath d='M34 100a66 66 0 0 1 132 0' fill='none' stroke='%23111110' stroke-width='8'/%3E%3Cpath d='M166 112a66 66 0 0 1 -132 0' fill='none' stroke='%23111110' stroke-width='8'/%3E%3Ctext x='100' y='80' text-anchor='middle' fill='%23111110' font-size='18' font-weight='700' font-family='Arial'%3EM%3C/text%3E%3C/g%3E%3C/svg%3E" alt="Logo">
-                  <div class="brand-text">
-                    <div class="eyebrow">Italian Evolution</div>
-                    <h1>Concessionario di Milano</h1>
-                    <div class="tagline">Auto Selezionate &nbsp;·&nbsp; Dal 2019</div>
-                  </div>
-                </div>
-                <div class="doc-meta">
-                  <div class="doc-type">Fattura di Vendita</div>
-                  <div class="doc-num">${invoiceId}</div>
-                  <div class="doc-date">Emessa il ${today}</div>
-                </div>
-              </div>
+      doc.setFillColor(255, 255, 255);
+      doc.rect(0, 0, 210, 297, 'F');
 
-              <div class="ribbon">
-                <span>Documento Legale Vincolante</span>
-                <span>Doc ID · ${docId}</span>
-              </div>
+      doc.setFillColor(17, 17, 16);
+      doc.rect(0, 0, 210, 54, 'F');
+      doc.setDrawColor(242, 185, 12);
+      doc.setLineWidth(0.8);
+      doc.line(0, 54, 210, 54);
 
-              <div class="body">
-                <div class="grid-2">
-                  <div>
-                    <div class="block-label">Acquirente</div>
-                    <div class="kv">
-                      <div class="name">${client}</div>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="block-label">Venditore</div>
-                    <div class="kv">
-                      <div class="name">Concessionario di Milano</div>
-                    </div>
-                  </div>
-                </div>
+      doc.setFillColor(242, 185, 12);
+      doc.circle(24, 28, 12, 'F');
+      doc.setTextColor(17, 17, 16);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(12);
+      doc.text('M', 20, 32);
 
-                <div class="vehicle-card">
-                  <div class="vehicle-info">
-                    <div class="vlabel">Veicolo Acquistato</div>
-                    <h2>${car}</h2>
-                    <div class="vsub">Colore Nero Metallizzato</div>
-                    <div class="tag-row">
-                      <span class="tag">Nuovo</span>
-                      <span class="tag">0 KM</span>
-                      <span class="tag">Certificato</span>
-                    </div>
-                  </div>
-                  <div class="stamp"><span>Qualità<br>Garantita</span></div>
-                </div>
+      doc.setTextColor(251, 247, 238);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(18);
+      doc.text('Concessionario di Milano', 42, 26);
 
-                <div class="block-label">Dettagli Transazione</div>
-                <table class="trans">
-                  <tr><td class="label">Metodo di pagamento</td><td class="value">${method}</td></tr>
-                  <tr><td class="label">Agente autorizzato</td><td class="value">${agent}</td></tr>
-                  <tr><td class="label">Termine di pagamento</td><td class="value">Entro 48 ore dall'emissione</td></tr>
-                </table>
+      doc.setTextColor(242, 185, 12);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10);
+      doc.text('ITALIAN EVOLUTION', 42, 33);
 
-                <div class="total-row">
-                  <div class="tl">Importo Totale Dovuto</div>
-                  <div class="tv"><span>€</span>&nbsp;${Number(total).toLocaleString('it-IT', { maximumFractionDigits: 0 })}</div>
-                </div>
+      doc.setTextColor(184, 178, 162);
+      doc.setFontSize(8);
+      doc.text('AUTO SELEZIONATE • DAL 2019', 42, 40);
 
-                <div class="notes">"Veicolo consegnato con tagliando completo e revisione in corso di validità. Garanzia concessionario di 12 mesi inclusa. Nessun reso ammesso dopo l'avvenuta consegna."</div>
+      doc.setTextColor(251, 247, 238);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(12);
+      doc.text('FATTURA DI VENDITA', 154, 24, { align: 'right' });
+      doc.setTextColor(242, 185, 12);
+      doc.setFontSize(18);
+      doc.text(invoiceId, 154, 34, { align: 'right' });
+      doc.setTextColor(184, 178, 162);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.text(today, 154, 42, { align: 'right' });
 
-                <div class="sign-row">
-                  <div class="sign-box">
-                    <div class="sign-name">${clientSignature || 'A. Moretti'}</div>
-                    <div class="sign-role">Firma Acquirente</div>
-                  </div>
-                  <div class="sign-box">
-                    <div class="sign-name">${agent || 'G. Ferrante'}</div>
-                    <div class="sign-role">Firma Rappresentante</div>
-                  </div>
-                </div>
-              </div>
+      doc.setFillColor(201, 145, 10);
+      doc.rect(0, 54, 210, 9, 'F');
+      doc.setTextColor(17, 17, 16);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8);
+      doc.text('DOCUMENTO LEGALE VINCOLANTE', 12, 60);
+      doc.text('DOC ID · ' + docId, 170, 60, { align: 'right' });
 
-              <div class="footer">
-                <span>Concessionario di Milano — Italian Evolution</span>
-                <span class="legal">Design by PAVEL · Milano RP</span>
-              </div>
-            </div>
-          </body>
-        </html>
-      `;
+      doc.setTextColor(17, 17, 16);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9);
+      doc.text('ACQUIRENTE', 18, 74);
+      doc.text('VENDITORE', 118, 74);
 
-      const hidden = document.createElement('div');
-      hidden.innerHTML = invoiceHtml;
-      hidden.style.position = 'fixed';
-      hidden.style.left = '-9999px';
-      hidden.style.top = '0';
-      hidden.style.width = '840px';
-      document.body.appendChild(hidden);
+      doc.setDrawColor(228, 220, 200);
+      doc.setLineWidth(0.4);
+      doc.line(18, 78, 96, 78);
+      doc.line(118, 78, 196, 78);
 
-      await new Promise((resolve, reject) => {
-        try {
-          const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-          pdf.html(hidden, {
-            callback: function (doc) {
-              doc.save(`ConcessionarioDiMilano_${invoiceId}.pdf`);
-              resolve();
-            },
-            x: 0,
-            y: 0,
-            width: 210,
-            windowWidth: 840,
-            margin: [0, 0, 0, 0],
-            autoPaging: 'text'
-          });
-        } catch (e) {
-          reject(e);
-        }
-      }).finally(() => {
-        if (hidden && hidden.parentNode) hidden.parentNode.removeChild(hidden);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(12);
+      doc.text(client.toUpperCase(), 18, 89);
+      doc.text('CONCESSIONARIO DI MILANO', 118, 89);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.setTextColor(107, 100, 85);
+      doc.text('Via Milano 12, 20100 Milano, Italia', 18, 97);
+      doc.text('Corso Sempione 12, 20154 Milano, Italia', 118, 97);
+      doc.text('C.F. / P.IVA da verificare', 18, 104);
+      doc.text('P.IVA IT09876543210', 118, 104);
+
+      doc.setFillColor(17, 17, 16);
+      doc.rect(14, 116, 182, 34, 'F');
+      doc.setDrawColor(242, 185, 12);
+      doc.setLineWidth(0.6);
+      doc.roundedRect(14, 116, 182, 34, 2, 2, 'S');
+
+      doc.setTextColor(242, 185, 12);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8);
+      doc.text('VEICOLO ACQUISTATO', 22, 126);
+
+      doc.setTextColor(251, 247, 238);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(18);
+      doc.text(car.toUpperCase(), 22, 138);
+
+      doc.setTextColor(199, 193, 178);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.text('NUOVO • 0 KM • CERTIFICATO', 22, 145);
+
+      doc.setDrawColor(242, 185, 12);
+      doc.setFillColor(242, 185, 12);
+      doc.roundedRect(165, 122, 24, 20, 4, 4, 'F');
+      doc.setTextColor(17, 17, 16);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(10);
+      doc.text('OK', 177, 134, { align: 'center' });
+
+      doc.setTextColor(17, 17, 16);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9);
+      doc.text('DETTAGLI TRANSAZIONE', 18, 162);
+      doc.line(18, 165, 192, 165);
+
+      const rows = [
+        ['Metodo di pagamento', method.toUpperCase()],
+        ['Agente autorizzato', agent.toUpperCase()],
+        ['Termine di pagamento', 'Entro 48 ore dall\'emissione'],
+        ['Documento', invoiceId]
+      ];
+
+      let yRow = 171;
+      rows.forEach(([label, value]) => {
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        doc.setTextColor(107, 100, 85);
+        doc.text(label, 18, yRow);
+
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(17, 17, 16);
+        doc.text(String(value), 110, yRow);
+
+        doc.setDrawColor(228, 220, 200);
+        doc.line(18, yRow + 3, 192, yRow + 3);
+        yRow += 12;
       });
+
+      doc.setFillColor(250, 245, 230);
+      doc.rect(15, 220, 180, 22, 'F');
+      doc.setDrawColor(242, 185, 12);
+      doc.setLineWidth(0.8);
+      doc.rect(15, 220, 180, 22, 'S');
+
+      doc.setTextColor(107, 100, 85);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.text('IMPORTO TOTALE DOVUTO', 22, 230);
+
+      doc.setTextColor(17, 17, 16);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(24);
+      doc.text('€ ' + Number(total).toLocaleString('it-IT', { maximumFractionDigits: 0 }), 170, 233, { align: 'right' });
+
+      doc.setTextColor(17, 17, 16);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9);
+      doc.text('NOTE', 18, 252);
+
+      const wrappedNotes = doc.splitTextToSize(notes || 'Nessuna nota', 160);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(7.5);
+      doc.setTextColor(107, 100, 85);
+      doc.text(wrappedNotes, 18, 258);
+
+      doc.setDrawColor(17, 17, 16);
+      doc.line(18, 278, 82, 278);
+      doc.line(120, 278, 190, 278);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(7);
+      doc.setTextColor(107, 100, 85);
+      doc.text('FIRMA ACQUIRENTE', 18, 282);
+      doc.text('FIRMA RAPPRESENTANTE', 120, 282);
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(12);
+      doc.setTextColor(17, 17, 16);
+      doc.text(clientSignature.substring(0, 16), 18, 274);
+      doc.text(agent.substring(0, 15), 120, 274);
+
+      doc.setFillColor(17, 17, 16);
+      doc.rect(0, 288, 210, 9, 'F');
+      doc.setTextColor(143, 138, 124);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(7);
+      doc.text('CONCESSIONARIO DI MILANO • ITALIAN EVOLUTION', 12, 294);
+      doc.text('DESIGN BY PAVEL', 180, 294, { align: 'right' });
+
+      doc.save(`ConcessionarioDiMilano_${invoiceId}.pdf`);
 
       sendWebhook(WEBHOOK_SALES, {
         embeds: [{
