@@ -1635,19 +1635,61 @@
       }
     }
 
+    const DEFAULT_USER_ACCOUNTS = {
+      sales: { username: 'sales', password: 'Milano2026', role: 'sales' },
+      staff: { username: 'staff', password: 'Staff2026', role: 'staff' },
+      owner: { username: 'owner', password: 'Owner2026', role: 'owner' }
+    };
+
     async function loadUserAccounts() {
       try {
         const response = await fetch(`${PASSWORDS_DB_URL}/settings/users.json`);
         if (!response.ok) {
           console.warn('Utenti DB non raggiungibile:', response.status);
-          return {};
+          return { ...DEFAULT_USER_ACCOUNTS };
         }
         const data = await response.json();
-        return data || {};
+        const normalized = { ...DEFAULT_USER_ACCOUNTS };
+        if (data && typeof data === 'object') {
+          Object.keys(data).forEach(key => {
+            if (data[key] && typeof data[key] === 'object') {
+              normalized[key] = data[key];
+            }
+          });
+        }
+        return normalized;
       } catch (error) {
         console.error('Errore caricamento utenti da Firebase:', error);
-        return {};
+        return { ...DEFAULT_USER_ACCOUNTS };
       }
+    }
+
+    async function ensureDefaultUsers() {
+      const users = await loadUserAccounts();
+      let needsWrite = false;
+
+      Object.keys(DEFAULT_USER_ACCOUNTS).forEach(key => {
+        const candidate = DEFAULT_USER_ACCOUNTS[key];
+        const exists = users[key] || Object.values(users).find(u => u && u.username === candidate.username);
+        if (!exists) {
+          users[key] = candidate;
+          needsWrite = true;
+        }
+      });
+
+      if (needsWrite) {
+        try {
+          await fetch(`${PASSWORDS_DB_URL}/settings/users.json`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(users)
+          });
+        } catch (error) {
+          console.warn('Impossibile salvare gli utenti iniziali su Firebase:', error);
+        }
+      }
+
+      return users;
     }
 
     async function saveUserAccountToDb(username, password, role) {
@@ -1740,8 +1782,8 @@
     async function checkAuth(type) {
       const username = document.getElementById(type === 'sales' ? 'sales-user' : 'owner-user').value.trim().toLowerCase();
       const password = document.getElementById(type === 'sales' ? 'sales-pw' : 'owner-pw').value.trim();
-      const users = await loadUserAccounts();
-      const account = users[username];
+      const users = await ensureDefaultUsers();
+      const account = users[username] || Object.values(users).find(u => u && u.username === username);
 
       if (!account) {
         alert(type === 'sales' ? 'Username staff non trovato.' : 'Username owner non trovato.');
