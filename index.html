@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Concessionario di Milano | Italian Evolution</title>
+  <title>Concessionario di Milano | Italian Life</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;500&family=Orbitron:wght@400;700;900&family=Outfit:wght@300;400;600;900&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -1005,7 +1005,7 @@
     </div>
 
     <div style="font-size: 0.6rem; color: #444; text-align: right;">
-      <p style="color: #D4AF37; font-weight: bold; letter-spacing: 1px;">ITALIAN EVOLUTION</p>
+      <p style="color: #D4AF37; font-weight: bold; letter-spacing: 1px;">ITALIAN LIFE</p>
       <p style="color: #555;">Server</p>
     </div>
   </nav>
@@ -1015,7 +1015,7 @@
     <div id="home" class="page active">
       <div class="hero-overlay">
         <h1 class="hero-title">CONCESSIONARIO <span>DI MILANO</span></h1>
-        <p style="font-family: 'Orbitron'; letter-spacing: 5px; color: #888;">ITALIAN EVOLUTION • VENDITA E SERVIZI PREMIUM</p>
+        <p style="font-family: 'Orbitron'; letter-spacing: 5px; color: #888;">ITALIAN LIFE • VENDITA E SERVIZI PREMIUM</p>
 
         <div class="hero-stats">
           <div class="stat-item">
@@ -1479,7 +1479,7 @@
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
         <div>
           <h3 style="color: var(--p); font-family: 'Orbitron'; margin-bottom: 10px;">CONCESSIONARIO DI MILANO</h3>
-          <p>Italian Evolution<br>Supporto 24/7 | Qualità Garantita</p>
+          <p>Italian Life<br>Supporto 24/7 | Qualità Garantita</p>
         </div>
         <div>
           <p>© 2026 Concessionario di Milano. Tutti i diritti riservati.<br>Design by <span style="color: var(--p); font-weight: bold;">PAVEL</span></p>
@@ -2415,49 +2415,47 @@
       const docId = "MILANO-EVO-" + Date.now();
       const total = Number(price) || 0;
 
-      doc.setFillColor(255, 255, 255);
-      doc.rect(0, 0, 210, 297, "F");
+      doc.setFillColor(255, 255, 248);
+      doc.rect(0, 0, 210, 297, 'F');
 
-      // Header premium nero con fascia oro
       doc.setFillColor(17, 17, 16);
       doc.rect(0, 0, 210, 54, 'F');
       doc.setDrawColor(242, 185, 12);
       doc.setLineWidth(0.8);
       doc.line(0, 54, 210, 54);
 
-      doc.setDrawColor(242, 185, 12);
       doc.setFillColor(242, 185, 12);
-      doc.circle(24, 28, 12, 'F');
+      doc.circle(24, 27, 12, 'F');
       doc.setTextColor(17, 17, 16);
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(12);
-      doc.text('M', 20, 32);
+      doc.text('M', 20, 31);
 
       doc.setTextColor(251, 247, 238);
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(18);
-      doc.text('Concessionario di Milano', 42, 26);
+      doc.text('Concessionario di Milano', 42, 24);
 
       doc.setTextColor(242, 185, 12);
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(10);
-      doc.text('ITALIAN EVOLUTION', 42, 33);
+      doc.text('ITALIAN EVOLUTION', 42, 31);
 
       doc.setTextColor(184, 178, 162);
       doc.setFontSize(8);
-      doc.text('AUTO SELEZIONATE • DAL 2019', 42, 40);
+      doc.text('AUTO SELEZIONATE • DAL 2019', 42, 39);
 
       doc.setTextColor(251, 247, 238);
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(12);
-      doc.text('FATTURA DI VENDITA', 154, 24, { align: 'right' });
+      doc.text('FATTURA DI VENDITA', 154, 22, { align: 'right' });
       doc.setTextColor(242, 185, 12);
       doc.setFontSize(18);
-      doc.text(invoiceId, 154, 34, { align: 'right' });
+      doc.text(invoiceId, 154, 32, { align: 'right' });
       doc.setTextColor(184, 178, 162);
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(8);
-      doc.text(today, 154, 42, { align: 'right' });
+      doc.text(today, 154, 40, { align: 'right' });
 
       doc.setFillColor(201, 145, 10);
       doc.rect(0, 54, 210, 9, 'F');
@@ -2467,7 +2465,6 @@
       doc.text('DOCUMENTO LEGALE VINCOLANTE', 12, 60);
       doc.text('DOC ID · ' + docId, 170, 60, { align: 'right' });
 
-      // Blocchi acquirente e venditore
       doc.setTextColor(17, 17, 16);
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(9);
@@ -2476,23 +2473,22 @@
 
       doc.setDrawColor(228, 220, 200);
       doc.setLineWidth(0.4);
-      doc.line(18, 78, 95, 78);
-      doc.line(118, 78, 195, 78);
+      doc.line(18, 78, 96, 78);
+      doc.line(118, 78, 196, 78);
 
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(12);
-      doc.text(client.toUpperCase(), 18, 88);
-      doc.text('CONCESSIONARIO DI MILANO', 118, 88);
+      doc.text(client.toUpperCase(), 18, 89);
+      doc.text('CONCESSIONARIO DI MILANO', 118, 89);
 
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(8);
       doc.setTextColor(107, 100, 85);
-      doc.text('Via Milano 12, 20100 Milano, Italia', 18, 96);
-      doc.text('Corso Sempione 12, 20154 Milano, Italia', 118, 96);
-      doc.text('C.F. / P.IVA da verificare', 18, 103);
-      doc.text('P.IVA IT09876543210', 118, 103);
+      doc.text('Via Milano 12, 20100 Milano, Italia', 18, 97);
+      doc.text('Corso Sempione 12, 20154 Milano, Italia', 118, 97);
+      doc.text('C.F. / P.IVA da verificare', 18, 104);
+      doc.text('P.IVA IT09876543210', 118, 104);
 
-      // Veicolo card premium
       doc.setFillColor(17, 17, 16);
       doc.rect(14, 116, 182, 34, 'F');
       doc.setDrawColor(242, 185, 12);
@@ -2520,9 +2516,8 @@
       doc.setTextColor(17, 17, 16);
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(10);
-      doc.text('OK', 174, 135, { align: 'center' });
+      doc.text('OK', 177, 134, { align: 'center' });
 
-      // Tabelle transazione
       doc.setTextColor(17, 17, 16);
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(9);
@@ -2552,12 +2547,11 @@
         yRow += 12;
       });
 
-      // Totale
       doc.setFillColor(250, 245, 230);
       doc.rect(15, 220, 180, 22, 'F');
       doc.setDrawColor(242, 185, 12);
       doc.setLineWidth(0.8);
-      doc.rect(15, 220, 180, 22);
+      doc.rect(15, 220, 180, 22, 'S');
 
       doc.setTextColor(107, 100, 85);
       doc.setFont('helvetica', 'normal');
@@ -2567,9 +2561,8 @@
       doc.setTextColor(17, 17, 16);
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(24);
-      doc.text('€ ' + Number(total).toLocaleString('it-IT', { maximumFractionDigits: 0 }), 130, 233, { align: 'right' });
+      doc.text('€ ' + Number(total).toLocaleString('it-IT', { maximumFractionDigits: 0 }), 170, 233, { align: 'right' });
 
-      // Note e firme
       doc.setTextColor(17, 17, 16);
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(9);
@@ -2597,7 +2590,6 @@
       doc.text(clientSignature.substring(0, 16), 18, 274);
       doc.text(agent.substring(0, 15), 120, 274);
 
-      // Footer
       doc.setFillColor(17, 17, 16);
       doc.rect(0, 288, 210, 9, 'F');
       doc.setTextColor(143, 138, 124);
@@ -2622,7 +2614,7 @@
             { name: "💳 METODO", value: method.toUpperCase(), inline: true },
             { name: "📝 NOTE", value: notes.substring(0, 100) || "N/A", inline: false }
           ],
-          footer: { text: "Concessionario di Milano • Italian Evolution" },
+          footer: { text: "Concessionario di Milano • Italian Life" },
           timestamp: new Date().toISOString()
         }]
       }).then(success => {
