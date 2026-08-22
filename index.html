@@ -2429,7 +2429,8 @@
             .sheet{ width:100%; max-width:840px; background:var(--paper); box-shadow:0 30px 60px -20px rgba(0,0,0,.45); position:relative; overflow:hidden; }
             .header{ background:radial-gradient(1100px 200px at 15% -60%, rgba(242,185,12,.10), transparent 60%), var(--black); color:var(--cream); padding:44px 48px 38px; display:flex; align-items:center; justify-content:space-between; gap:28px; border-bottom:5px solid var(--gold); }
             .brand{ display:flex; align-items:center; gap:22px; }
-            .badge{ width:96px; height:96px; border-radius:50%; background:#111110; filter:drop-shadow(0 6px 14px rgba(0,0,0,.5)); }
+            .badge{ width:96px; height:96px; border-radius:50%; background:#111110; filter:drop-shadow(0 6px 14px rgba(0,0,0,.5)); display:flex; align-items:center; justify-content:center; }
+            .badge svg{ width:96px; height:96px; }
             .brand-text .eyebrow{ font-size:11px; letter-spacing:.32em; color:var(--gold); text-transform:uppercase; margin-bottom:6px; }
             .brand-text h1{ font-size:38px; letter-spacing:.03em; line-height:1; color:var(--cream); }
             .brand-text .tagline{ margin-top:6px; font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#B8B2A2; }
@@ -2476,7 +2477,17 @@
           <div class="sheet">
             <div class="header">
               <div class="brand">
-                <div class="badge" aria-label="logo"></div>
+                <div class="badge" aria-label="logo">
+                  <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Italian Life logo">
+                    <circle cx="100" cy="100" r="98" fill="#111110"/>
+                    <g fill="#F2B90C">
+                      <circle cx="100" cy="100" r="70"/>
+                      <path d="M34 100a66 66 0 0 1 132 0" fill="none" stroke="#111110" stroke-width="8"/>
+                      <path d="M166 112a66 66 0 0 1 -132 0" fill="none" stroke="#111110" stroke-width="8"/>
+                      <text x="100" y="78" text-anchor="middle" fill="#111110" font-size="18" font-weight="700" font-family="Arial, sans-serif">M</text>
+                    </g>
+                  </svg>
+                </div>
                 <div class="brand-text">
                   <div class="eyebrow">Italian Life</div>
                   <h1>Concessionario di Milano</h1>
@@ -2494,11 +2505,11 @@
               <div class="grid-2">
                 <div>
                   <div class="block-label">Acquirente</div>
-                  <div class="kv"><div class="name">${client}</div><div class="muted">Via Torino 44, 20123 Milano, Italia</div><div class="muted">C.F. MRTLSN88T21F205X</div></div>
+                  <div class="kv"><div class="name">${client}</div></div>
                 </div>
                 <div>
                   <div class="block-label">Venditore</div>
-                  <div class="kv"><div class="name">Concessionario di Milano</div><div class="muted">Corso Sempione 12, 20154 Milano, Italia</div><div class="muted">P.IVA IT09876543210</div></div>
+                  <div class="kv"><div class="name">Concessionario di Milano</div></div>
                 </div>
               </div>
               <div class="vehicle-card">
@@ -2564,37 +2575,6 @@
 
       alert("✅ Contratto Generato!\n\n" + invoiceId + "\n\nPDF scaricato e log inviato a Discord.");
 
-      document.getElementById('s-client').value = "";
-      document.getElementById('s-car').value = "";
-      document.getElementById('s-price').value = "";
-      document.getElementById('s-agent').value = "";
-      document.getElementById('s-method').value = "Contanti";
-      document.getElementById('s-notes').value = "";
-      document.getElementById('s-signature').value = "";
-
-      sendWebhook(WEBHOOK_SALES, {
-        embeds: [{
-          title: "💰 NUOVA VENDITA REGISTRATA",
-          color: 0xD4AF37,
-          thumbnail: { url: LOGO_IMG },
-          fields: [
-            { name: "🧑 CLIENTE", value: client.toUpperCase(), inline: true },
-            { name: "👤 AGENTE", value: agent.toUpperCase(), inline: true },
-            { name: "📋 CONTRATTO", value: invoiceId, inline: false },
-            { name: "🚗 VEICOLO", value: car.toUpperCase(), inline: false },
-            { name: "💶 PREZZO TOTALE", value: '```\n' + formatEuro(price) + '\n```', inline: true },
-            { name: "💳 METODO", value: method.toUpperCase(), inline: true },
-            { name: "📝 NOTE", value: notes.substring(0, 100) || "N/A", inline: false }
-          ],
-          footer: { text: "Concessionario di Milano • Italian Life" },
-          timestamp: new Date().toISOString()
-        }]
-      }).then(success => {
-        if (!success) console.warn("⚠️ Sales webhook may have failed - check console");
-      });
-
-      alert("✅ Contratto Generato!\n\n" + invoiceId + "\n\nPDF scaricato e log inviato a Discord.");
-      
       document.getElementById('s-client').value = "";
       document.getElementById('s-car').value = "";
       document.getElementById('s-price').value = "";
