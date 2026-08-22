@@ -2413,215 +2413,198 @@
       const invoiceId = "CMD-" + String(Math.floor(Math.random() * 999)).padStart(3, "0");
       const today = new Date().toLocaleDateString('it-IT');
       const docId = "MILANO-EVO-" + Date.now();
+      const total = Number(price) || 0;
 
       doc.setFillColor(255, 255, 255);
       doc.rect(0, 0, 210, 297, "F");
 
-      doc.setDrawColor(212, 175, 55);
-      doc.setFillColor(212, 175, 55);
-      doc.circle(26, 29, 14, 'F');
-      doc.setTextColor(0, 0, 0);
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(12);
-      doc.text('M', 23, 34);
-
-      doc.setDrawColor(212, 175, 55);
-      doc.setLineWidth(0.3);
-      doc.line(10, 16, 200, 16);
-
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(20);
-      doc.setTextColor(0, 0, 0);
-      doc.text('CONCESSIONARIO DI MILANO', 40, 30);
-      
-      doc.setFontSize(11);
-      doc.setTextColor(212, 175, 55);
-      doc.text('ITALIAN EVOLUTION', 40, 40);
-
-      doc.setFontSize(8);
-      doc.setTextColor(100, 100, 100);
-      doc.setFont('helvetica', 'normal');
-      doc.text('FATTURA / CONTRATTO VENDITA VEICOLI', 20, 48);
-
-      doc.setDrawColor(0, 0, 0);
-      doc.setLineWidth(0.2);
-      doc.line(10, 46, 200, 46);
-
-      doc.setFontSize(9);
-      doc.setTextColor(0, 0, 0);
-      doc.setFont('helvetica', 'bold');
-      doc.text('CONTRACT NUMBER:', 15, 56);
-      doc.setTextColor(0, 0, 0);
-      doc.setFont('courier', 'bold');
-      doc.setFontSize(11);
-      doc.text(invoiceId, 15, 62);
-
-      doc.setFontSize(9);
-      doc.setTextColor(0, 0, 0);
-      doc.setFont('helvetica', 'bold');
-      doc.text('ISSUE DATE:', 130, 56);
-      doc.setTextColor(50, 50, 50);
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(10);
-      doc.text(today, 130, 62);
-
-      doc.setFontSize(7);
-      doc.setTextColor(100, 100, 100);
-      doc.text('DOC ID: ' + docId, 15, 70);
-
-      doc.setDrawColor(200, 200, 200);
-      doc.setLineWidth(0.4);
-      doc.rect(15, 76, 85, 22);
-      
-      doc.setFontSize(8);
-      doc.setTextColor(0, 0, 0);
-      doc.setFont('helvetica', 'bold');
-      doc.text('INFORMAZIONI ACQUIRENTE', 17, 82);
-      
-      doc.setFontSize(10);
-      doc.setTextColor(0, 0, 0);
-      doc.setFont('helvetica', 'bold');
-      doc.text(client.toUpperCase(), 17, 90);
-      
-      doc.setFontSize(8);
-      doc.setTextColor(100, 100, 100);
-      doc.setFont('helvetica', 'normal');
-      doc.text('Milano, Italia', 17, 96);
-
-      doc.setDrawColor(0, 0, 0);
-      doc.setLineWidth(0.4);
-      doc.rect(105, 76, 85, 22);
-      
-      doc.setFontSize(8);
-      doc.setTextColor(0, 0, 0);
-      doc.setFont('helvetica', 'bold');
-      doc.text('DETTAGLI VEICOLO', 107, 82);
-      
-      doc.setFontSize(10);
-      doc.setTextColor(0, 0, 0);
-      doc.setFont('helvetica', 'bold');
-      doc.text(car.toUpperCase(), 107, 90);
-      
-      doc.setFontSize(8);
-      doc.setTextColor(100, 100, 100);
-      doc.setFont('helvetica', 'normal');
-      doc.text('NUOVO | 0 KM | CERTIFICATO', 107, 96);
-
-      doc.setDrawColor(0, 0, 0);
-      doc.setLineWidth(0.3);
-      
-      const y1 = 105;
-      doc.rect(15, y1, 175, 8);
-      
-      doc.setFontSize(8);
-      doc.setTextColor(0, 0, 0);
-      doc.setFont('helvetica', 'bold');
-      doc.text('DETTAGLI TRANSAZIONE', 17, y1 + 6);
-
-      const y2 = y1 + 12;
-      doc.setDrawColor(180, 180, 180);
-      doc.line(15, y2, 190, y2);
-      
-      doc.setFontSize(9);
-      doc.setTextColor(50, 50, 50);
-      doc.setFont('helvetica', 'normal');
-      doc.text('METODO DI PAGAMENTO:', 17, y2 + 5);
-      
-      doc.setTextColor(0, 0, 0);
-      doc.setFont('helvetica', 'bold');
-      doc.text(method.toUpperCase(), 90, y2 + 5);
-
-      const y3 = y2 + 8;
-      doc.line(15, y3, 190, y3);
-      
-      doc.setFontSize(9);
-      doc.setTextColor(0, 0, 0);
-      doc.setFont('helvetica', 'bold');
-      doc.text('AGENTE AUTORIZZATO:', 17, y3 + 5);
-      
-      doc.setTextColor(0, 0, 0);
-      doc.setFont('helvetica', 'bold');
-      doc.text(agent.toUpperCase(), 90, y3 + 5);
-
-      const yPrice = y3 + 12;
-      doc.setFillColor(240, 240, 240);
-      doc.rect(15, yPrice, 175, 20, "F");
-      
-      doc.setDrawColor(0, 0, 0);
-      doc.setLineWidth(0.5);
-      doc.rect(15, yPrice, 175, 20);
-
-      doc.setFontSize(11);
-      doc.setTextColor(0, 0, 0);
-      doc.setFont('helvetica', 'bold');
-      doc.text('IMPORTO TOTALE', 17, yPrice + 7);
-
-      doc.setFontSize(20);
-      doc.setTextColor(0, 0, 0);
-      doc.setFont('courier', 'bold');
-      doc.text(formatEuro(price), 17, yPrice + 18);
-
-      const yNotes = yPrice + 25;
-      doc.setFontSize(8);
-      doc.setTextColor(0, 0, 0);
-      doc.setFont('helvetica', 'bold');
-      doc.text('NOTE CONTRATTO:', 15, yNotes);
-
-      doc.setFontSize(7);
-      doc.setTextColor(80, 80, 80);
-      doc.setFont('helvetica', 'normal');
-      const wrappedNotes = doc.splitTextToSize(notes, 175);
-      doc.text(wrappedNotes, 15, yNotes + 5);
-
-      const ySignatures = yNotes + 22;
-      
-      doc.setDrawColor(0, 0, 0);
-      doc.setLineWidth(0.2);
-      doc.line(15, ySignatures, 60, ySignatures);
-      
-      doc.setFontSize(7);
-      doc.setTextColor(100, 100, 100);
-      doc.setFont('helvetica', 'normal');
-      doc.text('FIRMA ACQUIRENTE', 17, ySignatures + 4);
-      
-      doc.setFontSize(12);
-      doc.setTextColor(0, 0, 0);
-      doc.setFont('courier', 'italic');
-      doc.text(clientSignature, 17, ySignatures - 3);
-
-      doc.setDrawColor(0, 0, 0);
-      doc.setLineWidth(0.2);
-      doc.line(130, ySignatures, 190, ySignatures);
-      
-      doc.setFontSize(7);
-      doc.setTextColor(100, 100, 100);
-      doc.setFont('helvetica', 'normal');
-      doc.text('FIRMA RAPPRESENTANTE', 132, ySignatures + 4);
-      
-      doc.setFontSize(12);
-      doc.setTextColor(0, 0, 0);
-      doc.setFont('courier', 'italic');
-      doc.text(agent.substring(0, 15), 132, ySignatures - 3);
-
-      const yTerms = ySignatures + 10;
-      doc.setFontSize(7);
-      doc.setTextColor(120, 120, 120);
-      doc.setFont('helvetica', 'normal');
-      doc.text('[ DOCUMENTO LEGALE VINCOLANTE ]', 20, yTerms);
-      doc.text('Pagamento entro 48 ore | Nessun reso dopo la consegna', 20, yTerms + 4);
-
-      const yFooter = 288;
-      doc.setFontSize(6);
-      doc.setTextColor(150, 150, 150);
-      doc.text('Concessionario di Milano • Italian Evolution • Design by PAVEL', 20, yFooter);
-
-      doc.setDrawColor(212, 175, 55);
+      // Header premium nero con fascia oro
+      doc.setFillColor(17, 17, 16);
+      doc.rect(0, 0, 210, 54, 'F');
+      doc.setDrawColor(242, 185, 12);
       doc.setLineWidth(0.8);
-      doc.roundedRect(160, 247, 32, 32, 3, 3, 'S');
+      doc.line(0, 54, 210, 54);
+
+      doc.setDrawColor(242, 185, 12);
+      doc.setFillColor(242, 185, 12);
+      doc.circle(24, 28, 12, 'F');
+      doc.setTextColor(17, 17, 16);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(12);
+      doc.text('M', 20, 32);
+
+      doc.setTextColor(251, 247, 238);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(18);
+      doc.text('Concessionario di Milano', 42, 26);
+
+      doc.setTextColor(242, 185, 12);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10);
+      doc.text('ITALIAN EVOLUTION', 42, 33);
+
+      doc.setTextColor(184, 178, 162);
+      doc.setFontSize(8);
+      doc.text('AUTO SELEZIONATE • DAL 2019', 42, 40);
+
+      doc.setTextColor(251, 247, 238);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(12);
+      doc.text('FATTURA DI VENDITA', 154, 24, { align: 'right' });
+      doc.setTextColor(242, 185, 12);
+      doc.setFontSize(18);
+      doc.text(invoiceId, 154, 34, { align: 'right' });
+      doc.setTextColor(184, 178, 162);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.text(today, 154, 42, { align: 'right' });
+
+      doc.setFillColor(201, 145, 10);
+      doc.rect(0, 54, 210, 9, 'F');
+      doc.setTextColor(17, 17, 16);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8);
+      doc.text('DOCUMENTO LEGALE VINCOLANTE', 12, 60);
+      doc.text('DOC ID · ' + docId, 170, 60, { align: 'right' });
+
+      // Blocchi acquirente e venditore
+      doc.setTextColor(17, 17, 16);
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(9);
-      doc.setTextColor(212, 175, 55);
-      doc.text('MILANO', 168, 265);
+      doc.text('ACQUIRENTE', 18, 74);
+      doc.text('VENDITORE', 118, 74);
+
+      doc.setDrawColor(228, 220, 200);
+      doc.setLineWidth(0.4);
+      doc.line(18, 78, 95, 78);
+      doc.line(118, 78, 195, 78);
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(12);
+      doc.text(client.toUpperCase(), 18, 88);
+      doc.text('CONCESSIONARIO DI MILANO', 118, 88);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.setTextColor(107, 100, 85);
+      doc.text('Via Milano 12, 20100 Milano, Italia', 18, 96);
+      doc.text('Corso Sempione 12, 20154 Milano, Italia', 118, 96);
+      doc.text('C.F. / P.IVA da verificare', 18, 103);
+      doc.text('P.IVA IT09876543210', 118, 103);
+
+      // Veicolo card premium
+      doc.setFillColor(17, 17, 16);
+      doc.rect(14, 116, 182, 34, 'F');
+      doc.setDrawColor(242, 185, 12);
+      doc.setLineWidth(0.6);
+      doc.roundedRect(14, 116, 182, 34, 2, 2, 'S');
+
+      doc.setTextColor(242, 185, 12);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8);
+      doc.text('VEICOLO ACQUISTATO', 22, 126);
+
+      doc.setTextColor(251, 247, 238);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(18);
+      doc.text(car.toUpperCase(), 22, 138);
+
+      doc.setTextColor(199, 193, 178);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.text('NUOVO • 0 KM • CERTIFICATO', 22, 145);
+
+      doc.setDrawColor(242, 185, 12);
+      doc.setFillColor(242, 185, 12);
+      doc.roundedRect(165, 122, 24, 20, 4, 4, 'F');
+      doc.setTextColor(17, 17, 16);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(10);
+      doc.text('OK', 174, 135, { align: 'center' });
+
+      // Tabelle transazione
+      doc.setTextColor(17, 17, 16);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9);
+      doc.text('DETTAGLI TRANSAZIONE', 18, 162);
+      doc.line(18, 165, 192, 165);
+
+      const rows = [
+        ['Metodo di pagamento', method.toUpperCase()],
+        ['Agente autorizzato', agent.toUpperCase()],
+        ['Termine di pagamento', 'Entro 48 ore dall\'emissione'],
+        ['Documento', invoiceId]
+      ];
+
+      let yRow = 171;
+      rows.forEach(([label, value]) => {
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        doc.setTextColor(107, 100, 85);
+        doc.text(label, 18, yRow);
+
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(17, 17, 16);
+        doc.text(String(value), 110, yRow);
+
+        doc.setDrawColor(228, 220, 200);
+        doc.line(18, yRow + 3, 192, yRow + 3);
+        yRow += 12;
+      });
+
+      // Totale
+      doc.setFillColor(250, 245, 230);
+      doc.rect(15, 220, 180, 22, 'F');
+      doc.setDrawColor(242, 185, 12);
+      doc.setLineWidth(0.8);
+      doc.rect(15, 220, 180, 22);
+
+      doc.setTextColor(107, 100, 85);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.text('IMPORTO TOTALE DOVUTO', 22, 230);
+
+      doc.setTextColor(17, 17, 16);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(24);
+      doc.text('€ ' + Number(total).toLocaleString('it-IT', { maximumFractionDigits: 0 }), 130, 233, { align: 'right' });
+
+      // Note e firme
+      doc.setTextColor(17, 17, 16);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9);
+      doc.text('NOTE', 18, 252);
+
+      const wrappedNotes = doc.splitTextToSize(notes || 'Nessuna nota', 160);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(7.5);
+      doc.setTextColor(107, 100, 85);
+      doc.text(wrappedNotes, 18, 258);
+
+      doc.setDrawColor(17, 17, 16);
+      doc.line(18, 278, 82, 278);
+      doc.line(120, 278, 190, 278);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(7);
+      doc.setTextColor(107, 100, 85);
+      doc.text('FIRMA ACQUIRENTE', 18, 282);
+      doc.text('FIRMA RAPPRESENTANTE', 120, 282);
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(12);
+      doc.setTextColor(17, 17, 16);
+      doc.text(clientSignature.substring(0, 16), 18, 274);
+      doc.text(agent.substring(0, 15), 120, 274);
+
+      // Footer
+      doc.setFillColor(17, 17, 16);
+      doc.rect(0, 288, 210, 9, 'F');
+      doc.setTextColor(143, 138, 124);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(7);
+      doc.text('CONCESSIONARIO DI MILANO • ITALIAN EVOLUTION', 12, 294);
+      doc.text('DESIGN BY PAVEL', 180, 294, { align: 'right' });
 
       doc.save(`ConcessionarioDiMilano_${invoiceId}.pdf`);
 
